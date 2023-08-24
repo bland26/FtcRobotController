@@ -82,6 +82,8 @@ public class AstroTele extends OpMode
 
     double ArmPosition                         = 0.5;
 
+    public static double Controls              = 1;
+
 
 
 
@@ -139,6 +141,8 @@ public class AstroTele extends OpMode
         double RightPower;
         double LiftPower;
         final double Deadzone = 0.1;
+        double Drive = 0.0;
+        double Turn = 0.0;
 
         // Choose to drive using either Tank Mode, or POV Mode
         // Comment out the method that's not used.  The default below is POV.
@@ -146,17 +150,35 @@ public class AstroTele extends OpMode
         // POV Mode uses left stick to go forward, and right stick to turn.
         // - This uses basic math to combine motions and is easier to drive straight.
 
-        double DriveInput =  -gamepad1.left_stick_y;
-        if(Math.abs(DriveInput) < Deadzone) {
-            DriveInput = 0.0;
-        }
-        double Drive = DriveInput * DriveInput * DriveInput;
+        if(Controls == 1){
 
-        double TurnInput =  -gamepad1.left_stick_y;
-        if(Math.abs(TurnInput) < Deadzone) {
-            TurnInput = 0.0;
+            double DriveInput =  -gamepad1.left_stick_y;
+            if(Math.abs(DriveInput) < Deadzone) {
+                DriveInput = 0.0;
+            }
+            Drive = DriveInput * DriveInput * DriveInput;
+
+            double TurnInput =  -gamepad1.left_stick_x;
+            if(Math.abs(TurnInput) < Deadzone) {
+                TurnInput = 0.0;
+            }
+            Turn = TurnInput * TurnInput * TurnInput;
         }
-        double Turn = TurnInput * TurnInput * TurnInput;
+
+        if(Controls == 2){
+
+            double DriveInput =  -gamepad1.left_stick_y;
+            if(Math.abs(DriveInput) < Deadzone) {
+                DriveInput = 0.0;
+            }
+            Drive = DriveInput * DriveInput * DriveInput;
+
+            double TurnInput =  -gamepad1.right_stick_x;
+            if(Math.abs(TurnInput) < Deadzone) {
+                TurnInput = 0.0;
+            }
+            Turn = TurnInput * TurnInput * TurnInput;
+        }
 
 
         double LiftInput = -gamepad2.left_stick_y;
