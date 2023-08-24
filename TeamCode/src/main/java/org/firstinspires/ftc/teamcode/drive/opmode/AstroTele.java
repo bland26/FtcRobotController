@@ -202,6 +202,8 @@ public class AstroTele extends OpMode
         // Set servo Position
         ClawPosition = Range.clip(ClawPosition, ClawMinRange, ClawMaxRange) ;
         Claw.setPosition(ClawPosition);
+        ArmPosition = Range.clip(ArmPosition, ArmMinRange, ArmMaxRange) ;
+        Arm.setPosition(ArmPosition);
 
 
         // Show the elapsed game time and wheel power.
