@@ -61,28 +61,28 @@ public class AstroTele extends OpMode
 {
     // Declare OpMode members.
     private ElapsedTime     runtime     = new ElapsedTime();
-    private DcMotor         LeftWheel   = null;
-    private DcMotor         RightWheel  = null;
-    private DcMotor         LiftMotor   = null;
-    private Servo           Claw        = null;
-    private Servo           Arm         = null;
+    private DcMotor         leftWheel   = null;
+    private DcMotor         rightWheel  = null;
+    private DcMotor         liftMotor   = null;
+    private Servo           claw        = null;
+    private Servo           arm         = null;
 
-    public static double ClawStart              = 0.5;
-    public static double ClawMinRange          = 0.0;
+    static double clawStart              = 0.5;
+    public static double clawMinRange          = 0.0;
 
-    public static double ClawMaxRange          = 1.0;
-    public static double ClawSpeed             = 0.001;
-    public static double ArmMinRange          = 0.0;
+    public static double clawMaxRange          = 1.0;
+    public static double clawSpeed             = 0.001;
+    public static double armMinRange          = 0.0;
 
-    public static double ArmMaxRange          = 1.0;
-    public static double ArmSpeed             = 0.001;
-    public static double DriveSpeed            = 0.6;
-    public static double LiftSpeed             = 0.6;
-    double ClawPosition                       = 0.5;
+    public static double armMaxRange          = 0.7;
+    public static double armSpeed             = 0.01;
+    public static double driveSpeed            = 0.6;
+    public static double liftSpeed             = 0.6;
+    double clawPosition                       = 0.5;
 
-    double ArmPosition                         = 0.5;
+    double armPosition                         = 0.5;
 
-    public static double Controls              = 1;
+//    public static double Controls              = 1;
 
 
 
@@ -98,19 +98,19 @@ public class AstroTele extends OpMode
         // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
         // step (using the FTC Robot Controller app on the phone).
-        LeftWheel  = hardwareMap.get(DcMotor.class, "LeftWheel");
-        RightWheel = hardwareMap.get(DcMotor.class, "RightWheel");
-        LiftMotor = hardwareMap.get(DcMotor.class, "LiftMotor");
-        Claw = hardwareMap.get(Servo.class, "Claw");
-        Arm = hardwareMap.get(Servo.class, "Arm");
+        leftWheel  = hardwareMap.get(DcMotor.class, "LeftWheel");
+        rightWheel = hardwareMap.get(DcMotor.class, "RightWheel");
+        liftMotor = hardwareMap.get(DcMotor.class, "LiftMotor");
+        claw = hardwareMap.get(Servo.class, "Claw");
+        arm = hardwareMap.get(Servo.class, "Arm");
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // Pushing the left stick forward MUST make robot go forward. So adjust these two lines based on your first test drive.
         // Note: The settings here assume direct drive on left and right wheels.  Gear Reduction or 90 Deg drives may require direction flips
-        LeftWheel.setDirection(DcMotor.Direction.REVERSE);
-        RightWheel.setDirection(DcMotor.Direction.FORWARD);
-        LiftMotor.setDirection(DcMotor.Direction.FORWARD);
-        Claw.setPosition(ClawStart);
+        leftWheel.setDirection(DcMotor.Direction.REVERSE);
+        rightWheel.setDirection(DcMotor.Direction.FORWARD);
+        liftMotor.setDirection(DcMotor.Direction.FORWARD);
+        claw.setPosition(clawStart);
 
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
@@ -150,7 +150,22 @@ public class AstroTele extends OpMode
         // POV Mode uses left stick to go forward, and right stick to turn.
         // - This uses basic math to combine motions and is easier to drive straight.
 
-        if(Controls == 1){
+//        if(Controls == 1){
+//
+//            double DriveInput =  -gamepad1.left_stick_y;
+//            if(Math.abs(DriveInput) < Deadzone) {
+//                DriveInput = 0.0;
+//            }
+//            Drive = DriveInput * DriveInput * DriveInput;
+//
+//            double TurnInput =  -gamepad1.left_stick_x;
+//            if(Math.abs(TurnInput) < Deadzone) {
+//                TurnInput = 0.0;
+//            }
+//            Turn = TurnInput * TurnInput * TurnInput;
+//        }
+
+//        if(Controls == 2){
 
             double DriveInput =  -gamepad1.left_stick_y;
             if(Math.abs(DriveInput) < Deadzone) {
@@ -158,27 +173,12 @@ public class AstroTele extends OpMode
             }
             Drive = DriveInput * DriveInput * DriveInput;
 
-            double TurnInput =  -gamepad1.left_stick_x;
+            double TurnInput =  gamepad1.right_stick_x;
             if(Math.abs(TurnInput) < Deadzone) {
                 TurnInput = 0.0;
             }
             Turn = TurnInput * TurnInput * TurnInput;
-        }
-
-        if(Controls == 2){
-
-            double DriveInput =  -gamepad1.left_stick_y;
-            if(Math.abs(DriveInput) < Deadzone) {
-                DriveInput = 0.0;
-            }
-            Drive = DriveInput * DriveInput * DriveInput;
-
-            double TurnInput =  -gamepad1.right_stick_x;
-            if(Math.abs(TurnInput) < Deadzone) {
-                TurnInput = 0.0;
-            }
-            Turn = TurnInput * TurnInput * TurnInput;
-        }
+//                   }
 
 
         double LiftInput = -gamepad2.left_stick_y;
@@ -187,18 +187,18 @@ public class AstroTele extends OpMode
         }
         double Lift = LiftInput * LiftInput * LiftInput;
 
-        if (-gamepad2.right_stick_y > 0 && ArmPosition < ArmMaxRange)
-            ArmPosition += ArmSpeed;
-        if (-gamepad2.right_stick_y > 0 && ArmPosition >= ArmMinRange)
-            ArmPosition -= ArmSpeed;
+        if (-gamepad2.right_stick_y > 0 && armPosition < armMaxRange)
+            armPosition += armSpeed;
+        if (-gamepad2.right_stick_y > 0 && armPosition >= armMinRange)
+            armPosition -= armSpeed;
 
 
 
 
-        if (gamepad1.right_trigger > 0 && ClawPosition < ClawMaxRange)
-            ClawPosition += ClawSpeed;
-        if (gamepad1.left_trigger > 0 && ClawPosition >= ClawMinRange)
-            ClawPosition -= ClawSpeed;
+        if (gamepad2.right_trigger > 0 && clawPosition < clawMaxRange)
+            clawPosition += clawSpeed;
+        if (gamepad2.left_trigger > 0 && clawPosition >= clawMinRange)
+            clawPosition -= clawSpeed;
 
 
 
@@ -208,9 +208,9 @@ public class AstroTele extends OpMode
 
 
         // Send calculated power to wheels
-        LeftWheel.setPower(LeftPower * DriveSpeed);
-        RightWheel.setPower(RightPower * DriveSpeed);
-        LiftMotor.setPower(LiftPower * LiftSpeed);
+        leftWheel.setPower(LeftPower * driveSpeed);
+        rightWheel.setPower(RightPower * driveSpeed);
+        liftMotor.setPower(LiftPower * liftSpeed);
 
 
         // Limit switch code for switches
@@ -222,10 +222,10 @@ public class AstroTele extends OpMode
 
 
         // Set servo Position
-        ClawPosition = Range.clip(ClawPosition, ClawMinRange, ClawMaxRange) ;
-        Claw.setPosition(ClawPosition);
-        ArmPosition = Range.clip(ArmPosition, ArmMinRange, ArmMaxRange) ;
-        Arm.setPosition(ArmPosition);
+        clawPosition = Range.clip(clawPosition, clawMinRange, clawMaxRange) ;
+        claw.setPosition(clawPosition);
+        armPosition = Range.clip(armPosition, armMinRange, armMaxRange) ;
+        arm.setPosition(armPosition);
 
 
         // Show the elapsed game time and wheel power.
