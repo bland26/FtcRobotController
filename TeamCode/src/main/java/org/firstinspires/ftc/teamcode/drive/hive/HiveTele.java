@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.drive.opmode;
+package org.firstinspires.ftc.teamcode.drive.hive;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -6,8 +6,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
-
-import org.checkerframework.checker.units.qual.C;
 
 /**
  * This file contains an example of an iterative (Non-Linear) "OpMode".
@@ -24,7 +22,7 @@ import org.checkerframework.checker.units.qual.C;
 @Config
 
 //@Disabled
-public class SliderTele extends OpMode {
+public class HiveTele extends OpMode {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor LeftFront = null;

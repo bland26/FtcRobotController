@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.drive.opmode;
+package org.firstinspires.ftc.teamcode.drive.stinger;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.util.Range;
 
 @Config
 @TeleOp(name="Driver - Swerve", group="Linear Opmode")
-@Disabled
+//@Disabled
 public class Swerve extends LinearOpMode {
 
     // Declare OpMode members.
@@ -65,7 +65,7 @@ public class Swerve extends LinearOpMode {
         currentRad = currentCount/countPerRad;
         return deltaVSpeed * dzPos(tarCount - currentCount);
     }
-    /*
+
         public double rightAngleCorrection (double angle) {
             double trPow = Math.abs(topRight.getCurrentPosition() % countPerRev);
             double brPow = Math.abs(botRight.getCurrentPosition() % countPerRev);
@@ -73,7 +73,7 @@ public class Swerve extends LinearOpMode {
             currentRad = trPow - brPow;
             return deltaVSpeed * dzPos(radCount - currentRad);
         }
-    */
+
     public double dzJoy(double input){
         double output;
         if(Math.abs(input) < joystickDeadzone) {
@@ -106,7 +106,7 @@ public class Swerve extends LinearOpMode {
 
         topLeft.setDirection(DcMotor.Direction.REVERSE);
         botLeft.setDirection(DcMotor.Direction.REVERSE);
-        topRight.setDirection(DcMotor.Direction.FORWARD);
+        topRight.setDirection(DcMotor.Direction.REVERSE);
         botRight.setDirection(DcMotor.Direction.FORWARD);
 
         topLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -136,12 +136,14 @@ public class Swerve extends LinearOpMode {
             TRVelocity   = Range.clip(VelCubed + leftAngleCorrection(optimumRad), -1.0, 1.0) ;
             BRVelocity   = Range.clip(VelCubed - leftAngleCorrection(optimumRad), -1.0, 1.0) ;
 
-            topLeft.setVelocity(TLVelocity * driveSpeed);
-            botLeft.setVelocity(BLVelocity * driveSpeed);
-//            topRight.setVelocity(TRVelocity * driveSpeed);
-//            botRight.setVelocity(BRVelocity * driveSpeed);
+//            topLeft.setPower(TLVelocity * driveSpeed);
+ //           botLeft.setPower(BLVelocity * driveSpeed);
+            topRight.setVelocity(TRVelocity * 100 * driveSpeed);
+            botRight.setVelocity(BRVelocity * 100 * driveSpeed);
 
             telemetry.addData("Top Left Motor Power", TLVelocity);
+            telemetry.addData("Top Left Motor Power true", VelCubed);
+            telemetry.addData("optimumRad", optimumRad);
             telemetry.addData("Bot Left Motor Power", BLVelocity);
             telemetry.addData("Target Power", VelCubed);
             telemetry.addData("Target angle", targetAngle);
