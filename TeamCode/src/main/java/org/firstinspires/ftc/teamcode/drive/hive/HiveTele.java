@@ -18,7 +18,7 @@ import com.qualcomm.robotcore.util.Range;
  */
 
 
-@TeleOp(name="Slider", group="Iterative Opmode")
+@TeleOp(name="SwarmTele", group="Iterative Opmode")
 @Config
 
 //@Disabled
