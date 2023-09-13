@@ -18,17 +18,17 @@ import com.qualcomm.robotcore.util.Range;
  */
 
 
-@TeleOp(name="SwarmTele", group="Iterative Opmode")
+@TeleOp(name="HiveTele", group="Iterative Opmode")
 @Config
 
 //@Disabled
 public class HiveTele extends OpMode {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor LeftFront = null;
-    private DcMotor RightFront = null;
-    private DcMotor LeftBack = null;
-    private DcMotor RightBack = null;
+    private DcMotor leftFront = null;
+    private DcMotor rightFront = null;
+    private DcMotor leftRear = null;
+    private DcMotor rightRear = null;
 
 
     public static double DriveSpeed = 0.6;
@@ -43,18 +43,18 @@ public class HiveTele extends OpMode {
         // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
         // step (using the FTC Robot Controller app on the phone).
-        LeftBack = hardwareMap.get(DcMotor.class, "LeftBack");
-        RightBack = hardwareMap.get(DcMotor.class, "RightBack");
-        LeftFront = hardwareMap.get(DcMotor.class, "LeftFront");
-        RightFront = hardwareMap.get(DcMotor.class, "RightFront");
+        leftRear = hardwareMap.get(DcMotor.class, "leftRear");
+        rightRear = hardwareMap.get(DcMotor.class, "rightRear");
+        leftFront = hardwareMap.get(DcMotor.class, "leftFront");
+        rightFront = hardwareMap.get(DcMotor.class, "rightFront");
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // Pushing the left stick forward MUST make robot go forward. So adjust these two lines based on your first test drive.
         // Note: The settings here assume direct drive on left and right wheels.  Gear Reduction or 90 Deg drives may require direction flips
-        LeftBack.setDirection(DcMotor.Direction.FORWARD);
-        RightBack.setDirection(DcMotor.Direction.FORWARD);
-        LeftFront.setDirection(DcMotor.Direction.FORWARD);
-        RightFront.setDirection(DcMotor.Direction.FORWARD);
+        leftRear.setDirection(DcMotor.Direction.FORWARD);
+        rightRear.setDirection(DcMotor.Direction.FORWARD);
+        leftFront.setDirection(DcMotor.Direction.FORWARD);
+        rightFront.setDirection(DcMotor.Direction.FORWARD);
 
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
@@ -119,10 +119,10 @@ public class HiveTele extends OpMode {
         RightFrontPower = Range.clip(DriveCubed - SpinCubed - StrafeCubed, -1.0, 1.0);
 
         // Send calculated power to wheels
-        LeftBack.setPower(LeftBackPower * DriveSpeed);
-        RightBack.setPower(RightBackPower * DriveSpeed);
-        LeftFront.setPower(LeftFrontPower * DriveSpeed);
-        RightFront.setPower(RightFrontPower * DriveSpeed);
+        leftRear.setPower(LeftBackPower * DriveSpeed);
+        rightRear.setPower(RightBackPower * DriveSpeed);
+        leftFront.setPower(LeftFrontPower * DriveSpeed);
+        rightFront.setPower(RightFrontPower * DriveSpeed);
 
 
         // Show the elapsed game time and wheel power.
