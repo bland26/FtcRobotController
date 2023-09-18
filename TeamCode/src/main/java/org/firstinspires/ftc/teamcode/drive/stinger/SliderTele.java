@@ -7,8 +7,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-import org.checkerframework.checker.units.qual.C;
-
 /**
  * This file contains an example of an iterative (Non-Linear) "OpMode".
  * An OpMode is a 'program' that runs in either the autonomous or the teleop period of an FTC match.
@@ -27,13 +25,13 @@ import org.checkerframework.checker.units.qual.C;
 public class SliderTele extends OpMode {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor LeftFront = null;
-    private DcMotor RightFront = null;
-    private DcMotor LeftBack = null;
-    private DcMotor RightBack = null;
+    private DcMotor leftFront = null;
+    private DcMotor rightFront = null;
+    private DcMotor leftRear = null;
+    private DcMotor rightRear = null;
 
 
-    public static double DriveSpeed = 0.6;
+    public static double driveSpeed = 0.6;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -45,18 +43,18 @@ public class SliderTele extends OpMode {
         // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
         // step (using the FTC Robot Controller app on the phone).
-        LeftBack = hardwareMap.get(DcMotor.class, "LeftBack");
-        RightBack = hardwareMap.get(DcMotor.class, "RightBack");
-        LeftFront = hardwareMap.get(DcMotor.class, "LeftFront");
-        RightFront = hardwareMap.get(DcMotor.class, "RightFront");
+        leftRear = hardwareMap.get(DcMotor.class, "leftRear");
+        rightRear = hardwareMap.get(DcMotor.class, "rightRear");
+        leftFront = hardwareMap.get(DcMotor.class, "leftFront");
+        rightFront = hardwareMap.get(DcMotor.class, "rightFront");
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // Pushing the left stick forward MUST make robot go forward. So adjust these two lines based on your first test drive.
         // Note: The settings here assume direct drive on left and right wheels.  Gear Reduction or 90 Deg drives may require direction flips
-        LeftBack.setDirection(DcMotor.Direction.FORWARD);
-        RightBack.setDirection(DcMotor.Direction.FORWARD);
-        LeftFront.setDirection(DcMotor.Direction.FORWARD);
-        RightFront.setDirection(DcMotor.Direction.FORWARD);
+        leftRear.setDirection(DcMotor.Direction.FORWARD);
+        rightRear.setDirection(DcMotor.Direction.FORWARD);
+        leftFront.setDirection(DcMotor.Direction.FORWARD);
+        rightFront.setDirection(DcMotor.Direction.FORWARD);
 
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
@@ -83,10 +81,10 @@ public class SliderTele extends OpMode {
     @Override
     public void loop() {
         // Setup a variable for each drive wheel to save power level for telemetry
-        double LeftBackPower;
-        double RightBackPower;
-        double LeftFrontPower;
-        double RightFrontPower;
+        double leftRearPower;
+        double rightRearPower;
+        double leftFrontPower;
+        double rightFrontPower;
 
 
         // Choose to drive using either Tank Mode, or POV Mode
@@ -96,40 +94,40 @@ public class SliderTele extends OpMode {
         // - This uses basic math to combine motions and is easier to drive straight.
         final double DEADZONE = 0.1;
 
-        double Drive = -gamepad1.left_stick_y;
-        if (Math.abs(Drive) < DEADZONE) {
-            Drive = 0;
+        double drive = -gamepad1.left_stick_y;
+        if (Math.abs(drive) < DEADZONE) {
+            drive = 0;
         }
-        double DriveCubed = Drive * Drive * Drive;
+        double driveCubed = drive * drive * drive;
 
-        double Strafe = gamepad1.left_stick_x;
-        if (Math.abs(Strafe) < DEADZONE) {
-            Strafe = 0;
+        double strafe = gamepad1.left_stick_x;
+        if (Math.abs(strafe) < DEADZONE) {
+            strafe = 0;
         }
-        double StrafeCubed = Strafe * Strafe * Strafe;
+        double strafeCubed = strafe * strafe * strafe;
 
-        double Spin = gamepad1.right_stick_x;
-        if (Math.abs(Spin) < DEADZONE) {
-            Spin = 0;
+        double spin = gamepad1.right_stick_x;
+        if (Math.abs(spin) < DEADZONE) {
+            spin = 0;
         }
-        double SpinCubed = Spin * Spin * Spin;
+        double spinCubed = spin * spin * spin;
 
 
-        LeftBackPower = Range.clip(DriveCubed + SpinCubed - StrafeCubed, -1.0, 1.0);
-        RightBackPower = Range.clip(DriveCubed - SpinCubed + StrafeCubed, -1.0, 1.0);
-        LeftFrontPower = Range.clip(DriveCubed + SpinCubed + StrafeCubed, -1.0, 1.0);
-        RightFrontPower = Range.clip(DriveCubed - SpinCubed - StrafeCubed, -1.0, 1.0);
+        leftRearPower = Range.clip(driveCubed + spinCubed - strafeCubed, -1.0, 1.0);
+        rightRearPower = Range.clip(driveCubed - spinCubed + strafeCubed, -1.0, 1.0);
+        leftFrontPower = Range.clip(driveCubed + spinCubed + strafeCubed, -1.0, 1.0);
+        rightFrontPower = Range.clip(driveCubed - spinCubed - strafeCubed, -1.0, 1.0);
 
         // Send calculated power to wheels
-        LeftBack.setPower(LeftBackPower * DriveSpeed);
-        RightBack.setPower(RightBackPower * DriveSpeed);
-        LeftFront.setPower(LeftFrontPower * DriveSpeed);
-        RightFront.setPower(RightFrontPower * DriveSpeed);
+        leftRear.setPower(leftRearPower * driveSpeed);
+        rightRear.setPower(rightRearPower * driveSpeed);
+        leftFront.setPower(leftFrontPower * driveSpeed);
+        rightFront.setPower(rightFrontPower * driveSpeed);
 
 
         // Show the elapsed game time and wheel power.
         telemetry.addData("Status", "Run Time: " + runtime.toString());
-        telemetry.addData("Motors", "left (%.2f), right (%.2f)", LeftBackPower, RightBackPower);
+        telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftRearPower, rightRearPower);
     }
 
     /*
