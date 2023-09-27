@@ -30,8 +30,11 @@ public class SwarmTele extends OpMode {
     private DcMotor LeftBack = null;
     private DcMotor RightBack = null;
 
+    //TODO Decide names for and declare extra motors. (Top intake, bottom intake, lift)
+    //TODO Decide names for and declare servos.
 
-    public static double DriveSpeed = 0.6;
+
+    public static double DriveSpeed = 1.0;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -47,6 +50,7 @@ public class SwarmTele extends OpMode {
         RightBack = hardwareMap.get(DcMotor.class, "RightBack");
         LeftFront = hardwareMap.get(DcMotor.class, "LeftFront");
         RightFront = hardwareMap.get(DcMotor.class, "RightFront");
+        //TODO initilize new motors that were added
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // Pushing the left stick forward MUST make robot go forward. So adjust these two lines based on your first test drive.
@@ -55,6 +59,7 @@ public class SwarmTele extends OpMode {
         RightBack.setDirection(DcMotor.Direction.FORWARD);
         LeftFront.setDirection(DcMotor.Direction.FORWARD);
         RightFront.setDirection(DcMotor.Direction.FORWARD);
+        //TODO set new motor directions
 
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
@@ -85,6 +90,7 @@ public class SwarmTele extends OpMode {
         double RightBackPower;
         double LeftFrontPower;
         double RightFrontPower;
+        //TODO initilize New Motor power variables
 
 
         // Choose to drive using either Tank Mode, or POV Mode
@@ -112,6 +118,8 @@ public class SwarmTele extends OpMode {
         }
         double SpinCubed = Spin * Spin * Spin;
 
+        //TODO create methods for new motors
+
 
         LeftBackPower = Range.clip(DriveCubed + SpinCubed - StrafeCubed, -1.0, 1.0);
         RightBackPower = Range.clip(DriveCubed - SpinCubed + StrafeCubed, -1.0, 1.0);
@@ -123,6 +131,7 @@ public class SwarmTele extends OpMode {
         RightBack.setPower(RightBackPower * DriveSpeed);
         LeftFront.setPower(LeftFrontPower * DriveSpeed);
         RightFront.setPower(RightFrontPower * DriveSpeed);
+        //TODO set new motor power
 
 
         // Show the elapsed game time and wheel power.
