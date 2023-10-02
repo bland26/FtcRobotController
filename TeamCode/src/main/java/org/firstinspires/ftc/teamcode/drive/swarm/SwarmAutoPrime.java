@@ -80,7 +80,7 @@ import java.util.List;
 public class SwarmAutoPrime extends LinearOpMode {
 
     /* Declare OpMode members. */
-    private DcMotor leftBack = null;
+    private DcMotor leftRear = null;
     private DcMotor rightRear = null;
     private DcMotor leftFront = null;
     private DcMotor rightFront = null;
@@ -105,10 +105,10 @@ public class SwarmAutoPrime extends LinearOpMode {
     public void runOpMode() {
 
         // Initialize the drive system variables.
-        leftBack = hardwareMap.get(DcMotor.class, "LeftBack");
-        rightRear = hardwareMap.get(DcMotor.class, "RightBack");
-        leftFront = hardwareMap.get(DcMotor.class, "LeftFront");
-        rightFront = hardwareMap.get(DcMotor.class, "RightFront");
+        leftRear = hardwareMap.get(DcMotor.class, "leftRear");
+        rightRear = hardwareMap.get(DcMotor.class, "rightRear");
+        leftFront = hardwareMap.get(DcMotor.class, "leftFront");
+        rightFront = hardwareMap.get(DcMotor.class, "rightFront");
         lift = hardwareMap.get(DcMotor.class, "Lift");
         claw = hardwareMap.get(Servo.class, "Claw");
         topLimit = hardwareMap.get(DigitalChannel.class, "TopLimit");
@@ -118,7 +118,7 @@ public class SwarmAutoPrime extends LinearOpMode {
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // When run, this OpMode should start both motors driving forward. So adjust these two lines based on your first test drive.
         // Note: The settings here assume direct drive on left and right wheels.  Gear Reduction or 90 Deg drives may require direction flips
-        leftBack.setDirection(DcMotor.Direction.REVERSE);
+        leftRear.setDirection(DcMotor.Direction.REVERSE);
         rightRear.setDirection(DcMotor.Direction.REVERSE);
         leftFront.setDirection(DcMotor.Direction.FORWARD);
         rightFront.setDirection(DcMotor.Direction.REVERSE);
@@ -127,17 +127,17 @@ public class SwarmAutoPrime extends LinearOpMode {
         rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         claw.setPosition(clawMax);
         topLimit.setMode(DigitalChannel.Mode.INPUT);
 
 
-        leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftRear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightRear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftRear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightRear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -159,7 +159,7 @@ public class SwarmAutoPrime extends LinearOpMode {
         }
         // Send telemetry message to indicate successful Encoder reset
         telemetry.addData("Starting at",  "%7d :%7d",
-                leftBack.getCurrentPosition(),
+                leftRear.getCurrentPosition(),
                 rightRear.getCurrentPosition());
         telemetry.update();
 
@@ -337,18 +337,18 @@ public class SwarmAutoPrime extends LinearOpMode {
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-            newLeftBackTarget = leftBack.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
+            newLeftBackTarget = leftRear.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
             newRightBackTarget = rightRear.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
             newLeftFrontTarget = leftFront.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
             newRightFrontTarget = rightFront.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
             newLiftTarget = (int)(liftInches * LIFT_COUNTS_PER_INCH);
-            leftBack.setTargetPosition(newLeftBackTarget);
+            leftRear.setTargetPosition(newLeftBackTarget);
             rightRear.setTargetPosition(newRightBackTarget);
             leftFront.setTargetPosition(newLeftFrontTarget);
             rightFront.setTargetPosition(newRightFrontTarget);
             lift.setTargetPosition(newLiftTarget);
             // Turn On RUN_TO_POSITION
-            leftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            leftRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rightRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -356,7 +356,7 @@ public class SwarmAutoPrime extends LinearOpMode {
 
             // reset the timeout time and start motion.
             runtime.reset();
-            leftBack.setPower(Math.abs(speed));
+            leftRear.setPower(Math.abs(speed));
             rightRear.setPower(Math.abs(speed));
             leftFront.setPower(Math.abs(speed));
             rightFront.setPower(Math.abs(speed));
@@ -369,7 +369,7 @@ public class SwarmAutoPrime extends LinearOpMode {
             // onto the next step, use (isBusy() || isBusy()) in the loop test.
             while (opModeIsActive() &&
                     (runtime.seconds() < timeoutS) &&
-                    (leftBack.isBusy() && rightRear.isBusy() && leftFront.isBusy() && rightFront.isBusy()
+                    (leftRear.isBusy() && rightRear.isBusy() && leftFront.isBusy() && rightFront.isBusy()
                     )) {
 
                 if (topLimit.getState() == false){
@@ -380,14 +380,14 @@ public class SwarmAutoPrime extends LinearOpMode {
                 // Display it for the driver.
                 telemetry.addData("Running to",  " %7d :%7d", newLeftBackTarget,  newRightBackTarget);
                 telemetry.addData("Running to",  " %7d :%7d", newLeftFrontTarget,  newRightFrontTarget);
-                telemetry.addData("Currently at",  " at %7d :%7d", leftBack.getCurrentPosition(), rightRear.getCurrentPosition());
+                telemetry.addData("Currently at",  " at %7d :%7d", leftRear.getCurrentPosition(), rightRear.getCurrentPosition());
                 telemetry.addData("Currently at",  " at %7d :%7d", leftFront.getCurrentPosition(), rightFront.getCurrentPosition());
                 telemetry.update();
             }
 
 
             // Stop all motion;
-            leftBack.setPower(0);
+            leftRear.setPower(0);
             rightRear.setPower(0);
             leftFront.setPower(0);
             rightFront.setPower(0);
@@ -396,7 +396,7 @@ public class SwarmAutoPrime extends LinearOpMode {
             clawState(claw);
 
             // Turn off RUN_TO_POSITION
-            leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            leftRear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rightRear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -416,30 +416,30 @@ public class SwarmAutoPrime extends LinearOpMode {
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-            newLeftBackTarget = leftBack.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
+            newLeftBackTarget = leftRear.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
             newRightBackTarget = rightRear.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
             newLeftFrontTarget = leftFront.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
             newRightFrontTarget = rightFront.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
 
-            leftBack.setTargetPosition(newLeftBackTarget);
+            leftRear.setTargetPosition(newLeftBackTarget);
             rightRear.setTargetPosition(newRightBackTarget);
             leftFront.setTargetPosition(newLeftFrontTarget);
             rightFront.setTargetPosition(newRightFrontTarget);
 
             // Turn On RUN_TO_POSITION
-            leftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            leftRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rightRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
 
             // reset the timeout time and start motion.
             runtime.reset();
-            leftBack.setPower(Math.abs(speed));
+            leftRear.setPower(Math.abs(speed));
             rightRear.setPower(Math.abs(speed));
             leftFront.setPower(Math.abs(speed));
             rightFront.setPower(Math.abs(speed));
-            lift.setPower(liftSpeed);
+
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
             // its target position, the motion will stop.  This is "safer" in the event that the robot will
@@ -448,21 +448,21 @@ public class SwarmAutoPrime extends LinearOpMode {
             // onto the next step, use (isBusy() || isBusy()) in the loop test.
             while (opModeIsActive() &&
                     (runtime.seconds() < timeoutS) &&
-                    (leftBack.isBusy() && rightRear.isBusy() && leftFront.isBusy() && rightFront.isBusy()
+                    (leftRear.isBusy() && rightRear.isBusy() && leftFront.isBusy() && rightFront.isBusy()
                     )) {
 
 
                 // Display it for the driver.
                 telemetry.addData("Running to",  " %7d :%7d", newLeftBackTarget,  newRightBackTarget);
                 telemetry.addData("Running to",  " %7d :%7d", newLeftFrontTarget,  newRightFrontTarget);
-                telemetry.addData("Currently at",  " at %7d :%7d", leftBack.getCurrentPosition(), rightRear.getCurrentPosition());
+                telemetry.addData("Currently at",  " at %7d :%7d", leftRear.getCurrentPosition(), rightRear.getCurrentPosition());
                 telemetry.addData("Currently at",  " at %7d :%7d", leftFront.getCurrentPosition(), rightFront.getCurrentPosition());
                 telemetry.update();
             }
 
 
             // Stop all motion;
-            leftBack.setPower(0);
+            leftRear.setPower(0);
             rightRear.setPower(0);
             leftFront.setPower(0);
             rightFront.setPower(0);
@@ -471,7 +471,7 @@ public class SwarmAutoPrime extends LinearOpMode {
 
 
             // Turn off RUN_TO_POSITION
-            leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            leftRear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rightRear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -493,18 +493,18 @@ public class SwarmAutoPrime extends LinearOpMode {
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-            newLeftBackTarget = leftBack.getCurrentPosition() - (int)(inches * STRAFE_COUNTS_PER_INCH);
+            newLeftBackTarget = leftRear.getCurrentPosition() - (int)(inches * STRAFE_COUNTS_PER_INCH);
             newRightBackTarget = rightRear.getCurrentPosition() + (int)(inches * STRAFE_COUNTS_PER_INCH);
             newLeftFrontTarget = leftFront.getCurrentPosition() + (int)(inches * STRAFE_COUNTS_PER_INCH);
             newRightFrontTarget = rightFront.getCurrentPosition() - (int)(inches * STRAFE_COUNTS_PER_INCH);
             newLiftTarget = (int)(liftInches * LIFT_COUNTS_PER_INCH);
-            leftBack.setTargetPosition(newLeftBackTarget);
+            leftRear.setTargetPosition(newLeftBackTarget);
             rightRear.setTargetPosition(newRightBackTarget);
             leftFront.setTargetPosition(newLeftFrontTarget);
             rightFront.setTargetPosition(newRightFrontTarget);
             lift.setTargetPosition(newLiftTarget);
             // Turn On RUN_TO_POSITION
-            leftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            leftRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rightRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -512,7 +512,7 @@ public class SwarmAutoPrime extends LinearOpMode {
 
             // reset the timeout time and start motion.
             runtime.reset();
-            leftBack.setPower(Math.abs(speed));
+            leftRear.setPower(Math.abs(speed));
             rightRear.setPower(Math.abs(speed));
             leftFront.setPower(Math.abs(speed));
             rightFront.setPower(Math.abs(speed));
@@ -525,7 +525,7 @@ public class SwarmAutoPrime extends LinearOpMode {
             // onto the next step, use (isBusy() || isBusy()) in the loop test.
             while (opModeIsActive() &&
                     (runtime.seconds() < timeoutS) &&
-                    (leftBack.isBusy() && rightRear.isBusy() && leftFront.isBusy() && rightFront.isBusy()
+                    (leftRear.isBusy() && rightRear.isBusy() && leftFront.isBusy() && rightFront.isBusy()
                     )) {
 
                 if (topLimit.getState() == false){
@@ -537,7 +537,7 @@ public class SwarmAutoPrime extends LinearOpMode {
                 telemetry.addData("Running to",  " %7d :%7d", newLeftBackTarget,  newRightBackTarget);
                 telemetry.addData("Running to",  " %7d :%7d", newLeftFrontTarget,  newRightFrontTarget);
                 telemetry.addData("Currently at",  " at %7d :%7d",
-                        leftBack.getCurrentPosition(), rightRear.getCurrentPosition());
+                        leftRear.getCurrentPosition(), rightRear.getCurrentPosition());
                 telemetry.addData("Currently at",  " at %7d :%7d",
                         leftFront.getCurrentPosition(), rightFront.getCurrentPosition());
                 telemetry.update();
@@ -546,7 +546,7 @@ public class SwarmAutoPrime extends LinearOpMode {
 
 
             // Stop all motion;
-            leftBack.setPower(0);
+            leftRear.setPower(0);
             rightRear.setPower(0);
             leftFront.setPower(0);
             rightFront.setPower(0);
@@ -555,7 +555,7 @@ public class SwarmAutoPrime extends LinearOpMode {
             clawState(claw);
 
             // Turn off RUN_TO_POSITION
-            leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            leftRear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rightRear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -574,30 +574,30 @@ public class SwarmAutoPrime extends LinearOpMode {
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-            newLeftBackTarget = leftBack.getCurrentPosition() - (int)(inches * STRAFE_COUNTS_PER_INCH);
+            newLeftBackTarget = leftRear.getCurrentPosition() - (int)(inches * STRAFE_COUNTS_PER_INCH);
             newRightBackTarget = rightRear.getCurrentPosition() + (int)(inches * STRAFE_COUNTS_PER_INCH);
             newLeftFrontTarget = leftFront.getCurrentPosition() + (int)(inches * STRAFE_COUNTS_PER_INCH);
             newRightFrontTarget = rightFront.getCurrentPosition() - (int)(inches * STRAFE_COUNTS_PER_INCH);
 
-            leftBack.setTargetPosition(newLeftBackTarget);
+            leftRear.setTargetPosition(newLeftBackTarget);
             rightRear.setTargetPosition(newRightBackTarget);
             leftFront.setTargetPosition(newLeftFrontTarget);
             rightFront.setTargetPosition(newRightFrontTarget);
 
             // Turn On RUN_TO_POSITION
-            leftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            leftRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rightRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
 
             // reset the timeout time and start motion.
             runtime.reset();
-            leftBack.setPower(Math.abs(speed));
+            leftRear.setPower(Math.abs(speed));
             rightRear.setPower(Math.abs(speed));
             leftFront.setPower(Math.abs(speed));
             rightFront.setPower(Math.abs(speed));
-            lift.setPower(liftSpeed);
+
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
             // its target position, the motion will stop.  This is "safer" in the event that the robot will
@@ -606,7 +606,7 @@ public class SwarmAutoPrime extends LinearOpMode {
             // onto the next step, use (isBusy() || isBusy()) in the loop test.
             while (opModeIsActive() &&
                     (runtime.seconds() < timeoutS) &&
-                    (leftBack.isBusy() && rightRear.isBusy() && leftFront.isBusy() && rightFront.isBusy()
+                    (leftRear.isBusy() && rightRear.isBusy() && leftFront.isBusy() && rightFront.isBusy()
                     )) {
 
 
@@ -614,7 +614,7 @@ public class SwarmAutoPrime extends LinearOpMode {
                 telemetry.addData("Running to",  " %7d :%7d", newLeftBackTarget,  newRightBackTarget);
                 telemetry.addData("Running to",  " %7d :%7d", newLeftFrontTarget,  newRightFrontTarget);
                 telemetry.addData("Currently at",  " at %7d :%7d",
-                        leftBack.getCurrentPosition(), rightRear.getCurrentPosition());
+                        leftRear.getCurrentPosition(), rightRear.getCurrentPosition());
                 telemetry.addData("Currently at",  " at %7d :%7d",
                         leftFront.getCurrentPosition(), rightFront.getCurrentPosition());
                 telemetry.update();
@@ -623,7 +623,7 @@ public class SwarmAutoPrime extends LinearOpMode {
 
 
             // Stop all motion;
-            leftBack.setPower(0);
+            leftRear.setPower(0);
             rightRear.setPower(0);
             leftFront.setPower(0);
             rightFront.setPower(0);
@@ -632,7 +632,7 @@ public class SwarmAutoPrime extends LinearOpMode {
 
 
             // Turn off RUN_TO_POSITION
-            leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            leftRear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rightRear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -653,18 +653,18 @@ public class SwarmAutoPrime extends LinearOpMode {
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-            newLeftBackTarget = leftBack.getCurrentPosition() + (int)(inches * COUNTS_PER_DEGREE);
+            newLeftBackTarget = leftRear.getCurrentPosition() + (int)(inches * COUNTS_PER_DEGREE);
             newRightBackTarget = rightRear.getCurrentPosition() - (int)(inches * COUNTS_PER_DEGREE);
             newLeftFrontTarget = leftFront.getCurrentPosition() + (int)(inches * COUNTS_PER_DEGREE);
             newRightFrontTarget = rightFront.getCurrentPosition() - (int)(inches * COUNTS_PER_DEGREE);
             newLiftTarget = (int)(liftInches * LIFT_COUNTS_PER_INCH);
-            leftBack.setTargetPosition(newLeftBackTarget);
+            leftRear.setTargetPosition(newLeftBackTarget);
             rightRear.setTargetPosition(newRightBackTarget);
             leftFront.setTargetPosition(newLeftFrontTarget);
             rightFront.setTargetPosition(newRightFrontTarget);
             lift.setTargetPosition(newLiftTarget);
             // Turn On RUN_TO_POSITION
-            leftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            leftRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rightRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -672,7 +672,7 @@ public class SwarmAutoPrime extends LinearOpMode {
 
             // reset the timeout time and start motion.
             runtime.reset();
-            leftBack.setPower(Math.abs(speed));
+            leftRear.setPower(Math.abs(speed));
             rightRear.setPower(Math.abs(speed));
             leftFront.setPower(Math.abs(speed));
             rightFront.setPower(Math.abs(speed));
@@ -685,7 +685,7 @@ public class SwarmAutoPrime extends LinearOpMode {
             // onto the next step, use (isBusy() || isBusy()) in the loop test.
             while (opModeIsActive() &&
                     (runtime.seconds() < timeoutS) &&
-                    (leftBack.isBusy() && rightRear.isBusy() && leftFront.isBusy() && rightFront.isBusy()
+                    (leftRear.isBusy() && rightRear.isBusy() && leftFront.isBusy() && rightFront.isBusy()
                     )) {
                 if (topLimit.getState() == false){
                     lift.setPower(0);
@@ -698,14 +698,14 @@ public class SwarmAutoPrime extends LinearOpMode {
                 telemetry.addData("Running to",  " %7d :%7d", newLeftBackTarget,  newRightBackTarget);
                 telemetry.addData("Running to",  " %7d :%7d", newLeftFrontTarget,  newRightFrontTarget);
                 telemetry.addData("Currently at",  " at %7d :%7d",
-                        leftBack.getCurrentPosition(), rightRear.getCurrentPosition());
+                        leftRear.getCurrentPosition(), rightRear.getCurrentPosition());
                 telemetry.addData("Currently at",  " at %7d :%7d",
                         leftFront.getCurrentPosition(), rightFront.getCurrentPosition());
                 telemetry.update();
             }
 
             // Stop all motion;
-            leftBack.setPower(0);
+            leftRear.setPower(0);
             rightRear.setPower(0);
             leftFront.setPower(0);
             rightFront.setPower(0);
@@ -714,7 +714,7 @@ public class SwarmAutoPrime extends LinearOpMode {
             clawState(claw);
 
             // Turn off RUN_TO_POSITION
-            leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            leftRear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rightRear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -733,30 +733,30 @@ public class SwarmAutoPrime extends LinearOpMode {
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-            newLeftBackTarget = leftBack.getCurrentPosition() + (int)(inches * COUNTS_PER_DEGREE);
+            newLeftBackTarget = leftRear.getCurrentPosition() + (int)(inches * COUNTS_PER_DEGREE);
             newRightBackTarget = rightRear.getCurrentPosition() - (int)(inches * COUNTS_PER_DEGREE);
             newLeftFrontTarget = leftFront.getCurrentPosition() + (int)(inches * COUNTS_PER_DEGREE);
             newRightFrontTarget = rightFront.getCurrentPosition() - (int)(inches * COUNTS_PER_DEGREE);
 
-            leftBack.setTargetPosition(newLeftBackTarget);
+            leftRear.setTargetPosition(newLeftBackTarget);
             rightRear.setTargetPosition(newRightBackTarget);
             leftFront.setTargetPosition(newLeftFrontTarget);
             rightFront.setTargetPosition(newRightFrontTarget);
 
             // Turn On RUN_TO_POSITION
-            leftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            leftRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rightRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
 
             // reset the timeout time and start motion.
             runtime.reset();
-            leftBack.setPower(Math.abs(speed));
+            leftRear.setPower(Math.abs(speed));
             rightRear.setPower(Math.abs(speed));
             leftFront.setPower(Math.abs(speed));
             rightFront.setPower(Math.abs(speed));
-            lift.setPower(liftSpeed);
+
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
             // its target position, the motion will stop.  This is "safer" in the event that the robot will
@@ -765,7 +765,7 @@ public class SwarmAutoPrime extends LinearOpMode {
             // onto the next step, use (isBusy() || isBusy()) in the loop test.
             while (opModeIsActive() &&
                     (runtime.seconds() < timeoutS) &&
-                    (leftBack.isBusy() && rightRear.isBusy() && leftFront.isBusy() && rightFront.isBusy()
+                    (leftRear.isBusy() && rightRear.isBusy() && leftFront.isBusy() && rightFront.isBusy()
                     )) {
 
 
@@ -774,21 +774,21 @@ public class SwarmAutoPrime extends LinearOpMode {
                 telemetry.addData("Running to",  " %7d :%7d", newLeftBackTarget,  newRightBackTarget);
                 telemetry.addData("Running to",  " %7d :%7d", newLeftFrontTarget,  newRightFrontTarget);
                 telemetry.addData("Currently at",  " at %7d :%7d",
-                        leftBack.getCurrentPosition(), rightRear.getCurrentPosition());
+                        leftRear.getCurrentPosition(), rightRear.getCurrentPosition());
                 telemetry.addData("Currently at",  " at %7d :%7d",
                         leftFront.getCurrentPosition(), rightFront.getCurrentPosition());
                 telemetry.update();
             }
 
             // Stop all motion;
-            leftBack.setPower(0);
+            leftRear.setPower(0);
             rightRear.setPower(0);
             leftFront.setPower(0);
             rightFront.setPower(0);
 
 
             // Turn off RUN_TO_POSITION
-            leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            leftRear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rightRear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
