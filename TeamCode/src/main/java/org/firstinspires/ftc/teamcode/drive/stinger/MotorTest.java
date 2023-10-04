@@ -29,17 +29,14 @@
 
 package org.firstinspires.ftc.teamcode.drive.stinger;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 import com.acmerobotics.dashboard.config.Config;
-import com.acmerobotics.roadrunner.geometry.Pose2d;
 
 /**
  * This file contains an example of an iterative (Non-Linear) "OpMode".
@@ -56,8 +53,9 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
  */
 
 @Config
-@TeleOp(name="Astro", group="Iterative Opmode")
-public class AstroTele extends OpMode
+@Disabled
+@TeleOp(name="MotorTest", group="Test")
+public class MotorTest extends OpMode
 {
     // Declare OpMode members.
     private ElapsedTime     runtime     = new ElapsedTime();

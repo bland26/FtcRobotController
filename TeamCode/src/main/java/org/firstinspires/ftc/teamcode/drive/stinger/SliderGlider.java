@@ -18,11 +18,11 @@ import com.qualcomm.robotcore.util.Range;
  */
 
 
-@TeleOp(name="Slider", group="Iterative Opmode")
+@TeleOp(name="Slider/Glider", group="Test")
 @Config
 
 //@Disabled
-public class SliderTele extends OpMode {
+public class SliderGlider extends OpMode {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor leftFront = null;

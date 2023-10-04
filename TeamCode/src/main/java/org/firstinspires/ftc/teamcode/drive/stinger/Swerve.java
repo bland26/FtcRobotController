@@ -10,7 +10,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 @Config
-@TeleOp(name="Driver - Swerve", group="Linear Opmode")
+@Disabled
+@TeleOp(name="Driver - Swerve", group="Test")
 //@Disabled
 public class Swerve extends LinearOpMode {
 

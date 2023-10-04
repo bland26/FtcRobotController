@@ -74,7 +74,7 @@ import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmAutoPrime.*;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Slider Auto", group="Robot")
+@Autonomous(name="Slider Auto", group="Swarm")
 
 public class SliderAuto extends SwarmAutoPrime {
 

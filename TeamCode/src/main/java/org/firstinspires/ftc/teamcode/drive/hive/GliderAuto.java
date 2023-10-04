@@ -67,7 +67,7 @@ import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.STRAFE_C
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="GliderAuto", group="Robot")
+@Autonomous(name="GliderAuto", group="Hive")
 
 public class GliderAuto extends HiveAutoPrime {
     HiveAutoPrime hive = new HiveAutoPrime();

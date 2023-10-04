@@ -75,7 +75,7 @@ import java.util.List;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="SwarmAutoPrime", group="Robot")
+@Autonomous(name="SwarmAutoPrime", group="Swarm")
 
 public class SwarmAutoPrime extends LinearOpMode {
 

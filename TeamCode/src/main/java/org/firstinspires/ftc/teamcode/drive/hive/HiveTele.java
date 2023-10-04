@@ -18,7 +18,7 @@ import com.qualcomm.robotcore.util.Range;
  */
 
 
-@TeleOp(name="HiveTele", group="Iterative Opmode")
+@TeleOp(name="HiveTele", group="Hive")
 @Config
 
 //@Disabled
