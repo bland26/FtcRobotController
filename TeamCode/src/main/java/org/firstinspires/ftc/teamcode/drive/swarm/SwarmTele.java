@@ -4,6 +4,7 @@ import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -30,11 +31,17 @@ public class SwarmTele extends OpMode {
     private DcMotor leftRear = null;
     private DcMotor rightRear = null;
 
+    private DcMotor lift = null;
+
+    private DcMotor intakeTop = null;
+    private DcMotor intakeBot = null;
     //TODO Decide names for and declare extra motors. (Top intake, bottom intake, lift)
     //TODO Decide names for and declare servos.
 
 
     public static double driveSpeed = 1.0;
+
+    public static double liftSpeed = 0.6;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -46,10 +53,13 @@ public class SwarmTele extends OpMode {
         // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
         // step (using the FTC Robot Controller app on the phone).
-        leftRear = hardwareMap.get(DcMotor.class, "LeftBack");
-        rightRear = hardwareMap.get(DcMotor.class, "RightBack");
-        leftFront = hardwareMap.get(DcMotor.class, "LeftFront");
-        rightFront = hardwareMap.get(DcMotor.class, "RightFront");
+        leftRear = hardwareMap.get(DcMotor.class, "leftRear");
+        rightRear = hardwareMap.get(DcMotor.class, "rightRear");
+        leftFront = hardwareMap.get(DcMotor.class, "leftFront");
+        rightFront = hardwareMap.get(DcMotor.class, "rightFront");
+        lift = hardwareMap.get(DcMotor.class, "lift");
+        intakeTop = hardwareMap.get(DcMotor.class, "intakeTop");
+        intakeBot = hardwareMap.get(DcMotor.class, "intakeBot");
         //TODO initilize new motors that were added
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
@@ -59,6 +69,10 @@ public class SwarmTele extends OpMode {
         rightRear.setDirection(DcMotor.Direction.FORWARD);
         leftFront.setDirection(DcMotor.Direction.FORWARD);
         rightFront.setDirection(DcMotor.Direction.FORWARD);
+        lift.setDirection(DcMotor.Direction.FORWARD);
+        intakeTop.setDirection(DcMotor.Direction.FORWARD);
+        intakeBot.setDirection(DcMotor.Direction.FORWARD);
+
         //TODO set new motor directions
 
         // Tell the driver that initialization is complete.
@@ -90,6 +104,8 @@ public class SwarmTele extends OpMode {
         double rightRearPower;
         double leftFrontPower;
         double rightFrontPower;
+        double liftPower;
+        double intakePower;
         //TODO initilize New Motor power variables
 
 
@@ -118,6 +134,21 @@ public class SwarmTele extends OpMode {
         }
         double spinCubed = spin * spin * spin;
 
+        double liftInput = -gamepad2.left_stick_y;
+        if (Math.abs(liftInput) < DEADZONE) {
+            liftInput = 0;
+        }
+        double liftCubed = liftInput * liftInput * liftInput;
+
+        double intake = -gamepad2.right_stick_y;
+        if (Math.abs(intake) < DEADZONE) {
+
+            intake=0;
+        }
+        double intakecubed=intake * intake * intake;
+
+
+
         //TODO create methods for new motors
 
 
@@ -125,12 +156,18 @@ public class SwarmTele extends OpMode {
         rightRearPower = Range.clip(driveCubed - spinCubed + strafeCubed, -1.0, 1.0);
         leftFrontPower = Range.clip(driveCubed + spinCubed + strafeCubed, -1.0, 1.0);
         rightFrontPower = Range.clip(driveCubed - spinCubed - strafeCubed, -1.0, 1.0);
+        liftPower = Range.clip(liftCubed, -1.0, 1.0);
+        intakePower = Range.clip(intakecubed,-1.0, 1.0);
 
         // Send calculated power to wheels
         leftRear.setPower(leftRearPower * driveSpeed);
         rightRear.setPower(rightRearPower * driveSpeed);
         leftFront.setPower(leftFrontPower * driveSpeed);
         rightFront.setPower(rightFrontPower * driveSpeed);
+        lift.setPower(liftPower * liftSpeed);
+        intakeTop.setPower(intakePower);
+        intakeBot.setPower(-intakePower);
+
         //TODO set new motor power
 
 

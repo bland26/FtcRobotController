@@ -19,7 +19,7 @@ public class SwarmConstants {
     public static final double     STRAFE_INCH_PER_REV     = 9.275;
     public static final double     STRAFE_COUNTS_PER_INCH  = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             STRAFE_INCH_PER_REV;
-    public static final double     DEGREE_PER_REV          = 44;
+    public static final double     DEGREE_PER_REV          = 43;
     public static final double      COUNTS_PER_DEGREE       = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             DEGREE_PER_REV;
     public static final double    LIFT_INCH_PER_REV       = 1;

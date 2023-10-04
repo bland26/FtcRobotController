@@ -153,9 +153,9 @@ public class GliderAuto extends HiveAutoPrime {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        hive.testDrive(driveSpeed, 0, 5.0);
+
         hive.testDrive(driveSpeed,1,5.0);
-        testSpin(turnSpeed, 90, 5.0); //  rotate 90 degrees clockwise, set lift to 16 inches, keep claw closed.
+
 
 
         telemetry.addData("Path", "Complete");
