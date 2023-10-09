@@ -142,7 +142,7 @@ public class HiveTele extends OpMode {
         rightRear.setPower(rightRearPower * driveSpeed);
         leftFront.setPower(leftFrontPower * driveSpeed);
         rightFront.setPower(rightFrontPower * driveSpeed);
-        lift.setPower(liftPower);
+        lift.setPower(liftPower * liftSpeed);
         //TODO set new motor power
 
 
