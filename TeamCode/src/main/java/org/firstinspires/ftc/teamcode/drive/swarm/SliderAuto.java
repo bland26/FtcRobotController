@@ -160,10 +160,20 @@ public class SliderAuto extends SwarmAutoPrime {
          */
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        testDrive(driveSpeed, 45.5,5.0);
+//Red backstage
+        testDrive(driveSpeed, 27,5.0);
         testSpin(turnSpeed, -90, 5.0);
-        testDrive(driveSpeed, 94.5,5.0);
+        testStrafe(driveSpeed, -6.5, 5.0);
+        testDrive(driveSpeed, -25.25,5.0);
+
+//Red front
+
+//blue backstage
+        testDrive(driveSpeed, 27,5.0);
+        testSpin(turnSpeed, 90, 5.0);
+        testStrafe(driveSpeed, 6.5, 5.0);
+        testDrive(driveSpeed, -25.25,5.0);
+//blue front
 
 
 
