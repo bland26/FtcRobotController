@@ -145,7 +145,7 @@ public class SwarmTele extends OpMode {
 
             intake=0;
         }
-        double intakecubed=intake * intake * intake;
+        double intakeCubed = intake * intake * intake;
 
 
 
@@ -157,7 +157,7 @@ public class SwarmTele extends OpMode {
         leftFrontPower = Range.clip(driveCubed + spinCubed + strafeCubed, -1.0, 1.0);
         rightFrontPower = Range.clip(driveCubed - spinCubed - strafeCubed, -1.0, 1.0);
         liftPower = Range.clip(liftCubed, -1.0, 1.0);
-        intakePower = Range.clip(intakecubed,-1.0, 1.0);
+        intakePower = Range.clip(intakeCubed,-1.0, 1.0);
 
         // Send calculated power to wheels
         leftRear.setPower(leftRearPower * driveSpeed);

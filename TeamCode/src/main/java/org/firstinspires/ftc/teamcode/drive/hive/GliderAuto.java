@@ -171,7 +171,7 @@ public class GliderAuto extends HiveAutoPrime {
 //        testDrive(turnSpeed, 22,5.0);
 //        testSpin(driveSpeed, 90,  5.0);
 //        testDrive(turnSpeed, 80,5.0);
-        testStrafe(driveSpeed,1,5.0);
+        testSpin(turnSpeed,360,5.0);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
         telemetry.addData("Path", "Complete");
@@ -331,7 +331,7 @@ public class GliderAuto extends HiveAutoPrime {
         }
     }
     public void testSpin(double speed,
-                         double inches,
+                         double degrees,
                          double timeoutS) {
         int newLeftBackTarget;
         int newRightBackTarget;
@@ -342,10 +342,10 @@ public class GliderAuto extends HiveAutoPrime {
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-            newLeftBackTarget = leftRear.getCurrentPosition() + (int)(inches * COUNTS_PER_DEGREE);
-            newRightBackTarget = rightRear.getCurrentPosition() - (int)(inches * COUNTS_PER_DEGREE);
-            newLeftFrontTarget = leftFront.getCurrentPosition() + (int)(inches * COUNTS_PER_DEGREE);
-            newRightFrontTarget = rightFront.getCurrentPosition() - (int)(inches * COUNTS_PER_DEGREE);
+            newLeftBackTarget = leftRear.getCurrentPosition() + (int)(degrees * COUNTS_PER_DEGREE);
+            newRightBackTarget = rightRear.getCurrentPosition() - (int)(degrees * COUNTS_PER_DEGREE);
+            newLeftFrontTarget = leftFront.getCurrentPosition() + (int)(degrees * COUNTS_PER_DEGREE);
+            newRightFrontTarget = rightFront.getCurrentPosition() - (int)(degrees * COUNTS_PER_DEGREE);
 
             leftRear.setTargetPosition(newLeftBackTarget);
             rightRear.setTargetPosition(newRightBackTarget);
