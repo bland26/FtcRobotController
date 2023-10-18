@@ -4,6 +4,8 @@ import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -31,6 +33,12 @@ public class HiveTele extends OpMode {
     private DcMotor rightRear = null;
 
     private DcMotor lift = null;
+    private DcMotor intake = null;
+    private DcMotor outtake = null;
+
+    private Servo claw = null;
+    private Servo drone = null;
+
     //TODO Decide names for and declare extra motors. (Top intake, bottom intake, lift)
     //TODO Decide names for and declare servos.
 
@@ -53,6 +61,9 @@ public class HiveTele extends OpMode {
         leftFront = hardwareMap.get(DcMotor.class, "leftFront");
         rightFront = hardwareMap.get(DcMotor.class, "rightFront");
         lift = hardwareMap.get(DcMotor.class, "lift");
+        intake = hardwareMap.get(DcMotor.class, "intake");
+        outtake = hardwareMap.get(DcMotor.class, "outtake");
+
         //TODO initilize new motors that were added
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
@@ -63,6 +74,8 @@ public class HiveTele extends OpMode {
         leftFront.setDirection(DcMotor.Direction.FORWARD);
         rightFront.setDirection(DcMotor.Direction.FORWARD);
         lift.setDirection(DcMotor.Direction.FORWARD);
+        intake.setDirection(DcMotor.Direction.FORWARD);
+        outtake.setDirection(DcMotor.Direction.FORWARD);
         //TODO set new motor directions
 
         // Tell the driver that initialization is complete.
@@ -95,6 +108,9 @@ public class HiveTele extends OpMode {
         double leftFrontPower;
         double rightFrontPower;
         double liftPower;
+        double intakePower;
+        double outtakePower;
+
         //TODO initilize New Motor power variables
 
 
@@ -129,6 +145,7 @@ public class HiveTele extends OpMode {
             liftInput = 0;
         }
         double liftCubed = liftInput * liftInput * liftInput;
+        double intake;
         //TODO create methods for new motors
 
 
@@ -136,7 +153,9 @@ public class HiveTele extends OpMode {
         rightRearPower = Range.clip(driveCubed - spinCubed + strafeCubed, -1.0, 1.0);
         leftFrontPower = Range.clip(driveCubed + spinCubed + strafeCubed, -1.0, 1.0);
         rightFrontPower = Range.clip(driveCubed - spinCubed - strafeCubed, -1.0, 1.0);
+
         liftPower = Range.clip(liftCubed, -1.0, 1.0);
+
         // Send calculated power to wheels
         leftRear.setPower(leftRearPower * driveSpeed);
         rightRear.setPower(rightRearPower * driveSpeed);

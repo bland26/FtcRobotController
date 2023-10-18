@@ -7,7 +7,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
-
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.CRServo;
 /**
  * This file contains an example of an iterative (Non-Linear) "OpMode".
  * An OpMode is a 'program' that runs in either the autonomous or the teleop period of an FTC match.
@@ -30,11 +31,14 @@ public class SwarmTele extends OpMode {
     private DcMotor rightFront = null;
     private DcMotor leftRear = null;
     private DcMotor rightRear = null;
-
     private DcMotor lift = null;
-
     private DcMotor intakeTop = null;
     private DcMotor intakeBot = null;
+    private CRServo indexer = null;
+
+    private CRServo outtake = null;
+
+
     //TODO Decide names for and declare extra motors. (Top intake, bottom intake, lift)
     //TODO Decide names for and declare servos.
 
@@ -60,6 +64,8 @@ public class SwarmTele extends OpMode {
         lift = hardwareMap.get(DcMotor.class, "lift");
         intakeTop = hardwareMap.get(DcMotor.class, "intakeTop");
         intakeBot = hardwareMap.get(DcMotor.class, "intakeBot");
+        indexer = hardwareMap.get(CRServo.class, "indexer");
+        outtake = hardwareMap.get(CRServo.class, "outtake");
         //TODO initilize new motors that were added
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
@@ -69,9 +75,11 @@ public class SwarmTele extends OpMode {
         rightRear.setDirection(DcMotor.Direction.FORWARD);
         leftFront.setDirection(DcMotor.Direction.FORWARD);
         rightFront.setDirection(DcMotor.Direction.FORWARD);
-        lift.setDirection(DcMotor.Direction.FORWARD);
+        lift.setDirection(DcMotor.Direction.REVERSE);
         intakeTop.setDirection(DcMotor.Direction.FORWARD);
         intakeBot.setDirection(DcMotor.Direction.FORWARD);
+        indexer.setDirection(CRServo.Direction.REVERSE);
+        outtake.setDirection(CRServo.Direction.FORWARD);
 
         //TODO set new motor directions
 
@@ -106,6 +114,7 @@ public class SwarmTele extends OpMode {
         double rightFrontPower;
         double liftPower;
         double intakePower;
+        double outtakePower;
         //TODO initilize New Motor power variables
 
 
@@ -147,6 +156,13 @@ public class SwarmTele extends OpMode {
         }
         double intakeCubed = intake * intake * intake;
 
+        boolean outtakeInput = gamepad2.a;
+        if (outtakeInput){
+            outtakePower=1;
+        }else {
+            outtakePower=0;
+        }
+
 
 
         //TODO create methods for new motors
@@ -167,6 +183,8 @@ public class SwarmTele extends OpMode {
         lift.setPower(liftPower * liftSpeed);
         intakeTop.setPower(intakePower);
         intakeBot.setPower(-intakePower);
+        outtake.setPower(outtakePower);
+        indexer.setPower(intakePower);
 
         //TODO set new motor power
 
