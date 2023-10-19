@@ -20,7 +20,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
  */
 
 
-@TeleOp(name="SwarmTele", group="Swarm")
+@TeleOp(name="Cerberus Driver", group="Swarm")
 @Config
 
 //@Disabled

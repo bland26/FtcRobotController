@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.hardware.Servo;
-
+import com.qualcomm.robotcore.hardware.CRServo;
 /**
  * This file contains an example of an iterative (Non-Linear) "OpMode".
  * An OpMode is a 'program' that runs in either the autonomous or the teleop period of an FTC match.
@@ -20,7 +20,7 @@ import com.qualcomm.robotcore.hardware.Servo;
  */
 
 
-@TeleOp(name="Cerberus Test", group="Test")
+@TeleOp(name="TeleTest", group="Swarm")
 @Config
 
 //@Disabled
@@ -31,20 +31,20 @@ public class CerberusTest extends OpMode {
     private DcMotor rightFront = null;
     private DcMotor leftRear = null;
     private DcMotor rightRear = null;
-
     private DcMotor lift = null;
-
     private DcMotor intakeTop = null;
     private DcMotor intakeBot = null;
+    private CRServo indexer = null;
+    private CRServo outtake = null;
 
-    private Servo tongue = null;
+
     //TODO Decide names for and declare extra motors. (Top intake, bottom intake, lift)
     //TODO Decide names for and declare servos.
 
 
     public static double driveSpeed = 1.0;
 
-    public static double liftSpeed = 0.6;
+    public static double liftSpeed = 1.0;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -63,7 +63,8 @@ public class CerberusTest extends OpMode {
         lift = hardwareMap.get(DcMotor.class, "lift");
         intakeTop = hardwareMap.get(DcMotor.class, "intakeTop");
         intakeBot = hardwareMap.get(DcMotor.class, "intakeBot");
-        tongue = hardwareMap.get(Servo.class, "tongue");
+        indexer = hardwareMap.get(CRServo.class, "indexer");
+        outtake = hardwareMap.get(CRServo.class, "outtake");
         //TODO initilize new motors that were added
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
@@ -73,9 +74,11 @@ public class CerberusTest extends OpMode {
         rightRear.setDirection(DcMotor.Direction.FORWARD);
         leftFront.setDirection(DcMotor.Direction.FORWARD);
         rightFront.setDirection(DcMotor.Direction.FORWARD);
-        lift.setDirection(DcMotor.Direction.FORWARD);
+        lift.setDirection(DcMotor.Direction.REVERSE);
         intakeTop.setDirection(DcMotor.Direction.FORWARD);
         intakeBot.setDirection(DcMotor.Direction.FORWARD);
+        indexer.setDirection(CRServo.Direction.REVERSE);
+        outtake.setDirection(CRServo.Direction.FORWARD);
 
         //TODO set new motor directions
 
@@ -110,6 +113,8 @@ public class CerberusTest extends OpMode {
         double rightFrontPower;
         double liftPower;
         double intakePower;
+        double outtakePower;
+        boolean scoreCon = false;
         //TODO initilize New Motor power variables
 
 
@@ -149,7 +154,24 @@ public class CerberusTest extends OpMode {
 
             intake=0;
         }
-        double intakecubed=intake * intake * intake;
+        double intakeCubed = intake * intake * intake;
+
+        boolean outtakeInput = gamepad2.a;
+        if (outtakeInput){
+            outtakePower=1;
+        }else {
+            outtakePower=0;
+        }
+
+        boolean outtakeInputR = gamepad2.b;
+        if (outtakeInputR){
+            outtakePower = -1;
+        }
+
+        float scoreConInput = gamepad1.right_trigger;
+        if (scoreConInput > 0.1){
+            scoreCon = true;
+        }
 
 
 
@@ -161,16 +183,30 @@ public class CerberusTest extends OpMode {
         leftFrontPower = Range.clip(driveCubed + spinCubed + strafeCubed, -1.0, 1.0);
         rightFrontPower = Range.clip(driveCubed - spinCubed - strafeCubed, -1.0, 1.0);
         liftPower = Range.clip(liftCubed, -1.0, 1.0);
-        intakePower = Range.clip(intakecubed,-1.0, 1.0);
+        intakePower = Range.clip(intakeCubed,-1.0, 1.0);
 
         // Send calculated power to wheels
-        leftRear.setPower(leftRearPower * driveSpeed);
-        rightRear.setPower(rightRearPower * driveSpeed);
-        leftFront.setPower(leftFrontPower * driveSpeed);
-        rightFront.setPower(rightFrontPower * driveSpeed);
-        lift.setPower(liftPower * liftSpeed);
-        intakeTop.setPower(intakePower);
-        intakeBot.setPower(-intakePower);
+        if (!scoreCon) {
+            leftRear.setPower(leftRearPower * driveSpeed);
+            rightRear.setPower(rightRearPower * driveSpeed);
+            leftFront.setPower(leftFrontPower * driveSpeed);
+            rightFront.setPower(rightFrontPower * driveSpeed);
+            lift.setPower(liftPower * liftSpeed);
+            intakeTop.setPower(intakePower);
+            intakeBot.setPower(-intakePower);
+            outtake.setPower(outtakePower);
+            indexer.setPower(intakePower);
+        }else {
+            leftRear.setPower(-leftRearPower * driveSpeed);
+            rightRear.setPower(-rightRearPower * driveSpeed);
+            leftFront.setPower(-leftFrontPower * driveSpeed);
+            rightFront.setPower(-rightFrontPower * driveSpeed);
+            lift.setPower(liftPower * liftSpeed);
+            intakeTop.setPower(intakePower);
+            intakeBot.setPower(-intakePower);
+            outtake.setPower(outtakePower);
+            indexer.setPower(intakePower);
+        }
 
         //TODO set new motor power
 
