@@ -177,36 +177,35 @@ public class SwarmTele extends OpMode {
 
         //TODO create methods for new motors
 
+        if (!scoreCon) {
+            leftRearPower = Range.clip(driveCubed + spinCubed - strafeCubed, -1.0, 1.0);
+            rightRearPower = Range.clip(driveCubed - spinCubed + strafeCubed, -1.0, 1.0);
+            leftFrontPower = Range.clip(driveCubed + spinCubed + strafeCubed, -1.0, 1.0);
+            rightFrontPower = Range.clip(driveCubed - spinCubed - strafeCubed, -1.0, 1.0);
+            liftPower = Range.clip(liftCubed, -1.0, 1.0);
+            intakePower = Range.clip(intakeCubed,-1.0, 1.0);
+        }else {
+            leftRearPower = Range.clip(-driveCubed + spinCubed + strafeCubed, -1.0, 1.0);
+            rightRearPower = Range.clip(-driveCubed - spinCubed - strafeCubed, -1.0, 1.0);
+            leftFrontPower = Range.clip(-driveCubed + spinCubed - strafeCubed, -1.0, 1.0);
+            rightFrontPower = Range.clip(-driveCubed - spinCubed + strafeCubed, -1.0, 1.0);
+            liftPower = Range.clip(liftCubed, -1.0, 1.0);
+            intakePower = Range.clip(intakeCubed,-1.0, 1.0);
+        }
 
-        leftRearPower = Range.clip(driveCubed + spinCubed - strafeCubed, -1.0, 1.0);
-        rightRearPower = Range.clip(driveCubed - spinCubed + strafeCubed, -1.0, 1.0);
-        leftFrontPower = Range.clip(driveCubed + spinCubed + strafeCubed, -1.0, 1.0);
-        rightFrontPower = Range.clip(driveCubed - spinCubed - strafeCubed, -1.0, 1.0);
-        liftPower = Range.clip(liftCubed, -1.0, 1.0);
-        intakePower = Range.clip(intakeCubed,-1.0, 1.0);
 
         // Send calculated power to wheels
-        if (!scoreCon) {
-            leftRear.setPower(leftRearPower * driveSpeed);
-            rightRear.setPower(rightRearPower * driveSpeed);
-            leftFront.setPower(leftFrontPower * driveSpeed);
-            rightFront.setPower(rightFrontPower * driveSpeed);
-            lift.setPower(liftPower * liftSpeed);
-            intakeTop.setPower(intakePower);
-            intakeBot.setPower(-intakePower);
-            outtake.setPower(outtakePower);
-            indexer.setPower(intakePower);
-        }else {
-            leftRear.setPower(-leftRearPower * driveSpeed);
-            rightRear.setPower(-rightRearPower * driveSpeed);
-            leftFront.setPower(-leftFrontPower * driveSpeed);
-            rightFront.setPower(-rightFrontPower * driveSpeed);
-            lift.setPower(liftPower * liftSpeed);
-            intakeTop.setPower(intakePower);
-            intakeBot.setPower(-intakePower);
-            outtake.setPower(outtakePower);
-            indexer.setPower(intakePower);
-        }
+
+        leftRear.setPower(leftRearPower * driveSpeed);
+        rightRear.setPower(rightRearPower * driveSpeed);
+        leftFront.setPower(leftFrontPower * driveSpeed);
+        rightFront.setPower(rightFrontPower * driveSpeed);
+        lift.setPower(liftPower * liftSpeed);
+        intakeTop.setPower(intakePower);
+        intakeBot.setPower(-intakePower);
+        outtake.setPower(outtakePower);
+        indexer.setPower(intakePower);
+
 
         //TODO set new motor power
 
