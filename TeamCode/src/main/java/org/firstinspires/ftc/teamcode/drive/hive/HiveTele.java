@@ -20,7 +20,7 @@ import com.qualcomm.robotcore.util.Range;
  */
 
 
-@TeleOp(name="HiveTele", group="Hive")
+@TeleOp(name="Astro Driver", group="Hive")
 @Config
 
 //@Disabled
@@ -43,9 +43,9 @@ public class HiveTele extends OpMode {
     //TODO Decide names for and declare servos.
 
 
-    public static double driveSpeed = 0.6;
+    public static double driveSpeed = 1.0;
 
-    public static double liftSpeed = 0.6;
+    public static double liftSpeed = 1.0;
     /*
      * Code to run ONCE when the driver hits INIT
      */
@@ -109,7 +109,8 @@ public class HiveTele extends OpMode {
         double rightFrontPower;
         double liftPower;
         double intakePower;
-        double outtakePower;
+        double outtakePower = 0;
+
 
         //TODO initilize New Motor power variables
 
@@ -145,7 +146,21 @@ public class HiveTele extends OpMode {
             liftInput = 0;
         }
         double liftCubed = liftInput * liftInput * liftInput;
-        double intake;
+
+        double intakeInput = gamepad2.right_stick_y;
+        if (Math.abs(intakeInput) < DEADZONE) {
+            intakeInput = 0;}
+        double intakeCubed = intakeInput* intakeInput* intakeInput;
+        boolean outtakeInput = gamepad2.a;
+        if (outtakeInput){
+            outtakePower = 1;
+        }
+
+
+
+
+
+
         //TODO create methods for new motors
 
 
@@ -162,6 +177,11 @@ public class HiveTele extends OpMode {
         leftFront.setPower(leftFrontPower * driveSpeed);
         rightFront.setPower(rightFrontPower * driveSpeed);
         lift.setPower(liftPower * liftSpeed);
+        intake.setPower (intakeCubed);
+        outtake.setPower (outtakePower);
+
+
+
         //TODO set new motor power
 
 
