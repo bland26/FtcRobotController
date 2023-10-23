@@ -185,10 +185,10 @@ public class SwarmTele extends OpMode {
             liftPower = Range.clip(liftCubed, -1.0, 1.0);
             intakePower = Range.clip(intakeCubed,-1.0, 1.0);
         }else {
-            leftRearPower = Range.clip(-driveCubed + spinCubed + strafeCubed, -1.0, 1.0);
-            rightRearPower = Range.clip(-driveCubed - spinCubed - strafeCubed, -1.0, 1.0);
-            leftFrontPower = Range.clip(-driveCubed + spinCubed - strafeCubed, -1.0, 1.0);
-            rightFrontPower = Range.clip(-driveCubed - spinCubed + strafeCubed, -1.0, 1.0);
+            leftRearPower = Range.clip((-driveCubed) + spinCubed - (-strafeCubed), -1.0, 1.0);
+            rightRearPower = Range.clip((-driveCubed)- spinCubed + (-strafeCubed), -1.0, 1.0);
+            leftFrontPower = Range.clip((-driveCubed) + spinCubed + (-strafeCubed), -1.0, 1.0);
+            rightFrontPower = Range.clip((-driveCubed) - spinCubed - (-strafeCubed), -1.0, 1.0);
             liftPower = Range.clip(liftCubed, -1.0, 1.0);
             intakePower = Range.clip(intakeCubed,-1.0, 1.0);
         }
