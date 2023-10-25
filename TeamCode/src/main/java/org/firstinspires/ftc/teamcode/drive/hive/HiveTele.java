@@ -4,10 +4,11 @@ import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
+
 
 /**
  * This file contains an example of an iterative (Non-Linear) "OpMode".
@@ -36,8 +37,20 @@ public class HiveTele extends OpMode {
     private DcMotor intake = null;
     private DcMotor outtake = null;
 
+    private DigitalChannel limitDown;
+
     private Servo claw = null;
     private Servo drone = null;
+
+    final static double clawStart = 0.1;
+    final static double clawMin = 0.0;
+    final static double clawMax = 0.14;
+    final static double clawSpeed = 0.001;
+    double clawPosition = 0.1;
+
+    static double droneStart = 0;
+
+    double dronePosition = 0;
 
     //TODO Decide names for and declare extra motors. (Top intake, bottom intake, lift)
     //TODO Decide names for and declare servos.
@@ -46,6 +59,8 @@ public class HiveTele extends OpMode {
     public static double driveSpeed = 1.0;
 
     public static double liftSpeed = 1.0;
+
+    public static double intakeSpeed = 0.5;
     /*
      * Code to run ONCE when the driver hits INIT
      */
@@ -63,6 +78,7 @@ public class HiveTele extends OpMode {
         lift = hardwareMap.get(DcMotor.class, "lift");
         intake = hardwareMap.get(DcMotor.class, "intake");
         outtake = hardwareMap.get(DcMotor.class, "outtake");
+        limitDown = hardwareMap.get(DigitalChannel.class, "limitDown");
 
         //TODO initilize new motors that were added
 
@@ -70,7 +86,7 @@ public class HiveTele extends OpMode {
         // Pushing the left stick forward MUST make robot go forward. So adjust these two lines based on your first test drive.
         // Note: The settings here assume direct drive on left and right wheels.  Gear Reduction or 90 Deg drives may require direction flips
         leftRear.setDirection(DcMotor.Direction.FORWARD);
-        rightRear.setDirection(DcMotor.Direction.FORWARD);
+        rightRear.setDirection(DcMotor.Direction.REVERSE);
         leftFront.setDirection(DcMotor.Direction.FORWARD);
         rightFront.setDirection(DcMotor.Direction.FORWARD);
         lift.setDirection(DcMotor.Direction.FORWARD);
@@ -110,6 +126,7 @@ public class HiveTele extends OpMode {
         double liftPower;
         double intakePower;
         double outtakePower = 0;
+        boolean scoreCon = false;
 
 
         //TODO initilize New Motor power variables
@@ -151,10 +168,30 @@ public class HiveTele extends OpMode {
         if (Math.abs(intakeInput) < DEADZONE) {
             intakeInput = 0;}
         double intakeCubed = intakeInput* intakeInput* intakeInput;
+
         boolean outtakeInput = gamepad2.a;
         if (outtakeInput){
             outtakePower = 1;
         }
+
+        boolean droneInput = gamepad2.y;
+        if(droneInput){
+            dronePosition = 1.0;
+
+        }
+
+        if (gamepad1.right_trigger > 0 && clawPosition < clawMax)
+            clawPosition += clawSpeed;
+        if (gamepad1.left_trigger > 0 && clawPosition >= clawMin)
+            clawPosition -= clawSpeed;
+
+        float scoreConInput = gamepad1.right_trigger;
+        if (scoreConInput > 0){
+            scoreCon = true;
+        }
+
+
+
 
 
 
@@ -164,12 +201,29 @@ public class HiveTele extends OpMode {
         //TODO create methods for new motors
 
 
-        leftRearPower = Range.clip(driveCubed + spinCubed - strafeCubed, -1.0, 1.0);
-        rightRearPower = Range.clip(driveCubed - spinCubed + strafeCubed, -1.0, 1.0);
-        leftFrontPower = Range.clip(driveCubed + spinCubed + strafeCubed, -1.0, 1.0);
-        rightFrontPower = Range.clip(driveCubed - spinCubed - strafeCubed, -1.0, 1.0);
+        if (!scoreCon) {
+            leftRearPower = Range.clip(driveCubed + spinCubed - strafeCubed, -1.0, 1.0);
+            rightRearPower = Range.clip(driveCubed - spinCubed + strafeCubed, -1.0, 1.0);
+            leftFrontPower = Range.clip(driveCubed + spinCubed + strafeCubed, -1.0, 1.0);
+            rightFrontPower = Range.clip(driveCubed - spinCubed - strafeCubed, -1.0, 1.0);
+            liftPower = Range.clip(liftCubed, -1.0, 1.0);
+        }else {
+            leftRearPower = Range.clip((-driveCubed) + spinCubed - (-strafeCubed), -0.5, 0.5);
+            rightRearPower = Range.clip((-driveCubed)- spinCubed + (-strafeCubed), -0.5, 0.5);
+            leftFrontPower = Range.clip((-driveCubed) + spinCubed + (-strafeCubed), -0.5, 0.5);
+            rightFrontPower = Range.clip((-driveCubed) - spinCubed - (-strafeCubed), -0.5, 0.5);
+            liftPower = Range.clip(liftCubed, -1.0, 1.0);
+        }
 
-        liftPower = Range.clip(liftCubed, -1.0, 1.0);
+        if (liftPower < 0 && limitDown.getState() == true) {
+            lift.setPower(liftPower*liftSpeed);
+        } else {
+            lift.setPower(0);
+        }
+
+        clawPosition = Range.clip(clawPosition,clawMin,clawMax);
+        //claw.setPosition(clawPosition);
+        //drone.setPosition(dronePosition);
 
         // Send calculated power to wheels
         leftRear.setPower(leftRearPower * driveSpeed);
@@ -177,8 +231,8 @@ public class HiveTele extends OpMode {
         leftFront.setPower(leftFrontPower * driveSpeed);
         rightFront.setPower(rightFrontPower * driveSpeed);
         lift.setPower(liftPower * liftSpeed);
-        intake.setPower (intakeCubed);
-        outtake.setPower (outtakePower);
+        intake.setPower(intakeCubed * intakeSpeed);
+        outtake.setPower(outtakePower);
 
 
 
