@@ -128,11 +128,11 @@ public class SwarmAutoPrime extends LinearOpMode {
         intakeTop.setDirection(DcMotorSimple.Direction.FORWARD);
         intakeBot.setDirection(DcMotorSimple.Direction.FORWARD);
 
-        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         intakeTop.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         intakeBot.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
@@ -311,13 +311,14 @@ public class SwarmAutoPrime extends LinearOpMode {
 //        tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
 //        tfod.loadModelFromFile(TFOD_MODEL_FILE, LABELS);
     }
-
+   // public void
     public void encoderDrive(double speed,
                              double inches,
-                             int liftInches, int claw,
+                             int liftInches, int intake,
                              double timeoutS) {
         int newLeftBackTarget;
         int newRightBackTarget;
+
         int newLeftFrontTarget;
         int newRightFrontTarget;
         int newLiftTarget;

@@ -10,6 +10,7 @@ public class SwarmConstants {
     public static final double  driveSpeed = 0.6;
     public static final double  turnSpeed = 0.5;
     public static final double liftSpeed = 0.8;
+    public static final double intakeSpeed = 1;
     public static final double     COUNTS_PER_MOTOR_REV    = 537.6 ;
     public static final double      WHEEL_DIAMETER_INCHES   = 75/25.4 ;     // For figuring circumference
     public static final double      DRIVE_GEAR_REDUCTION    = 1.0 ;     // No External Gearing.
@@ -27,8 +28,6 @@ public class SwarmConstants {
             LIFT_INCH_PER_REV;
 
 
-    public static final double  clawMin = -1;
-    public static final double  clawMax = 1;
 
 
 

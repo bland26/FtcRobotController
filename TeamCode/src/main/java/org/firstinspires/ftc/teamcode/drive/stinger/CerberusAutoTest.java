@@ -132,7 +132,7 @@ public class CerberusAutoTest extends LinearOpMode {
         rightRear = hardwareMap.get(DcMotor.class, "rightRear");
         leftFront = hardwareMap.get(DcMotor.class, "leftFront");
         rightFront = hardwareMap.get(DcMotor.class, "rightFront");
-        lift = hardwareMap.get(DcMotor.class, "Lift");
+        lift = hardwareMap.get(DcMotor.class, "lift");
         intakeTop = hardwareMap.get(DcMotor.class, "intakeTop");
         intakeBot = hardwareMap.get(DcMotor.class, "intakeBot");
 
@@ -206,7 +206,7 @@ public class CerberusAutoTest extends LinearOpMode {
         maximum time allowed for the step before it automatically stops.)
          */
 
-        if (x > 1) { // Object 1 path
+       /* if (x > 1) { // Object 1 path
             encoderDrive(driveSpeed, 5, 5, 1, 0, 5.0);
             sleep(20000);
         } else if (x < -1) { // Object 2 path
@@ -215,9 +215,20 @@ public class CerberusAutoTest extends LinearOpMode {
         } else {
             encoderDrive(driveSpeed, 20, 0, 0, 0,5.0);
             sleep(20000);
-        }
-
-
+        }*/
+       /* encoderStrafe(driveSpeed,-3,0,0,0,5.0);
+        encoderDrive(driveSpeed, -18, 3,0, 0, 5.0);
+        encoderStrafe(driveSpeed,-12,6,0,0,5.0);
+        score(1,5.0);
+        encoderStrafe(driveSpeed,-12,3,0,0,5.0);
+        encoderDrive(driveSpeed, -6, 0,0, 0, 5.0);
+        **/
+        encoderStrafe(driveSpeed,15,3,0,0,5.0);
+        encoderSpin(turnSpeed,90,3,-1,0,5.0);
+        encoderDrive(driveSpeed, 18, 6,0, 0, 5.0);
+        score(1,5.0);
+        encoderStrafe(driveSpeed,-12,3,0,0,5.0);
+        encoderDrive(driveSpeed, -6, 0,0, 0, 5.0);
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
