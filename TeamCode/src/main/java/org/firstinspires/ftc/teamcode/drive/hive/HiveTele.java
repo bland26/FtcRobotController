@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
-import com.qualcomm.robotcore.hardware.DigitalChannel;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 
 /**
@@ -37,7 +37,7 @@ public class HiveTele extends OpMode {
     private DcMotor intake = null;
     private DcMotor outtake = null;
 
-    private DigitalChannel limitDown;
+    private  TouchSensor limitDown;
 
     private Servo claw = null;
     private Servo drone = null;
@@ -78,7 +78,9 @@ public class HiveTele extends OpMode {
         lift = hardwareMap.get(DcMotor.class, "lift");
         intake = hardwareMap.get(DcMotor.class, "intake");
         outtake = hardwareMap.get(DcMotor.class, "outtake");
-        limitDown = hardwareMap.get(DigitalChannel.class, "limitDown");
+        limitDown = hardwareMap.get(TouchSensor.class, "limitDown");
+        claw = hardwareMap.get(Servo.class, "claw");
+        drone = hardwareMap.get(Servo.class, "drone");
 
         //TODO initilize new motors that were added
 
@@ -215,15 +217,15 @@ public class HiveTele extends OpMode {
             liftPower = Range.clip(liftCubed, -1.0, 1.0);
         }
 
-        if (liftPower < 0 && limitDown.getState() == true) {
-            lift.setPower(liftPower*liftSpeed);
-        } else {
+        if (liftPower < 0 && limitDown.isPressed()) {
             lift.setPower(0);
+        } else {
+            lift.setPower(liftPower*liftSpeed);
         }
 
         clawPosition = Range.clip(clawPosition,clawMin,clawMax);
-        //claw.setPosition(clawPosition);
-        //drone.setPosition(dronePosition);
+        claw.setPosition(clawPosition);
+        drone.setPosition(dronePosition);
 
         // Send calculated power to wheels
         leftRear.setPower(leftRearPower * driveSpeed);

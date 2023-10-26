@@ -115,6 +115,8 @@ public class SwarmAutoPrime extends LinearOpMode {
         lift = hardwareMap.get(DcMotor.class, "Lift");
         intakeTop = hardwareMap.get(DcMotor.class, "intakeTop");
         intakeBot = hardwareMap.get(DcMotor.class, "intakeBot");
+        indexer = hardwareMap.get(CRServo.class, "indexer");
+        outtake = hardwareMap.get(CRServo.class, "outtake");
 
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
