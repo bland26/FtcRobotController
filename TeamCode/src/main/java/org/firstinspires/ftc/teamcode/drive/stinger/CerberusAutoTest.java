@@ -135,18 +135,23 @@ public class CerberusAutoTest extends LinearOpMode {
         lift = hardwareMap.get(DcMotor.class, "lift");
         intakeTop = hardwareMap.get(DcMotor.class, "intakeTop");
         intakeBot = hardwareMap.get(DcMotor.class, "intakeBot");
+        indexer = hardwareMap.get(CRServo.class, "indexer");
+        outtake = hardwareMap.get(CRServo.class, "outtake");
+
 
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // When run, this OpMode should start both motors driving forward. So adjust these two lines based on your first test drive.
         // Note: The settings here assume direct drive on left and right wheels.  Gear Reduction or 90 Deg drives may require direction flips
-        leftRear.setDirection(DcMotor.Direction.REVERSE);
-        rightRear.setDirection(DcMotor.Direction.REVERSE);
+        leftRear.setDirection(DcMotor.Direction.FORWARD);
+        rightRear.setDirection(DcMotor.Direction.FORWARD);
         leftFront.setDirection(DcMotor.Direction.FORWARD);
-        rightFront.setDirection(DcMotor.Direction.REVERSE);
-        lift.setDirection(DcMotor.Direction.FORWARD);
+        rightFront.setDirection(DcMotor.Direction.FORWARD);
+        lift.setDirection(DcMotor.Direction.REVERSE);
         intakeTop.setDirection(DcMotorSimple.Direction.FORWARD);
         intakeBot.setDirection(DcMotorSimple.Direction.FORWARD);
+        indexer.setDirection(CRServo.Direction.REVERSE);
+        outtake.setDirection(CRServo.Direction.FORWARD);
 
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -223,12 +228,12 @@ public class CerberusAutoTest extends LinearOpMode {
         encoderStrafe(driveSpeed,-12,3,0,0,5.0);
         encoderDrive(driveSpeed, -6, 0,0, 0, 5.0);
         **/
-        encoderStrafe(driveSpeed,15,3,0,0,5.0);
-        encoderSpin(turnSpeed,90,3,-1,0,5.0);
-        encoderDrive(driveSpeed, 18, 6,0, 0, 5.0);
+        encoderStrafe(driveSpeed,-15,3,0,0,5.0);
+        encoderSpin(turnSpeed,-90,3,-1,0,5.0);
+        encoderDrive(driveSpeed, -18, 6,0, 0, 5.0);
         score(1,5.0);
-        encoderStrafe(driveSpeed,-12,3,0,0,5.0);
-        encoderDrive(driveSpeed, -6, 0,0, 0, 5.0);
+        encoderStrafe(driveSpeed,12,3,0,0,5.0);
+        encoderDrive(driveSpeed, 6, 0,0, 0, 5.0);
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
@@ -247,8 +252,8 @@ public class CerberusAutoTest extends LinearOpMode {
 
     public void encoderDrive(double speed,
                              double inches,
-                             double liftInches, int intakeValue,
-                             int scoreValue,
+                             double liftInches, double intakeValue,
+                             double scoreValue,
                              double timeoutS) {
         int newLeftBackTarget;
         int newRightBackTarget;
@@ -329,8 +334,8 @@ public class CerberusAutoTest extends LinearOpMode {
     public void encoderStrafe(double speed,
                               double inches,
                               double liftInches,
-                              int intakeValue,
-                              int scoreValue,
+                              double intakeValue,
+                              double scoreValue,
                               double timeoutS) {
         int newLeftBackTarget;
         int newRightBackTarget;
@@ -413,8 +418,8 @@ public class CerberusAutoTest extends LinearOpMode {
     public void encoderSpin(double speed,
                             double inches,
                             double liftInches,
-                            int intakeValue,
-                            int scoreValue,
+                            double intakeValue,
+                            double scoreValue,
                             double timeoutS) {
         int newLeftBackTarget;
         int newRightBackTarget;
