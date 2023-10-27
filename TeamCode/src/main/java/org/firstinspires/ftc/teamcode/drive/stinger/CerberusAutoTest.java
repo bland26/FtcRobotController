@@ -228,12 +228,13 @@ public class CerberusAutoTest extends LinearOpMode {
         encoderStrafe(driveSpeed,-12,3,0,0,5.0);
         encoderDrive(driveSpeed, -6, 0,0, 0, 5.0);
         **/
-        encoderStrafe(driveSpeed,-15,3,0,0,5.0);
-        encoderSpin(turnSpeed,-90,3,-1,0,5.0);
+        encoderDrive(driveSpeed,15,3,0,0,5.0);
+        encoderSpin(turnSpeed,90,3,-1,0,5.0);
         encoderDrive(driveSpeed, -18, 6,0, 0, 5.0);
         score(1,5.0);
-        encoderStrafe(driveSpeed,12,3,0,0,5.0);
+        encoderStrafe(driveSpeed,12,0,0,0,5.0);
         encoderDrive(driveSpeed, 6, 0,0, 0, 5.0);
+
 
         telemetry.addData("Path", "Complete");
         telemetry.update();

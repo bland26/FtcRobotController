@@ -182,9 +182,9 @@ public class HiveTele extends OpMode {
 
         }
 
-        if (gamepad1.right_trigger > 0 && clawPosition < clawMax)
+        if (gamepad2.right_trigger > 0 && clawPosition < clawMax)
             clawPosition += clawSpeed;
-        if (gamepad1.left_trigger > 0 && clawPosition >= clawMin)
+        if (gamepad2.left_trigger > 0 && clawPosition >= clawMin)
             clawPosition -= clawSpeed;
 
         float scoreConInput = gamepad1.right_trigger;
@@ -210,10 +210,10 @@ public class HiveTele extends OpMode {
             rightFrontPower = Range.clip(driveCubed - spinCubed - strafeCubed, -1.0, 1.0);
             liftPower = Range.clip(liftCubed, -1.0, 1.0);
         }else {
-            leftRearPower = Range.clip((-driveCubed) + spinCubed - (-strafeCubed), -0.5, 0.5);
-            rightRearPower = Range.clip((-driveCubed)- spinCubed + (-strafeCubed), -0.5, 0.5);
-            leftFrontPower = Range.clip((-driveCubed) + spinCubed + (-strafeCubed), -0.5, 0.5);
-            rightFrontPower = Range.clip((-driveCubed) - spinCubed - (-strafeCubed), -0.5, 0.5);
+            leftRearPower = Range.clip((driveCubed) + spinCubed - (strafeCubed), -0.5, 0.5);
+            rightRearPower = Range.clip((driveCubed)- spinCubed + (strafeCubed), -0.5, 0.5);
+            leftFrontPower = Range.clip((driveCubed) + spinCubed + (strafeCubed), -0.5, 0.5);
+            rightFrontPower = Range.clip((driveCubed) - spinCubed - (strafeCubed), -0.5, 0.5);
             liftPower = Range.clip(liftCubed, -1.0, 1.0);
         }
 
