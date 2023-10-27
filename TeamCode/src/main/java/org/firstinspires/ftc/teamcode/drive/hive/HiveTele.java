@@ -43,14 +43,14 @@ public class HiveTele extends OpMode {
     private Servo drone = null;
 
     final static double clawStart = 0.1;
-    final static double clawMin = 0.0;
-    final static double clawMax = 0.14;
-    final static double clawSpeed = 0.001;
-    double clawPosition = 0.1;
+    public static double clawMin = 0.0;
+    public static double clawMax = 0.25;
+    public static double clawSpeed = 0.01;
+    public double clawPosition = 0.0;
 
     static double droneStart = 0;
 
-    double dronePosition = 0;
+    public static double dronePosition = 1.0;
 
     //TODO Decide names for and declare extra motors. (Top intake, bottom intake, lift)
     //TODO Decide names for and declare servos.
@@ -94,6 +94,8 @@ public class HiveTele extends OpMode {
         lift.setDirection(DcMotor.Direction.FORWARD);
         intake.setDirection(DcMotor.Direction.FORWARD);
         outtake.setDirection(DcMotor.Direction.FORWARD);
+        claw.setPosition(clawPosition);
+        drone.setPosition(dronePosition);
         //TODO set new motor directions
 
         // Tell the driver that initialization is complete.
@@ -178,7 +180,7 @@ public class HiveTele extends OpMode {
 
         boolean droneInput = gamepad2.y;
         if(droneInput){
-            dronePosition = 1.0;
+            dronePosition = dronePosition - 1.0;
 
         }
 
@@ -218,9 +220,9 @@ public class HiveTele extends OpMode {
         }
 
         if (liftPower < 0 && limitDown.isPressed()) {
-            lift.setPower(0);
-        } else {
             lift.setPower(liftPower*liftSpeed);
+        } else {
+            lift.setPower(0);
         }
 
         clawPosition = Range.clip(clawPosition,clawMin,clawMax);
