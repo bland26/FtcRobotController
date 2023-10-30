@@ -84,17 +84,40 @@ import java.util.List;
 public class HiveAutoPrime extends LinearOpMode {
 
     /* Declare OpMode members. */
-    private DcMotor leftRear = null;
-    private DcMotor rightRear = null;
+    private ElapsedTime runtime = new ElapsedTime();
     private DcMotor leftFront = null;
     private DcMotor rightFront = null;
+    private DcMotor leftRear = null;
+    private DcMotor rightRear = null;
+
     private DcMotor lift = null;
+    private DcMotor intake = null;
+    private DcMotor outtake = null;
+
+    private  TouchSensor limitDown;
+
     private Servo claw = null;
-    private DigitalChannel topLimit = null;
-    private TouchSensor botLimit = null;
+    private Servo drone = null;
 
-    private ElapsedTime     runtime = new ElapsedTime();
+    final static double clawStart = 0.1;
+    public static double clawMin = 0.0;
+    public static double clawMax = 0.25;
+    public static double clawSpeed = 0.01;
+    public double clawPosition = 0.0;
 
+    static double droneStart = 0;
+
+    public static double dronePosition = 1.0;
+
+    //TODO Decide names for and declare extra motors. (Top intake, bottom intake, lift)
+    //TODO Decide names for and declare servos.
+
+
+    public static double driveSpeed = 1.0;
+
+    public static double liftSpeed = 1.0;
+
+    public static double intakeSpeed = 0.5;
 
     // Object detection variables
     //private static final String TFOD_MODEL_ASSET = "model_20221206_120301.tflite";
@@ -113,10 +136,13 @@ public class HiveAutoPrime extends LinearOpMode {
         rightRear = hardwareMap.get(DcMotor.class, "rightRear");
         leftFront = hardwareMap.get(DcMotor.class, "leftFront");
         rightFront = hardwareMap.get(DcMotor.class, "rightFront");
-        lift = hardwareMap.get(DcMotor.class, "Lift");
-        claw = hardwareMap.get(Servo.class, "Claw");
-        topLimit = hardwareMap.get(DigitalChannel.class, "TopLimit");
-        botLimit = hardwareMap.get(TouchSensor.class, "BotLimit");
+        lift = hardwareMap.get(DcMotor.class, "lift");
+        intake = hardwareMap.get(DcMotor.class, "intake");
+        outtake = hardwareMap.get(DcMotor.class, "outtake");
+        limitDown = hardwareMap.get(TouchSensor.class, "limitDown");
+        claw = hardwareMap.get(Servo.class, "claw");
+        drone = hardwareMap.get(Servo.class, "drone");
+
 
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
@@ -133,7 +159,7 @@ public class HiveAutoPrime extends LinearOpMode {
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         claw.setPosition(clawMax);
-        topLimit.setMode(DigitalChannel.Mode.INPUT);
+
 
 
         leftRear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -363,11 +389,11 @@ public class HiveAutoPrime extends LinearOpMode {
                     (leftRear.isBusy() && rightRear.isBusy() && leftFront.isBusy() && rightFront.isBusy()
                     )) {
 
-                if (topLimit.getState() == false){
-                    lift.setPower(0);
-                }if (botLimit.isPressed() == true){
-                    lift.setPower(0);
-                }
+//                if (topLimit.getState() == false){
+//                    lift.setPower(0);
+//                }if (botLimit.isPressed() == true){
+//                    lift.setPower(0);
+//                }
                 // Display it for the driver.
                 telemetry.addData("Running to",  " %7d :%7d", newLeftBackTarget,  newRightBackTarget);
                 telemetry.addData("Running to",  " %7d :%7d", newLeftFrontTarget,  newRightFrontTarget);
@@ -519,11 +545,11 @@ public class HiveAutoPrime extends LinearOpMode {
                     (leftRear.isBusy() && rightRear.isBusy() && leftFront.isBusy() && rightFront.isBusy()
                     )) {
 
-                if (topLimit.getState() == false){
-                    lift.setPower(0);
-                }if (botLimit.isPressed() == true){
-                    lift.setPower(0);
-                }
+//                if (topLimit.getState() == false){
+//                    lift.setPower(0);
+//                }if (botLimit.isPressed() == true){
+//                    lift.setPower(0);
+//                }
                 // Display it for the driver.
                 telemetry.addData("Running to",  " %7d :%7d", newLeftBackTarget,  newRightBackTarget);
                 telemetry.addData("Running to",  " %7d :%7d", newLeftFrontTarget,  newRightFrontTarget);
@@ -678,11 +704,11 @@ public class HiveAutoPrime extends LinearOpMode {
                     (runtime.seconds() < timeoutS) &&
                     (leftRear.isBusy() && rightRear.isBusy() && leftFront.isBusy() && rightFront.isBusy()
                     )) {
-                if (topLimit.getState() == false){
-                    lift.setPower(0);
-                }if (botLimit.isPressed() == true){
-                    lift.setPower(0);
-                }
+//                if (topLimit.getState() == false){
+//                    lift.setPower(0);
+//                }if (botLimit.isPressed() == true){
+//                    lift.setPower(0);
+//                }
 
 
                 // Display it for the driver.
@@ -807,12 +833,12 @@ public class HiveAutoPrime extends LinearOpMode {
                     (runtime.seconds() < timeoutS) &&
                     (lift.isBusy())) {
 
-                if (topLimit.getState() == false){
-                    lift.setPower(0);
-                }if (botLimit.isPressed() == true){
-                    lift.setPower(0);
-                }
-            }
+//                if (topLimit.getState() == false){
+//                    lift.setPower(0);
+//                }if (botLimit.isPressed() == true){
+//                    lift.setPower(0);
+//                }
+//            }
             lift.setPower(0);
 
             clawState(claw);
@@ -821,5 +847,5 @@ public class HiveAutoPrime extends LinearOpMode {
 
         }
     }
-}
+}}
 

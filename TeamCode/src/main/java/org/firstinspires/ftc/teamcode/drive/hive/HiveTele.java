@@ -4,6 +4,7 @@ import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
@@ -96,6 +97,7 @@ public class HiveTele extends OpMode {
         outtake.setDirection(DcMotor.Direction.FORWARD);
         claw.setPosition(clawPosition);
         drone.setPosition(dronePosition);
+        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         //TODO set new motor directions
 
         // Tell the driver that initialization is complete.
@@ -180,8 +182,11 @@ public class HiveTele extends OpMode {
 
         boolean droneInput = gamepad2.y;
         if(droneInput){
-            dronePosition = dronePosition - 1.0;
-
+            dronePosition = 0;
+        }
+        boolean droneInputSet = gamepad2.x;
+        if(droneInputSet){
+            dronePosition = 1;
         }
 
         if (gamepad2.right_trigger > 0 && clawPosition < clawMax)
@@ -219,11 +224,7 @@ public class HiveTele extends OpMode {
             liftPower = Range.clip(liftCubed, -1.0, 1.0);
         }
 
-        if (liftPower < 0 && limitDown.isPressed()) {
-            lift.setPower(liftPower*liftSpeed);
-        } else {
-            lift.setPower(0);
-        }
+
 
         clawPosition = Range.clip(clawPosition,clawMin,clawMax);
         claw.setPosition(clawPosition);
@@ -234,9 +235,13 @@ public class HiveTele extends OpMode {
         rightRear.setPower(rightRearPower * driveSpeed);
         leftFront.setPower(leftFrontPower * driveSpeed);
         rightFront.setPower(rightFrontPower * driveSpeed);
-        lift.setPower(liftPower * liftSpeed);
         intake.setPower(intakeCubed * intakeSpeed);
         outtake.setPower(outtakePower);
+        if (liftPower < 0 && limitDown.isPressed()) {
+            lift.setPower(0);
+        } else {
+            lift.setPower(liftPower * liftSpeed);
+        }
 
 
 

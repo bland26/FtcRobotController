@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -37,6 +38,8 @@ public class SwarmTele extends OpMode {
     private CRServo indexer = null;
     private CRServo outtake = null;
 
+    //private TouchSensor limitBot = null;
+
 
     //TODO Decide names for and declare extra motors. (Top intake, bottom intake, lift)
     //TODO Decide names for and declare servos.
@@ -65,6 +68,7 @@ public class SwarmTele extends OpMode {
         intakeBot = hardwareMap.get(DcMotor.class, "intakeBot");
         indexer = hardwareMap.get(CRServo.class, "indexer");
         outtake = hardwareMap.get(CRServo.class, "outtake");
+        //limitBot = hardwareMap.get(TouchSensor.class, "limitDown");
         //TODO initilize new motors that were added
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
@@ -79,6 +83,7 @@ public class SwarmTele extends OpMode {
         intakeBot.setDirection(DcMotor.Direction.FORWARD);
         indexer.setDirection(CRServo.Direction.REVERSE);
         outtake.setDirection(CRServo.Direction.FORWARD);
+        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         //TODO set new motor directions
 
@@ -200,12 +205,17 @@ public class SwarmTele extends OpMode {
         rightRear.setPower(rightRearPower * driveSpeed);
         leftFront.setPower(leftFrontPower * driveSpeed);
         rightFront.setPower(rightFrontPower * driveSpeed);
-        lift.setPower(liftPower * liftSpeed);
         intakeTop.setPower(intakePower);
         intakeBot.setPower(-intakePower);
         outtake.setPower(outtakePower);
         indexer.setPower(intakePower);
 
+
+//        if (liftPower < 0 && limitBot.isPressed()) {
+//            lift.setPower(0);
+//        } else {
+            lift.setPower(liftPower * liftSpeed);
+//        }
 
         //TODO set new motor power
 
