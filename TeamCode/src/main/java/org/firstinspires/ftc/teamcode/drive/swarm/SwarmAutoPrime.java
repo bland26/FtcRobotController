@@ -29,22 +29,24 @@
 
 package org.firstinspires.ftc.teamcode.drive.swarm;
 
+import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.COUNTS_PER_DEGREE;
+import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.COUNTS_PER_INCH;
+import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.LIFT_COUNTS_PER_INCH;
+import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.STRAFE_COUNTS_PER_INCH;
+import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.driveSpeed;
+import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.liftSpeed;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.hardware.TouchSensor;
-import org.firstinspires.ftc.robotcore.external.ClassFactory;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import com.qualcomm.robotcore.hardware.CRServo;
-
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.util.ElapsedTime;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
-import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
-
-import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.*;
+import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
 import java.util.List;
 
@@ -94,15 +96,31 @@ public class SwarmAutoPrime extends LinearOpMode {
 
     private ElapsedTime     runtime = new ElapsedTime();
 
+    private double x = 0;
 
-    // Object detection variables
-    //private static final String TFOD_MODEL_ASSET = "model_20221206_120301.tflite";
-    private static final String TFOD_MODEL_FILE  = "model_20221206_120301.tflite";
+
+    private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
+
+    // TFOD_MODEL_ASSET points to a model file stored in the project Asset location,
+    // this is only used for Android Studio when using models in Assets.
+    private static final String TFOD_MODEL_ASSET = "MyModelStoredAsAsset.tflite";
+    // TFOD_MODEL_FILE points to a model file stored onboard the Robot Controller's storage,
+    // this is used when uploading models directly to the RC using the model upload interface.
+    private static final String TFOD_MODEL_FILE = "/sdcard/FIRST/tflitemodels/myCustomModel.tflite";
+    // Define the labels recognized in the model for TFOD (must be in training order!)
     private static final String[] LABELS = {
-            "Circle",
-            "Square",
-            "Triangle"
+            "Pixel",
     };
+
+    /**
+     * The variable to store our instance of the TensorFlow Object Detection processor.
+     */
+    private TfodProcessor tfod;
+
+    /**
+     * The variable to store our instance of the vision portal.
+     */
+    private VisionPortal visionPortal;
 
     @Override
     public void runOpMode() {
@@ -112,31 +130,33 @@ public class SwarmAutoPrime extends LinearOpMode {
         rightRear = hardwareMap.get(DcMotor.class, "rightRear");
         leftFront = hardwareMap.get(DcMotor.class, "leftFront");
         rightFront = hardwareMap.get(DcMotor.class, "rightFront");
-        lift = hardwareMap.get(DcMotor.class, "Lift");
+        lift = hardwareMap.get(DcMotor.class, "lift");
         intakeTop = hardwareMap.get(DcMotor.class, "intakeTop");
         intakeBot = hardwareMap.get(DcMotor.class, "intakeBot");
         indexer = hardwareMap.get(CRServo.class, "indexer");
         outtake = hardwareMap.get(CRServo.class, "outtake");
 
 
+
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // When run, this OpMode should start both motors driving forward. So adjust these two lines based on your first test drive.
         // Note: The settings here assume direct drive on left and right wheels.  Gear Reduction or 90 Deg drives may require direction flips
-        leftRear.setDirection(DcMotor.Direction.REVERSE);
-        rightRear.setDirection(DcMotor.Direction.REVERSE);
+        leftRear.setDirection(DcMotor.Direction.FORWARD);
+        rightRear.setDirection(DcMotor.Direction.FORWARD);
         leftFront.setDirection(DcMotor.Direction.FORWARD);
-        rightFront.setDirection(DcMotor.Direction.REVERSE);
-        lift.setDirection(DcMotor.Direction.FORWARD);
+        rightFront.setDirection(DcMotor.Direction.FORWARD);
+        lift.setDirection(DcMotor.Direction.REVERSE);
         intakeTop.setDirection(DcMotorSimple.Direction.FORWARD);
         intakeBot.setDirection(DcMotorSimple.Direction.FORWARD);
+        indexer.setDirection(CRServo.Direction.REVERSE);
+        outtake.setDirection(CRServo.Direction.FORWARD);
 
+        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        intakeTop.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        intakeBot.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
 
 
         leftRear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -144,31 +164,20 @@ public class SwarmAutoPrime extends LinearOpMode {
         leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        intakeTop.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        intakeBot.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
 
         leftRear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightRear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        intakeTop.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        intakeBot.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
         initTfod();
+        targetTfod();
 
-        if (tfod != null) {
-            tfod.activate();
 
-            // The TensorFlow software will scale the input images from the camera to a lower resolution.
-            // This can result in lower detection accuracy at longer distances (> 55cm or 22").
-            // If your target is at distance greater than 50 cm (20") you can adjust the magnification value
-            // to artificially zoom in to the center of image.  For best results, the "aspectRatio" argument
-            // should be set to the value of the images used to create the TensorFlow Object Detection model
-            // (typically 16/9).
-            tfod.setZoom(1.0);
-        }
+
         // Send telemetry message to indicate successful Encoder reset
         telemetry.addData("Starting at",  "%7d :%7d",
                 leftRear.getCurrentPosition(),
@@ -199,70 +208,32 @@ public class SwarmAutoPrime extends LinearOpMode {
         Whether you want the claw open (1) or closed (0) at the end of the step,
         maximum time allowed for the step before it automatically stops.)
          */
-        List<Recognition> objectDetection;
-        objectDetection = tfod.getRecognitions();
 
+       /* if (x > 1) { // Object 1 path
+            encoderDrive(driveSpeed, 5, 5, 1, 0, 5.0);
+            sleep(20000);
+        } else if (x < -1) { // Object 2 path
+            encoderDrive(driveSpeed, 10, 0, 0, 0,5.0);
+            sleep(20000);
+        } else {
+            encoderDrive(driveSpeed, 20, 0, 0, 0,5.0);
+            sleep(20000);
+        }*/
+        encoderStrafe(driveSpeed,-3,0,0,0,5.0);
+        encoderDrive(driveSpeed, -39, 10,0, 0, 5.0);
+        encoderStrafe(driveSpeed,-24,12,0,0,5.0);
+        encoderDrive(driveSpeed, -2, 12,0, 0, 5.0);
+        score(1,7.5);
+        encoderStrafe(driveSpeed,-25,0,0,0,5.0);
+        encoderDrive(driveSpeed, -11, 0,0, 0, 5.0);
 
-        for (Recognition object : objectDetection) {
-            if (object.getLabel().equals("Triangle")) { // Object 1 path
-                encoderDrive(driveSpeed, 0, 0, 0, 5.0);
-                encoderDrive(driveSpeed, 3, 5, 0, 5.0);  // move forward 3 inches, set lift to 5 inches, keep claw closed.
-                encoderStrafe(driveSpeed, 24, 5, 0, 5.0); // strafe right 24 inches, keep lift at 5 inches, keep claw closed.
-                encoderSpin(turnSpeed, 90, 16, 10, 5.0); //  rotate 90 degrees clockwise, set lift to 16 inches, keep claw closed.
-                encoderStrafe(driveSpeed, -42, 36, 0, 5.0); //strafe left 41 inches, set lift to 36 inches, keep claw closed.
-                encoderDrive(driveSpeed, 3, 36, 0, 5.0); // move forward 4 inches, keep lift at 36 inches, open claw.
-                encoderLift(liftSpeed,30,1, 5.0); // set lift to 30 inches, open claw.
-                encoderDrive(driveSpeed, -3, 36, 1, 5.0); // move back 4 inches, keep lift at 36 inches, keep claw open.
-                encoderStrafe(driveSpeed, -12, 15, 1, 5.0); //strafe right 12 inches, set lift to 15 inches, keep claw open.
-                encoderDrive(driveSpeed, -43, 5, 1, 5.0); // move backwards 48 inches, set lift to 5 inches, keep claw open.
-                sleep(20000);
-            } else if (object.getLabel().equals("Circle")) { // Object 2 path
-                encoderDrive(driveSpeed, 0, 0, 0, 5.0);
-                encoderDrive(driveSpeed, 3, 5, 0, 5.0);  // move forward 3 inches, set lift to 5 inches, keep claw closed.
-                encoderStrafe(driveSpeed, 24, 5, 0, 5.0); // strafe right 24 inches, keep lift at 5 inches, keep claw closed.
-                encoderSpin(turnSpeed, 90, 16, 10, 5.0); //  rotate 90 degrees clockwise, set lift to 16 inches, keep claw closed.
-                encoderStrafe(driveSpeed, -42, 36, 0, 5.0); //strafe left 41 inches, set lift to 36 inches, keep claw closed.
-                encoderDrive(driveSpeed, 3, 36, 0, 5.0); // move forward 4 inches, keep lift at 36 inches, open claw.
-                encoderLift(liftSpeed,30,1, 5.0); // set lift to 30 inches, open claw.
-                encoderDrive(driveSpeed, -3, 36, 1, 5.0); // move back 4 inches, keep lift at 36 inches, keep claw open.
-                encoderStrafe(driveSpeed, -12, 15, 1, 5.0); //strafe right 12 inches, set lift to 15 inches, keep claw open.
-                encoderDrive(driveSpeed, -22, 5, 1, 5.0); // move backwards 24 inches, set lift to 5 inches, keep claw open.
-                sleep(20000);
-            } else if (object.getLabel().equals("Square")) { // Object 3 path
-                encoderDrive(driveSpeed, 0, 0, 0, 5.0);
-                encoderDrive(driveSpeed, 3, 5, 0, 5.0);  // move forward 3 inches, set lift to 5 inches, keep claw closed.
-                encoderStrafe(driveSpeed, 24, 5, 0, 5.0); // strafe right 24 inches, keep lift at 5 inches, keep claw closed.
-                encoderSpin(turnSpeed, 90, 16, 10, 5.0); //  rotate 90 degrees clockwise, set lift to 16 inches, keep claw closed.
-                encoderStrafe(driveSpeed, -42, 36, 0, 5.0); //strafe left 41 inches, set lift to 36 inches, keep claw closed.
-                encoderDrive(driveSpeed, 3, 36, 0, 5.0); // move forward 4 inches, keep lift at 36 inches, open claw.
-                encoderLift(liftSpeed,30,1, 5.0); // set lift to 30 inches, open claw.
-                encoderDrive(driveSpeed, -3, 36, 1, 5.0); // move back 4 inches, keep lift at 36 inches, keep claw open.
-                encoderStrafe(driveSpeed, -12, 15, 1, 5.0); //strafe right 12 inches, set lift to 15 inches, keep claw open.
-                sleep(20000);
-            } else {
-                encoderDrive(driveSpeed, 0, 0, 0, 5.0);
-                encoderDrive(driveSpeed, 3, 5, 0, 5.0);  // move forward 3 inches, set lift to 5 inches, keep claw closed.
-                encoderStrafe(driveSpeed, 24, 5, 0, 5.0); // strafe right 24 inches, keep lift at 5 inches, keep claw closed.
-                encoderSpin(turnSpeed, 90, 16, 10, 5.0); //  rotate 90 degrees clockwise, set lift to 16 inches, keep claw closed.
-                encoderStrafe(driveSpeed, -42, 36, 0, 5.0); //strafe left 41 inches, set lift to 36 inches, keep claw closed.
-                encoderDrive(driveSpeed, 3, 36, 0, 5.0); // move forward 4 inches, keep lift at 36 inches, open claw.
-                encoderLift(liftSpeed,30,1, 5.0); // set lift to 30 inches, open claw.
-                encoderDrive(driveSpeed, -3, 36, 1, 5.0); // move back 4 inches, keep lift at 36 inches, keep claw open.
-                encoderStrafe(driveSpeed, -12, 15, 1, 5.0); //strafe right 12 inches, set lift to 15 inches, keep claw open.
-                sleep(20000);
-            }
-        }
-
-        encoderDrive(driveSpeed, 0, 0, 0, 5.0);
-        encoderDrive(driveSpeed, 3, 5, 0, 5.0);  // move forward 3 inches, set lift to 5 inches, keep claw closed.
-        encoderStrafe(driveSpeed, 24, 5, 0, 5.0); // strafe right 24 inches, keep lift at 5 inches, keep claw closed.
-        encoderSpin(turnSpeed, 90, 16, 10, 5.0); //  rotate 90 degrees clockwise, set lift to 16 inches, keep claw closed.
-        encoderStrafe(driveSpeed, -42, 36, 0, 5.0); //strafe left 41 inches, set lift to 36 inches, keep claw closed.
-        encoderDrive(driveSpeed, 3, 36, 0, 5.0); // move forward 4 inches, keep lift at 36 inches, open claw.
-        encoderLift(liftSpeed,30,1, 5.0); // set lift to 30 inches, open claw.
-        encoderDrive(driveSpeed, -3, 36, 1, 5.0); // move back 4 inches, keep lift at 36 inches, keep claw open.
-        encoderStrafe(driveSpeed, -12, 15, 1, 5.0); //strafe right 12 inches, set lift to 15 inches, keep claw open.
-        sleep(20000);
+       /* encoderDrive(driveSpeed,15,3,0,0,5.0);
+        encoderSpin(turnSpeed,90,3,-1,0,5.0);
+        encoderDrive(driveSpeed, -18, 6,0, 0, 5.0);
+        score(1,5.0);
+        encoderStrafe(driveSpeed,12,0,0,0,5.0);
+        encoderDrive(driveSpeed, 6, 0,0, 0, 5.0);
+        */
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
@@ -277,50 +248,15 @@ public class SwarmAutoPrime extends LinearOpMode {
      *  2) Move runs out of time
      *  3) Driver stops the opmode running.
      */
-    private static final String VUFORIA_KEY =
-            "AZJC/3T/////AAABmRPn6kJC6k6BmqQQ09BqPMdxzm82RZmhCzQAUffgUDxWqKsnQDlYnQFZtG4Flyw/K/G5bXw" +
-                    "Wa8z4LXQTxjqjga40ZY3pp73399DYqjOK6jl2BJl5uBss7OHkvUEDlw5kyWoU6xoSfPfNkMJt3Vg2JBl" +
-                    "8CDGzXJkuzlGdqo5Hzb48A+8tf3kQv5xvCm90OMSxy48dRFRSfTX+o0yh0NT8l2ihKJ52TJlwYBXnxUD" +
-                    "Q7jGInINMZ+SelJe/RCssYGf/YhEKDeqhCTGiBG9Lv9p1K/GFqdnVcRUtkkEoISSO8NnICbVzTTvG+jn" +
-                    "2mUUCACNTKwiN6l4lyduZaj9Y3IQ5ioExnW/rdUeat3FEaAVx8vKc";
-
-    /*
-     * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
-     * localization engine.
-     */
 
 
-    /*
-     * {@link #tfod} is the variable we will use to store our instance of the TensorFlow Object
-     * Detection engine.
-     */
-    private TFObjectDetector tfod;
-
-    /*
-     * Initialize the Vuforia localization engine.
-     */
-
-    /**
-     * Initialize the TensorFlow Object Detection engine.
-     */
-    private void initTfod() {
-//        int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
-//                "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-//        TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
-//        tfodParameters.minResultConfidence = 0.8f;
-//        tfodParameters.isModelTensorFlow2 = true;
-//        tfodParameters.inputSize = 320;
-//        tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
-//        tfod.loadModelFromFile(TFOD_MODEL_FILE, LABELS);
-    }
-   // public void
     public void encoderDrive(double speed,
                              double inches,
-                             int liftInches, int intake,
+                             double liftInches, double intakeValue,
+                             double scoreValue,
                              double timeoutS) {
         int newLeftBackTarget;
         int newRightBackTarget;
-
         int newLeftFrontTarget;
         int newRightFrontTarget;
         int newLiftTarget;
@@ -352,6 +288,10 @@ public class SwarmAutoPrime extends LinearOpMode {
             leftFront.setPower(Math.abs(speed));
             rightFront.setPower(Math.abs(speed));
             lift.setPower(liftSpeed);
+            intakeTop.setPower(intakeValue);
+            intakeBot.setPower(intakeValue);
+            indexer.setPower(intakeValue);
+            outtake.setPower(scoreValue);
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
             // its target position, the motion will stop.  This is "safer" in the event that the robot will
@@ -393,7 +333,9 @@ public class SwarmAutoPrime extends LinearOpMode {
 
     public void encoderStrafe(double speed,
                               double inches,
-                              int liftInches, int claw,
+                              double liftInches,
+                              double intakeValue,
+                              double scoreValue,
                               double timeoutS) {
         int newLeftBackTarget;
         int newRightBackTarget;
@@ -428,6 +370,10 @@ public class SwarmAutoPrime extends LinearOpMode {
             leftFront.setPower(Math.abs(speed));
             rightFront.setPower(Math.abs(speed));
             lift.setPower(liftSpeed);
+            intakeTop.setPower(intakeValue);
+            intakeBot.setPower(intakeValue);
+            indexer.setPower(intakeValue);
+            outtake.setPower(scoreValue);
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
             // its target position, the motion will stop.  This is "safer" in the event that the robot will
@@ -470,9 +416,10 @@ public class SwarmAutoPrime extends LinearOpMode {
         }
     }
     public void encoderSpin(double speed,
-                            double inches,
+                            double degrees,
                             double liftInches,
-                            int claw,
+                            double intakeValue,
+                            double scoreValue,
                             double timeoutS) {
         int newLeftBackTarget;
         int newRightBackTarget;
@@ -483,10 +430,10 @@ public class SwarmAutoPrime extends LinearOpMode {
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-            newLeftBackTarget = leftRear.getCurrentPosition() + (int)(inches * COUNTS_PER_DEGREE);
-            newRightBackTarget = rightRear.getCurrentPosition() - (int)(inches * COUNTS_PER_DEGREE);
-            newLeftFrontTarget = leftFront.getCurrentPosition() + (int)(inches * COUNTS_PER_DEGREE);
-            newRightFrontTarget = rightFront.getCurrentPosition() - (int)(inches * COUNTS_PER_DEGREE);
+            newLeftBackTarget = leftRear.getCurrentPosition() + (int)(degrees * COUNTS_PER_DEGREE);
+            newRightBackTarget = rightRear.getCurrentPosition() - (int)(degrees * COUNTS_PER_DEGREE);
+            newLeftFrontTarget = leftFront.getCurrentPosition() + (int)(degrees * COUNTS_PER_DEGREE);
+            newRightFrontTarget = rightFront.getCurrentPosition() - (int)(degrees * COUNTS_PER_DEGREE);
             newLiftTarget = (int)(liftInches * LIFT_COUNTS_PER_INCH);
             leftRear.setTargetPosition(newLeftBackTarget);
             rightRear.setTargetPosition(newRightBackTarget);
@@ -507,6 +454,10 @@ public class SwarmAutoPrime extends LinearOpMode {
             leftFront.setPower(Math.abs(speed));
             rightFront.setPower(Math.abs(speed));
             lift.setPower(liftSpeed);
+            intakeTop.setPower(intakeValue);
+            intakeBot.setPower(intakeValue);
+            indexer.setPower(intakeValue);
+            outtake.setPower(scoreValue);
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
             // its target position, the motion will stop.  This is "safer" in the event that the robot will
@@ -579,5 +530,106 @@ public class SwarmAutoPrime extends LinearOpMode {
 
         }
     }
+    private void score(int scoreValue, double timeoutS) {
+
+        outtake.setPower(scoreValue);
+
+        if (opModeIsActive()) {
+
+
+            runtime.reset();
+            lift.setPower(liftSpeed);
+
+            while (opModeIsActive() &&
+                    (runtime.seconds() < timeoutS)) {
+
+
+            }
+            outtake.setPower(0);
+
+
+            sleep(250);
+        }
+    }
+    private void initTfod() {
+
+        // Create the TensorFlow processor by using a builder.
+        tfod = new TfodProcessor.Builder()
+
+                // With the following lines commented out, the default TfodProcessor Builder
+                // will load the default model for the season. To define a custom model to load,
+                // choose one of the following:
+                //   Use setModelAssetName() if the custom TF Model is built in as an asset (AS only).
+                //   Use setModelFileName() if you have downloaded a custom team model to the Robot Controller.
+                //.setModelAssetName(TFOD_MODEL_ASSET)
+                //.setModelFileName(TFOD_MODEL_FILE)
+
+                // The following default settings are available to un-comment and edit as needed to
+                // set parameters for custom models.
+                //.setModelLabels(LABELS)
+                //.setIsModelTensorFlow2(true)
+                //.setIsModelQuantized(true)
+                //.setModelInputSize(300)
+                //.setModelAspectRatio(16.0 / 9.0)
+
+                .build();
+
+        // Create the vision portal by using a builder.
+        VisionPortal.Builder builder = new VisionPortal.Builder();
+
+        // Set the camera (webcam vs. built-in RC phone camera).
+        if (USE_WEBCAM) {
+            builder.setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"));
+        } else {
+            builder.setCamera(BuiltinCameraDirection.BACK);
+        }
+
+        // Choose a camera resolution. Not all cameras support all resolutions.
+        //builder.setCameraResolution(new Size(640, 480));
+
+        // Enable the RC preview (LiveView).  Set "false" to omit camera monitoring.
+        //builder.enableLiveView(true);
+
+        // Set the stream format; MJPEG uses less bandwidth than default YUY2.
+        //builder.setStreamFormat(VisionPortal.StreamFormat.YUY2);
+
+        // Choose whether or not LiveView stops if no processors are enabled.
+        // If set "true", monitor shows solid orange screen if no processors enabled.
+        // If set "false", monitor shows camera view without annotations.
+        //builder.setAutoStopLiveView(false);
+
+        // Set and enable the processor.
+        builder.addProcessor(tfod);
+
+        // Build the Vision Portal, using the above settings.
+        visionPortal = builder.build();
+
+        // Set confidence threshold for TFOD recognitions, at any time.
+        //tfod.setMinResultConfidence(0.75f);
+
+        // Disable or re-enable the TFOD processor at any time.
+        //visionPortal.setProcessorEnabled(tfod, true);
+
+    }   // end method initTfod()
+
+    /**
+     * Add telemetry about TensorFlow Object Detection (TFOD) recognitions.
+     */
+    private double targetTfod() {
+
+        List<Recognition> currentRecognitions = tfod.getRecognitions();
+
+
+        // Step through the list of recognitions and display info for each one.
+        for (Recognition recognition : currentRecognitions) {
+            double x = (recognition.getLeft() + recognition.getRight()) / 2 ;
+            double y = (recognition.getTop()  + recognition.getBottom()) / 2 ;
+
+
+
+        }   // end for() loop
+        return(x);
+    }   // end method telemetryTfod()
+
 }
 
