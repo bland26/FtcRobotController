@@ -234,7 +234,6 @@ public class SwarmAutoBlueBack extends LinearOpMode {
         encoderStrafe(driveSpeed,12,0,0,0,5.0);
         encoderDrive(driveSpeed, 6, 0,0, 0, 5.0);
         */
-
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);  // pause to display final telemetry message.
@@ -288,9 +287,9 @@ public class SwarmAutoBlueBack extends LinearOpMode {
             leftFront.setPower(Math.abs(speed));
             rightFront.setPower(Math.abs(speed));
             lift.setPower(liftSpeed);
-            intakeTop.setPower(intakeValue);
-            intakeBot.setPower(intakeValue);
-            indexer.setPower(intakeValue);
+            intakeTop.setPower(-intakeValue);
+            intakeBot.setPower(-intakeValue);
+            indexer.setPower(-intakeValue);
             outtake.setPower(scoreValue);
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
@@ -370,9 +369,9 @@ public class SwarmAutoBlueBack extends LinearOpMode {
             leftFront.setPower(Math.abs(speed));
             rightFront.setPower(Math.abs(speed));
             lift.setPower(liftSpeed);
-            intakeTop.setPower(intakeValue);
-            intakeBot.setPower(intakeValue);
-            indexer.setPower(intakeValue);
+            intakeTop.setPower(-intakeValue);
+            intakeBot.setPower(-intakeValue);
+            indexer.setPower(-intakeValue);
             outtake.setPower(scoreValue);
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
@@ -454,9 +453,9 @@ public class SwarmAutoBlueBack extends LinearOpMode {
             leftFront.setPower(Math.abs(speed));
             rightFront.setPower(Math.abs(speed));
             lift.setPower(liftSpeed);
-            intakeTop.setPower(intakeValue);
-            intakeBot.setPower(intakeValue);
-            indexer.setPower(intakeValue);
+            intakeTop.setPower(-intakeValue);
+            intakeBot.setPower(-intakeValue);
+            indexer.setPower(-intakeValue);
             outtake.setPower(scoreValue);
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
