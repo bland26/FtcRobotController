@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.drive.stinger;
+package org.firstinspires.ftc.teamcode.drive.swarm;
 
 import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.COUNTS_PER_DEGREE;
 import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.COUNTS_PER_INCH;
@@ -35,7 +35,6 @@ import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.LIFT_COU
 import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.STRAFE_COUNTS_PER_INCH;
 import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.driveSpeed;
 import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.liftSpeed;
-import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.turnSpeed;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -48,7 +47,6 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.tfod.TfodProcessor;
-import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
 import java.util.List;
 
@@ -81,9 +79,9 @@ import java.util.List;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Cerberus Auto Test", group="Swarm")
+@Autonomous(name="SwarmAutoFrontBlue", group="Swarm")
 
-public class CerberusAutoTest extends LinearOpMode {
+public class SwarmAutoFrontBlue extends LinearOpMode {
 
     /* Declare OpMode members. */
     private DcMotor leftRear = null;
@@ -221,14 +219,8 @@ public class CerberusAutoTest extends LinearOpMode {
             encoderDrive(driveSpeed, 20, 0, 0, 0,5.0);
             sleep(20000);
         }*/
-        encoderStrafe(driveSpeed,3,0,0,0,5.0);
-        encoderDrive(driveSpeed, -39, 5,0, 0, 5.0);
-        encoderStrafe(driveSpeed,24,10,0,0,5.0);
-        encoderDrive(driveSpeed, -2, 10,0, 0, 5.0);
-        score(1,7.5);
-        encoderStrafe(driveSpeed,25,5,0,0,5.0);
-        encoderDrive(driveSpeed, -11, 0,0, 0, 5.0);
-
+        encoderDrive(driveSpeed,3,0,0,0,5.0);
+        encoderStrafe(driveSpeed, -96, 0,0, 0, 5.0);
        /* encoderDrive(driveSpeed,15,3,0,0,5.0);
         encoderSpin(turnSpeed,90,3,-1,0,5.0);
         encoderDrive(driveSpeed, -18, 6,0, 0, 5.0);

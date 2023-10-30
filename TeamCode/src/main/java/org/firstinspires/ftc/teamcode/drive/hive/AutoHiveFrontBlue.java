@@ -27,30 +27,24 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.drive.stinger;
-
-import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.COUNTS_PER_DEGREE;
-import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.COUNTS_PER_INCH;
-import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.LIFT_COUNTS_PER_INCH;
-import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.STRAFE_COUNTS_PER_INCH;
-import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.driveSpeed;
-import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.liftSpeed;
-import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.turnSpeed;
+package org.firstinspires.ftc.teamcode.drive.hive;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.hardware.TouchSensor;
+import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
-import org.firstinspires.ftc.vision.VisionPortal;
-import org.firstinspires.ftc.vision.tfod.TfodProcessor;
-import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
-import java.util.List;
+import static org.firstinspires.ftc.teamcode.drive.hive.HiveConstants.*;
+import static org.firstinspires.ftc.teamcode.drive.hive.HiveAutoPrime.*;
+import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.driveSpeed;
 
 //code for cam and other related thangs
 
@@ -81,48 +75,23 @@ import java.util.List;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Cerberus Auto Test", group="Swarm")
+@Autonomous(name="AutoHiveFrontBlue", group="Swarm")
 
-public class CerberusAutoTest extends LinearOpMode {
+public class AutoHiveFrontBlue extends HiveAutoPrime {
+
+    HiveAutoPrime swarm = new HiveAutoPrime();
 
     /* Declare OpMode members. */
     private DcMotor leftRear = null;
     private DcMotor rightRear = null;
     private DcMotor leftFront = null;
     private DcMotor rightFront = null;
-    private DcMotor lift = null;
-    private DcMotor intakeTop = null;
-    private DcMotor intakeBot = null;
-    private CRServo indexer = null;
-    private CRServo outtake = null;
+
 
     private ElapsedTime     runtime = new ElapsedTime();
 
-    private double x = 0;
 
 
-    private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
-
-    // TFOD_MODEL_ASSET points to a model file stored in the project Asset location,
-    // this is only used for Android Studio when using models in Assets.
-    private static final String TFOD_MODEL_ASSET = "MyModelStoredAsAsset.tflite";
-    // TFOD_MODEL_FILE points to a model file stored onboard the Robot Controller's storage,
-    // this is used when uploading models directly to the RC using the model upload interface.
-    private static final String TFOD_MODEL_FILE = "/sdcard/FIRST/tflitemodels/myCustomModel.tflite";
-    // Define the labels recognized in the model for TFOD (must be in training order!)
-    private static final String[] LABELS = {
-            "Pixel",
-    };
-
-    /**
-     * The variable to store our instance of the TensorFlow Object Detection processor.
-     */
-    private TfodProcessor tfod;
-
-    /**
-     * The variable to store our instance of the vision portal.
-     */
-    private VisionPortal visionPortal;
 
     @Override
     public void runOpMode() {
@@ -132,28 +101,15 @@ public class CerberusAutoTest extends LinearOpMode {
         rightRear = hardwareMap.get(DcMotor.class, "rightRear");
         leftFront = hardwareMap.get(DcMotor.class, "leftFront");
         rightFront = hardwareMap.get(DcMotor.class, "rightFront");
-        lift = hardwareMap.get(DcMotor.class, "lift");
-        intakeTop = hardwareMap.get(DcMotor.class, "intakeTop");
-        intakeBot = hardwareMap.get(DcMotor.class, "intakeBot");
-        indexer = hardwareMap.get(CRServo.class, "indexer");
-        outtake = hardwareMap.get(CRServo.class, "outtake");
-
 
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // When run, this OpMode should start both motors driving forward. So adjust these two lines based on your first test drive.
         // Note: The settings here assume direct drive on left and right wheels.  Gear Reduction or 90 Deg drives may require direction flips
         leftRear.setDirection(DcMotor.Direction.FORWARD);
-        rightRear.setDirection(DcMotor.Direction.FORWARD);
+        rightRear.setDirection(DcMotor.Direction.REVERSE);
         leftFront.setDirection(DcMotor.Direction.FORWARD);
         rightFront.setDirection(DcMotor.Direction.FORWARD);
-        lift.setDirection(DcMotor.Direction.REVERSE);
-        intakeTop.setDirection(DcMotorSimple.Direction.FORWARD);
-        intakeBot.setDirection(DcMotorSimple.Direction.FORWARD);
-        indexer.setDirection(CRServo.Direction.REVERSE);
-        outtake.setDirection(CRServo.Direction.FORWARD);
-
-        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -165,18 +121,11 @@ public class CerberusAutoTest extends LinearOpMode {
         rightRear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
 
         leftRear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightRear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-
-        initTfod();
-        targetTfod();
 
 
 
@@ -211,57 +160,26 @@ public class CerberusAutoTest extends LinearOpMode {
         maximum time allowed for the step before it automatically stops.)
          */
 
-       /* if (x > 1) { // Object 1 path
-            encoderDrive(driveSpeed, 5, 5, 1, 0, 5.0);
-            sleep(20000);
-        } else if (x < -1) { // Object 2 path
-            encoderDrive(driveSpeed, 10, 0, 0, 0,5.0);
-            sleep(20000);
-        } else {
-            encoderDrive(driveSpeed, 20, 0, 0, 0,5.0);
-            sleep(20000);
-        }*/
-        encoderStrafe(driveSpeed,3,0,0,0,5.0);
-        encoderDrive(driveSpeed, -39, 5,0, 0, 5.0);
-        encoderStrafe(driveSpeed,24,10,0,0,5.0);
-        encoderDrive(driveSpeed, -2, 10,0, 0, 5.0);
-        score(1,7.5);
-        encoderStrafe(driveSpeed,25,5,0,0,5.0);
-        encoderDrive(driveSpeed, -11, 0,0, 0, 5.0);
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
-       /* encoderDrive(driveSpeed,15,3,0,0,5.0);
-        encoderSpin(turnSpeed,90,3,-1,0,5.0);
-        encoderDrive(driveSpeed, -18, 6,0, 0, 5.0);
-        score(1,5.0);
-        encoderStrafe(driveSpeed,12,0,0,0,5.0);
-        encoderDrive(driveSpeed, 6, 0,0, 0, 5.0);
-        */
+        testDrive(driveSpeed,3,5.0);
+        testStrafe(driveSpeed, -96,5.0);
 
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);  // pause to display final telemetry message.
     }
+    public void testDrive(double speed,
+                          double inches,
 
-    /*
-     *  Method to perform a relative move, based on encoder counts.
-     *  Encoders are not reset as the move is based on the current position.
-     *  Move will stop if any of three conditions occur:
-     *  1) Move gets to the desired position
-     *  2) Move runs out of time
-     *  3) Driver stops the opmode running.
-     */
-
-
-    public void encoderDrive(double speed,
-                             double inches,
-                             double liftInches, double intakeValue,
-                             double scoreValue,
-                             double timeoutS) {
+                          double timeoutS) {
         int newLeftBackTarget;
         int newRightBackTarget;
         int newLeftFrontTarget;
         int newRightFrontTarget;
-        int newLiftTarget;
+
         // Ensure that the opmode is still active
         if (opModeIsActive()) {
 
@@ -270,18 +188,18 @@ public class CerberusAutoTest extends LinearOpMode {
             newRightBackTarget = rightRear.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
             newLeftFrontTarget = leftFront.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
             newRightFrontTarget = rightFront.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
-            newLiftTarget = (int)(liftInches * LIFT_COUNTS_PER_INCH);
+
             leftRear.setTargetPosition(newLeftBackTarget);
             rightRear.setTargetPosition(newRightBackTarget);
             leftFront.setTargetPosition(newLeftFrontTarget);
             rightFront.setTargetPosition(newRightFrontTarget);
-            lift.setTargetPosition(newLiftTarget);
+
             // Turn On RUN_TO_POSITION
             leftRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rightRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
 
             // reset the timeout time and start motion.
             runtime.reset();
@@ -289,11 +207,7 @@ public class CerberusAutoTest extends LinearOpMode {
             rightRear.setPower(Math.abs(speed));
             leftFront.setPower(Math.abs(speed));
             rightFront.setPower(Math.abs(speed));
-            lift.setPower(liftSpeed);
-            intakeTop.setPower(intakeValue);
-            intakeBot.setPower(intakeValue);
-            indexer.setPower(intakeValue);
-            outtake.setPower(scoreValue);
+
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
             // its target position, the motion will stop.  This is "safer" in the event that the robot will
@@ -320,7 +234,8 @@ public class CerberusAutoTest extends LinearOpMode {
             rightRear.setPower(0);
             leftFront.setPower(0);
             rightFront.setPower(0);
-            lift.setPower(0);
+
+
 
 
             // Turn off RUN_TO_POSITION
@@ -331,19 +246,14 @@ public class CerberusAutoTest extends LinearOpMode {
             sleep(250);   // optional pause after each move.
         }
     }
-
-
-    public void encoderStrafe(double speed,
-                              double inches,
-                              double liftInches,
-                              double intakeValue,
-                              double scoreValue,
-                              double timeoutS) {
+    public void testStrafe(double speed,
+                           double inches,
+                           double timeoutS) {
         int newLeftBackTarget;
         int newRightBackTarget;
         int newLeftFrontTarget;
         int newRightFrontTarget;
-        int newLiftTarget;
+
         // Ensure that the opmode is still active
         if (opModeIsActive()) {
 
@@ -352,18 +262,18 @@ public class CerberusAutoTest extends LinearOpMode {
             newRightBackTarget = rightRear.getCurrentPosition() + (int)(inches * STRAFE_COUNTS_PER_INCH);
             newLeftFrontTarget = leftFront.getCurrentPosition() + (int)(inches * STRAFE_COUNTS_PER_INCH);
             newRightFrontTarget = rightFront.getCurrentPosition() - (int)(inches * STRAFE_COUNTS_PER_INCH);
-            newLiftTarget = (int)(liftInches * LIFT_COUNTS_PER_INCH);
+
             leftRear.setTargetPosition(newLeftBackTarget);
             rightRear.setTargetPosition(newRightBackTarget);
             leftFront.setTargetPosition(newLeftFrontTarget);
             rightFront.setTargetPosition(newRightFrontTarget);
-            lift.setTargetPosition(newLiftTarget);
+
             // Turn On RUN_TO_POSITION
             leftRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rightRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
 
             // reset the timeout time and start motion.
             runtime.reset();
@@ -371,11 +281,7 @@ public class CerberusAutoTest extends LinearOpMode {
             rightRear.setPower(Math.abs(speed));
             leftFront.setPower(Math.abs(speed));
             rightFront.setPower(Math.abs(speed));
-            lift.setPower(liftSpeed);
-            intakeTop.setPower(intakeValue);
-            intakeBot.setPower(intakeValue);
-            indexer.setPower(intakeValue);
-            outtake.setPower(scoreValue);
+
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
             // its target position, the motion will stop.  This is "safer" in the event that the robot will
@@ -405,7 +311,7 @@ public class CerberusAutoTest extends LinearOpMode {
             rightRear.setPower(0);
             leftFront.setPower(0);
             rightFront.setPower(0);
-            lift.setPower(0);
+
 
 
 
@@ -417,17 +323,14 @@ public class CerberusAutoTest extends LinearOpMode {
             sleep(250);   // optional pause after each move.
         }
     }
-    public void encoderSpin(double speed,
-                            double degrees,
-                            double liftInches,
-                            double intakeValue,
-                            double scoreValue,
-                            double timeoutS) {
+    public void testSpin(double speed,
+                         double degrees,
+                         double timeoutS) {
         int newLeftBackTarget;
         int newRightBackTarget;
         int newLeftFrontTarget;
         int newRightFrontTarget;
-        int newLiftTarget;
+
         // Ensure that the opmode is still active
         if (opModeIsActive()) {
 
@@ -436,18 +339,18 @@ public class CerberusAutoTest extends LinearOpMode {
             newRightBackTarget = rightRear.getCurrentPosition() - (int)(degrees * COUNTS_PER_DEGREE);
             newLeftFrontTarget = leftFront.getCurrentPosition() + (int)(degrees * COUNTS_PER_DEGREE);
             newRightFrontTarget = rightFront.getCurrentPosition() - (int)(degrees * COUNTS_PER_DEGREE);
-            newLiftTarget = (int)(liftInches * LIFT_COUNTS_PER_INCH);
+
             leftRear.setTargetPosition(newLeftBackTarget);
             rightRear.setTargetPosition(newRightBackTarget);
             leftFront.setTargetPosition(newLeftFrontTarget);
             rightFront.setTargetPosition(newRightFrontTarget);
-            lift.setTargetPosition(newLiftTarget);
+
             // Turn On RUN_TO_POSITION
             leftRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rightRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
 
             // reset the timeout time and start motion.
             runtime.reset();
@@ -455,11 +358,7 @@ public class CerberusAutoTest extends LinearOpMode {
             rightRear.setPower(Math.abs(speed));
             leftFront.setPower(Math.abs(speed));
             rightFront.setPower(Math.abs(speed));
-            lift.setPower(liftSpeed);
-            intakeTop.setPower(intakeValue);
-            intakeBot.setPower(intakeValue);
-            indexer.setPower(intakeValue);
-            outtake.setPower(scoreValue);
+
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
             // its target position, the motion will stop.  This is "safer" in the event that the robot will
@@ -488,8 +387,6 @@ public class CerberusAutoTest extends LinearOpMode {
             rightRear.setPower(0);
             leftFront.setPower(0);
             rightFront.setPower(0);
-            lift.setPower(0);
-
 
 
             // Turn off RUN_TO_POSITION
@@ -500,138 +397,6 @@ public class CerberusAutoTest extends LinearOpMode {
             sleep(250);   // optional pause after each move.
         }
     }
-
-    public void encoderLift(double speed,
-                            int liftInches, int claw,
-                            double timeoutS) {
-
-        int newLiftTarget;
-
-        if (opModeIsActive()) {
-
-            newLiftTarget = (int)(liftInches * LIFT_COUNTS_PER_INCH);
-
-            lift.setTargetPosition(newLiftTarget);
-
-            lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-            runtime.reset();
-            lift.setPower(liftSpeed);
-
-            while (opModeIsActive() &&
-                    (runtime.seconds() < timeoutS) &&
-                    (lift.isBusy())) {
-
-
-            }
-            lift.setPower(0);
-
-
-
-            sleep(250);
-
-        }
-    }
-    private void score(int scoreValue, double timeoutS) {
-
-        outtake.setPower(scoreValue);
-
-        if (opModeIsActive()) {
-
-
-            runtime.reset();
-            lift.setPower(liftSpeed);
-
-            while (opModeIsActive() &&
-                    (runtime.seconds() < timeoutS)) {
-
-
-            }
-            outtake.setPower(0);
-
-
-            sleep(250);
-        }
-    }
-    private void initTfod() {
-
-        // Create the TensorFlow processor by using a builder.
-        tfod = new TfodProcessor.Builder()
-
-                // With the following lines commented out, the default TfodProcessor Builder
-                // will load the default model for the season. To define a custom model to load,
-                // choose one of the following:
-                //   Use setModelAssetName() if the custom TF Model is built in as an asset (AS only).
-                //   Use setModelFileName() if you have downloaded a custom team model to the Robot Controller.
-                //.setModelAssetName(TFOD_MODEL_ASSET)
-                //.setModelFileName(TFOD_MODEL_FILE)
-
-                // The following default settings are available to un-comment and edit as needed to
-                // set parameters for custom models.
-                //.setModelLabels(LABELS)
-                //.setIsModelTensorFlow2(true)
-                //.setIsModelQuantized(true)
-                //.setModelInputSize(300)
-                //.setModelAspectRatio(16.0 / 9.0)
-
-                .build();
-
-        // Create the vision portal by using a builder.
-        VisionPortal.Builder builder = new VisionPortal.Builder();
-
-        // Set the camera (webcam vs. built-in RC phone camera).
-        if (USE_WEBCAM) {
-            builder.setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"));
-        } else {
-            builder.setCamera(BuiltinCameraDirection.BACK);
-        }
-
-        // Choose a camera resolution. Not all cameras support all resolutions.
-        //builder.setCameraResolution(new Size(640, 480));
-
-        // Enable the RC preview (LiveView).  Set "false" to omit camera monitoring.
-        //builder.enableLiveView(true);
-
-        // Set the stream format; MJPEG uses less bandwidth than default YUY2.
-        //builder.setStreamFormat(VisionPortal.StreamFormat.YUY2);
-
-        // Choose whether or not LiveView stops if no processors are enabled.
-        // If set "true", monitor shows solid orange screen if no processors enabled.
-        // If set "false", monitor shows camera view without annotations.
-        //builder.setAutoStopLiveView(false);
-
-        // Set and enable the processor.
-        builder.addProcessor(tfod);
-
-        // Build the Vision Portal, using the above settings.
-        visionPortal = builder.build();
-
-        // Set confidence threshold for TFOD recognitions, at any time.
-        //tfod.setMinResultConfidence(0.75f);
-
-        // Disable or re-enable the TFOD processor at any time.
-        //visionPortal.setProcessorEnabled(tfod, true);
-
-    }   // end method initTfod()
-
-    /**
-     * Add telemetry about TensorFlow Object Detection (TFOD) recognitions.
-     */
-    private double targetTfod() {
-
-        List<Recognition> currentRecognitions = tfod.getRecognitions();
-
-
-        // Step through the list of recognitions and display info for each one.
-        for (Recognition recognition : currentRecognitions) {
-            double x = (recognition.getLeft() + recognition.getRight()) / 2 ;
-            double y = (recognition.getTop()  + recognition.getBottom()) / 2 ;
-
-
-
-        }   // end for() loop
-        return(x);
-    }   // end method telemetryTfod()
 
 }
 
