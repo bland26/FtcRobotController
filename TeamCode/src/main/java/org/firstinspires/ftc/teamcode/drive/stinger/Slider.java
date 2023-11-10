@@ -31,7 +31,7 @@ public class Slider extends OpMode {
     private DcMotor rightRear = null;
 
 
-    public static double driveSpeed = 0.6;
+    public static double driveSpeed = 1.0;
 
     /*
      * Code to run ONCE when the driver hits INIT

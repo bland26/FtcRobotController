@@ -38,7 +38,7 @@ public class SwarmTele extends OpMode {
     private CRServo indexer = null;
     private CRServo outtake = null;
 
-    //private TouchSensor limitBot = null;
+    //private TouchSensor limitDown = null;
 
 
     //TODO Decide names for and declare extra motors. (Top intake, bottom intake, lift)

@@ -3,9 +3,11 @@ package org.firstinspires.ftc.teamcode.drive.hive;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.hardware.TouchSensor;
@@ -36,7 +38,7 @@ public class HiveTele extends OpMode {
 
     private DcMotor lift = null;
     private DcMotor intake = null;
-    private DcMotor outtake = null;
+    private CRServo outtake = null;
 
     private  TouchSensor limitDown;
 
@@ -78,7 +80,7 @@ public class HiveTele extends OpMode {
         rightFront = hardwareMap.get(DcMotor.class, "rightFront");
         lift = hardwareMap.get(DcMotor.class, "lift");
         intake = hardwareMap.get(DcMotor.class, "intake");
-        outtake = hardwareMap.get(DcMotor.class, "outtake");
+        outtake = hardwareMap.get(CRServo.class, "outtake");
         limitDown = hardwareMap.get(TouchSensor.class, "limitDown");
         claw = hardwareMap.get(Servo.class, "claw");
         drone = hardwareMap.get(Servo.class, "drone");
@@ -94,7 +96,7 @@ public class HiveTele extends OpMode {
         rightFront.setDirection(DcMotor.Direction.FORWARD);
         lift.setDirection(DcMotor.Direction.FORWARD);
         intake.setDirection(DcMotor.Direction.FORWARD);
-        outtake.setDirection(DcMotor.Direction.FORWARD);
+        outtake.setDirection(CRServo.Direction.FORWARD);
         claw.setPosition(clawPosition);
         drone.setPosition(dronePosition);
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -177,7 +179,14 @@ public class HiveTele extends OpMode {
 
         boolean outtakeInput = gamepad2.a;
         if (outtakeInput){
-            outtakePower = 1;
+            outtakePower=1;
+        }else {
+            outtakePower=0;
+        }
+
+        boolean outtakeInputR = gamepad2.b;
+        if (outtakeInputR){
+            outtakePower = -1;
         }
 
         boolean droneInput = gamepad2.y;
