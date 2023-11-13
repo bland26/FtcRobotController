@@ -35,13 +35,12 @@ public class SwarmTele extends OpMode {
     private DcMotor lift = null;
     private DcMotor intakeTop = null;
     private DcMotor intakeBot = null;
-
-    //private DcMotor climber = null;
+    private DcMotor climb =null;
     private CRServo indexer = null;
     private CRServo outtake = null;
 
-    //private TouchSensor limitDown = null;
 
+    //private TouchSensor limitBot = null;
 
 
     //TODO Decide names for and declare extra motors. (Top intake, bottom intake, lift)
@@ -51,6 +50,7 @@ public class SwarmTele extends OpMode {
     public static double driveSpeed = 1.0;
 
     public static double liftSpeed = 1.0;
+    public static double climbSpeed =1.0;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -69,7 +69,7 @@ public class SwarmTele extends OpMode {
         lift = hardwareMap.get(DcMotor.class, "lift");
         intakeTop = hardwareMap.get(DcMotor.class, "intakeTop");
         intakeBot = hardwareMap.get(DcMotor.class, "intakeBot");
-        //climber = hardwareMap.get(DcMotor.class, "climber");
+        climb = hardwareMap.get(DcMotor.class, "climb");
         indexer = hardwareMap.get(CRServo.class, "indexer");
         outtake = hardwareMap.get(CRServo.class, "outtake");
         //limitBot = hardwareMap.get(TouchSensor.class, "limitDown");
@@ -88,6 +88,7 @@ public class SwarmTele extends OpMode {
         indexer.setDirection(CRServo.Direction.REVERSE);
         outtake.setDirection(CRServo.Direction.FORWARD);
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        climb.setDirection(DcMotorSimple.Direction.FORWARD);
 
         //TODO set new motor directions
 
@@ -121,6 +122,7 @@ public class SwarmTele extends OpMode {
         double leftFrontPower;
         double rightFrontPower;
         double liftPower;
+        double climbPower;
         double intakePower;
         double outtakePower;
         boolean scoreCon = false;
@@ -158,6 +160,19 @@ public class SwarmTele extends OpMode {
         }
         double liftCubed = liftInput * liftInput * liftInput;
 
+        boolean climbInput = gamepad2.right_bumper;
+        if (climbInput){
+            climbPower=1;
+        }else {
+            climbPower=0;
+        }
+
+        boolean climbInputR = gamepad2.left_bumper;
+        if (climbInputR){
+            climbPower = -1;
+        }
+
+
         double intake = -gamepad2.right_stick_y;
         if (Math.abs(intake) < DEADZONE) {
 
@@ -193,6 +208,7 @@ public class SwarmTele extends OpMode {
             rightFrontPower = Range.clip(driveCubed - spinCubed - strafeCubed, -1.0, 1.0);
             liftPower = Range.clip(liftCubed, -1.0, 1.0);
             intakePower = Range.clip(intakeCubed,-1.0, 1.0);
+
         }else {
             leftRearPower = Range.clip((-driveCubed) + spinCubed - (-strafeCubed), -0.5, 0.5);
             rightRearPower = Range.clip((-driveCubed)- spinCubed + (-strafeCubed), -0.5, 0.5);
@@ -200,6 +216,7 @@ public class SwarmTele extends OpMode {
             rightFrontPower = Range.clip((-driveCubed) - spinCubed - (-strafeCubed), -0.5, 0.5);
             liftPower = Range.clip(liftCubed, -1.0, 1.0);
             intakePower = Range.clip(intakeCubed,-1.0, 1.0);
+
         }
 
 
@@ -213,6 +230,7 @@ public class SwarmTele extends OpMode {
         intakeBot.setPower(-intakePower);
         outtake.setPower(outtakePower);
         indexer.setPower(intakePower);
+        climb.setPower(climbPower);
 
 
 //        if (liftPower < 0 && limitBot.isPressed()) {
