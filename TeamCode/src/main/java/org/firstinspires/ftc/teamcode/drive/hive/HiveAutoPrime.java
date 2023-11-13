@@ -123,6 +123,7 @@ public class HiveAutoPrime extends LinearOpMode {
     private double x = 0;
 
 
+
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
 
     // TFOD_MODEL_ASSET points to a model file stored in the project Asset location,
