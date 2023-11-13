@@ -29,6 +29,7 @@
 
 package org.firstinspires.ftc.teamcode.drive.hive;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
@@ -47,9 +48,9 @@ import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
-import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.*;
-import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.driveSpeed;
-import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.liftSpeed;
+import static org.firstinspires.ftc.teamcode.drive.hive.HiveConstants.*;
+import static org.firstinspires.ftc.teamcode.drive.hive.HiveConstants.driveSpeed;
+import static org.firstinspires.ftc.teamcode.drive.hive.HiveConstants.liftSpeed;
 
 import java.util.List;
 
@@ -83,7 +84,7 @@ import java.util.List;
  */
 
 @Autonomous(name="HiveAutoPrime", group="Swarm")
-
+@Config
 public class HiveAutoPrime extends LinearOpMode {
 
     /* Declare OpMode members. */
@@ -95,7 +96,7 @@ public class HiveAutoPrime extends LinearOpMode {
     private DcMotor rightFront = null;
     private DcMotor lift = null;
     private DcMotor intake = null;
-    private DcMotor outtake = null;
+    private CRServo outtake = null;
 
     private  TouchSensor limitDown;
 
@@ -155,7 +156,7 @@ public class HiveAutoPrime extends LinearOpMode {
         rightFront = hardwareMap.get(DcMotor.class, "rightFront");
         lift = hardwareMap.get(DcMotor.class, "lift");
         intake = hardwareMap.get(DcMotor.class, "intake");
-        outtake = hardwareMap.get(DcMotor.class, "outtake");
+        outtake = hardwareMap.get(CRServo.class, "outtake");
         limitDown = hardwareMap.get(TouchSensor.class, "limitDown");
         claw = hardwareMap.get(Servo.class, "claw");
         drone = hardwareMap.get(Servo.class, "drone");
@@ -183,7 +184,7 @@ public class HiveAutoPrime extends LinearOpMode {
         leftRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        outtake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
 
 
         leftRear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -192,7 +193,7 @@ public class HiveAutoPrime extends LinearOpMode {
         rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         intake.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        outtake.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
 
         leftRear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightRear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -200,7 +201,7 @@ public class HiveAutoPrime extends LinearOpMode {
         rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         intake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        outtake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
 
 
         initTfod();
@@ -247,8 +248,8 @@ public class HiveAutoPrime extends LinearOpMode {
             encoderDrive(driveSpeed, 20, 0, 0, 0,5.0);
             sleep(20000);
         }*/
-        encoderDrive(driveSpeed, 24, 12,0, 0, 0.0, 5.0);
-        score(1,5.0);
+        encoderSpin(driveSpeed, 360, 0,0, 0, 0.0, 5.0);
+        //score(1,5.0);
 
        /* encoderDrive(driveSpeed,15,3,0,0,5.0);
         encoderSpin(turnSpeed,90,3,-1,0,5.0);

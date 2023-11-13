@@ -35,10 +35,13 @@ public class SwarmTele extends OpMode {
     private DcMotor lift = null;
     private DcMotor intakeTop = null;
     private DcMotor intakeBot = null;
+
+    //private DcMotor climber = null;
     private CRServo indexer = null;
     private CRServo outtake = null;
 
     //private TouchSensor limitDown = null;
+
 
 
     //TODO Decide names for and declare extra motors. (Top intake, bottom intake, lift)
@@ -66,6 +69,7 @@ public class SwarmTele extends OpMode {
         lift = hardwareMap.get(DcMotor.class, "lift");
         intakeTop = hardwareMap.get(DcMotor.class, "intakeTop");
         intakeBot = hardwareMap.get(DcMotor.class, "intakeBot");
+        //climber = hardwareMap.get(DcMotor.class, "climber");
         indexer = hardwareMap.get(CRServo.class, "indexer");
         outtake = hardwareMap.get(CRServo.class, "outtake");
         //limitBot = hardwareMap.get(TouchSensor.class, "limitDown");
