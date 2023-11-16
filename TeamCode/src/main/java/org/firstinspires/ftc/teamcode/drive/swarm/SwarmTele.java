@@ -89,6 +89,7 @@ public class SwarmTele extends OpMode {
         outtake.setDirection(CRServo.Direction.FORWARD);
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         climb.setDirection(DcMotorSimple.Direction.FORWARD);
+        climb.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         //TODO set new motor directions
 

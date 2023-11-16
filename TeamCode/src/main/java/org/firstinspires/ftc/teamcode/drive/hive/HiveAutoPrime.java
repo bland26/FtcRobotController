@@ -31,31 +31,28 @@ package org.firstinspires.ftc.teamcode.drive.hive;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.TouchSensor;
-import org.firstinspires.ftc.robotcore.external.ClassFactory;
+
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import com.qualcomm.robotcore.hardware.CRServo;
 
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
-import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
 import static org.firstinspires.ftc.teamcode.drive.hive.HiveConstants.*;
-import static org.firstinspires.ftc.teamcode.drive.hive.HiveConstants.driveSpeed;
-import static org.firstinspires.ftc.teamcode.drive.hive.HiveConstants.liftSpeed;
 
 import java.util.List;
 
 //code for cam and other related thangs
-
+//hola guys
+//Abi has a secret
 
 /**
  * This file illustrates the concept of driving a path based on encoder counts.
@@ -169,9 +166,9 @@ public class HiveAutoPrime extends LinearOpMode {
         // When run, this OpMode should start both motors driving forward. So adjust these two lines based on your first test drive.
         // Note: The settings here assume direct drive on left and right wheels.  Gear Reduction or 90 Deg drives may require direction flips
         leftRear.setDirection(DcMotor.Direction.FORWARD);
-        rightRear.setDirection(DcMotor.Direction.REVERSE);
+        rightRear.setDirection(DcMotor.Direction.FORWARD);
         leftFront.setDirection(DcMotor.Direction.FORWARD);
-        rightFront.setDirection(DcMotor.Direction.FORWARD);
+        rightFront.setDirection(DcMotor.Direction.REVERSE);
         lift.setDirection(DcMotor.Direction.FORWARD);
         intake.setDirection(DcMotor.Direction.FORWARD);
         outtake.setDirection(DcMotor.Direction.FORWARD);
@@ -249,16 +246,20 @@ public class HiveAutoPrime extends LinearOpMode {
             encoderDrive(driveSpeed, 20, 0, 0, 0,5.0);
             sleep(20000);
         }*/
-        encoderSpin(driveSpeed, 360, 0,0, 0, 0.0, 5.0);
-        //score(1,5.0);
+        //MIDDLE
+//        encoderDrive(driveSpeed,20,5.0,0,0,0,5.0);
+//        encoderDrive(driveSpeed,0,10.0,0,0,1,5.0);
+//        encoderSpin(turnSpeed, 90,10,0,0,0,5.0);
+//        encoderDrive(driveSpeed,-20,15.0,0,0,0,5.0);
+//        score(1,5.0);
+        encoderLift(liftSpeed,1,0,5.0);
 
-       /* encoderDrive(driveSpeed,15,3,0,0,5.0);
-        encoderSpin(turnSpeed,90,3,-1,0,5.0);
-        encoderDrive(driveSpeed, -18, 6,0, 0, 5.0);
-        score(1,5.0);
-        encoderStrafe(driveSpeed,12,0,0,0,5.0);
-        encoderDrive(driveSpeed, 6, 0,0, 0, 5.0);
-        */
+        //LEFT
+
+        //RIGHT
+
+
+
 
         telemetry.addData("Path", "Complete");
         telemetry.update();

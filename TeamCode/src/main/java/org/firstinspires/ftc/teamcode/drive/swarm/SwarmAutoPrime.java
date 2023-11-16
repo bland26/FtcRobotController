@@ -35,6 +35,7 @@ import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.LIFT_COU
 import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.STRAFE_COUNTS_PER_INCH;
 import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.driveSpeed;
 import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.liftSpeed;
+import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.turnSpeed;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -219,21 +220,16 @@ public class SwarmAutoPrime extends LinearOpMode {
             encoderDrive(driveSpeed, 20, 0, 0, 0,5.0);
             sleep(20000);
         }*/
-        encoderStrafe(driveSpeed,-3,0,0,0,5.0);
+
+        /*encoderStrafe(driveSpeed,-3,0,0,0,5.0);
         encoderDrive(driveSpeed, -39, 10,0, 0, 5.0);
         encoderStrafe(driveSpeed,-24,12,0,0,5.0);
         encoderDrive(driveSpeed, -2, 12,0, 0, 5.0);
         score(1,7.5);
         encoderStrafe(driveSpeed,-25,0,0,0,5.0);
         encoderDrive(driveSpeed, -11, 0,0, 0, 5.0);
-
-       /* encoderDrive(driveSpeed,15,3,0,0,5.0);
-        encoderSpin(turnSpeed,90,3,-1,0,5.0);
-        encoderDrive(driveSpeed, -18, 6,0, 0, 5.0);
-        score(1,5.0);
-        encoderStrafe(driveSpeed,12,0,0,0,5.0);
-        encoderDrive(driveSpeed, 6, 0,0, 0, 5.0);
-        */
+*/
+        encoderSpin(turnSpeed,360,0,0,0,5.0);
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
