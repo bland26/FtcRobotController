@@ -232,7 +232,9 @@ public class SwarmAutoRedBack extends LinearOpMode {
         */
 
         //MIDDLE
-        /*encoderDrive(driveSpeed,28,10,0,0,5.0);
+        /*encoderStrafe(driveSpeed,1,10,0,0,5.0);
+        encoderStrafe(driveSpeed,1,10,0,0,5.0);
+        encoderDrive(driveSpeed,28,10,0,0,5.0);
         encoderDrive(driveSpeed,0,10,-1,0,5.0);
         encoderSpin(turnSpeed,-90,10,-1,0,5.0);
         encoderDrive(driveSpeed, -36,10,0, 0, 5.0);
@@ -242,7 +244,8 @@ public class SwarmAutoRedBack extends LinearOpMode {
         */
         
         //RIGHT
-        /*encoderDrive(driveSpeed,26,10,0,0,5.0);
+        /*encoderStrafe(driveSpeed,1,10,0,0,5.0);
+        encoderDrive(driveSpeed,26,10,0,0,5.0);
         encoderSpin(turnSpeed,90,10,0,0,5.0);
         encoderDrive(driveSpeed, 2,10,0,0,5.0);
         encoderDrive(driveSpeed,0,10,-1,0,5.0);
@@ -256,11 +259,12 @@ public class SwarmAutoRedBack extends LinearOpMode {
         */
 
         //LEFT
+        encoderStrafe(driveSpeed,1,10,0,0,5.0);
         encoderDrive(driveSpeed,26,10,0,0,5.0);
         encoderSpin(turnSpeed,-90,10,0,0,5.0);
-        encoderDrive(driveSpeed, 2,10,0,0,5.0);
-        encoderDrive(driveSpeed,0,10,-1,0,5.0);
-        encoderDrive(driveSpeed, -36,10,0, 0, 5.0);
+        encoderIntake(1,5.0);
+        encoderDrive(driveSpeed, -38,10,0, 0, 5.0);
+        encoderStrafe(driveSpeed,6,10,0,0,5.0);
         score(1,5.0);
         encoderStrafe(driveSpeed,24,0,0,0,5.0);
         encoderDrive(driveSpeed, -12,0,0,0,5.0);
@@ -582,6 +586,34 @@ public class SwarmAutoRedBack extends LinearOpMode {
             sleep(250);
         }
     }
+
+
+    private void encoderIntake(int intakeValue, double timeoutS) {
+
+        intakeTop.setPower(intakeValue);
+        indexer.setPower(intakeValue);
+        intakeBot.setPower(intakeValue);
+
+        if (opModeIsActive()) {
+
+
+            runtime.reset();
+            lift.setPower(liftSpeed);
+
+            while (opModeIsActive() &&
+                    (runtime.seconds() < timeoutS)) {
+
+
+            }
+            intakeBot.setPower(0);
+            intakeTop.setPower(0);
+            indexer.setPower(0);
+
+
+            sleep(250);
+        }
+    }
+
     private void initTfod() {
 
         // Create the TensorFlow processor by using a builder.

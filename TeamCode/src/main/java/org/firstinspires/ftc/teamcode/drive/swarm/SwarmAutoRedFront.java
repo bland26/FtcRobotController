@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.drive.stinger;
+package org.firstinspires.ftc.teamcode.drive.swarm;
 
 import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.COUNTS_PER_DEGREE;
 import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.COUNTS_PER_INCH;
@@ -35,6 +35,7 @@ import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.LIFT_COU
 import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.STRAFE_COUNTS_PER_INCH;
 import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.driveSpeed;
 import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.liftSpeed;
+import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.turnSpeed;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;

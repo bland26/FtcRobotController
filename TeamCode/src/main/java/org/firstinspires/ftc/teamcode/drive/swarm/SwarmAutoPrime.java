@@ -37,6 +37,8 @@ import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.driveSpe
 import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.liftSpeed;
 import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.turnSpeed;
 
+import android.util.Size;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -576,7 +578,7 @@ public class SwarmAutoPrime extends LinearOpMode {
                 //.setIsModelTensorFlow2(true)
                 //.setIsModelQuantized(true)
                 //.setModelInputSize(300)
-                //.setModelAspectRatio(16.0 / 9.0)
+                .setModelAspectRatio(8.0 / 4.5)
 
                 .build();
 
@@ -591,7 +593,7 @@ public class SwarmAutoPrime extends LinearOpMode {
         }
 
         // Choose a camera resolution. Not all cameras support all resolutions.
-        //builder.setCameraResolution(new Size(640, 480));
+        builder.setCameraResolution(new Size(640, 480));
 
         // Enable the RC preview (LiveView).  Set "false" to omit camera monitoring.
         //builder.enableLiveView(true);
