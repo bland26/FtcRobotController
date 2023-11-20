@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.drive.swarm;
+package org.firstinspires.ftc.teamcode.drive.stinger;
 
 import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.COUNTS_PER_DEGREE;
 import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.COUNTS_PER_INCH;
@@ -79,9 +79,9 @@ import java.util.List;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="SwarmAutoFrontBlue", group="Swarm")
+@Autonomous(name="SwarmAutoRedFront", group="Swarm")
 
-public class SwarmAutoBlueFront extends LinearOpMode {
+public class SwarmAutoRedFront extends LinearOpMode {
 
     /* Declare OpMode members. */
     private DcMotor leftRear = null;
@@ -219,16 +219,52 @@ public class SwarmAutoBlueFront extends LinearOpMode {
             encoderDrive(driveSpeed, 20, 0, 0, 0,5.0);
             sleep(20000);
         }*/
-        encoderDrive(driveSpeed,3,0,0,0,5.0);
-        encoderStrafe(driveSpeed, -96, 0,0, 0, 5.0);
-       /* encoderDrive(driveSpeed,15,3,0,0,5.0);
-        encoderSpin(turnSpeed,90,3,-1,0,5.0);
-        encoderDrive(driveSpeed, -18, 6,0, 0, 5.0);
+
+        //NO CAM
+        /*encoderDrive(driveSpeed,3,0,0,0,5.0);
+        encoderStrafe(driveSpeed, 96, 0,0, 0, 5.0);
+        */
+        
+        //MIDDLE
+        /*encoderDrive(driveSpeed,28,10,0,0,5.0);
+        encoderDrive(driveSpeed,0,10,-1,0,5.0);
+        encoderSpin(turnSpeed,90,10,-1,0,5.0);
+        encoderStrafe(driveSpeed,26,0,0,0,5.0);
+        encoderDrive(driveSpeed, -84,10,0, 0, 5.0);
+        encoderStrafe(driveSpeed,-24,0,0,0,5.0);
         score(1,5.0);
-        encoderStrafe(driveSpeed,12,0,0,0,5.0);
-        encoderDrive(driveSpeed, 6, 0,0, 0, 5.0);
+        encoderStrafe(driveSpeed,24,0,0,0,5.0);
+        encoderDrive(driveSpeed, -12, 0,0, 0, 5.0);
+        */
+        
+        //LEFT
+        /*encoderDrive(driveSpeed,26,10,0,0,5.0);
+        encoderSpin(turnSpeed,-90,10,0,0,5.0);
+        encoderDrive(driveSpeed, 2,10,0,0,5.0);
+        encoderDrive(driveSpeed,0,10,-1,0,5.0);
+        encoderSpin(turnSpeed,180,10,0,0,5.0);
+        encoderStrafe(driveSpeed,26,0,0,0,5.0);
+        encoderDrive(driveSpeed, -84,10,0, 0, 5.0);
+        encoderStrafe(driveSpeed,-24,0,0,0,5.0);
+        score(1,5.0);
+        encoderStrafe(driveSpeed,24,0,0,0,5.0);
+        encoderDrive(driveSpeed, -12, 0,0, 0, 5.0);
         */
 
+        //RIGHT
+        encoderDrive(driveSpeed,26,10,0,0,5.0);
+        encoderSpin(turnSpeed,90,10,0,0,5.0);
+        encoderDrive(driveSpeed, 2,10,0,0,5.0);
+        encoderDrive(driveSpeed,0,10,-1,0,5.0);
+        encoderStrafe(driveSpeed,26,0,0,0,5.0);
+        encoderDrive(driveSpeed, -84,10,0, 0, 5.0);
+        encoderStrafe(driveSpeed,-24,0,0,0,5.0);
+        score(1,5.0);
+        encoderStrafe(driveSpeed,24,0,0,0,5.0);
+        encoderDrive(driveSpeed, -12, 0,0, 0, 5.0);
+
+        
+      
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);  // pause to display final telemetry message.
@@ -626,4 +662,3 @@ public class SwarmAutoBlueFront extends LinearOpMode {
     }   // end method telemetryTfod()
 
 }
-
