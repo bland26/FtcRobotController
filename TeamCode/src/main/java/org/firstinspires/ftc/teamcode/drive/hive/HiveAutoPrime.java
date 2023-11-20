@@ -248,7 +248,7 @@ public class HiveAutoPrime extends LinearOpMode {
         }*/
         //MIDDLE
 //        encoderDrive(driveSpeed,24,5.0,0,0,0,5.0);
-//        encoderDrive(driveSpeed,0,10.0,0,0,1,5.0);
+//        encoderDrive(driveSpeed,0,10,1,0,1,5.0);
 //        encoderSpin(turnSpeed, 90,10,0,0,0,5.0);
 //        encoderDrive(driveSpeed,-38,15.0,0,0,5.0);
 //        score(1,5.0);
@@ -257,6 +257,11 @@ public class HiveAutoPrime extends LinearOpMode {
         
 
         //LEFT
+          encoderDrive(driveSpeed,28,5,0,0,0,5.0);
+          encoderSpin(turnSpeed,-90,10,0,0,5.0);
+          encoderDrive(driveSpeed,0,10,1,0,0,5.0);
+          
+         
 
         //RIGHT
 
