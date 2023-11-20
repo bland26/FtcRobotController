@@ -97,7 +97,9 @@ public class SwarmAutoPrime extends LinearOpMode {
 
     private ElapsedTime     runtime = new ElapsedTime();
 
-    private double x = 0;
+    private String path = null;
+
+    private double x = 10000;
 
 
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
@@ -175,7 +177,7 @@ public class SwarmAutoPrime extends LinearOpMode {
 
 
         initTfod();
-        targetTfod();
+
 
 
 
@@ -185,9 +187,13 @@ public class SwarmAutoPrime extends LinearOpMode {
                 rightRear.getCurrentPosition());
         telemetry.update();
 
+        targetTfod();
+
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
+
+        targetTfod();
 
 
 
@@ -210,16 +216,19 @@ public class SwarmAutoPrime extends LinearOpMode {
         maximum time allowed for the step before it automatically stops.)
          */
 
-       /* if (x > 1) { // Object 1 path
-            encoderDrive(driveSpeed, 5, 5, 1, 0, 5.0);
-            sleep(20000);
-        } else if (x < -1) { // Object 2 path
-            encoderDrive(driveSpeed, 10, 0, 0, 0,5.0);
-            sleep(20000);
+        if (x < 200) { // Object 1 path
+            path = "1";
+            //encoderDrive(driveSpeed, 5, 5, 1, 0, 5.0);
+            //sleep(20000);
+        } else if (x >= 200 && x < 1000) { // Object 2 path
+            path = "2";
+            //encoderDrive(driveSpeed, 10, 0, 0, 0,5.0);
+            //sleep(20000);
         } else {
-            encoderDrive(driveSpeed, 20, 0, 0, 0,5.0);
-            sleep(20000);
-        }*/
+            path = "3";
+            //encoderDrive(driveSpeed, 20, 0, 0, 0,5.0);
+            //sleep(20000);
+        }
 
         /*encoderStrafe(driveSpeed,-3,0,0,0,5.0);
         encoderDrive(driveSpeed, -39, 10,0, 0, 5.0);
@@ -229,9 +238,10 @@ public class SwarmAutoPrime extends LinearOpMode {
         encoderStrafe(driveSpeed,-25,0,0,0,5.0);
         encoderDrive(driveSpeed, -11, 0,0, 0, 5.0);
 */
-        encoderSpin(turnSpeed,360,0,0,0,5.0);
+        //encoderSpin(turnSpeed,360,0,0,0,5.0);
 
-        telemetry.addData("Path", "Complete");
+        telemetry.addData("Path", path);
+        telemetry.addData("position", "%.0f", x);
         telemetry.update();
         sleep(1000);  // pause to display final telemetry message.
     }
@@ -618,8 +628,9 @@ public class SwarmAutoPrime extends LinearOpMode {
 
         // Step through the list of recognitions and display info for each one.
         for (Recognition recognition : currentRecognitions) {
-            double x = (recognition.getLeft() + recognition.getRight()) / 2 ;
+             x = (recognition.getLeft() + recognition.getRight()) / 2 ;
             double y = (recognition.getTop()  + recognition.getBottom()) / 2 ;
+            return(x);
 
 
 
