@@ -42,7 +42,6 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
@@ -80,9 +79,9 @@ import java.util.List;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="SwarmAutoRedBack", group="Swarm")
+@Autonomous(name="SwarmAutoBlueBack", group="Swarm")
 
-public class SwarmAutoRedBack extends LinearOpMode {
+public class SwarmAutoBlueBack extends LinearOpMode {
 
     /* Declare OpMode members. */
     private DcMotor leftRear = null;
@@ -220,21 +219,52 @@ public class SwarmAutoRedBack extends LinearOpMode {
             encoderDrive(driveSpeed, 20, 0, 0, 0,5.0);
             sleep(20000);
         }*/
-        encoderStrafe(driveSpeed,3,0,0,0,5.0);
+
+        //NO CAM
+        /*encoderStrafe(driveSpeed,-3,0,0,0,5.0);
         encoderDrive(driveSpeed, -39, 10,0, 0, 5.0);
-        encoderStrafe(driveSpeed,24,12,0,0,5.0);
+        encoderStrafe(driveSpeed,-24,12,0,0,5.0);
         encoderDrive(driveSpeed, -2, 12,0, 0, 5.0);
         score(1,7.5);
-        encoderStrafe(driveSpeed,25,0,0,0,5.0);
+        encoderStrafe(driveSpeed,-25,0,0,0,5.0);
         encoderDrive(driveSpeed, -11, 0,0, 0, 5.0);
-
-       /* encoderDrive(driveSpeed,15,3,0,0,5.0);
-        encoderSpin(turnSpeed,90,3,-1,0,5.0);
-        encoderDrive(driveSpeed, -18, 6,0, 0, 5.0);
-        score(1,5.0);
-        encoderStrafe(driveSpeed,12,0,0,0,5.0);
-        encoderDrive(driveSpeed, 6, 0,0, 0, 5.0);
         */
+
+        //MIDDLE
+        /*encoderDrive(driveSpeed,28,10,0,0,5.0);
+        encoderDrive(driveSpeed,0,10,-1,0,5.0);
+        encoderSpin(turnSpeed,-90,10,-1,0,5.0);
+        encoderDrive(driveSpeed, -36,10,0, 0, 5.0);
+        score(1,5.0);
+        encoderStrafe(driveSpeed,24,0,0,0,5.0);
+        encoderDrive(driveSpeed, -12, 0,0, 0, 5.0);
+        */
+        
+        //RIGHT
+        /*encoderDrive(driveSpeed,26,10,0,0,5.0);
+        encoderSpin(turnSpeed,90,10,0,0,5.0);
+        encoderDrive(driveSpeed, 2,10,0,0,5.0);
+        encoderDrive(driveSpeed,0,10,-1,0,5.0);
+        encoderSpin(turnSpeed,180,10,0,0,5.0);
+        encoderStrafe(driveSpeed,24,10,0,0,5.0);
+        encoderDrive(driveSpeed, -36,10,0, 0, 5.0);
+        encoderStrafe(driveSpeed,-24,10,0,0,5.0);
+        score(1,5.0);
+        encoderStrafe(driveSpeed,24,0,0,0,5.0);
+        encoderDrive(driveSpeed, -12,0,0,0,5.0);
+        */
+
+        //LEFT
+        encoderDrive(driveSpeed,26,10,0,0,5.0);
+        encoderSpin(turnSpeed,-90,10,0,0,5.0);
+        encoderDrive(driveSpeed, 2,10,0,0,5.0);
+        encoderDrive(driveSpeed,0,10,-1,0,5.0);
+        encoderDrive(driveSpeed, -36,10,0, 0, 5.0);
+        score(1,5.0);
+        encoderStrafe(driveSpeed,24,0,0,0,5.0);
+        encoderDrive(driveSpeed, -12,0,0,0,5.0);
+
+        
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);  // pause to display final telemetry message.
@@ -632,4 +662,3 @@ public class SwarmAutoRedBack extends LinearOpMode {
     }   // end method telemetryTfod()
 
 }
-
