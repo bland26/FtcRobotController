@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 /**
  * This file contains an example of an iterative (Non-Linear) "OpMode".
  * An OpMode is a 'program' that runs in either the autonomous or the teleop period of an FTC match.
@@ -40,7 +41,7 @@ public class SwarmTele extends OpMode {
     private CRServo outtake = null;
 
 
-    //private TouchSensor limitBot = null;
+    private DigitalChannel limitBot = null;
 
 
     //TODO Decide names for and declare extra motors. (Top intake, bottom intake, lift)
@@ -72,7 +73,7 @@ public class SwarmTele extends OpMode {
         climb = hardwareMap.get(DcMotor.class, "climb");
         indexer = hardwareMap.get(CRServo.class, "indexer");
         outtake = hardwareMap.get(CRServo.class, "outtake");
-        //limitBot = hardwareMap.get(TouchSensor.class, "limitDown");
+        limitBot = hardwareMap.get(DigitalChannel.class, "limitDown");
         //TODO initilize new motors that were added
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
@@ -87,6 +88,7 @@ public class SwarmTele extends OpMode {
         intakeBot.setDirection(DcMotor.Direction.FORWARD);
         indexer.setDirection(CRServo.Direction.REVERSE);
         outtake.setDirection(CRServo.Direction.FORWARD);
+        limitBot.setMode(DigitalChannel.Mode.INPUT);
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         climb.setDirection(DcMotorSimple.Direction.FORWARD);
         climb.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -234,11 +236,11 @@ public class SwarmTele extends OpMode {
         climb.setPower(climbPower);
 
 
-//        if (liftPower < 0 && limitBot.isPressed()) {
-//            lift.setPower(0);
-//        } else {
+        if (liftPower < 0 && limitBot.getState()) {
             lift.setPower(liftPower * liftSpeed);
-//        }
+        } else {
+            lift.setPower(0);
+        }
 
         //TODO set new motor power
 

@@ -42,6 +42,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
@@ -79,9 +80,9 @@ import java.util.List;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="SwarmAutoFrontBlue", group="Swarm")
+@Autonomous(name="SwarmAutoRedBack", group="Swarm")
 
-public class SwarmAutoFrontBlue extends LinearOpMode {
+public class SwarmAutoRedBack extends LinearOpMode {
 
     /* Declare OpMode members. */
     private DcMotor leftRear = null;
@@ -219,8 +220,14 @@ public class SwarmAutoFrontBlue extends LinearOpMode {
             encoderDrive(driveSpeed, 20, 0, 0, 0,5.0);
             sleep(20000);
         }*/
-        encoderDrive(driveSpeed,3,0,0,0,5.0);
-        encoderStrafe(driveSpeed, -96, 0,0, 0, 5.0);
+        encoderStrafe(driveSpeed,3,0,0,0,5.0);
+        encoderDrive(driveSpeed, -39, 10,0, 0, 5.0);
+        encoderStrafe(driveSpeed,24,12,0,0,5.0);
+        encoderDrive(driveSpeed, -2, 12,0, 0, 5.0);
+        score(1,7.5);
+        encoderStrafe(driveSpeed,25,0,0,0,5.0);
+        encoderDrive(driveSpeed, -11, 0,0, 0, 5.0);
+
        /* encoderDrive(driveSpeed,15,3,0,0,5.0);
         encoderSpin(turnSpeed,90,3,-1,0,5.0);
         encoderDrive(driveSpeed, -18, 6,0, 0, 5.0);
@@ -228,7 +235,6 @@ public class SwarmAutoFrontBlue extends LinearOpMode {
         encoderStrafe(driveSpeed,12,0,0,0,5.0);
         encoderDrive(driveSpeed, 6, 0,0, 0, 5.0);
         */
-
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);  // pause to display final telemetry message.
@@ -282,9 +288,9 @@ public class SwarmAutoFrontBlue extends LinearOpMode {
             leftFront.setPower(Math.abs(speed));
             rightFront.setPower(Math.abs(speed));
             lift.setPower(liftSpeed);
-            intakeTop.setPower(intakeValue);
-            intakeBot.setPower(intakeValue);
-            indexer.setPower(intakeValue);
+            intakeTop.setPower(-intakeValue);
+            intakeBot.setPower(-intakeValue);
+            indexer.setPower(-intakeValue);
             outtake.setPower(scoreValue);
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
@@ -364,9 +370,9 @@ public class SwarmAutoFrontBlue extends LinearOpMode {
             leftFront.setPower(Math.abs(speed));
             rightFront.setPower(Math.abs(speed));
             lift.setPower(liftSpeed);
-            intakeTop.setPower(intakeValue);
-            intakeBot.setPower(intakeValue);
-            indexer.setPower(intakeValue);
+            intakeTop.setPower(-intakeValue);
+            intakeBot.setPower(-intakeValue);
+            indexer.setPower(-intakeValue);
             outtake.setPower(scoreValue);
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
@@ -448,9 +454,9 @@ public class SwarmAutoFrontBlue extends LinearOpMode {
             leftFront.setPower(Math.abs(speed));
             rightFront.setPower(Math.abs(speed));
             lift.setPower(liftSpeed);
-            intakeTop.setPower(intakeValue);
-            intakeBot.setPower(intakeValue);
-            indexer.setPower(intakeValue);
+            intakeTop.setPower(-intakeValue);
+            intakeBot.setPower(-intakeValue);
+            indexer.setPower(-intakeValue);
             outtake.setPower(scoreValue);
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
