@@ -166,7 +166,7 @@ public class HiveTele extends OpMode {
         }
         double spinCubed = spin * spin * spin;
 
-        double liftInput = -gamepad2.left_stick_y;
+        double liftInput = gamepad2.left_stick_y;
         if (Math.abs(liftInput) < DEADZONE) {
             liftInput = 0;
         }
@@ -246,7 +246,7 @@ public class HiveTele extends OpMode {
         rightFront.setPower(rightFrontPower * driveSpeed);
         intake.setPower(intakeCubed * intakeSpeed);
         outtake.setPower(outtakePower);
-        if (liftPower < 0 && limitDown.isPressed()) {
+        if (liftPower > 0 && limitDown.isPressed()) {
             lift.setPower(0);
         } else {
             lift.setPower(liftPower * liftSpeed);

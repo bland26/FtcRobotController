@@ -34,6 +34,7 @@ import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.COUNTS_P
 import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.LIFT_COUNTS_PER_INCH;
 import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.STRAFE_COUNTS_PER_INCH;
 import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.driveSpeed;
+import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.turnSpeed;
 import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.liftSpeed;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -79,9 +80,9 @@ import java.util.List;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="SwarmAutoBlueBack", group="Swarm")
+@Autonomous(name="SwarmAutoRedBack", group="Swarm")
 
-public class SwarmAutoBlueBack extends LinearOpMode {
+public class SwarmAutoRedBack extends LinearOpMode {
 
     /* Declare OpMode members. */
     private DcMotor leftRear = null;

@@ -40,6 +40,7 @@ public class SwarmTele extends OpMode {
 
 
     private TouchSensor limitDown = null;
+    private TouchSensor limitClimb = null;
 
 
     //TODO Decide names for and declare extra motors. (Top intake, bottom intake, lift)
@@ -72,6 +73,7 @@ public class SwarmTele extends OpMode {
         indexer = hardwareMap.get(CRServo.class, "indexer");
         outtake = hardwareMap.get(CRServo.class, "outtake");
         limitDown = hardwareMap.get(TouchSensor.class, "limitDown");
+        limitClimb = hardwareMap.get(TouchSensor.class, "limitClimb");
         //TODO initilize new motors that were added
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
@@ -162,7 +164,7 @@ public class SwarmTele extends OpMode {
         double liftCubed = liftInput * liftInput * liftInput;
 
         boolean climbInput = gamepad2.right_bumper;
-        if (climbInput){
+        if (climbInput && !limitClimb.isPressed()){
             climbPower=1;
         }else {
             climbPower=0;
