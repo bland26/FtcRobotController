@@ -247,12 +247,14 @@ public class HiveAutoPrime extends LinearOpMode {
             sleep(20000);
         }*/
         //MIDDLE
-//        encoderDrive(driveSpeed,20,5.0,0,0,0,5.0);
+//        encoderDrive(driveSpeed,24,5.0,0,0,0,5.0);
 //        encoderDrive(driveSpeed,0,10.0,0,0,1,5.0);
 //        encoderSpin(turnSpeed, 90,10,0,0,0,5.0);
-//        encoderDrive(driveSpeed,-20,15.0,0,0,0,5.0);
+//        encoderDrive(driveSpeed,-38,15.0,0,0,5.0);
 //        score(1,5.0);
-        encoderLift(liftSpeed,1,0,5.0);
+          encoderStrafe(driveSpeed, -24,0,0,0,5.0);
+          encoderDrive(driveSpeed, -8,0,0,0,5.0);
+        
 
         //LEFT
 
