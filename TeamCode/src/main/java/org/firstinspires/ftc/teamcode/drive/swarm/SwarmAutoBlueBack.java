@@ -582,6 +582,31 @@ public class SwarmAutoBlueBack extends LinearOpMode {
             sleep(250);
         }
     }
+    private void encoderIntake(int intakeValue, double timeoutS) {
+
+        intakeTop.setPower(intakeValue);
+        indexer.setPower(intakeValue);
+        intakeBot.setPower(intakeValue);
+
+        if (opModeIsActive()) {
+
+
+            runtime.reset();
+            lift.setPower(liftSpeed);
+
+            while (opModeIsActive() &&
+                    (runtime.seconds() < timeoutS)) {
+
+
+            }
+            intakeBot.setPower(0);
+            intakeTop.setPower(0);
+            indexer.setPower(0);
+
+
+            sleep(250);
+        }
+    }
     private void initTfod() {
 
         // Create the TensorFlow processor by using a builder.
