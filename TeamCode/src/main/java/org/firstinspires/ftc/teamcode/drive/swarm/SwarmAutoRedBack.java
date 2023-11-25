@@ -235,9 +235,9 @@ public class SwarmAutoRedBack extends LinearOpMode {
         /*encoderStrafe(driveSpeed,1,10,0,0,5.0);
         encoderStrafe(driveSpeed,1,10,0,0,5.0);
         encoderDrive(driveSpeed,28,10,0,0,5.0);
-        encoderDrive(driveSpeed,0,10,-1,0,5.0);
+        encoderIntake(1,5.0);
         encoderSpin(turnSpeed,-90,10,-1,0,5.0);
-        encoderDrive(driveSpeed, -36,10,0, 0, 5.0);
+        encoderDrive(driveSpeed, -38,10,0, 0, 5.0);
         score(1,5.0);
         encoderStrafe(driveSpeed,24,0,0,0,5.0);
         encoderDrive(driveSpeed, -12, 0,0, 0, 5.0);
@@ -248,13 +248,13 @@ public class SwarmAutoRedBack extends LinearOpMode {
         encoderDrive(driveSpeed,26,10,0,0,5.0);
         encoderSpin(turnSpeed,90,10,0,0,5.0);
         encoderDrive(driveSpeed, 2,10,0,0,5.0);
-        encoderDrive(driveSpeed,0,10,-1,0,5.0);
+        encoderIntake(1,5.0);
         encoderSpin(turnSpeed,180,10,0,0,5.0);
         encoderStrafe(driveSpeed,24,10,0,0,5.0);
-        encoderDrive(driveSpeed, -36,10,0, 0, 5.0);
-        encoderStrafe(driveSpeed,-24,10,0,0,5.0);
+        encoderDrive(driveSpeed, -38,10,0, 0, 5.0);
+        encoderStrafe(driveSpeed,-30,10,0,0,5.0);
         score(1,5.0);
-        encoderStrafe(driveSpeed,24,0,0,0,5.0);
+        encoderStrafe(driveSpeed,30,0,0,0,5.0);
         encoderDrive(driveSpeed, -12,0,0,0,5.0);
         */
 
@@ -266,7 +266,7 @@ public class SwarmAutoRedBack extends LinearOpMode {
         encoderDrive(driveSpeed, -38,10,0, 0, 5.0);
         encoderStrafe(driveSpeed,6,10,0,0,5.0);
         score(1,5.0);
-        encoderStrafe(driveSpeed,24,0,0,0,5.0);
+        encoderStrafe(driveSpeed,18,0,0,0,5.0);
         encoderDrive(driveSpeed, -12,0,0,0,5.0);
 
         
