@@ -289,7 +289,7 @@ public class SwarmAutoRedBack extends LinearOpMode {
                              double liftInches, double intakeValue,
                              double scoreValue,
                              double timeoutS) {
-        int newLeftBackTarget
+        int newLeftBackTarget;
         int newRightBackTarget;
         int newLeftFrontTarget;
         int newRightFrontTarget;
