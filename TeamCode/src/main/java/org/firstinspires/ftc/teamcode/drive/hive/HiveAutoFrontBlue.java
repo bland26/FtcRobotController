@@ -80,9 +80,9 @@ import java.util.List;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="HiveAutoPrime", group="Swarm")
+@Autonomous(name="HiveAutoFrontBlue", group="Hive")
 @Config
-public class HiveAutoPrime extends LinearOpMode {
+public class HiveAutoFrontBlue extends LinearOpMode {
 
     /* Declare OpMode members. */
 
@@ -169,7 +169,7 @@ public class HiveAutoPrime extends LinearOpMode {
         rightRear.setDirection(DcMotor.Direction.FORWARD);
         leftFront.setDirection(DcMotor.Direction.FORWARD);
         rightFront.setDirection(DcMotor.Direction.REVERSE);
-        lift.setDirection(DcMotor.Direction.FORWARD);
+        lift.setDirection(DcMotor.Direction.REVERSE);
         intake.setDirection(DcMotor.Direction.FORWARD);
         outtake.setDirection(DcMotor.Direction.FORWARD);
         claw.setPosition(clawPosition);
@@ -236,7 +236,7 @@ public class HiveAutoPrime extends LinearOpMode {
         maximum time allowed for the step before it automatically stops.)
          */
 
-       /* if (x > 1) { // Object 1 path
+      /* if (x > 1) { // Object 1 path
             encoderDrive(driveSpeed, 5, 5, 1, 0, 5.0);
             sleep(20000);
         } else if (x < -1) { // Object 2 path
@@ -247,38 +247,43 @@ public class HiveAutoPrime extends LinearOpMode {
             sleep(20000);
         }*/
         //MIDDLE
-//        encoderDrive(driveSpeed,24,5,0,0,1,5.0);
-//        encoderDrive(driveSpeed,0,10,1,0,1,5.0);
-//        encoderSpin(turnSpeed, -90,10,0,0,0,5.0);
-//        encoderDrive(driveSpeed,-38,15.0,0,0,5.0);
-//        score(1,5.0);
-          encoderStrafe(driveSpeed,24,0,0,0,0,5.0);
-          encoderDrive(driveSpeed,-8,0,0,0,0,5.0);
-        
+        encoderDrive(driveSpeed,24,0,0,0,1,5.0);
+        encoderDrive(driveSpeed,0,0,1,0,1,5.0);
+        encoderSpin(turnSpeed,90,0,0,0,0,5.0);
+        encoderStrafe(driveSpeed,24,0,0,0,0,5.0);
+        encoderDrive(driveSpeed,-84,0,0,0,0,5.0);
+        encoderStrafe(driveSpeed,-30,10,0,0,0,5.0);
+        score(1,5.0);
+        encoderStrafe(driveSpeed,30,0,0,0,0,5.0);
+        encoderDrive(driveSpeed,-8,0,0,0,0,5.0);
+
+
 
         //RIGHT
-          encoderDrive(driveSpeed,30,5,0,0,1,5.0);
-          encoderSpin(turnSpeed,90,10,0,0,1,5.0);
-          encoderDrive(driveSpeed,0,10,1,0,1,5.0);
-          encoderStrafe(driveSpeed,-24,15,0,0,0,5.0);
-          encoderDrive(driveSpeed,38,15,0,0,0,5.0);
-          encoderStrafe(driveSpeed,24,15,0,0,0,5.0);
-          score(1,5.0);
-          encoderStrafe(driveSpeed,-24,0,0,0,0,5.0);
-          encoderDrive(driveSpeed,8,0,0,0,0,5.0);
-                       
-         
+        encoderDrive(driveSpeed,30,0,0,0,1,5.0);
+        encoderSpin(turnSpeed,90,0,0,0,1,5.0);
+        encoderDrive(driveSpeed,0,0,1,0,1,5.0);
+        encoderStrafe(driveSpeed,24,0,0,0,0,5.0);
+        encoderDrive(driveSpeed,-84,0,0,0,0,5.0);
+        encoderStrafe(driveSpeed,-30,10,0,0,0,5.0);
+        score(1,5.0);
+        encoderStrafe(driveSpeed,30,0,0,0,0,5.0);
+        encoderDrive(driveSpeed,-8,0,0,0,0,5.0);
+
+
 
         //LEFT
-          encoderDrive(driveSpeed,30,5,0,0,1,5.0);
-          encoderSpin(turnSpeed,-90,10,0,0,1,5.0);
-          encoderDrive(driveSpeed,0,10,1,0,1,5.0);
-          encoderDrive(driveSpeed,-38,10,0,0,0,5.0);
-          score(1,5.0);
-          encoderStrafe(driveSpeed,24,0,0,0,0,5.0);
-          encoderDrive(driveSpeed,8,0,0,0,0,5.0);
-          
-  
+        encoderDrive(driveSpeed,30,0,0,0,1,5.0);
+        encoderSpin(turnSpeed,-90,0,0,0,1,5.0);
+        encoderDrive(driveSpeed,0,0,1,0,1,5.0);
+        encoderSpin(turnSpeed,180,0,0,0,0,5.0);
+        encoderStrafe(driveSpeed,24,15,0,0,0,5.0);
+        encoderDrive(driveSpeed,-84,0,0,0,0,5.0);
+        encoderStrafe(driveSpeed,-30,10,0,0,0,5.0);
+        score(1,5.0);
+        encoderStrafe(driveSpeed,30,0,0,0,0,5.0);
+        encoderDrive(driveSpeed,-8,0,0,0,0,5.0);
+
 
 
         telemetry.addData("Path", "Complete");
@@ -677,3 +682,4 @@ public class HiveAutoPrime extends LinearOpMode {
     }   // end method telemetryTfod()
 
 }
+
