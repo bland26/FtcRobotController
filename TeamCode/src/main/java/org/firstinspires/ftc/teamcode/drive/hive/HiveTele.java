@@ -44,6 +44,8 @@ public class HiveTele extends OpMode {
 
     private  TouchSensor limitDown;
 
+    private TouchSensor limitClimb;
+
     private Servo claw = null;
     private Servo drone = null;
 
@@ -85,6 +87,7 @@ public class HiveTele extends OpMode {
         climb = hardwareMap.get(DcMotor.class,"climb");
         outtake = hardwareMap.get(CRServo.class, "outtake");
         limitDown = hardwareMap.get(TouchSensor.class, "limitDown");
+        limitClimb = hardwareMap.get(TouchSensor.class, "limitClimb");
         claw = hardwareMap.get(Servo.class, "claw");
         drone = hardwareMap.get(Servo.class, "drone");
 
@@ -210,7 +213,7 @@ public class HiveTele extends OpMode {
             clawPosition -= clawSpeed;
 
         boolean climbInput = gamepad2.right_bumper;
-        if (climbInput){
+        if (climbInput && !limitClimb.isPressed()){
             climbPower=1;
         }else {
             climbPower=0;
