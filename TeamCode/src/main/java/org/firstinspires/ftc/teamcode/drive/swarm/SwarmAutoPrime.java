@@ -221,26 +221,17 @@ public class SwarmAutoPrime extends LinearOpMode {
         if (x < 200) { // Object 1 path
             path = "1";
             //encoderDrive(driveSpeed, 5, 5, 1, 0, 5.0);
-            //sleep(20000);
+            sleep(20000);
         } else if (x >= 200 && x < 1000) { // Object 2 path
             path = "2";
             //encoderDrive(driveSpeed, 10, 0, 0, 0,5.0);
-            //sleep(20000);
+            sleep(20000);
         } else {
             path = "3";
             //encoderDrive(driveSpeed, 20, 0, 0, 0,5.0);
-            //sleep(20000);
+            sleep(20000);
         }
 
-        /*encoderStrafe(driveSpeed,-3,0,0,0,5.0);
-        encoderDrive(driveSpeed, -39, 10,0, 0, 5.0);
-        encoderStrafe(driveSpeed,-24,12,0,0,5.0);
-        encoderDrive(driveSpeed, -2, 12,0, 0, 5.0);
-        score(1,7.5);
-        encoderStrafe(driveSpeed,-25,0,0,0,5.0);
-        encoderDrive(driveSpeed, -11, 0,0, 0, 5.0);
-*/
-        //encoderSpin(turnSpeed,360,0,0,0,5.0);
 
         telemetry.addData("Path", path);
         telemetry.addData("position", "%.0f", x);
