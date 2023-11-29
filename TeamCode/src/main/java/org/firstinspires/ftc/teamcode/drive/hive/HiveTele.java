@@ -38,6 +38,8 @@ public class HiveTele extends OpMode {
 
     private DcMotor lift = null;
     private DcMotor intake = null;
+
+    private DcMotor climb = null;
     private CRServo outtake = null;
 
     private  TouchSensor limitDown;
@@ -80,6 +82,7 @@ public class HiveTele extends OpMode {
         rightFront = hardwareMap.get(DcMotor.class, "rightFront");
         lift = hardwareMap.get(DcMotor.class, "lift");
         intake = hardwareMap.get(DcMotor.class, "intake");
+        climb = hardwareMap.get(DcMotor.class,"climb");
         outtake = hardwareMap.get(CRServo.class, "outtake");
         limitDown = hardwareMap.get(TouchSensor.class, "limitDown");
         claw = hardwareMap.get(Servo.class, "claw");
@@ -97,9 +100,11 @@ public class HiveTele extends OpMode {
         lift.setDirection(DcMotor.Direction.FORWARD);
         intake.setDirection(DcMotor.Direction.FORWARD);
         outtake.setDirection(CRServo.Direction.FORWARD);
+        climb.setDirection(DcMotor.Direction.FORWARD);
         claw.setPosition(clawPosition);
         drone.setPosition(dronePosition);
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        climb.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         //TODO set new motor directions
 
         // Tell the driver that initialization is complete.
@@ -132,9 +137,10 @@ public class HiveTele extends OpMode {
         double leftFrontPower;
         double rightFrontPower;
         double liftPower;
-        double intakePower;
+        double climbPower;
         double outtakePower = 0;
         boolean scoreCon = false;
+
 
 
         //TODO initilize New Motor power variables
@@ -203,6 +209,18 @@ public class HiveTele extends OpMode {
         if (gamepad2.left_trigger > 0 && clawPosition >= clawMin)
             clawPosition -= clawSpeed;
 
+        boolean climbInput = gamepad2.right_bumper;
+        if (climbInput){
+            climbPower=1;
+        }else {
+            climbPower=0;
+        }
+
+        boolean climbInputR = gamepad2.left_bumper;
+        if (climbInputR){
+            climbPower = -1;
+        }
+
         float scoreConInput = gamepad1.right_trigger;
         if (scoreConInput > 0){
             scoreCon = true;
@@ -245,7 +263,9 @@ public class HiveTele extends OpMode {
         leftFront.setPower(leftFrontPower * driveSpeed);
         rightFront.setPower(rightFrontPower * driveSpeed);
         intake.setPower(intakeCubed * intakeSpeed);
+        climb.setPower(climbPower);
         outtake.setPower(outtakePower);
+
         if (liftPower > 0 && limitDown.isPressed()) {
             lift.setPower(0);
         } else {
