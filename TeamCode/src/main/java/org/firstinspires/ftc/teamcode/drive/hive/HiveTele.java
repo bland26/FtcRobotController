@@ -103,7 +103,7 @@ public class HiveTele extends OpMode {
         lift.setDirection(DcMotor.Direction.FORWARD);
         intake.setDirection(DcMotor.Direction.FORWARD);
         outtake.setDirection(CRServo.Direction.FORWARD);
-        climb.setDirection(DcMotor.Direction.FORWARD);
+        climb.setDirection(DcMotor.Direction.REVERSE);
         claw.setPosition(clawPosition);
         drone.setPosition(dronePosition);
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
