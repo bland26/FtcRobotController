@@ -212,7 +212,7 @@ public class SwarmAutoBlueBack extends LinearOpMode {
         maximum time allowed for the step before it automatically stops.)
          */
 
-        if (x >= 300 && x < 900) { // Middle Path
+        if (x >= 350 && x < 1100) { // Middle Path
             path = "Middle";
             encoderStrafe(driveSpeed,2,10,0,0,5.0);
             encoderDrive(driveSpeed,28,10,0,0,5.0);
@@ -223,7 +223,7 @@ public class SwarmAutoBlueBack extends LinearOpMode {
             encoderStrafe(driveSpeed,-24,0,0,0,5.0);
             encoderDrive(driveSpeed, -12, 0,0, 0, 5.0);
             sleep(20000);
-        } else if (x < 300) { // Left Path
+        } else if (x < 350) { // Left Path
             path = "Left";
             encoderStrafe(driveSpeed,3,10,0,0,5.0);
             encoderDrive(driveSpeed,26,10,0,0,5.0);
