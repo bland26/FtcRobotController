@@ -97,7 +97,7 @@ public class SwarmAutoBlueBack extends LinearOpMode {
 
     private ElapsedTime     runtime = new ElapsedTime();
 
-    private double x = 0;
+    private double x = 1300;
 
     private String path = null;
 
@@ -112,7 +112,7 @@ public class SwarmAutoBlueBack extends LinearOpMode {
     private static final String TFOD_MODEL_FILE = "/sdcard/FIRST/tflitemodels/myCustomModel.tflite";
     // Define the labels recognized in the model for TFOD (must be in training order!)
     private static final String[] LABELS = {
-            "Pixel",
+            "Blue",
     };
 
     /**
@@ -212,8 +212,8 @@ public class SwarmAutoBlueBack extends LinearOpMode {
         maximum time allowed for the step before it automatically stops.)
          */
 
-        if (x < 200) { // Object 1 path middle
-            path = "1";
+        if (x >= 300 && x < 900) { // Middle Path
+            path = "Middle";
             encoderStrafe(driveSpeed,2,10,0,0,5.0);
             encoderDrive(driveSpeed,28,10,0,0,5.0);
             encoderIntake(-1,5.0);
@@ -223,8 +223,8 @@ public class SwarmAutoBlueBack extends LinearOpMode {
             encoderStrafe(driveSpeed,-24,0,0,0,5.0);
             encoderDrive(driveSpeed, -12, 0,0, 0, 5.0);
             sleep(20000);
-        } else if (x >= 200 && x < 1000) { // Object 2 path left
-            path = "2";
+        } else if (x < 300) { // Left Path
+            path = "Left";
             encoderStrafe(driveSpeed,3,10,0,0,5.0);
             encoderDrive(driveSpeed,26,10,0,0,5.0);
             encoderSpin(turnSpeed,-90,10,0,0,5.0);
@@ -238,8 +238,8 @@ public class SwarmAutoBlueBack extends LinearOpMode {
             encoderStrafe(driveSpeed,-24,0,0,0,5.0);
             encoderDrive(driveSpeed, -12,0,0,0,5.0);
             sleep(20000);
-        } else {
-            path = "3";
+        } else { // Right Path
+            path = "Right";
             encoderStrafe(driveSpeed,1,10,0,0,5.0);
             encoderDrive(driveSpeed,26,10,0,0,5.0);
             encoderSpin(turnSpeed,90,10,0,0,5.0);
@@ -606,12 +606,12 @@ public class SwarmAutoBlueBack extends LinearOpMode {
                 // choose one of the following:
                 //   Use setModelAssetName() if the custom TF Model is built in as an asset (AS only).
                 //   Use setModelFileName() if you have downloaded a custom team model to the Robot Controller.
-                //.setModelAssetName(TFOD_MODEL_ASSET)
+                .setModelAssetName(TFOD_MODEL_ASSET)
                 //.setModelFileName(TFOD_MODEL_FILE)
 
                 // The following default settings are available to un-comment and edit as needed to
                 // set parameters for custom models.
-                //.setModelLabels(LABELS)
+                .setModelLabels(LABELS)
                 //.setIsModelTensorFlow2(true)
                 //.setIsModelQuantized(true)
                 //.setModelInputSize(300)

@@ -212,8 +212,8 @@ public class SwarmAutoRedBack extends LinearOpMode {
         maximum time allowed for the step before it automatically stops.)
          */
 
-        if (x < 200) { // Object 1 path middle
-            path = "1";
+        if (x > 150 && x <= 940) { // Middle Path
+            path = "Middle";
             encoderStrafe(driveSpeed,2,10,0,0,5.0);
             encoderStrafe(driveSpeed,1,10,0,0,5.0);
             encoderDrive(driveSpeed,28,10,0,0,5.0);
@@ -224,20 +224,8 @@ public class SwarmAutoRedBack extends LinearOpMode {
             encoderStrafe(driveSpeed,24,0,0,0,5.0);
             encoderDrive(driveSpeed, -12, 0,0, 0, 5.0);
             sleep(20000);
-        } else if (x >= 200 && x < 1000) { // Object 2 path left
-            path = "2";
-            encoderStrafe(driveSpeed,1,10,0,0,5.0);
-            encoderDrive(driveSpeed,26,10,0,0,5.0);
-            encoderSpin(turnSpeed,-90,10,0,0,5.0);
-            encoderIntake(-1,5.0);
-            encoderDrive(driveSpeed, -38,10,0, 0, 5.0);
-            encoderStrafe(driveSpeed,6,10,0,0,5.0);
-            score(1,5.0);
-            encoderStrafe(driveSpeed,18,0,0,0,5.0);
-            encoderDrive(driveSpeed, -12,0,0,0,5.0);
-            sleep(20000);
-        } else {
-            path = "3";
+        } else if (x > 940) { // Right Path
+            path = "Right";
             encoderStrafe(driveSpeed,3,10,0,0,5.0);
             encoderDrive(driveSpeed,26,10,0,0,5.0);
             encoderSpin(turnSpeed,90,10,0,0,5.0);
@@ -248,6 +236,18 @@ public class SwarmAutoRedBack extends LinearOpMode {
             encoderStrafe(driveSpeed,-30,10,0,0,5.0);
             score(1,5.0);
             encoderStrafe(driveSpeed,30,0,0,0,5.0);
+            encoderDrive(driveSpeed, -12,0,0,0,5.0);
+            sleep(20000);
+        } else { // Left Path
+            path = "Left";
+            encoderStrafe(driveSpeed,1,10,0,0,5.0);
+            encoderDrive(driveSpeed,26,10,0,0,5.0);
+            encoderSpin(turnSpeed,-90,10,0,0,5.0);
+            encoderIntake(-1,5.0);
+            encoderDrive(driveSpeed, -38,10,0, 0, 5.0);
+            encoderStrafe(driveSpeed,6,10,0,0,5.0);
+            score(1,5.0);
+            encoderStrafe(driveSpeed,18,0,0,0,5.0);
             encoderDrive(driveSpeed, -12,0,0,0,5.0);
             sleep(20000);
         }

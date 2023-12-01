@@ -97,7 +97,7 @@ public class SwarmAutoRedFront extends LinearOpMode {
 
     private ElapsedTime     runtime = new ElapsedTime();
 
-    private double x = 0;
+    private double x = 1300;
 
     private String path = null;
 
@@ -212,8 +212,8 @@ public class SwarmAutoRedFront extends LinearOpMode {
         maximum time allowed for the step before it automatically stops.)
          */
 
-        if (x < 200) { // Object 1 path middle
-            path = "1";
+        if (x >= 300 && x < 900) { // Middle Path
+            path = "Middle";
             encoderDrive(driveSpeed,28,10,0,0,5.0);
             encoderDrive(driveSpeed,0,10,-1,0,5.0);
             encoderSpin(turnSpeed,-90,10,-1,0,5.0);
@@ -224,8 +224,8 @@ public class SwarmAutoRedFront extends LinearOpMode {
             encoderStrafe(driveSpeed,-24,0,0,0,5.0);
             encoderDrive(driveSpeed, -12, 0,0, 0, 5.0);
             sleep(20000);
-        } else if (x >= 200 && x < 1000) { // Object 2 path left
-            path = "2";
+        } else if (x < 300) { // Left Path
+            path = "Left";
             encoderDrive(driveSpeed,26,10,0,0,5.0);
             encoderSpin(turnSpeed,-90,10,0,0,5.0);
             encoderDrive(driveSpeed, 2,10,0,0,5.0);
@@ -237,8 +237,8 @@ public class SwarmAutoRedFront extends LinearOpMode {
             encoderStrafe(driveSpeed,-24,0,0,0,5.0);
             encoderDrive(driveSpeed, -12, 0,0, 0, 5.0);
             sleep(20000);
-        } else {
-            path = "3";
+        } else { // Right Path
+            path = "Right";
             encoderDrive(driveSpeed,26,10,0,0,5.0);
             encoderSpin(turnSpeed,90,10,0,0,5.0);
             encoderDrive(driveSpeed, 2,10,0,0,5.0);
