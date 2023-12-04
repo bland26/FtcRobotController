@@ -168,9 +168,9 @@ public class HiveAutoBackBlue extends LinearOpMode {
         // When run, this OpMode should start both motors driving forward. So adjust these two lines based on your first test drive.
         // Note: The settings here assume direct drive on left and right wheels.  Gear Reduction or 90 Deg drives may require direction flips
         leftRear.setDirection(DcMotor.Direction.FORWARD);
-        rightRear.setDirection(DcMotor.Direction.FORWARD);
+        rightRear.setDirection(DcMotor.Direction.REVERSE);
         leftFront.setDirection(DcMotor.Direction.FORWARD);
-        rightFront.setDirection(DcMotor.Direction.REVERSE);
+        rightFront.setDirection(DcMotor.Direction.FORWARD);
         lift.setDirection(DcMotor.Direction.REVERSE);
         intake.setDirection(DcMotor.Direction.FORWARD);
         outtake.setDirection(DcMotor.Direction.FORWARD);
@@ -240,13 +240,14 @@ public class HiveAutoBackBlue extends LinearOpMode {
 
         if (x < 200) { // Object 1 path middle
             path = "1";
-            encoderDrive(driveSpeed,24,5,0,0,1,5.0);
-            encoderDrive(driveSpeed,0,10,1,0,1,5.0);
-            encoderSpin(turnSpeed, 90,10,0,0,0,5.0);
-            encoderDrive(driveSpeed,-38,15.0,0,0, 1,5.0);
-            score(1,5.0);
-            encoderStrafe(driveSpeed, -24,0,0,0,0,5.0);
-            encoderDrive(driveSpeed, -8,0,0,0,0,5.0);
+            encoderStrafe(driveSpeed,2,0,0,0,0,5.0);
+            encoderDrive(driveSpeed,20,5,-1,0,0,5.0);
+            encoderDrive(driveSpeed,4,5,1,0,1,5.0);
+            encoderSpin(turnSpeed, 90,5,1,0,1,5.0);
+            encoderDrive(driveSpeed,-36,5,0,0, 1,5.0);
+            score(-1,2.0);
+            encoderStrafe(driveSpeed, -28,0,0,0,1,5.0);
+            encoderDrive(driveSpeed, -8,0,0,0,1,5.0);
             sleep(20000);
         } else if (x >= 200 && x < 1000) { // Object 2 path left
             path = "2";
@@ -257,7 +258,7 @@ public class HiveAutoBackBlue extends LinearOpMode {
             encoderStrafe(driveSpeed,-24,15,0,0,0,5.0);
             encoderDrive(driveSpeed,-38,15,0,0,0,5.0);
             encoderStrafe(driveSpeed,24,15,0,0,0,5.0);
-            score(1,5.0);
+            score(1,2.0);
             encoderStrafe(driveSpeed,-24,0,0,0,0,5.0);
             encoderDrive(driveSpeed,-8,0,0,0,0,5.0);
             sleep(20000);
@@ -334,6 +335,7 @@ public class HiveAutoBackBlue extends LinearOpMode {
             lift.setPower(liftSpeed);
             intake.setPower(intakeValue);
             outtake.setPower(outtakeValue);
+            claw.setPosition(clawValue);
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
             // its target position, the motion will stop.  This is "safer" in the event that the robot will

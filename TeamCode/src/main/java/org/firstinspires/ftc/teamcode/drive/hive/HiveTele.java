@@ -212,14 +212,14 @@ public class HiveTele extends OpMode {
         if (gamepad2.left_trigger > 0 && clawPosition >= clawMin)
             clawPosition -= clawSpeed;
 
-        boolean climbInput = gamepad2.right_bumper;
+        boolean climbInput = gamepad1.right_bumper;
         if (climbInput && !limitClimb.isPressed()){
             climbPower=1;
         }else {
             climbPower=0;
         }
 
-        boolean climbInputR = gamepad2.left_bumper;
+        boolean climbInputR = gamepad1.left_bumper;
         if (climbInputR){
             climbPower = -1;
         }
