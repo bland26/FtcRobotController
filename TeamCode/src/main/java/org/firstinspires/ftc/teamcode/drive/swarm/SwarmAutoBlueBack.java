@@ -97,20 +97,22 @@ public class SwarmAutoBlueBack extends LinearOpMode {
 
     private ElapsedTime     runtime = new ElapsedTime();
 
-    private double x = 0;
+    private double x = 1300;
+
+    private String path = null;
 
 
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
 
     // TFOD_MODEL_ASSET points to a model file stored in the project Asset location,
     // this is only used for Android Studio when using models in Assets.
-    private static final String TFOD_MODEL_ASSET = "MyModelStoredAsAsset.tflite";
+    private static final String TFOD_MODEL_ASSET = "model_20231203_232252.tflite";
     // TFOD_MODEL_FILE points to a model file stored onboard the Robot Controller's storage,
     // this is used when uploading models directly to the RC using the model upload interface.
-    private static final String TFOD_MODEL_FILE = "/sdcard/FIRST/tflitemodels/myCustomModel.tflite";
+    //private static final String TFOD_MODEL_FILE = "/sdcard/FIRST/tflitemodels/model_20231203_232252.tflite";
     // Define the labels recognized in the model for TFOD (must be in training order!)
     private static final String[] LABELS = {
-            "Pixel",
+            "Blue",
     };
 
     /**
@@ -210,66 +212,50 @@ public class SwarmAutoBlueBack extends LinearOpMode {
         maximum time allowed for the step before it automatically stops.)
          */
 
-       /* if (x > 1) { // Object 1 path
-            encoderDrive(driveSpeed, 5, 5, 1, 0, 5.0);
+        if (x >= 350 && x < 1100) { // Middle Path
+            path = "Middle";
+            encoderStrafe(driveSpeed,2,10,0,0,5.0);
+            encoderDrive(driveSpeed,28,10,0,0,5.0);
+            encoderIntake(-1,5.0);
+            encoderSpin(turnSpeed,90,10,-1,0,5.0);
+            encoderDrive(driveSpeed, -36,10,0, 0, 5.0);
+            score(1,5.0);
+            encoderStrafe(driveSpeed,-24,0,0,0,5.0);
+            encoderDrive(driveSpeed, -12, 0,0, 0, 5.0);
             sleep(20000);
-        } else if (x < -1) { // Object 2 path
-            encoderDrive(driveSpeed, 10, 0, 0, 0,5.0);
+        } else if (x < 350) { // Left Path
+            path = "Left";
+            encoderStrafe(driveSpeed,3,10,0,0,5.0);
+            encoderDrive(driveSpeed,26,10,0,0,5.0);
+            encoderSpin(turnSpeed,-90,10,0,0,5.0);
+            encoderDrive(driveSpeed, 2,10,0,0,5.0);
+            encoderIntake(-1,5.0);
+            encoderSpin(turnSpeed,180,10,0,0,5.0);
+            encoderStrafe(driveSpeed,-24,10,0,0,5.0);
+            encoderDrive(driveSpeed, -36,10,0, 0, 5.0);
+            encoderStrafe(driveSpeed,30,10,0,0,5.0);
+            score(1,5.0);
+            encoderStrafe(driveSpeed,-24,0,0,0,5.0);
+            encoderDrive(driveSpeed, -12,0,0,0,5.0);
             sleep(20000);
-        } else {
-            encoderDrive(driveSpeed, 20, 0, 0, 0,5.0);
+        } else { // Right Path
+            path = "Right";
+            encoderStrafe(driveSpeed,1,10,0,0,5.0);
+            encoderDrive(driveSpeed,26,10,0,0,5.0);
+            encoderSpin(turnSpeed,90,10,0,0,5.0);
+            encoderIntake(-1,5.0);
+            encoderDrive(driveSpeed, -38,10,0, 0, 5.0);
+            encoderStrafe(driveSpeed,-6,10,0,0,5.0);
+            score(1,5.0);
+            encoderStrafe(driveSpeed,-24,0,0,0,5.0);
+            encoderDrive(driveSpeed, -12,0,0,0,5.0);
             sleep(20000);
-        }*/
+        }
 
-        //NO CAM
-        /*encoderStrafe(driveSpeed,-3,0,0,0,5.0);
-        encoderDrive(driveSpeed, -39, 10,0, 0, 5.0);
-        encoderStrafe(driveSpeed,-24,12,0,0,5.0);
-        encoderDrive(driveSpeed, -2, 12,0, 0, 5.0);
-        score(1,7.5);
-        encoderStrafe(driveSpeed,-25,0,0,0,5.0);
-        encoderDrive(driveSpeed, -11, 0,0, 0, 5.0);
-        */
 
-        //MIDDLE
-        /*encoderStrafe(driveSpeed,2,10,0,0,5.0);
-        encoderDrive(driveSpeed,28,10,0,0,5.0);
-        encoderIntake(-1,5.0);
-        encoderSpin(turnSpeed,90,10,-1,0,5.0);
-        encoderDrive(driveSpeed, -36,10,0, 0, 5.0);
-        score(1,5.0);
-        encoderStrafe(driveSpeed,-24,0,0,0,5.0);
-        encoderDrive(driveSpeed, -12, 0,0, 0, 5.0);
-        */
-        
-        //LEFT
-        /*encoderStrafe(driveSpeed,3,10,0,0,5.0);
-        encoderDrive(driveSpeed,26,10,0,0,5.0);
-        encoderSpin(turnSpeed,-90,10,0,0,5.0);
-        encoderDrive(driveSpeed, 2,10,0,0,5.0);
-        encoderIntake(-1,5.0);
-        encoderSpin(turnSpeed,180,10,0,0,5.0);
-        encoderStrafe(driveSpeed,-24,10,0,0,5.0);
-        encoderDrive(driveSpeed, -36,10,0, 0, 5.0);
-        encoderStrafe(driveSpeed,30,10,0,0,5.0);
-        score(1,5.0);
-        encoderStrafe(driveSpeed,-24,0,0,0,5.0);
-        encoderDrive(driveSpeed, -12,0,0,0,5.0);
-        */
 
-        //RIGHT
-        encoderStrafe(driveSpeed,1,10,0,0,5.0);
-        encoderDrive(driveSpeed,26,10,0,0,5.0);
-        encoderSpin(turnSpeed,90,10,0,0,5.0);
-        encoderIntake(-1,5.0);
-        encoderDrive(driveSpeed, -38,10,0, 0, 5.0);
-        encoderStrafe(driveSpeed,-6,10,0,0,5.0);
-        score(1,5.0);
-        encoderStrafe(driveSpeed,-24,0,0,0,5.0);
-        encoderDrive(driveSpeed, -12,0,0,0,5.0);
-
-        
-        telemetry.addData("Path", "Complete");
+        telemetry.addData("Path", path);
+        telemetry.addData("position", "%.0f", x);
         telemetry.update();
         sleep(1000);  // pause to display final telemetry message.
     }
@@ -620,12 +606,12 @@ public class SwarmAutoBlueBack extends LinearOpMode {
                 // choose one of the following:
                 //   Use setModelAssetName() if the custom TF Model is built in as an asset (AS only).
                 //   Use setModelFileName() if you have downloaded a custom team model to the Robot Controller.
-                //.setModelAssetName(TFOD_MODEL_ASSET)
+                .setModelAssetName(TFOD_MODEL_ASSET)
                 //.setModelFileName(TFOD_MODEL_FILE)
 
                 // The following default settings are available to un-comment and edit as needed to
                 // set parameters for custom models.
-                //.setModelLabels(LABELS)
+                .setModelLabels(LABELS)
                 //.setIsModelTensorFlow2(true)
                 //.setIsModelQuantized(true)
                 //.setModelInputSize(300)

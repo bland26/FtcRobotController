@@ -29,6 +29,7 @@
 
 package org.firstinspires.ftc.teamcode.drive.stinger;
 
+
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -37,6 +38,7 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.ExposureControl;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.GainControl;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.PtzControl;
+import org.firstinspires.ftc.robotcore.internal.camera.delegating.CachingPtzControl;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
@@ -73,7 +75,7 @@ public class ZoomTest extends LinearOpMode
     private VisionPortal visionPortal = null;        // Used to manage the video source.
     private AprilTagProcessor aprilTag;              // Used for managing the AprilTag detection process.
 
-    private PtzControl ptz;
+    private PtzControl MyPtzControl = null;
     private int     myExposure  ;
     private int     minExposure ;
     private int     maxExposure ;
@@ -91,9 +93,9 @@ public class ZoomTest extends LinearOpMode
     boolean lastGainUp = false;
     boolean lastGainDn = false;
 
-    public int myZoom = 1;
-    public int myPan = 5;
-    public int myTilt = 10;
+    public int myZoom = 100;
+    public int myPan = 10;
+    public int myTilt = 20;
 
 
 
@@ -112,6 +114,19 @@ public class ZoomTest extends LinearOpMode
         telemetry.addData("Camera preview on/off", "3 dots, Camera Stream");
         telemetry.addData(">", "Touch Play to start OpMode");
         telemetry.update();
+
+        MyPtzControl =  visionPortal.getCameraControl(PtzControl.class);
+        PtzControl.PanTiltHolder myHolder = new PtzControl.PanTiltHolder();
+
+        myHolder.pan = myPan;
+        myHolder.tilt = myTilt;
+
+        MyPtzControl.setPanTilt(myHolder);
+
+        MyPtzControl.setZoom(myZoom);
+
+
+
         waitForStart();
 
         while (opModeIsActive())
@@ -178,15 +193,7 @@ public class ZoomTest extends LinearOpMode
                 .addProcessor(aprilTag)
                 .build();
 
-        ptz = (PtzControl) new PtzControl.PanTiltHolder();
-        PtzControl.PanTiltHolder myHolder = new PtzControl.PanTiltHolder();   	    // instantiate input holder object
-        PtzControl.PanTiltHolder newHolder;
 
-        myHolder.pan = myPan;			       // assign the pan field
-        myHolder.tilt = myTilt;			       // assign the tilt field
-        ptz.setPanTilt(myHolder);	       // command the webcam with (x, y) pair
-
-        ptz.setZoom(myZoom);
 
 
     }
