@@ -30,6 +30,7 @@
 package org.firstinspires.ftc.teamcode.drive.hive;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -74,8 +75,8 @@ import static org.firstinspires.ftc.teamcode.drive.hive.HiveAutoPrime.*;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Glider Auto", group="Swarm")
-
+@Autonomous(name="Glider Auto", group="Hive")
+@Disabled
 public class GliderAuto extends HiveAutoPrime {
 
     HiveAutoPrime swarm = new HiveAutoPrime();

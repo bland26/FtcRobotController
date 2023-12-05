@@ -30,6 +30,7 @@
 package org.firstinspires.ftc.teamcode.drive.hive;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -110,7 +111,7 @@ public class HiveAutoBackRed extends LinearOpMode {
 
     public static double dronePosition = 1.0;
 
-    public static double driveSpeed = 1.0;
+    public static double driveSpeed = 0.8;
 
     public static double liftSpeed = 1.0;
 
@@ -118,6 +119,7 @@ public class HiveAutoBackRed extends LinearOpMode {
 
 
     private double x = 0;
+    private double y = 0;
 
     private String path = null;
 
@@ -240,13 +242,15 @@ public class HiveAutoBackRed extends LinearOpMode {
 
         if (x < 200) { // Object 1 path middle
             path = "1";
-            encoderDrive(driveSpeed,24,5,0,0,1,5.0);
-            encoderDrive(driveSpeed,0,10,1,0,1,5.0);
-            encoderSpin(turnSpeed, -90,10,0,0,0,5.0);
-            encoderDrive(driveSpeed,-38,15.0,0,0, 0,5.0);
-            score(1,5.0);
-            encoderStrafe(driveSpeed,24,0,0,0,0,5.0);
-            encoderDrive(driveSpeed,-8,0,0,0,0,5.0);
+            encoderStrafe(driveSpeed,-2,0,0,0,0,5.0);
+            encoderDrive(driveSpeed,20,3,-1,0,0,5.0);
+            encoderDrive(driveSpeed,4,3,1,0,1,5.0);
+            encoderSpin(turnSpeed, -90,3,1,0,1,5.0);
+            encoderDrive(driveSpeed,-35,3,0,0, 1,5.0);
+            encoderStrafe(driveSpeed,2,3,0,0,0.5,5.0);
+            score(-1,2.0);
+            encoderStrafe(driveSpeed, 26,0,0,0,0.25,5.0);
+            encoderDrive(driveSpeed, -8,0,0,0,0.25,5.0);
             sleep(20000);
         } else if (x >= 200 && x < 1000) { // Object 2 path left
             path = "2";
@@ -663,12 +667,13 @@ public class HiveAutoBackRed extends LinearOpMode {
         // Step through the list of recognitions and display info for each one.
         for (Recognition recognition : currentRecognitions) {
             double x = (recognition.getLeft() + recognition.getRight()) / 2 ;
-            double y = (recognition.getTop()  + recognition.getBottom()) / 2 ;
+            y = (recognition.getTop()  + recognition.getBottom()) / 2 ;
+            return(y);
 
 
 
         }   // end for() loop
-        return(x);
+        return(y);
     }   // end method telemetryTfod()
 
 }

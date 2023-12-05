@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.drive.stinger;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -21,7 +22,7 @@ import com.qualcomm.robotcore.util.Range;
 @TeleOp(name="Motor Test", group="Test")
 @Config
 
-//@Disabled
+@Disabled
 public class MotorTest extends OpMode {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();

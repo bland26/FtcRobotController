@@ -70,6 +70,7 @@ import java.util.concurrent.TimeUnit;
 
 @TeleOp(name="Camera Settings", group = "Test")
 @Config
+@Disabled
 public class ZoomTest extends LinearOpMode
 {
     private VisionPortal visionPortal = null;        // Used to manage the video source.
@@ -100,6 +101,7 @@ public class ZoomTest extends LinearOpMode
 
 
     @Override public void runOpMode()
+
     {
         // Initialize the Apriltag Detection process
         initAprilTag();

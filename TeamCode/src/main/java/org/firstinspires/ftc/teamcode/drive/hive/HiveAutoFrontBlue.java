@@ -30,6 +30,7 @@
 package org.firstinspires.ftc.teamcode.drive.hive;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -82,6 +83,7 @@ import java.util.List;
 
 @Autonomous(name="HiveAutoFrontBlue", group="Hive")
 @Config
+@Disabled
 public class HiveAutoFrontBlue extends LinearOpMode {
 
     /* Declare OpMode members. */
@@ -110,7 +112,7 @@ public class HiveAutoFrontBlue extends LinearOpMode {
 
     public static double dronePosition = 1.0;
 
-    public static double driveSpeed = 1.0;
+    public static double driveSpeed = 0.8;
 
     public static double liftSpeed = 1.0;
 
@@ -118,6 +120,7 @@ public class HiveAutoFrontBlue extends LinearOpMode {
 
 
     private double x = 0;
+    private double y = 0;
 
     private String path = null;
 
@@ -668,12 +671,13 @@ public class HiveAutoFrontBlue extends LinearOpMode {
         // Step through the list of recognitions and display info for each one.
         for (Recognition recognition : currentRecognitions) {
             double x = (recognition.getLeft() + recognition.getRight()) / 2 ;
-            double y = (recognition.getTop()  + recognition.getBottom()) / 2 ;
+            y = (recognition.getTop()  + recognition.getBottom()) / 2 ;
+            return(y);
 
 
 
         }   // end for() loop
-        return(x);
+        return(y);
     }   // end method telemetryTfod()
 
 }

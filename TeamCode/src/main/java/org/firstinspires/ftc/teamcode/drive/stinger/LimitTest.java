@@ -49,7 +49,7 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
 @TeleOp(name = "Limit Test", group = "Sensor")
-//@Disabled
+@Disabled
 public class LimitTest extends LinearOpMode {
     DigitalChannel limitDown;  // Touch sensor Object
 
