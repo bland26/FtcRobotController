@@ -110,7 +110,7 @@ public class HiveAutoBackBlue extends LinearOpMode {
 
     public static double dronePosition = 1.0;
 
-    public static double driveSpeed = 1.0;
+    public static double driveSpeed = 0.8;
 
     public static double liftSpeed = 1.0;
 
@@ -244,9 +244,10 @@ public class HiveAutoBackBlue extends LinearOpMode {
             encoderDrive(driveSpeed,20,5,-1,0,0,5.0);
             encoderDrive(driveSpeed,4,5,1,0,1,5.0);
             encoderSpin(turnSpeed, 90,5,1,0,1,5.0);
-            encoderDrive(driveSpeed,-36,5,0,0, 1,5.0);
+            encoderDrive(driveSpeed,-35,5,0,0, 1,5.0);
+            encoderStrafe(driveSpeed,-2,5,0,0,1,5.0);
             score(-1,2.0);
-            encoderStrafe(driveSpeed, -28,0,0,0,1,5.0);
+            encoderStrafe(driveSpeed, -26,0,0,0,1,5.0);
             encoderDrive(driveSpeed, -8,0,0,0,1,5.0);
             sleep(20000);
         } else if (x >= 200 && x < 1000) { // Object 2 path left
