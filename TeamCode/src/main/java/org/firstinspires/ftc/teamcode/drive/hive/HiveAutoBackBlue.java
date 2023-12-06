@@ -118,7 +118,7 @@ public class HiveAutoBackBlue extends LinearOpMode {
     public static double intakeSpeed = 0.5;
 
 
-    private double x = 0;
+    public double x = 500;
     private double y = 0;
 
     private String path = null;
@@ -240,7 +240,7 @@ public class HiveAutoBackBlue extends LinearOpMode {
         maximum time allowed for the step before it automatically stops.)
          */
 
-        if (x < 200) { // Object 1 path middle
+        if (x >= 200 && x < 720) { // Middle Path
             path = "1";
             encoderStrafe(driveSpeed,2,0,0,0,0,5.0);
             encoderDrive(driveSpeed,20,3,-1,0,0,5.0);
@@ -252,28 +252,29 @@ public class HiveAutoBackBlue extends LinearOpMode {
             encoderStrafe(driveSpeed, -26,0,0,0,0.25,5.0);
             encoderDrive(driveSpeed, -8,0,0,0,0.25,5.0);
             sleep(20000);
-        } else if (x >= 200 && x < 1000) { // Object 2 path left
+        } else if (x > 200) { // Right Path
             path = "2";
-            encoderDrive(driveSpeed,30,5,0,0,1,5.0);
-            encoderSpin(turnSpeed,-90,10,0,0,1,5.0);
-            encoderDrive(driveSpeed,0,10,1,0,1,5.0);
-            encoderSpin(turnSpeed,180,10,0,0,1,5.0);
-            encoderStrafe(driveSpeed,-24,15,0,0,0,5.0);
-            encoderDrive(driveSpeed,-38,15,0,0,0,5.0);
-            encoderStrafe(driveSpeed,24,15,0,0,0,5.0);
-            score(1,2.0);
-            encoderStrafe(driveSpeed,-24,0,0,0,0,5.0);
-            encoderDrive(driveSpeed,-8,0,0,0,0,5.0);
+            encoderStrafe(driveSpeed,2,0,0,0,0,5.0);
+            encoderDrive(driveSpeed,24,3,-1,0,0,5.0);
+            encoderSpin(turnSpeed, 90,3,0,0,0,5.0);
+            encoderDrive(driveSpeed,-20,3,0,0,0,5.0);
+            encoderDrive(driveSpeed,-19,3,-1,0, 1,5.0);
+            encoderStrafe(driveSpeed,-2,3,0,0,0.5,5.0);
+            score(-1,2.0);
+            encoderStrafe(driveSpeed, -26,0,0,0,0.25,5.0);
+            encoderDrive(driveSpeed, -8,0,0,0,0.25,5.0);
             sleep(20000);
-        } else {
+        } else { // Left Path
             path = "3";
-            encoderDrive(driveSpeed,30,5,0,0,1,5.0);
-            encoderSpin(turnSpeed,90,10,0,0,1,5.0);
-            encoderDrive(driveSpeed,0,10,1,0,1,5.0);
-            encoderDrive(driveSpeed,-38,10,0,0,0,5.0);
-            score(1,5.0);
-            encoderStrafe(driveSpeed,24,0,0,0,0,5.0);
-            encoderDrive(driveSpeed,8,0,0,0,0,5.0);
+            encoderStrafe(driveSpeed,2,0,0,0,0,5.0);
+            encoderDrive(driveSpeed,24,3,-1,0,0,5.0);
+            encoderSpin(turnSpeed, 90,3,0,0,0,5.0);
+            encoderDrive(driveSpeed,4,3,0,0,1,5.0);
+            encoderDrive(driveSpeed,-39,3,1,0, 1,5.0);
+            encoderStrafe(driveSpeed,-2,3,0,0,0.5,5.0);
+            score(-1,2.0);
+            encoderStrafe(driveSpeed, -26,0,0,0,0.25,5.0);
+            encoderDrive(driveSpeed, -8,0,0,0,0.25,5.0);
             sleep(20000);
         }
 
