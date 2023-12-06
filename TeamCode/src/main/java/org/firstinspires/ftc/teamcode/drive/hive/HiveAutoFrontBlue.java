@@ -119,7 +119,7 @@ public class HiveAutoFrontBlue extends LinearOpMode {
     public static double intakeSpeed = 0.5;
 
 
-    private double x = 0;
+    public double x = 500;
     private double y = 0;
 
     private String path = null;
@@ -243,7 +243,7 @@ public class HiveAutoFrontBlue extends LinearOpMode {
 
         if (x >= 200 && x < 720) { // Middle Path
             path = "1";
-            encoderStrafe(driveSpeed,2,0,0,0,0,5.0);
+            encoderStrafe(driveSpeed,-2,0,0,0,0,5.0);
             encoderDrive(driveSpeed,20,0,-1,0,0,5.0);
             encoderDrive(driveSpeed,4,0,1,0,1,5.0);
             encoderSpin(turnSpeed, 90,0,1,0,1,5.0);
@@ -256,7 +256,7 @@ public class HiveAutoFrontBlue extends LinearOpMode {
             sleep(20000);
         } else if (x > 200) { // Right Path
             path = "2";
-            encoderStrafe(driveSpeed,2,0,0,0,0,5.0);
+            encoderStrafe(driveSpeed,-2,0,0,0,0,5.0);
             encoderDrive(driveSpeed,24,0,-1,0,0,5.0);
             encoderSpin(turnSpeed, 90,0,0,0,0,5.0);
             encoderDrive(driveSpeed,-20,0,0,0,0,5.0);
@@ -269,7 +269,7 @@ public class HiveAutoFrontBlue extends LinearOpMode {
             sleep(20000);
         } else { // Left Path
             path = "3";
-            encoderStrafe(driveSpeed,2,0,0,0,0,5.0);
+            encoderStrafe(driveSpeed,-2,0,0,0,0,5.0);
             encoderDrive(driveSpeed,24,3,-1,0,0,5.0);
             encoderSpin(turnSpeed, 90,3,0,0,0,5.0);
             encoderDrive(driveSpeed,4,3,0,0,1,5.0);
