@@ -243,15 +243,16 @@ public class HiveAutoFrontRed extends LinearOpMode {
 
         if (x < 200) { // Object 1 path middle
             path = "1";
-            encoderDrive(driveSpeed,24,0,0,0,1,5.0);
-            encoderDrive(driveSpeed,0,0,1,0,1,5.0);
-            encoderSpin(turnSpeed,-90,0,0,0,0,5.0);
-            encoderStrafe(driveSpeed,-24,0,0,0,0,5.0);
-            encoderDrive(driveSpeed,-84,0,0,0,0,5.0);
-            encoderStrafe(driveSpeed,30,10,0,0,0,5.0);
-            score(1,5.0);
-            encoderStrafe(driveSpeed,-30,0,0,0,0,5.0);
-            encoderDrive(driveSpeed,-8,0,0,0,0,5.0);
+            encoderStrafe(driveSpeed,2,0,0,0,0,5.0);
+            encoderDrive(driveSpeed,20,0,-1,0,0,5.0);
+            encoderDrive(driveSpeed,4,0,1,0,1,5.0);
+            encoderSpin(turnSpeed, -90,0,1,0,1,5.0);
+            encoderDrive(driveSpeed,-40,3,0,0, 1,5.0);
+            encoderDrive(driveSpeed,-43,3,0,0, 1,5.0);
+            encoderStrafe(driveSpeed,2,3,0,0,0.5,5.0);
+            score(-1,2.0);
+            encoderStrafe(driveSpeed, 26,0,0,0,0.25,5.0);
+            encoderDrive(driveSpeed, -8,0,0,0,0.25,5.0);
             sleep(20000);
         } else if (x >= 200 && x < 1000) { // Object 2 path left
             path = "2";
