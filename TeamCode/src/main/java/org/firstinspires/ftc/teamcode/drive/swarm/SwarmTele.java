@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -42,7 +43,13 @@ public class SwarmTele extends OpMode {
     private CRServo indexer = null;
     private CRServo outtake = null;
 
+    private Servo drone = null;
+
     private DistanceSensor sensorDistance;
+
+    static double droneStart = 0;
+
+    public static double dronePosition = 1.0;
 
 
     private TouchSensor limitDown = null;
@@ -82,6 +89,7 @@ public class SwarmTele extends OpMode {
         limitClimb = hardwareMap.get(TouchSensor.class, "limitClimb");
         sensorDistance = hardwareMap.get(DistanceSensor.class, "sensor_distance");
         Rev2mDistanceSensor sensorTimeOfFlight = (Rev2mDistanceSensor) sensorDistance;
+        drone = hardwareMap.get(Servo.class, "drone");
         //TODO initilize new motors that were added
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
@@ -96,6 +104,7 @@ public class SwarmTele extends OpMode {
         intakeBot.setDirection(DcMotor.Direction.FORWARD);
         indexer.setDirection(CRServo.Direction.REVERSE);
         outtake.setDirection(CRServo.Direction.FORWARD);
+        drone.setPosition(dronePosition);
 
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         climb.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -206,6 +215,15 @@ public class SwarmTele extends OpMode {
         float scoreConInput = gamepad1.right_trigger;
         if (scoreConInput > 0){
             scoreCon = true;
+        }
+
+        boolean droneInput = gamepad2.y;
+        if(droneInput){
+            dronePosition = 0;
+        }
+        boolean droneInputSet = gamepad2.x;
+        if(droneInputSet){
+            dronePosition = 1;
         }
 
 
