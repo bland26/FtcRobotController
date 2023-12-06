@@ -87,8 +87,8 @@ public class SwarmTele extends OpMode {
         outtake = hardwareMap.get(CRServo.class, "outtake");
         limitDown = hardwareMap.get(TouchSensor.class, "limitDown");
         limitClimb = hardwareMap.get(TouchSensor.class, "limitClimb");
-        sensorDistance = hardwareMap.get(DistanceSensor.class, "sensor_distance");
-        Rev2mDistanceSensor sensorTimeOfFlight = (Rev2mDistanceSensor) sensorDistance;
+//        sensorDistance = hardwareMap.get(DistanceSensor.class, "sensor_distance");
+//        Rev2mDistanceSensor sensorTimeOfFlight = (Rev2mDistanceSensor) sensorDistance;
         drone = hardwareMap.get(Servo.class, "drone");
         //TODO initilize new motors that were added
 
@@ -262,12 +262,12 @@ public class SwarmTele extends OpMode {
         indexer.setPower(intakePower);
         climb.setPower(climbPower);
 
-        if (sensorDistance.getDistance(DistanceUnit.MM) < 5 && scoreCon && leftFrontPower > 0){
-            leftRear.setPower(0);
-            rightRear.setPower(0);
-            leftFront.setPower(0);
-            rightFront.setPower(0);
-        }
+//        if (sensorDistance.getDistance(DistanceUnit.MM) < 5 && scoreCon && leftFrontPower > 0){
+//            leftRear.setPower(0);
+//            rightRear.setPower(0);
+//            leftFront.setPower(0);
+//            rightFront.setPower(0);
+//        }
 
 
         if (liftPower < 0 && limitDown.isPressed()) {
