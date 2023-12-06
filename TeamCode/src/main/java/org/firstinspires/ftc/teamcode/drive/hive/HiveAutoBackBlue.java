@@ -99,7 +99,7 @@ public class HiveAutoBackBlue extends LinearOpMode {
     private  TouchSensor limitDown;
 
     private Servo claw = null;
-    private Servo drone = null;
+
 
     final static double clawStart = 0.1;
     public static double clawMin = 0.0;
@@ -107,9 +107,7 @@ public class HiveAutoBackBlue extends LinearOpMode {
     public static double clawSpeed = 0.01;
     public double clawPosition = 0.0;
 
-    static double droneStart = 0;
 
-    public static double dronePosition = 1.0;
 
     public static double driveSpeed = 0.8;
 
@@ -161,7 +159,7 @@ public class HiveAutoBackBlue extends LinearOpMode {
         outtake = hardwareMap.get(CRServo.class, "outtake");
         limitDown = hardwareMap.get(TouchSensor.class, "limitDown");
         claw = hardwareMap.get(Servo.class, "claw");
-        drone = hardwareMap.get(Servo.class, "drone");
+
 
 
 
@@ -177,7 +175,6 @@ public class HiveAutoBackBlue extends LinearOpMode {
         intake.setDirection(DcMotor.Direction.FORWARD);
         outtake.setDirection(DcMotor.Direction.FORWARD);
         claw.setPosition(clawPosition);
-        drone.setPosition(dronePosition);
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
