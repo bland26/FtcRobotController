@@ -3,12 +3,16 @@ package org.firstinspires.ftc.teamcode.drive.swarm;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+
 /**
  * This file contains an example of an iterative (Non-Linear) "OpMode".
  * An OpMode is a 'program' that runs in either the autonomous or the teleop period of an FTC match.
@@ -37,6 +41,8 @@ public class SwarmTele extends OpMode {
     private DcMotor climb =null;
     private CRServo indexer = null;
     private CRServo outtake = null;
+
+    private DistanceSensor sensorDistance;
 
 
     private TouchSensor limitDown = null;
@@ -74,6 +80,8 @@ public class SwarmTele extends OpMode {
         outtake = hardwareMap.get(CRServo.class, "outtake");
         limitDown = hardwareMap.get(TouchSensor.class, "limitDown");
         limitClimb = hardwareMap.get(TouchSensor.class, "limitClimb");
+        sensorDistance = hardwareMap.get(DistanceSensor.class, "sensor_distance");
+        Rev2mDistanceSensor sensorTimeOfFlight = (Rev2mDistanceSensor) sensorDistance;
         //TODO initilize new motors that were added
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
@@ -213,6 +221,7 @@ public class SwarmTele extends OpMode {
             intakePower = Range.clip(intakeCubed,-1.0, 1.0);
 
         }else {
+
             leftRearPower = Range.clip((-driveCubed) + spinCubed - (-strafeCubed), -0.5, 0.5);
             rightRearPower = Range.clip((-driveCubed)- spinCubed + (-strafeCubed), -0.5, 0.5);
             leftFrontPower = Range.clip((-driveCubed) + spinCubed + (-strafeCubed), -0.5, 0.5);
@@ -234,6 +243,13 @@ public class SwarmTele extends OpMode {
         outtake.setPower(outtakePower);
         indexer.setPower(intakePower);
         climb.setPower(climbPower);
+
+        if (sensorDistance.getDistance(DistanceUnit.MM) < 5 && scoreCon && leftFrontPower > 0){
+            leftRear.setPower(0);
+            rightRear.setPower(0);
+            leftFront.setPower(0);
+            rightFront.setPower(0);
+        }
 
 
         if (liftPower < 0 && limitDown.isPressed()) {

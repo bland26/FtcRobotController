@@ -38,6 +38,7 @@ import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.liftSpee
 import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.turnSpeed;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -81,8 +82,8 @@ import java.util.List;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Cerberus Auto Test", group="Swarm")
-
+@Autonomous(name="Cerberus Auto Test", group="Test")
+@Disabled
 public class CerberusAutoTest extends LinearOpMode {
 
     /* Declare OpMode members. */

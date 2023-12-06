@@ -30,6 +30,7 @@
 package org.firstinspires.ftc.teamcode.drive.hive;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -82,6 +83,7 @@ import java.util.List;
 
 @Autonomous(name="HiveAutoPrime", group="Hive")
 @Config
+@Disabled
 public class HiveAutoPrime extends LinearOpMode {
 
     /* Declare OpMode members. */

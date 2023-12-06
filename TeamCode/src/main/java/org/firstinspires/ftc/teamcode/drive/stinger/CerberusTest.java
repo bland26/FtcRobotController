@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.drive.stinger;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -20,7 +21,8 @@ import com.qualcomm.robotcore.hardware.CRServo;
  */
 
 
-@TeleOp(name="TeleTest", group="Swarm")
+@TeleOp(name="TeleTest", group="Test")
+@Disabled
 @Config
 
 //@Disabled

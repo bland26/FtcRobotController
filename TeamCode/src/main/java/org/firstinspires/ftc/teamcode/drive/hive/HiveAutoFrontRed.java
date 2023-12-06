@@ -30,6 +30,7 @@
 package org.firstinspires.ftc.teamcode.drive.hive;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -82,6 +83,7 @@ import java.util.List;
 
 @Autonomous(name="HiveAutoFrontRed", group="Hive")
 @Config
+@Disabled
 public class HiveAutoFrontRed extends LinearOpMode {
 
     /* Declare OpMode members. */
@@ -110,14 +112,15 @@ public class HiveAutoFrontRed extends LinearOpMode {
 
     public static double dronePosition = 1.0;
 
-    public static double driveSpeed = 1.0;
+    public static double driveSpeed = 0.8;
 
     public static double liftSpeed = 1.0;
 
     public static double intakeSpeed = 0.5;
 
 
-    private double x = 0;
+    public double x = 500;
+    private double y = 0;
 
     private String path = null;
 
@@ -168,9 +171,9 @@ public class HiveAutoFrontRed extends LinearOpMode {
         // When run, this OpMode should start both motors driving forward. So adjust these two lines based on your first test drive.
         // Note: The settings here assume direct drive on left and right wheels.  Gear Reduction or 90 Deg drives may require direction flips
         leftRear.setDirection(DcMotor.Direction.FORWARD);
-        rightRear.setDirection(DcMotor.Direction.FORWARD);
+        rightRear.setDirection(DcMotor.Direction.REVERSE);
         leftFront.setDirection(DcMotor.Direction.FORWARD);
-        rightFront.setDirection(DcMotor.Direction.REVERSE);
+        rightFront.setDirection(DcMotor.Direction.FORWARD);
         lift.setDirection(DcMotor.Direction.REVERSE);
         intake.setDirection(DcMotor.Direction.FORWARD);
         outtake.setDirection(DcMotor.Direction.FORWARD);
@@ -238,42 +241,44 @@ public class HiveAutoFrontRed extends LinearOpMode {
         maximum time allowed for the step before it automatically stops.)
          */
 
-        if (x < 200) { // Object 1 path middle
+        if (x >= 200 && x < 720) { // Middle Path
             path = "1";
-            encoderDrive(driveSpeed,24,0,0,0,1,5.0);
-            encoderDrive(driveSpeed,0,0,1,0,1,5.0);
-            encoderSpin(turnSpeed,-90,0,0,0,0,5.0);
-            encoderStrafe(driveSpeed,-24,0,0,0,0,5.0);
-            encoderDrive(driveSpeed,-84,0,0,0,0,5.0);
-            encoderStrafe(driveSpeed,30,10,0,0,0,5.0);
-            score(1,5.0);
-            encoderStrafe(driveSpeed,-30,0,0,0,0,5.0);
-            encoderDrive(driveSpeed,-8,0,0,0,0,5.0);
+            encoderStrafe(driveSpeed,2,0,0,0,0,5.0);
+            encoderDrive(driveSpeed,20,0,-1,0,0,5.0);
+            encoderDrive(driveSpeed,4,0,1,0,1,5.0);
+            encoderSpin(turnSpeed, -90,0,1,0,1,5.0);
+            encoderDrive(driveSpeed,-40,3,0,0, 1,5.0);
+            encoderDrive(driveSpeed,-43,3,0,0, 1,5.0);
+            encoderStrafe(driveSpeed,2,3,0,0,0.5,5.0);
+            score(-1,2.0);
+            encoderStrafe(driveSpeed, 26,0,0,0,0.25,5.0);
+            encoderDrive(driveSpeed, -8,0,0,0,0.25,5.0);
             sleep(20000);
-        } else if (x >= 200 && x < 1000) { // Object 2 path left
+        } else if (x > 200) { // Right Path
             path = "2";
-            encoderDrive(driveSpeed,30,0,0,0,1,5.0);
-            encoderSpin(turnSpeed,-90,0,0,0,1,5.0);
-            encoderDrive(driveSpeed,0,0,1,0,1,5.0);
-            encoderStrafe(driveSpeed,-24,0,0,0,0,5.0);
-            encoderDrive(driveSpeed,-84,0,0,0,0,5.0);
-            encoderStrafe(driveSpeed,30,10,0,0,0,5.0);
-            score(1,5.0);
-            encoderStrafe(driveSpeed,-30,0,0,0,0,5.0);
-            encoderDrive(driveSpeed,-8,0,0,0,0,5.0);
+            encoderStrafe(driveSpeed,2,0,0,0,0,5.0);
+            encoderDrive(driveSpeed,24,0,-1,0,0,5.0);
+            encoderSpin(turnSpeed, -90,0,0,0,0,5.0);
+            encoderDrive(driveSpeed,-20,0,0,0,0,5.0);
+            encoderDrive(driveSpeed,-20,0,1,0, 1,5.0);
+            encoderDrive(driveSpeed,-43,3,0,0, 1,5.0);
+            encoderStrafe(driveSpeed,6,3,0,0,0.5,5.0);
+            score(-1,2.0);
+            encoderStrafe(driveSpeed, 22,0,0,0,0.25,5.0);
+            encoderDrive(driveSpeed, -8,0,0,0,0.25,5.0);
             sleep(20000);
-        } else {
+        } else { // Left Path
             path = "3";
-            encoderDrive(driveSpeed,30,0,0,0,1,5.0);
-            encoderSpin(turnSpeed,90,0,0,0,1,5.0);
-            encoderDrive(driveSpeed,0,0,1,0,1,5.0);
-            encoderSpin(turnSpeed,180,0,0,0,0,5.0);
-            encoderStrafe(driveSpeed,-24,15,0,0,0,5.0);
-            encoderDrive(driveSpeed,-84,0,0,0,0,5.0);
-            encoderStrafe(driveSpeed,30,10,0,0,0,5.0);
-            score(1,5.0);
-            encoderStrafe(driveSpeed,-30,0,0,0,0,5.0);
-            encoderDrive(driveSpeed,-8,0,0,0,0,5.0);
+            encoderStrafe(driveSpeed,2,0,0,0,0,5.0);
+            encoderDrive(driveSpeed,24,3,-1,0,0,5.0);
+            encoderSpin(turnSpeed, -90,3,0,0,0,5.0);
+            encoderDrive(driveSpeed,4,3,0,0,1,5.0);
+            encoderDrive(driveSpeed,-44,3,1,0, 1,5.0);
+            encoderDrive(driveSpeed,-43,3,0,0, 1,5.0);
+            encoderStrafe(driveSpeed,-2,3,0,0,0.5,5.0);
+            score(-1,2.0);
+            encoderStrafe(driveSpeed, 30,0,0,0,0.25,5.0);
+            encoderDrive(driveSpeed, -8,0,0,0,0.25,5.0);
             sleep(20000);
         }
 
@@ -668,12 +673,13 @@ public class HiveAutoFrontRed extends LinearOpMode {
         // Step through the list of recognitions and display info for each one.
         for (Recognition recognition : currentRecognitions) {
             double x = (recognition.getLeft() + recognition.getRight()) / 2 ;
-            double y = (recognition.getTop()  + recognition.getBottom()) / 2 ;
+            y = (recognition.getTop()  + recognition.getBottom()) / 2 ;
+            return(y);
 
 
 
         }   // end for() loop
-        return(x);
+        return(y);
     }   // end method telemetryTfod()
 
 }
