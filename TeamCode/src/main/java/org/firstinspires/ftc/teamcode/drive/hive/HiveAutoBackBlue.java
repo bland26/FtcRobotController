@@ -258,10 +258,10 @@ public class HiveAutoBackBlue extends LinearOpMode {
             encoderDrive(driveSpeed,24,3,-1,0,0,5.0);
             encoderSpin(turnSpeed, 90,3,0,0,0,5.0);
             encoderDrive(driveSpeed,-20,3,0,0,0,5.0);
-            encoderDrive(driveSpeed,-19,3,-1,0, 1,5.0);
-            encoderStrafe(driveSpeed,-2,3,0,0,0.5,5.0);
+            encoderDrive(driveSpeed,-19,3,1,0, 1,5.0);
+            encoderStrafe(driveSpeed,-6,3,0,0,0.5,5.0);
             score(-1,2.0);
-            encoderStrafe(driveSpeed, -26,0,0,0,0.25,5.0);
+            encoderStrafe(driveSpeed, -22,0,0,0,0.25,5.0);
             encoderDrive(driveSpeed, -8,0,0,0,0.25,5.0);
             sleep(20000);
         } else { // Left Path
@@ -271,9 +271,9 @@ public class HiveAutoBackBlue extends LinearOpMode {
             encoderSpin(turnSpeed, 90,3,0,0,0,5.0);
             encoderDrive(driveSpeed,4,3,0,0,1,5.0);
             encoderDrive(driveSpeed,-39,3,1,0, 1,5.0);
-            encoderStrafe(driveSpeed,-2,3,0,0,0.5,5.0);
+            encoderStrafe(driveSpeed,2,3,0,0,0.5,5.0);
             score(-1,2.0);
-            encoderStrafe(driveSpeed, -26,0,0,0,0.25,5.0);
+            encoderStrafe(driveSpeed, -30,0,0,0,0.25,5.0);
             encoderDrive(driveSpeed, -8,0,0,0,0.25,5.0);
             sleep(20000);
         }
