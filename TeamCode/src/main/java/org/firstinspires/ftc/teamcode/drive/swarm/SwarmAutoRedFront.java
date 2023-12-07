@@ -177,7 +177,7 @@ public class SwarmAutoRedFront extends LinearOpMode {
 
 
         initTfod();
-        targetTfod();
+        //targetTfod();
 
 
 
@@ -212,45 +212,53 @@ public class SwarmAutoRedFront extends LinearOpMode {
         maximum time allowed for the step before it automatically stops.)
          */
 
-        if (x >= 350 && x < 1100) { // Middle Path
-            path = "Middle";
-            encoderDrive(driveSpeed,28,10,0,0,5.0);
-            encoderDrive(driveSpeed,0,10,-1,0,5.0);
-            encoderSpin(turnSpeed,-90,10,-1,0,5.0);
-            encoderStrafe(driveSpeed,-28,0,0,0,5.0);
-            encoderDrive(driveSpeed, -84,10,0, 0, 5.0);
-            encoderStrafe(driveSpeed,24,0,0,0,5.0);
-            score(1,5.0);
-            encoderStrafe(driveSpeed,-24,0,0,0,5.0);
-            encoderDrive(driveSpeed, -12, 0,0, 0, 5.0);
-            sleep(20000);
-        } else if (x < 350) { // Left Path
-            path = "Left";
-            encoderDrive(driveSpeed,26,10,0,0,5.0);
-            encoderSpin(turnSpeed,-90,10,0,0,5.0);
-            encoderDrive(driveSpeed, 2,10,0,0,5.0);
-            encoderDrive(driveSpeed,0,10,-1,0,5.0);
-            encoderStrafe(driveSpeed,-28,0,0,0,5.0);
-            encoderDrive(driveSpeed, -84,10,0, 0, 5.0);
-            encoderStrafe(driveSpeed,24,0,0,0,5.0);
-            score(1,5.0);
-            encoderStrafe(driveSpeed,-24,0,0,0,5.0);
-            encoderDrive(driveSpeed, -12, 0,0, 0, 5.0);
-            sleep(20000);
-        } else { // Right Path
-            path = "Right";
-            encoderDrive(driveSpeed,26,10,0,0,5.0);
-            encoderSpin(turnSpeed,90,10,0,0,5.0);
-            encoderDrive(driveSpeed, 2,10,0,0,5.0);
-            encoderDrive(driveSpeed,0,10,-1,0,5.0);
-            encoderSpin(turnSpeed,180,10,0,0,5.0);
-            encoderStrafe(driveSpeed,-28,0,0,0,5.0);
-            encoderDrive(driveSpeed, -84,10,0, 0, 5.0);
-            encoderStrafe(driveSpeed,24,0,0,0,5.0);
-            score(1,5.0);
-            encoderStrafe(driveSpeed,-24,0,0,0,5.0);
-            encoderDrive(driveSpeed, -12, 0,0, 0, 5.0);
-            sleep(20000);
+        List<Recognition> currentRecognitions = tfod.getRecognitions();
+
+
+        // Step through the list of recognitions and display info for each one.
+        for (Recognition recognition : currentRecognitions) {
+            x = (recognition.getLeft() + recognition.getRight()) / 2;
+
+            if (x >= 350 && x < 1100) { // Middle Path
+                path = "Middle";
+                encoderDrive(driveSpeed, 28, 10, 0, 0, 5.0);
+                encoderDrive(driveSpeed, 0, 10, -1, 0, 5.0);
+                encoderSpin(turnSpeed, -90, 10, -1, 0, 5.0);
+                encoderStrafe(driveSpeed, -28, 0, 0, 0, 5.0);
+                encoderDrive(driveSpeed, -84, 10, 0, 0, 5.0);
+                encoderStrafe(driveSpeed, 24, 0, 0, 0, 5.0);
+                score(1, 5.0);
+                encoderStrafe(driveSpeed, -24, 0, 0, 0, 5.0);
+                encoderDrive(driveSpeed, -12, 0, 0, 0, 5.0);
+                sleep(20000);
+            } else if (x < 350) { // Left Path
+                path = "Left";
+                encoderDrive(driveSpeed, 26, 10, 0, 0, 5.0);
+                encoderSpin(turnSpeed, -90, 10, 0, 0, 5.0);
+                encoderDrive(driveSpeed, 2, 10, 0, 0, 5.0);
+                encoderDrive(driveSpeed, 0, 10, -1, 0, 5.0);
+                encoderStrafe(driveSpeed, -28, 0, 0, 0, 5.0);
+                encoderDrive(driveSpeed, -84, 10, 0, 0, 5.0);
+                encoderStrafe(driveSpeed, 24, 0, 0, 0, 5.0);
+                score(1, 5.0);
+                encoderStrafe(driveSpeed, -24, 0, 0, 0, 5.0);
+                encoderDrive(driveSpeed, -12, 0, 0, 0, 5.0);
+                sleep(20000);
+            } else { // Right Path
+                path = "Right";
+                encoderDrive(driveSpeed, 26, 10, 0, 0, 5.0);
+                encoderSpin(turnSpeed, 90, 10, 0, 0, 5.0);
+                encoderDrive(driveSpeed, 2, 10, 0, 0, 5.0);
+                encoderDrive(driveSpeed, 0, 10, -1, 0, 5.0);
+                encoderSpin(turnSpeed, 180, 10, 0, 0, 5.0);
+                encoderStrafe(driveSpeed, -28, 0, 0, 0, 5.0);
+                encoderDrive(driveSpeed, -84, 10, 0, 0, 5.0);
+                encoderStrafe(driveSpeed, 24, 0, 0, 0, 5.0);
+                score(1, 5.0);
+                encoderStrafe(driveSpeed, -24, 0, 0, 0, 5.0);
+                encoderDrive(driveSpeed, -12, 0, 0, 0, 5.0);
+                sleep(20000);
+            }
         }
 
 
@@ -638,22 +646,22 @@ public class SwarmAutoRedFront extends LinearOpMode {
     /**
      * Add telemetry about TensorFlow Object Detection (TFOD) recognitions.
      */
-    private double targetTfod() {
-
-        List<Recognition> currentRecognitions = tfod.getRecognitions();
-
-
-        // Step through the list of recognitions and display info for each one.
-        for (Recognition recognition : currentRecognitions) {
-            x = (recognition.getLeft() + recognition.getRight()) / 2 ;
-            double y = (recognition.getTop()  + recognition.getBottom()) / 2 ;
-            return(x);
-
-
-
-        }   // end for() loop
-        return(x);
-    }   // end method telemetryTfod()
+//    private double targetTfod() {
+//
+//        List<Recognition> currentRecognitions = tfod.getRecognitions();
+//
+//
+//        // Step through the list of recognitions and display info for each one.
+//        for (Recognition recognition : currentRecognitions) {
+//            x = (recognition.getLeft() + recognition.getRight()) / 2 ;
+//            double y = (recognition.getTop()  + recognition.getBottom()) / 2 ;
+//            return(x);
+//
+//
+//
+//        }   // end for() loop
+//        return(x);
+//    }   // end method telemetryTfod()
 
 }
 
