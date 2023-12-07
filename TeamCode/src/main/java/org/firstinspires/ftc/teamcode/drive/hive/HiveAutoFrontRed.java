@@ -83,7 +83,7 @@ import java.util.List;
 
 @Autonomous(name="HiveAutoFrontRed", group="Hive")
 @Config
-@Disabled
+//@Disabled
 public class HiveAutoFrontRed extends LinearOpMode {
 
     /* Declare OpMode members. */
@@ -117,7 +117,7 @@ public class HiveAutoFrontRed extends LinearOpMode {
     public static double intakeSpeed = 0.5;
 
 
-    public double x = 500;
+    public static double x = 500;
     private double y = 0;
 
     private String path = null;
@@ -243,6 +243,7 @@ public class HiveAutoFrontRed extends LinearOpMode {
             encoderStrafe(driveSpeed,2,0,0,0,0,5.0);
             encoderDrive(driveSpeed,20,0,-1,0,0,5.0);
             encoderDrive(driveSpeed,4,0,1,0,1,5.0);
+            encoderDrive(driveSpeed, -4, 3.5,1,0,1,5.0);
             encoderSpin(turnSpeed, -90,0,1,0,1,5.0);
             encoderDrive(driveSpeed,-40,3,0,0, 1,5.0);
             encoderDrive(driveSpeed,-43,3,0,0, 1,5.0);
@@ -251,7 +252,7 @@ public class HiveAutoFrontRed extends LinearOpMode {
             encoderStrafe(driveSpeed, 26,0,0,0,0.25,5.0);
             encoderDrive(driveSpeed, -8,0,0,0,0.25,5.0);
             sleep(20000);
-        } else if (x > 200) { // Right Path
+        } else if (x < 200) { // Right Path
             path = "2";
             encoderStrafe(driveSpeed,2,0,0,0,0,5.0);
             encoderDrive(driveSpeed,24,0,-1,0,0,5.0);

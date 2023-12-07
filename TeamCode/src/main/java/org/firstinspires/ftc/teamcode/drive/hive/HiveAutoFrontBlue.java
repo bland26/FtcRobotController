@@ -119,7 +119,7 @@ public class HiveAutoFrontBlue extends LinearOpMode {
     public static double intakeSpeed = 0.5;
 
 
-    public double x = 500;
+    public static double x = 500;
     private double y = 0;
 
     private String path = null;
@@ -254,7 +254,7 @@ public class HiveAutoFrontBlue extends LinearOpMode {
             encoderStrafe(driveSpeed, -26,0,0,0,0.25,5.0);
             encoderDrive(driveSpeed, -8,0,0,0,0.25,5.0);
             sleep(20000);
-        } else if (x > 200) { // Right Path
+        } else if (x < 200) { // Right Path
             path = "2";
             encoderStrafe(driveSpeed,-2,0,0,0,0,5.0);
             encoderDrive(driveSpeed,24,0,-1,0,0,5.0);

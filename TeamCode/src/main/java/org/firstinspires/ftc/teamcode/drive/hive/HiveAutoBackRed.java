@@ -118,7 +118,7 @@ public class HiveAutoBackRed extends LinearOpMode {
     public static double intakeSpeed = 0.5;
 
 
-    public double x = 500;
+    public static double x = 500;
     private double y = 0;
 
     private String path = null;
@@ -242,16 +242,17 @@ public class HiveAutoBackRed extends LinearOpMode {
         if (x >= 200 && x < 720) { // Middle Path
             path = "1";
             encoderStrafe(driveSpeed,-2,0,0,0,0,5.0);
-            encoderDrive(driveSpeed,20,3,-1,0,0,5.0);
-            encoderDrive(driveSpeed,4,3,1,0,1,5.0);
-            encoderSpin(turnSpeed, -90,3,1,0,1,5.0);
-            encoderDrive(driveSpeed,-35,3,0,0, 1,5.0);
-            encoderStrafe(driveSpeed,2,3,0,0,0.5,5.0);
+            encoderDrive(driveSpeed,20,3.5,-1,0,0,5.0);
+            encoderDrive(driveSpeed,4,3.5,1,0,1,5.0);
+            encoderDrive(driveSpeed, -4, 3.5,1,0,1,5.0);
+            encoderSpin(turnSpeed, -90,3.5,1,0,1,5.0);
+            encoderDrive(driveSpeed,-37,3.5,0,0, 1,5.0);
+            encoderStrafe(driveSpeed,6,3.5,0,0,0.5,5.0);
             score(-1,2.0);
-            encoderStrafe(driveSpeed, 26,0,0,0,0.25,5.0);
+            encoderStrafe(driveSpeed, 24,0,0,0,0.25,5.0);
             encoderDrive(driveSpeed, -8,0,0,0,0.25,5.0);
             sleep(20000);
-        } else if (x > 200) { // Right Path
+        } else if (x < 200) { // Right Path
             path = "2";
             encoderStrafe(driveSpeed,-2,0,0,0,0,5.0);
             encoderDrive(driveSpeed,24,3,-1,0,0,5.0);
@@ -338,6 +339,7 @@ public class HiveAutoBackRed extends LinearOpMode {
             lift.setPower(liftSpeed);
             intake.setPower(intakeValue);
             outtake.setPower(outtakeValue);
+            claw.setPosition(clawValue);
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
             // its target position, the motion will stop.  This is "safer" in the event that the robot will
