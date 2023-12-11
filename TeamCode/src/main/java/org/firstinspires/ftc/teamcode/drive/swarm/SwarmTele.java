@@ -249,7 +249,7 @@ public class SwarmTele extends OpMode {
 
         }
 
-
+        drone.setPosition(dronePosition);
         // Send calculated power to wheels
 
         leftRear.setPower(leftRearPower * driveSpeed);
@@ -282,6 +282,8 @@ public class SwarmTele extends OpMode {
         // Show the elapsed game time and wheel power.
         telemetry.addData("Status", "Run Time: " + runtime.toString());
         telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftRearPower, rightRearPower);
+        telemetry.addData("Drone",droneInputSet);
+        telemetry.addData("Drone",droneInput);
     }
 
     /*

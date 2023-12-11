@@ -226,29 +226,35 @@ public class SwarmAutoBlueBack extends LinearOpMode {
 
             if (x >= 350 && x < 1100) { // Middle Path
                 path = "Middle";
-                encoderStrafe(driveSpeed,2,10,0,0,5.0);
-                encoderDrive(driveSpeed,28,10,0,0,5.0);
-                encoderIntake(-1,5.0);
-                encoderSpin(turnSpeed,90,10,-1,0,5.0);
-                encoderDrive(driveSpeed, -36,10,0, 0, 5.0);
+                encoderStrafe(driveSpeed,5,9,0,0,5.0);
+                encoderDrive(driveSpeed,28,9,0,0,5.0);
+                encoderDrive(driveSpeed,-4,9,0,0,5.0);
+                encoderIntake(0.2,2.0);
+                encoderDrive(driveSpeed,-3,9,0,0,5.0);
+                encoderSpin(turnSpeed,90,9,-1,0,5.0);
+                encoderDrive(driveSpeed, -37,9,0, 0, 5.0);
+                encoderStrafe(driveSpeed,-2,9,0,0,5.0);
                 score(1,5.0);
-                encoderStrafe(driveSpeed,-24,0,0,0,5.0);
-                encoderDrive(driveSpeed, -12, 0,0, 0, 5.0);
+                encoderStrafe(driveSpeed,-28,0,0,0,5.0);
+                encoderDrive(driveSpeed, -8, 0,0, 0, 5.0);
                 sleep(20000);
             } else if (x < 350) { // Left Path
                 path = "Left";
-                encoderStrafe(driveSpeed,3,10,0,0,5.0);
-                encoderDrive(driveSpeed,26,10,0,0,5.0);
-                encoderSpin(turnSpeed,-90,10,0,0,5.0);
-                encoderDrive(driveSpeed, 2,10,0,0,5.0);
-                encoderIntake(-1,5.0);
-                encoderSpin(turnSpeed,180,10,0,0,5.0);
-                encoderStrafe(driveSpeed,-24,10,0,0,5.0);
-                encoderDrive(driveSpeed, -36,10,0, 0, 5.0);
-                encoderStrafe(driveSpeed,30,10,0,0,5.0);
-                score(1,5.0);
-                encoderStrafe(driveSpeed,-24,0,0,0,5.0);
-                encoderDrive(driveSpeed, -12,0,0,0,5.0);
+                encoderStrafe(driveSpeed,2,10,0,0,5.0);
+                encoderDrive(driveSpeed, 26, 10, 0, 0, 5.0);
+                encoderSpin(turnSpeed, -90, 10, 0, 0, 5.0);
+                encoderIntake(0.2, 5.0);
+                encoderDrive(driveSpeed, -3, 10, 0, 0, 5.0);
+                encoderStrafe(driveSpeed,-2,10,0,0,5.0);
+                encoderSpin(turnSpeed, -180, 10, 0, 0, 5.0);
+                encoderDrive(driveSpeed, -3, 10, 0, 0, 5.0);
+                encoderStrafe(driveSpeed, -24, 10, 0, 0, 5.0);
+                encoderDrive(driveSpeed, -36, 10, 0, 0, 5.0);
+                encoderStrafe(driveSpeed, 36, 10, 0, 0, 5.0);
+                encoderDrive(driveSpeed, -5, 10, 0, 0, 5.0);
+                score(1, 5.0);
+                encoderStrafe(driveSpeed, -34, 0, 0, 0, 5.0);
+                encoderDrive(driveSpeed, -10, 0, 0, 0, 5.0);
                 sleep(20000);
             } else { // Right Path
                 path = "Right";
@@ -264,6 +270,19 @@ public class SwarmAutoBlueBack extends LinearOpMode {
                 sleep(20000);
             }
         }
+        encoderStrafe(driveSpeed,5,9,0,0,5.0);
+        encoderDrive(driveSpeed,26,9,0,0,5.0);
+        encoderDrive(driveSpeed,4,9,0,0,5.0);
+        encoderDrive(driveSpeed,-4,9,0,0,5.0);
+        encoderIntake(0.2,2.0);
+        encoderDrive(driveSpeed,-3,9,0,0,5.0);
+        encoderSpin(turnSpeed,90,9,0,0,5.0);
+        encoderIntake(0.2,5.0);
+        encoderDrive(driveSpeed, -40,9,0, 0, 5.0);
+        score(1,5.0);
+        encoderStrafe(driveSpeed,-24,0,0,0,5.0);
+        encoderDrive(driveSpeed, -12,0,0,0,5.0);
+        sleep(20000);
 
 
 
@@ -584,7 +603,7 @@ public class SwarmAutoBlueBack extends LinearOpMode {
             sleep(250);
         }
     }
-    private void encoderIntake(int intakeValue, double timeoutS) {
+    private void encoderIntake(double intakeValue, double timeoutS) {
 
         intakeTop.setPower(intakeValue);
         indexer.setPower(intakeValue);

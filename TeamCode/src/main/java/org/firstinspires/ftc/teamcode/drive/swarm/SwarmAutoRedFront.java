@@ -216,50 +216,54 @@ public class SwarmAutoRedFront extends LinearOpMode {
 
 
         // Step through the list of recognitions and display info for each one.
-        for (Recognition recognition : currentRecognitions) {
-            x = (recognition.getLeft() + recognition.getRight()) / 2;
+//        for (Recognition recognition : currentRecognitions) {
+//            x = (recognition.getLeft() + recognition.getRight()) / 2;
+//
+//            if (x >= 350 && x < 1100) { // Middle Path
+//                path = "Middle";
+//                encoderDrive(driveSpeed, 28, 10, 0, 0, 5.0);
+//                encoderDrive(driveSpeed, 0, 10, -1, 0, 5.0);
+//                encoderSpin(turnSpeed, -90, 10, -1, 0, 5.0);
+//                encoderStrafe(driveSpeed, -28, 0, 0, 0, 5.0);
+//                encoderDrive(driveSpeed, -84, 10, 0, 0, 5.0);
+//                encoderStrafe(driveSpeed, 24, 0, 0, 0, 5.0);
+//                score(1, 5.0);
+//                encoderStrafe(driveSpeed, -24, 0, 0, 0, 5.0);
+//                encoderDrive(driveSpeed, -12, 0, 0, 0, 5.0);
+//                sleep(20000);
+//            } else if (x < 350) { // Left Path
+//                path = "Left";
+//                encoderDrive(driveSpeed, 26, 10, 0, 0, 5.0);
+//                encoderSpin(turnSpeed, -90, 10, 0, 0, 5.0);
+//                encoderDrive(driveSpeed, 2, 10, 0, 0, 5.0);
+//                encoderDrive(driveSpeed, 0, 10, -1, 0, 5.0);
+//                encoderStrafe(driveSpeed, -28, 0, 0, 0, 5.0);
+//                encoderDrive(driveSpeed, -84, 10, 0, 0, 5.0);
+//                encoderStrafe(driveSpeed, 24, 0, 0, 0, 5.0);
+//                score(1, 5.0);
+//                encoderStrafe(driveSpeed, -24, 0, 0, 0, 5.0);
+//                encoderDrive(driveSpeed, -12, 0, 0, 0, 5.0);
+//                sleep(20000);
+//            } else { // Right Path
+//                path = "Right";
+//                encoderDrive(driveSpeed, 26, 10, 0, 0, 5.0);
+//                encoderSpin(turnSpeed, 90, 10, 0, 0, 5.0);
+//                encoderDrive(driveSpeed, 2, 10, 0, 0, 5.0);
+//                encoderDrive(driveSpeed, 0, 10, -1, 0, 5.0);
+//                encoderSpin(turnSpeed, 180, 10, 0, 0, 5.0);
+//                encoderStrafe(driveSpeed, -28, 0, 0, 0, 5.0);
+//                encoderDrive(driveSpeed, -84, 10, 0, 0, 5.0);
+//                encoderStrafe(driveSpeed, 24, 0, 0, 0, 5.0);
+//                score(1, 5.0);
+//                encoderStrafe(driveSpeed, -24, 0, 0, 0, 5.0);
+//                encoderDrive(driveSpeed, -12, 0, 0, 0, 5.0);
+//                sleep(20000);
+//            }
+//        }
 
-            if (x >= 350 && x < 1100) { // Middle Path
-                path = "Middle";
-                encoderDrive(driveSpeed, 28, 10, 0, 0, 5.0);
-                encoderDrive(driveSpeed, 0, 10, -1, 0, 5.0);
-                encoderSpin(turnSpeed, -90, 10, -1, 0, 5.0);
-                encoderStrafe(driveSpeed, -28, 0, 0, 0, 5.0);
-                encoderDrive(driveSpeed, -84, 10, 0, 0, 5.0);
-                encoderStrafe(driveSpeed, 24, 0, 0, 0, 5.0);
-                score(1, 5.0);
-                encoderStrafe(driveSpeed, -24, 0, 0, 0, 5.0);
-                encoderDrive(driveSpeed, -12, 0, 0, 0, 5.0);
-                sleep(20000);
-            } else if (x < 350) { // Left Path
-                path = "Left";
-                encoderDrive(driveSpeed, 26, 10, 0, 0, 5.0);
-                encoderSpin(turnSpeed, -90, 10, 0, 0, 5.0);
-                encoderDrive(driveSpeed, 2, 10, 0, 0, 5.0);
-                encoderDrive(driveSpeed, 0, 10, -1, 0, 5.0);
-                encoderStrafe(driveSpeed, -28, 0, 0, 0, 5.0);
-                encoderDrive(driveSpeed, -84, 10, 0, 0, 5.0);
-                encoderStrafe(driveSpeed, 24, 0, 0, 0, 5.0);
-                score(1, 5.0);
-                encoderStrafe(driveSpeed, -24, 0, 0, 0, 5.0);
-                encoderDrive(driveSpeed, -12, 0, 0, 0, 5.0);
-                sleep(20000);
-            } else { // Right Path
-                path = "Right";
-                encoderDrive(driveSpeed, 26, 10, 0, 0, 5.0);
-                encoderSpin(turnSpeed, 90, 10, 0, 0, 5.0);
-                encoderDrive(driveSpeed, 2, 10, 0, 0, 5.0);
-                encoderDrive(driveSpeed, 0, 10, -1, 0, 5.0);
-                encoderSpin(turnSpeed, 180, 10, 0, 0, 5.0);
-                encoderStrafe(driveSpeed, -28, 0, 0, 0, 5.0);
-                encoderDrive(driveSpeed, -84, 10, 0, 0, 5.0);
-                encoderStrafe(driveSpeed, 24, 0, 0, 0, 5.0);
-                score(1, 5.0);
-                encoderStrafe(driveSpeed, -24, 0, 0, 0, 5.0);
-                encoderDrive(driveSpeed, -12, 0, 0, 0, 5.0);
-                sleep(20000);
-            }
-        }
+        sleep(10000);
+        encoderStrafe(driveSpeed, 3, 0, 0, 0, 5.0);
+        encoderDrive(driveSpeed, -96, 0, 0, 0, 5.0);
 
 
 
