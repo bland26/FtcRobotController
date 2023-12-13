@@ -49,7 +49,7 @@ public class SwarmTele extends OpMode {
 
     static double droneStart = 0;
 
-    public static double dronePosition = 1.0;
+    public static double dronePosition = 0.25;
 
 
     private TouchSensor limitDown = null;
@@ -219,11 +219,11 @@ public class SwarmTele extends OpMode {
 
         boolean droneInput = gamepad2.y;
         if(droneInput){
-            dronePosition = 0;
+            dronePosition = 0.1;
         }
         boolean droneInputSet = gamepad2.x;
         if(droneInputSet){
-            dronePosition = 1;
+            dronePosition = 0.25;
         }
 
 

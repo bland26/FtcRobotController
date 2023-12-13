@@ -97,7 +97,7 @@ public class SwarmAutoBlueBack extends LinearOpMode {
 
     private ElapsedTime     runtime = new ElapsedTime();
 
-    private double x = 0;
+
 
     private String path = null;
 
@@ -220,7 +220,7 @@ public class SwarmAutoBlueBack extends LinearOpMode {
 
         // Step through the list of recognitions and display info for each one.
         for (Recognition recognition : currentRecognitions) {
-            x = (recognition.getLeft() + recognition.getRight()) / 2;
+            double x = (recognition.getLeft() + recognition.getRight()) / 2;
             //double y = (recognition.getTop()  + recognition.getBottom()) / 2 ;
 
 
@@ -256,29 +256,17 @@ public class SwarmAutoBlueBack extends LinearOpMode {
                 encoderStrafe(driveSpeed, -34, 0, 0, 0, 5.0);
                 encoderDrive(driveSpeed, -10, 0, 0, 0, 5.0);
                 sleep(20000);
-            } else { // Right Path
-                path = "Right";
-                encoderStrafe(driveSpeed,-3,10,0,0,5.0);
-                encoderDrive(driveSpeed,26,10,0,0,5.0);
-                encoderSpin(turnSpeed,90,10,0,0,5.0);
-                encoderIntake(-1,5.0);
-                encoderDrive(driveSpeed, -38,10,0, 0, 5.0);
-                encoderStrafe(driveSpeed,-6,10,0,0,5.0);
-                score(1,5.0);
-                encoderStrafe(driveSpeed,-24,0,0,0,5.0);
-                encoderDrive(driveSpeed, -12,0,0,0,5.0);
-                sleep(20000);
             }
+
         }
-        encoderStrafe(driveSpeed,5,9,0,0,5.0);
-        encoderDrive(driveSpeed,26,9,0,0,5.0);
-        encoderDrive(driveSpeed,4,9,0,0,5.0);
-        encoderDrive(driveSpeed,-4,9,0,0,5.0);
-        encoderIntake(0.2,2.0);
-        encoderDrive(driveSpeed,-3,9,0,0,5.0);
-        encoderSpin(turnSpeed,90,9,0,0,5.0);
-        encoderIntake(0.2,5.0);
-        encoderDrive(driveSpeed, -40,9,0, 0, 5.0);
+        // Right Path
+        path = "Right";
+        encoderStrafe(driveSpeed,-3,10,0,0,5.0);
+        encoderDrive(driveSpeed,26,10,0,0,5.0);
+        encoderSpin(turnSpeed,90,10,0,0,5.0);
+        encoderIntake(-1,5.0);
+        encoderDrive(driveSpeed, -38,10,0, 0, 5.0);
+        encoderStrafe(driveSpeed,-6,10,0,0,5.0);
         score(1,5.0);
         encoderStrafe(driveSpeed,-24,0,0,0,5.0);
         encoderDrive(driveSpeed, -12,0,0,0,5.0);
@@ -287,7 +275,7 @@ public class SwarmAutoBlueBack extends LinearOpMode {
 
 
         telemetry.addData("Path", path);
-        telemetry.addData("position", "%.0f", x);
+        //telemetry.addData("position", "%.0f", x);
         telemetry.update();
         sleep(1000);  // pause to display final telemetry message.
     }
@@ -682,7 +670,7 @@ public class SwarmAutoBlueBack extends LinearOpMode {
         visionPortal = builder.build();
 
         // Set confidence threshold for TFOD recognitions, at any time.
-        //tfod.setMinResultConfidence(0.75f);
+        tfod.setMinResultConfidence(0.6f);
 
         // Disable or re-enable the TFOD processor at any time.
         //visionPortal.setProcessorEnabled(tfod, true);
