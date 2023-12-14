@@ -245,6 +245,10 @@ public class SwarmAutoBlueFront extends LinearOpMode {
                 encoderDrive(driveSpeed, -12, 0, 0, 0, 5.0);
                 sleep(20000);
             }
+            telemetry.addData("Path", path);
+            //telemetry.addData("position", "%.0f", x);
+            telemetry.update();
+            sleep(20000);  // pause to display final telemetry message.
         }
         // Left Path
         path = "Left";

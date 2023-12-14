@@ -111,7 +111,7 @@ public class SwarmAutoRedFront extends LinearOpMode {
     //private static final String TFOD_MODEL_FILE = "/sdcard/FIRST/tflitemodels/model_20231201_103711.tflite";
     // Define the labels recognized in the model for TFOD (must be in training order!)
     private static final String[] LABELS = {
-            "Red",
+            "Swarm Prop",
     };
 
     /**
@@ -174,9 +174,10 @@ public class SwarmAutoRedFront extends LinearOpMode {
         rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-
         initTfod();
-        //targetTfod();
+
+
+
 
 
 
@@ -189,6 +190,7 @@ public class SwarmAutoRedFront extends LinearOpMode {
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
+
 
 
 
@@ -244,9 +246,13 @@ public class SwarmAutoRedFront extends LinearOpMode {
                 encoderDrive(driveSpeed, -12, 0, 0, 0, 5.0);
                 sleep(20000);
             }
+            telemetry.addData("Path", path);
+            //telemetry.addData("position", "%.0f", x);
+            telemetry.update();
+            sleep(20000);  // pause to display final telemetry message.
         }
 
-        path = "Right";
+        // Right Path
         encoderDrive(driveSpeed, 26, 10, 0, 0, 5.0);
         encoderSpin(turnSpeed, 90, 10, 0, 0, 5.0);
         encoderDrive(driveSpeed, 2, 10, 0, 0, 5.0);

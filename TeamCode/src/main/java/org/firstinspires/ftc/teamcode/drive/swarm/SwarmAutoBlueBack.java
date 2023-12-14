@@ -257,10 +257,14 @@ public class SwarmAutoBlueBack extends LinearOpMode {
                 encoderDrive(driveSpeed, -10, 0, 0, 0, 5.0);
                 sleep(20000);
             }
+            telemetry.addData("Path", path);
+            //telemetry.addData("position", "%.0f", x);
+            telemetry.update();
+            sleep(20000);  // pause to display final telemetry message.
 
         }
         // Right Path
-        path = "Right";
+
         encoderStrafe(driveSpeed,-3,10,0,0,5.0);
         encoderDrive(driveSpeed,26,10,0,0,5.0);
         encoderSpin(turnSpeed,90,10,0,0,5.0);
