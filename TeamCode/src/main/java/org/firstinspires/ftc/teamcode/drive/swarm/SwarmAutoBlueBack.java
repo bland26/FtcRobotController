@@ -240,7 +240,7 @@ public class SwarmAutoBlueBack extends LinearOpMode {
 //                score(1,5.0);
 //                encoderStrafe(driveSpeed,-28,0,0,0,5.0);
 //                encoderDrive(driveSpeed, -8, 0,0, 0, 5.0);
-                sleep(20000);
+                sleep(26000);
             } else if (x < 350) { // Left Path
                 path = "Left";
                 telemetry.addData("Path", path);
@@ -261,7 +261,7 @@ public class SwarmAutoBlueBack extends LinearOpMode {
 //                score(1, 5.0);
 //                encoderStrafe(driveSpeed, -34, 0, 0, 0, 5.0);
 //                encoderDrive(driveSpeed, -10, 0, 0, 0, 5.0);
-                sleep(20000);
+                sleep(26000);
             }
 
         }
@@ -278,7 +278,7 @@ public class SwarmAutoBlueBack extends LinearOpMode {
 //        score(1,5.0);
 //        encoderStrafe(driveSpeed,-24,0,0,0,5.0);
 //        encoderDrive(driveSpeed, -12,0,0,0,5.0);
-        sleep(20000);
+        sleep(26000);
 
 
 
