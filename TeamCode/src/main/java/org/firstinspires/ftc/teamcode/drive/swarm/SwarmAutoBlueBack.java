@@ -226,62 +226,63 @@ public class SwarmAutoBlueBack extends LinearOpMode {
 
             if (x >= 350 && x < 1100) { // Middle Path
                 path = "Middle";
-                encoderStrafe(driveSpeed,5,9,0,0,5.0);
-                encoderDrive(driveSpeed,28,9,0,0,5.0);
-                encoderDrive(driveSpeed,-4,9,0,0,5.0);
-                encoderIntake(0.2,2.0);
-                encoderDrive(driveSpeed,-3,9,0,0,5.0);
-                encoderSpin(turnSpeed,90,9,-1,0,5.0);
-                encoderDrive(driveSpeed, -37,9,0, 0, 5.0);
-                encoderStrafe(driveSpeed,-2,9,0,0,5.0);
-                score(1,5.0);
-                encoderStrafe(driveSpeed,-28,0,0,0,5.0);
-                encoderDrive(driveSpeed, -8, 0,0, 0, 5.0);
+                telemetry.addData("Path", path);
+                telemetry.addData("position", "%.0f", x);
+                telemetry.update();
+//                encoderStrafe(driveSpeed,5,9,0,0,5.0);
+//                encoderDrive(driveSpeed,28,9,0,0,5.0);
+//                encoderDrive(driveSpeed,-4,9,0,0,5.0);
+//                encoderIntake(0.2,2.0);
+//                encoderDrive(driveSpeed,-3,9,0,0,5.0);
+//                encoderSpin(turnSpeed,90,9,-1,0,5.0);
+//                encoderDrive(driveSpeed, -37,9,0, 0, 5.0);
+//                encoderStrafe(driveSpeed,-2,9,0,0,5.0);
+//                score(1,5.0);
+//                encoderStrafe(driveSpeed,-28,0,0,0,5.0);
+//                encoderDrive(driveSpeed, -8, 0,0, 0, 5.0);
                 sleep(20000);
             } else if (x < 350) { // Left Path
                 path = "Left";
-                encoderStrafe(driveSpeed,2,10,0,0,5.0);
-                encoderDrive(driveSpeed, 26, 10, 0, 0, 5.0);
-                encoderSpin(turnSpeed, -90, 10, 0, 0, 5.0);
-                encoderIntake(0.2, 5.0);
-                encoderDrive(driveSpeed, -3, 10, 0, 0, 5.0);
-                encoderStrafe(driveSpeed,-2,10,0,0,5.0);
-                encoderSpin(turnSpeed, -180, 10, 0, 0, 5.0);
-                encoderDrive(driveSpeed, -3, 10, 0, 0, 5.0);
-                encoderStrafe(driveSpeed, -24, 10, 0, 0, 5.0);
-                encoderDrive(driveSpeed, -36, 10, 0, 0, 5.0);
-                encoderStrafe(driveSpeed, 36, 10, 0, 0, 5.0);
-                encoderDrive(driveSpeed, -5, 10, 0, 0, 5.0);
-                score(1, 5.0);
-                encoderStrafe(driveSpeed, -34, 0, 0, 0, 5.0);
-                encoderDrive(driveSpeed, -10, 0, 0, 0, 5.0);
+                telemetry.addData("Path", path);
+                telemetry.addData("position", "%.0f", x);
+                telemetry.update();
+//                encoderStrafe(driveSpeed,2,10,0,0,5.0);
+//                encoderDrive(driveSpeed, 26, 10, 0, 0, 5.0);
+//                encoderSpin(turnSpeed, -90, 10, 0, 0, 5.0);
+//                encoderIntake(0.2, 5.0);
+//                encoderDrive(driveSpeed, -3, 10, 0, 0, 5.0);
+//                encoderStrafe(driveSpeed,-2,10,0,0,5.0);
+//                encoderSpin(turnSpeed, -180, 10, 0, 0, 5.0);
+//                encoderDrive(driveSpeed, -3, 10, 0, 0, 5.0);
+//                encoderStrafe(driveSpeed, -24, 10, 0, 0, 5.0);
+//                encoderDrive(driveSpeed, -36, 10, 0, 0, 5.0);
+//                encoderStrafe(driveSpeed, 36, 10, 0, 0, 5.0);
+//                encoderDrive(driveSpeed, -5, 10, 0, 0, 5.0);
+//                score(1, 5.0);
+//                encoderStrafe(driveSpeed, -34, 0, 0, 0, 5.0);
+//                encoderDrive(driveSpeed, -10, 0, 0, 0, 5.0);
                 sleep(20000);
             }
-            telemetry.addData("Path", path);
-            //telemetry.addData("position", "%.0f", x);
-            telemetry.update();
-            sleep(20000);  // pause to display final telemetry message.
 
         }
         // Right Path
-
-        encoderStrafe(driveSpeed,-3,10,0,0,5.0);
-        encoderDrive(driveSpeed,26,10,0,0,5.0);
-        encoderSpin(turnSpeed,90,10,0,0,5.0);
-        encoderIntake(-1,5.0);
-        encoderDrive(driveSpeed, -38,10,0, 0, 5.0);
-        encoderStrafe(driveSpeed,-6,10,0,0,5.0);
-        score(1,5.0);
-        encoderStrafe(driveSpeed,-24,0,0,0,5.0);
-        encoderDrive(driveSpeed, -12,0,0,0,5.0);
+        path = "right";
+        telemetry.addData("Path", path);
+        telemetry.update();
+//        encoderStrafe(driveSpeed,-3,10,0,0,5.0);
+//        encoderDrive(driveSpeed,26,10,0,0,5.0);
+//        encoderSpin(turnSpeed,90,10,0,0,5.0);
+//        encoderIntake(-1,5.0);
+//        encoderDrive(driveSpeed, -38,10,0, 0, 5.0);
+//        encoderStrafe(driveSpeed,-6,10,0,0,5.0);
+//        score(1,5.0);
+//        encoderStrafe(driveSpeed,-24,0,0,0,5.0);
+//        encoderDrive(driveSpeed, -12,0,0,0,5.0);
         sleep(20000);
 
 
 
-        telemetry.addData("Path", path);
-        //telemetry.addData("position", "%.0f", x);
-        telemetry.update();
-        sleep(1000);  // pause to display final telemetry message.
+
     }
 
     /*
