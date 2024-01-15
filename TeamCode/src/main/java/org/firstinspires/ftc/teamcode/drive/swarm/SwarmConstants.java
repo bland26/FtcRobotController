@@ -9,7 +9,7 @@ public class SwarmConstants {
 
     public static final double  driveSpeed = 0.6;
     public static final double  turnSpeed = 0.5;
-    public static final double liftSpeed = 0.8;
+    public static final double liftSpeed = 1.0;
     public static final double intakeSpeed = 1;
     public static final double     COUNTS_PER_MOTOR_REV    = 537.6 ;
     public static final double      WHEEL_DIAMETER_INCHES   = 75/25.4 ;     // For figuring circumference

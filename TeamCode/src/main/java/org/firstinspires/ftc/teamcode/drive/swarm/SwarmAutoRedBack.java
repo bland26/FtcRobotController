@@ -214,41 +214,43 @@ public class SwarmAutoRedBack extends LinearOpMode {
         for (Recognition recognition : currentRecognitions) {
             double x = (recognition.getLeft() + recognition.getRight()) / 2;
 
-            if (x > 150 && x <= 940) { // Middle Path
+            if (x > 50 && x <= 400) { // Middle Path
                 path = "Middle";
                 telemetry.addData("Path", path);
                 telemetry.addData("position", "%.0f", x);
                 telemetry.update();
-//                encoderStrafe(driveSpeed, 2, 10, 0, 0, 5.0);
-//                encoderStrafe(driveSpeed, 1, 10, 0, 0, 5.0);
-//                encoderDrive(driveSpeed, 28, 10, 0, 0, 5.0);
-//                encoderIntake(-1, 5.0);
-//                encoderSpin(turnSpeed, -90, 10, -1, 0, 5.0);
-//                encoderDrive(driveSpeed, -36, 10, 0, 0, 5.0);
-//                score(1, 5.0);
-//                encoderStrafe(driveSpeed, 24, 0, 0, 0, 5.0);
-//                encoderDrive(driveSpeed, -12, 0, 0, 0, 5.0);
+                encoderStrafe(driveSpeed,-5,9,0,0,5.0);
+                encoderDrive(driveSpeed,28,9,0,0,5.0);
+                encoderDrive(driveSpeed,-4,9,0,0,5.0);
+                encoderIntake(0.2,2.0);
+                encoderDrive(driveSpeed,-3,9,0,0,5.0);
+                encoderSpin(turnSpeed,-90,9,-1,0,5.0);
+                encoderDrive(driveSpeed, -37,9,0, 0, 5.0);
+                encoderStrafe(driveSpeed,2,9,0,0,5.0);
+                score(1,5.0);
+                encoderStrafe(driveSpeed,28,0,0,0,5.0);
+                encoderDrive(driveSpeed, -8, 0,0, 0, 5.0);
                 sleep(26000);
-            } else if (x > 940) { // Right Path
+            } else if (x > 400) { // Right Path
                 path = "Right";
                 telemetry.addData("Path", path);
                 telemetry.addData("position", "%.0f", x);
                 telemetry.update();
-//                encoderStrafe(driveSpeed, -2, 10, 0, 0, 5.0);
-//                encoderDrive(driveSpeed, 26, 10, 0, 0, 5.0);
-//                encoderSpin(turnSpeed, 90, 10, 0, 0, 5.0);
-//                encoderIntake(0.2, 5.0);
-//                encoderDrive(driveSpeed, -4, 10, 0, 0, 5.0);
-//                encoderStrafe(driveSpeed, 2, 10, 0, 0, 5.0);
-//                encoderSpin(turnSpeed, 180, 10, 0, 0, 5.0);
-//                encoderDrive(driveSpeed, -3.5, 10, 0, 0, 5.0);
-//                encoderStrafe(driveSpeed, 24, 10, 0, 0, 5.0);
-//                encoderDrive(driveSpeed, -36, 10, 0, 0, 5.0);
-//                encoderStrafe(driveSpeed, -32, 10, 0, 0, 5.0);
-//                encoderDrive(driveSpeed, -2, 10, 0, 0, 5.0);
-//                score(1, 5.0);
-//                encoderStrafe(driveSpeed, 32, 0, 0, 0, 5.0);
-//                encoderDrive(driveSpeed, -10, 0, 0, 0, 5.0);
+                encoderStrafe(driveSpeed,-2,10,0,0,5.0);
+                encoderDrive(driveSpeed, 26, 10, 0, 0, 5.0);
+                encoderSpin(turnSpeed, 90, 10, 0, 0, 5.0);
+                encoderIntake(0.2, 1.0);
+                encoderDrive(driveSpeed, -3, 10, 0, 0, 5.0);
+                encoderStrafe(driveSpeed,2,10,0,0,5.0);
+                encoderSpin(turnSpeed, 180, 10, 0, 0, 5.0);
+                encoderDrive(driveSpeed, -3, 10, 0, 0, 5.0);
+                encoderStrafe(driveSpeed, 24, 10, 0, 0, 5.0);
+                encoderDrive(driveSpeed, -36, 10, 0, 0, 5.0);
+                encoderStrafe(driveSpeed, -30, 10, 0, 0, 5.0);
+                encoderDrive(driveSpeed, -5, 10, 0, 0, 5.0);
+                score(1, 5.0);
+                encoderStrafe(driveSpeed, 34, 0, 0, 0, 5.0);
+                encoderDrive(driveSpeed, -10, 0, 0, 0, 5.0);
                 sleep(26000);
             }
         }
@@ -256,15 +258,15 @@ public class SwarmAutoRedBack extends LinearOpMode {
         path = "Left";
         telemetry.addData("Path", path);
         telemetry.update();
-//        encoderStrafe(driveSpeed, -3, 10, 0, 0, 5.0);
-//        encoderDrive(driveSpeed, 26, 10, 0, 0, 5.0);
-//        encoderSpin(turnSpeed, -90, 10, 0, 0, 5.0);
-//        encoderIntake(-1, 5.0);
-//        encoderDrive(driveSpeed, -38, 10, 0, 0, 5.0);
-//        encoderStrafe(driveSpeed, 6, 10, 0, 0, 5.0);
-//        score(1, 5.0);
-//        encoderStrafe(driveSpeed, 18, 0, 0, 0, 5.0);
-//        encoderDrive(driveSpeed, -12, 0, 0, 0, 5.0);
+        encoderStrafe(driveSpeed,3,10,0,0,5.0);
+        encoderDrive(driveSpeed,26,10,0,0,5.0);
+        encoderSpin(turnSpeed,-90,10,0,0,5.0);
+        encoderIntake(-1,5.0);
+        encoderDrive(driveSpeed, -38,10,0, 0, 5.0);
+        encoderStrafe(driveSpeed,6,10,0,0,5.0);
+        score(1,5.0);
+        encoderStrafe(driveSpeed,24,0,0,0,5.0);
+        encoderDrive(driveSpeed, -12,0,0,0,5.0);
         sleep(26000);
 
 
