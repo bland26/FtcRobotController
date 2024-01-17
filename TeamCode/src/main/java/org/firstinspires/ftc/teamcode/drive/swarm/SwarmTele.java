@@ -99,7 +99,7 @@ public class SwarmTele extends OpMode {
         rightRear.setDirection(DcMotor.Direction.FORWARD);
         leftFront.setDirection(DcMotor.Direction.FORWARD);
         rightFront.setDirection(DcMotor.Direction.FORWARD);
-        lift.setDirection(DcMotor.Direction.REVERSE);
+        lift.setDirection(DcMotor.Direction.FORWARD);
         intakeTop.setDirection(DcMotor.Direction.FORWARD);
         intakeBot.setDirection(DcMotor.Direction.FORWARD);
         indexer.setDirection(CRServo.Direction.REVERSE);

@@ -148,7 +148,7 @@ public class SwarmAutoBlueFront extends LinearOpMode {
         rightRear.setDirection(DcMotor.Direction.FORWARD);
         leftFront.setDirection(DcMotor.Direction.FORWARD);
         rightFront.setDirection(DcMotor.Direction.FORWARD);
-        lift.setDirection(DcMotor.Direction.REVERSE);
+        lift.setDirection(DcMotor.Direction.FORWARD);
         intakeTop.setDirection(DcMotorSimple.Direction.FORWARD);
         intakeBot.setDirection(DcMotorSimple.Direction.FORWARD);
         indexer.setDirection(CRServo.Direction.REVERSE);
