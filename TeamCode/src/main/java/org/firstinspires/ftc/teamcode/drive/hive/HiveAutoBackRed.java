@@ -118,10 +118,6 @@ public class HiveAutoBackRed extends LinearOpMode {
     public static double intakeSpeed = 0.5;
 
 
-    public static double x = 500;
-    private double y = 0;
-
-    private String path = null;
 
 
 
@@ -239,44 +235,65 @@ public class HiveAutoBackRed extends LinearOpMode {
         maximum time allowed for the step before it automatically stops.)
          */
 
-        if (x >= 200 && x < 720) { // Middle Path
-            path = "1";
-            encoderStrafe(driveSpeed,-2,0,0,0,0,5.0);
-            encoderDrive(driveSpeed,20,3.5,-1,0,0,5.0);
-            encoderDrive(driveSpeed,4,3.5,1,0,1,5.0);
-            encoderDrive(driveSpeed, -4, 3.5,1,0,1,5.0);
-            encoderSpin(turnSpeed, -90,3.5,1,0,1,5.0);
-            encoderDrive(driveSpeed,-37,3.5,0,0, 1,5.0);
-            encoderStrafe(driveSpeed,6,3.5,0,0,0.5,5.0);
-            score(-1,2.0);
-            encoderStrafe(driveSpeed, 24,0,0,0,0.25,5.0);
-            encoderDrive(driveSpeed, -8,0,0,0,0.25,5.0);
-            sleep(20000);
-        } else if (x < 200) { // Right Path
-            path = "2";
-            encoderStrafe(driveSpeed,-2,0,0,0,0,5.0);
-            encoderDrive(driveSpeed,24,3,-1,0,0,5.0);
-            encoderSpin(turnSpeed, -90,3,0,0,0,5.0);
-            encoderDrive(driveSpeed,-20,3,0,0,0,5.0);
-            encoderDrive(driveSpeed,-19,3,1,0, 1,5.0);
-            encoderStrafe(driveSpeed,4,3,0,0,0.5,5.0);
-            score(-1,2.0);
-            encoderStrafe(driveSpeed, 22,0,0,0,0.25,5.0);
-            encoderDrive(driveSpeed, -8,0,0,0,0.25,5.0);
-            sleep(20000);
-        } else { // Left Path
-            path = "3";
-            encoderStrafe(driveSpeed,-2,0,0,0,0,5.0);
-            encoderDrive(driveSpeed,24,3,-1,0,0,5.0);
-            encoderSpin(turnSpeed, -90,3,0,0,0,5.0);
-            encoderDrive(driveSpeed,4,3,0,0,1,5.0);
-            encoderDrive(driveSpeed,-39,3,1,0, 1,5.0);
-            encoderStrafe(driveSpeed,-2,3,0,0,0.5,5.0);
-            score(-1,2.0);
-            encoderStrafe(driveSpeed, 30,0,0,0,0.25,5.0);
-            encoderDrive(driveSpeed, -8,0,0,0,0.25,5.0);
-            sleep(20000);
+         List<Recognition> currentRecognitions = tfod.getRecognitions();
+
+
+        // Step through the list of recognitions and display info for each one.
+        for (Recognition recognition : currentRecognitions) {
+            double x = (recognition.getLeft() + recognition.getRight()) / 2;
+
+            if (x > 50 && x <= 400) { // Middle Path
+                path = "Middle";
+                telemetry.addData("Path", path);
+                telemetry.addData("position", "%.0f", x);
+                telemetry.update();
+                encoderStrafe(driveSpeed,-2,0,0,0,0,5.0);
+                encoderDrive(driveSpeed,20,3.5,-1,0,0,5.0);
+                encoderDrive(driveSpeed,4,3.5,1,0,1,5.0);
+                encoderDrive(driveSpeed, -4, 3.5,1,0,1,5.0);
+                encoderSpin(turnSpeed, -90,3.5,1,0,1,5.0);
+                encoderDrive(driveSpeed,-37,3.5,0,0, 1,5.0);
+                encoderStrafe(driveSpeed,6,3.5,0,0,0.5,5.0);
+                score(-1,2.0);
+                encoderStrafe(driveSpeed, 24,0,0,0,0.25,5.0);
+                encoderDrive(driveSpeed, -8,0,0,0,0.25,5.0);
+                sleep(26000);
+            } else if (x > 400) { // Right Path
+                path = "Right";
+                telemetry.addData("Path", path);
+                telemetry.addData("position", "%.0f", x);
+                telemetry.update();
+                encoderStrafe(driveSpeed,-2,0,0,0,0,5.0);
+                encoderDrive(driveSpeed,24,3,-1,0,0,5.0);
+                encoderSpin(turnSpeed, -90,3,0,0,0,5.0);
+                encoderDrive(driveSpeed,-20,3,0,0,0,5.0);
+                encoderDrive(driveSpeed,-19,3,1,0, 1,5.0);
+                encoderStrafe(driveSpeed,4,3,0,0,0.5,5.0);
+                score(-1,2.0);
+                encoderStrafe(driveSpeed, 22,0,0,0,0.25,5.0);
+                encoderDrive(driveSpeed, -8,0,0,0,0.25,5.0);
+                sleep(26000);
+            }
         }
+        // Left Path
+        path = "Left";
+        telemetry.addData("Path", path);
+        telemetry.update();
+        encoderStrafe(driveSpeed,-2,0,0,0,0,5.0);
+        encoderDrive(driveSpeed,24,3,-1,0,0,5.0);
+        encoderSpin(turnSpeed, -90,3,0,0,0,5.0);
+        encoderDrive(driveSpeed,4,3,0,0,1,5.0);
+        encoderDrive(driveSpeed,-39,3,1,0, 1,5.0);
+        encoderStrafe(driveSpeed,-2,3,0,0,0.5,5.0);
+        score(-1,2.0);
+        encoderStrafe(driveSpeed, 30,0,0,0,0.25,5.0);
+        encoderDrive(driveSpeed, -8,0,0,0,0.25,5.0);
+        sleep(26000);
+
+
+    }
+
+
 
 
 
