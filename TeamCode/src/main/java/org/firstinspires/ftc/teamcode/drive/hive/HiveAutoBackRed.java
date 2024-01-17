@@ -298,11 +298,6 @@ public class HiveAutoBackRed extends LinearOpMode {
 
 
 
-        telemetry.addData("Path", path);
-        telemetry.addData("position", "%.0f", x);
-        telemetry.update();
-        sleep(1000);  // pause to display final telemetry message.
-    }
 
     /*
      *  Method to perform a relative move, based on encoder counts.
