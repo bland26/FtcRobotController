@@ -34,10 +34,8 @@ import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.COUNTS_P
 import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.LIFT_COUNTS_PER_INCH;
 import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.STRAFE_COUNTS_PER_INCH;
 import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.driveSpeed;
-import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.liftSpeed;
 import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.turnSpeed;
-
-import android.util.Size;
+import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.liftSpeed;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -97,11 +95,11 @@ public class SwarmAutoPrime extends LinearOpMode {
     private CRServo indexer = null;
     private CRServo outtake = null;
 
-    private ElapsedTime     runtime = new ElapsedTime();
+    private ElapsedTime runtime = new ElapsedTime();
+
+
 
     private String path = null;
-
-    private double x = 10000;
 
 
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
@@ -142,7 +140,6 @@ public class SwarmAutoPrime extends LinearOpMode {
         outtake = hardwareMap.get(CRServo.class, "outtake");
 
 
-
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // When run, this OpMode should start both motors driving forward. So adjust these two lines based on your first test drive.
         // Note: The settings here assume direct drive on left and right wheels.  Gear Reduction or 90 Deg drives may require direction flips
@@ -150,7 +147,7 @@ public class SwarmAutoPrime extends LinearOpMode {
         rightRear.setDirection(DcMotor.Direction.FORWARD);
         leftFront.setDirection(DcMotor.Direction.FORWARD);
         rightFront.setDirection(DcMotor.Direction.FORWARD);
-        lift.setDirection(DcMotor.Direction.REVERSE);
+        lift.setDirection(DcMotor.Direction.FORWARD);
         intakeTop.setDirection(DcMotorSimple.Direction.FORWARD);
         intakeBot.setDirection(DcMotorSimple.Direction.FORWARD);
         indexer.setDirection(CRServo.Direction.REVERSE);
@@ -161,7 +158,6 @@ public class SwarmAutoPrime extends LinearOpMode {
         rightRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
 
 
         leftRear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -181,22 +177,15 @@ public class SwarmAutoPrime extends LinearOpMode {
         initTfod();
 
 
-
-
         // Send telemetry message to indicate successful Encoder reset
-        telemetry.addData("Starting at",  "%7d :%7d",
+        telemetry.addData("Starting at", "%7d :%7d",
                 leftRear.getCurrentPosition(),
                 rightRear.getCurrentPosition());
         telemetry.update();
 
-        targetTfod();
-
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
-
-        targetTfod();
-
 
 
         // Step through each leg of the path,
@@ -218,26 +207,71 @@ public class SwarmAutoPrime extends LinearOpMode {
         maximum time allowed for the step before it automatically stops.)
          */
 
-        if (x < 200) { // Object 1 path
-            path = "1";
-            //encoderDrive(driveSpeed, 5, 5, 1, 0, 5.0);
-            sleep(20000);
-        } else if (x >= 200 && x < 1000) { // Object 2 path
-            path = "2";
-            //encoderDrive(driveSpeed, 10, 0, 0, 0,5.0);
-            sleep(20000);
-        } else {
-            path = "3";
-            //encoderDrive(driveSpeed, 20, 0, 0, 0,5.0);
-            sleep(20000);
+        List<Recognition> currentRecognitions = tfod.getRecognitions();
+
+
+        // Step through the list of recognitions and display info for each one.
+        for (Recognition recognition : currentRecognitions) {
+            double x = (recognition.getLeft() + recognition.getRight()) / 2;
+
+            if (x > 50 && x <= 400) { // Middle Path
+                path = "Middle";
+                telemetry.addData("Path", path);
+                telemetry.addData("position", "%.0f", x);
+                telemetry.update();
+//                encoderStrafe(driveSpeed,-5,9,0,0,5.0);
+//                encoderDrive(driveSpeed,28,9,0,0,5.0);
+//                encoderDrive(driveSpeed,-4,9,0,0,5.0);
+//                encoderIntake(0.2,2.0);
+//                encoderDrive(driveSpeed,-3,9,0,0,5.0);
+//                encoderSpin(turnSpeed,-90,9,-1,0,5.0);
+//                encoderDrive(driveSpeed, -37,9,0, 0, 5.0);
+//                encoderStrafe(driveSpeed,2,9,0,0,5.0);
+//                score(1,5.0);
+//                encoderStrafe(driveSpeed,28,0,0,0,5.0);
+//                encoderDrive(driveSpeed, -8, 0,0, 0, 5.0);
+                sleep(26000);
+            } else if (x > 400) { // Right Path
+                path = "Right";
+                telemetry.addData("Path", path);
+                telemetry.addData("position", "%.0f", x);
+                telemetry.update();
+//                encoderStrafe(driveSpeed,-2.5,10,0,0,5.0);
+//                encoderDrive(driveSpeed, 26, 10, 0, 0, 5.0);
+//                encoderSpin(turnSpeed, 90, 10, 0, 0, 5.0);
+//                encoderIntake(0.2, 1.0);
+//                encoderDrive(driveSpeed, -3, 10, 0, 0, 5.0);
+//                encoderStrafe(driveSpeed,2,10,0,0,5.0);
+//                encoderSpin(turnSpeed, 180, 10, 0, 0, 5.0);
+//                encoderDrive(driveSpeed, -3, 10, 0, 0, 5.0);
+//                encoderStrafe(driveSpeed, 24, 10, 0, 0, 5.0);
+//                encoderDrive(driveSpeed, -36, 10, 0, 0, 5.0);
+//                encoderStrafe(driveSpeed, -30, 10, 0, 0, 5.0);
+//                encoderDrive(driveSpeed, -1, 10, 0, 0, 5.0);
+//                score(1, 5.0);
+//                encoderStrafe(driveSpeed, 30, 0, 0, 0, 5.0);
+//                encoderDrive(driveSpeed, -10, 0, 0, 0, 5.0);
+                sleep(26000);
+            }
         }
-
-
+        // Left Path
+        path = "Left";
         telemetry.addData("Path", path);
-        telemetry.addData("position", "%.0f", x);
         telemetry.update();
-        sleep(1000);  // pause to display final telemetry message.
+//        encoderStrafe(driveSpeed,3,10,0,0,5.0);
+//        encoderDrive(driveSpeed,26,10,0,0,5.0);
+//        encoderSpin(turnSpeed,-90,10,0,0,5.0);
+//        encoderIntake(-1,5.0);
+//        encoderDrive(driveSpeed, -38,10,0, 0, 5.0);
+//        encoderStrafe(driveSpeed,6,10,0,0,5.0);
+//        score(1,5.0);
+//        encoderStrafe(driveSpeed,24,0,0,0,5.0);
+//        encoderDrive(driveSpeed, -12,0,0,0,5.0);
+        sleep(26000);
+
+
     }
+
 
     /*
      *  Method to perform a relative move, based on encoder counts.
@@ -287,9 +321,9 @@ public class SwarmAutoPrime extends LinearOpMode {
             leftFront.setPower(Math.abs(speed));
             rightFront.setPower(Math.abs(speed));
             lift.setPower(liftSpeed);
-            intakeTop.setPower(intakeValue);
-            intakeBot.setPower(intakeValue);
-            indexer.setPower(intakeValue);
+            intakeTop.setPower(-intakeValue);
+            intakeBot.setPower(-intakeValue);
+            indexer.setPower(-intakeValue);
             outtake.setPower(scoreValue);
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
@@ -369,9 +403,9 @@ public class SwarmAutoPrime extends LinearOpMode {
             leftFront.setPower(Math.abs(speed));
             rightFront.setPower(Math.abs(speed));
             lift.setPower(liftSpeed);
-            intakeTop.setPower(intakeValue);
-            intakeBot.setPower(intakeValue);
-            indexer.setPower(intakeValue);
+            intakeTop.setPower(-intakeValue);
+            intakeBot.setPower(-intakeValue);
+            indexer.setPower(-intakeValue);
             outtake.setPower(scoreValue);
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
@@ -453,9 +487,9 @@ public class SwarmAutoPrime extends LinearOpMode {
             leftFront.setPower(Math.abs(speed));
             rightFront.setPower(Math.abs(speed));
             lift.setPower(liftSpeed);
-            intakeTop.setPower(intakeValue);
-            intakeBot.setPower(intakeValue);
-            indexer.setPower(intakeValue);
+            intakeTop.setPower(-intakeValue);
+            intakeBot.setPower(-intakeValue);
+            indexer.setPower(-intakeValue);
             outtake.setPower(scoreValue);
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
@@ -550,6 +584,34 @@ public class SwarmAutoPrime extends LinearOpMode {
             sleep(250);
         }
     }
+
+
+    private void encoderIntake(double intakeValue, double timeoutS) {
+
+        intakeTop.setPower(intakeValue);
+        indexer.setPower(intakeValue);
+        intakeBot.setPower(intakeValue);
+
+        if (opModeIsActive()) {
+
+
+            runtime.reset();
+            lift.setPower(liftSpeed);
+
+            while (opModeIsActive() &&
+                    (runtime.seconds() < timeoutS)) {
+
+
+            }
+            intakeBot.setPower(0);
+            intakeTop.setPower(0);
+            indexer.setPower(0);
+
+
+            sleep(250);
+        }
+    }
+
     private void initTfod() {
 
         // Create the TensorFlow processor by using a builder.
@@ -569,7 +631,7 @@ public class SwarmAutoPrime extends LinearOpMode {
                 //.setIsModelTensorFlow2(true)
                 //.setIsModelQuantized(true)
                 //.setModelInputSize(300)
-                .setModelAspectRatio(8.0 / 4.5)
+                //.setModelAspectRatio(16.0 / 9.0)
 
                 .build();
 
@@ -584,7 +646,7 @@ public class SwarmAutoPrime extends LinearOpMode {
         }
 
         // Choose a camera resolution. Not all cameras support all resolutions.
-        builder.setCameraResolution(new Size(640, 480));
+        //builder.setCameraResolution(new Size(640, 480));
 
         // Enable the RC preview (LiveView).  Set "false" to omit camera monitoring.
         //builder.enableLiveView(true);
@@ -604,7 +666,7 @@ public class SwarmAutoPrime extends LinearOpMode {
         visionPortal = builder.build();
 
         // Set confidence threshold for TFOD recognitions, at any time.
-        //tfod.setMinResultConfidence(0.75f);
+        tfod.setMinResultConfidence(0.6f);
 
         // Disable or re-enable the TFOD processor at any time.
         //visionPortal.setProcessorEnabled(tfod, true);
@@ -614,22 +676,21 @@ public class SwarmAutoPrime extends LinearOpMode {
     /**
      * Add telemetry about TensorFlow Object Detection (TFOD) recognitions.
      */
-    private double targetTfod() {
-
-        List<Recognition> currentRecognitions = tfod.getRecognitions();
-
-
-        // Step through the list of recognitions and display info for each one.
-        for (Recognition recognition : currentRecognitions) {
-             x = (recognition.getLeft() + recognition.getRight()) / 2 ;
-            double y = (recognition.getTop()  + recognition.getBottom()) / 2 ;
-            return(x);
-
-
-
-        }   // end for() loop
-        return(x);
-    }   // end method telemetryTfod()
+//    private void targetTfod() {
+//
+//
+//        List<Recognition> currentRecognitions = tfod.getRecognitions();
+//
+//
+//        // Step through the list of recognitions and display info for each one.
+//        for (Recognition recognition : currentRecognitions) {
+//            x = (recognition.getLeft() + recognition.getRight()) / 2 ;
+//            double y = (recognition.getTop()  + recognition.getBottom()) / 2 ;
+//
+//
+//
+//
+//        }   // end for() loop
+//    }   // end method telemetryTfod()
 
 }
-

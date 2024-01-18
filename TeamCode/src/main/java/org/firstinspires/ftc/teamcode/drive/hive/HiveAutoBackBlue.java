@@ -96,6 +96,8 @@ public class HiveAutoBackBlue extends LinearOpMode {
     private DcMotor intake = null;
     private CRServo outtake = null;
 
+
+
     private  TouchSensor limitDown;
 
     private Servo claw = null;
@@ -115,11 +117,9 @@ public class HiveAutoBackBlue extends LinearOpMode {
 
     public static double intakeSpeed = 0.5;
 
-
-    public static double x = 500;
-    private double y = 0;
-
     private String path = null;
+
+
 
 
 
@@ -204,7 +204,7 @@ public class HiveAutoBackBlue extends LinearOpMode {
 
 
         initTfod();
-        targetTfod();
+
 
         // Send telemetry message to indicate successful Encoder reset
         telemetry.addData("Starting at",  "%7d :%7d",
@@ -237,53 +237,69 @@ public class HiveAutoBackBlue extends LinearOpMode {
         maximum time allowed for the step before it automatically stops.)
          */
 
-        if (x >= 200 && x < 720) { // Middle Path
-            path = "1";
-            encoderStrafe(driveSpeed,2,0,0,0,0,5.0);
-            encoderDrive(driveSpeed,20,3.25,-1,0,0,5.0);
-            encoderDrive(driveSpeed,4,3.25,1,0,1,5.0);
-            encoderDrive(driveSpeed, -4, 3.25,1,0,1,5.0);
-            encoderSpin(turnSpeed, 90,3.25,1,0,1,5.0);
-            encoderDrive(driveSpeed,-37,3.25,0,0, 1,5.0);
-            encoderStrafe(driveSpeed,-6,3.25,0,0,0.5,5.0);
-            score(-1,2.0);
-            encoderStrafe(driveSpeed, -24,0,0,0,0.25,5.0);
-            encoderDrive(driveSpeed, -8,0,0,0,0.25,5.0);
-            sleep(20000);
-        } else if (x < 200) { // Right Path
-            path = "2";
-            encoderStrafe(driveSpeed,2,0,0,0,0,5.0);
-            encoderDrive(driveSpeed,24,3.5,-1,0,0,5.0);
-            encoderSpin(turnSpeed, 90,3.5,0,0,0,5.0);
-            encoderDrive(driveSpeed,-20,3.5,0,0,0,5.0);
-            encoderDrive(driveSpeed,-19,3.5,1,0, 1,5.0);
-            encoderStrafe(driveSpeed,-6,3.5,0,0,0.5,5.0);
-            score(-1,2.0);
-            encoderStrafe(driveSpeed, -22,0,0,0,0.25,5.0);
-            encoderDrive(driveSpeed, -8,0,0,0,0.25,5.0);
-            sleep(20000);
-        } else { // Left Path
-            path = "3";
-            encoderStrafe(driveSpeed,2,0,0,0,0,5.0);
-            encoderDrive(driveSpeed,24,3.5,-1,0,0,5.0);
-            encoderSpin(turnSpeed, 90,3.5,0,0,0,5.0);
-            encoderDrive(driveSpeed,4,3.5,0,0,1,5.0);
-            encoderDrive(driveSpeed,-39,3.5,1,0, 1,5.0);
-            encoderStrafe(driveSpeed,2,3.5,0,0,0.5,5.0);
-            score(-1,2.0);
-            encoderStrafe(driveSpeed, -30,0,0,0,0.25,5.0);
-            encoderDrive(driveSpeed, -8,0,0,0,0.25,5.0);
-            sleep(20000);
+        List<Recognition> currentRecognitions = tfod.getRecognitions();
+
+
+        // Step through the list of recognitions and display info for each one.
+        for (Recognition recognition : currentRecognitions) {
+            double x = (recognition.getLeft() + recognition.getRight()) / 2;
+
+            if (x >= 100 && x < 500) { // Middle Path
+                path = "Middle";
+                telemetry.addData("Path", path);
+                telemetry.addData("position", "%.0f", x);
+                telemetry.update();
+                encoderStrafe(driveSpeed,2,0,0,0,0,5.0);
+                encoderDrive(driveSpeed,20,3.25,-1,0,0,5.0);
+                encoderDrive(driveSpeed,4,3.25,1,0,1,5.0);
+                encoderDrive(driveSpeed, -4, 3.25,1,0,1,5.0);
+                encoderSpin(turnSpeed, 90,3.25,1,0,1,5.0);
+                encoderDrive(driveSpeed,-37,3.25,0,0, 1,5.0);
+                encoderStrafe(driveSpeed,-6,3.25,0,0,0.5,5.0);
+                score(-1,2.0);
+                encoderStrafe(driveSpeed, -24,0,0,0,0.25,5.0);
+                encoderDrive(driveSpeed, -8,0,0,0,0.25,5.0);
+                sleep(26000);
+            } else if (x < 100) { // Left Path
+                path = "Left";
+                telemetry.addData("Path", path);
+                telemetry.addData("position", "%.0f", x);
+                telemetry.update();
+                encoderStrafe(driveSpeed,2,0,0,0,0,5.0);
+                encoderDrive(driveSpeed,24,3.5,-1,0,0,5.0);
+                encoderSpin(turnSpeed, 90,3.5,0,0,0,5.0);
+                encoderDrive(driveSpeed,-20,3.5,0,0,0,5.0);
+                encoderDrive(driveSpeed,-19,3.5,1,0, 1,5.0);
+                encoderStrafe(driveSpeed,-6,3.5,0,0,0.5,5.0);
+                score(-1,2.0);
+                encoderStrafe(driveSpeed, -22,0,0,0,0.25,5.0);
+                encoderDrive(driveSpeed, -8,0,0,0,0.25,5.0);
+                sleep(26000);
+            }
         }
-
-
-
-
+        // Right Path
+        path = "Right";
         telemetry.addData("Path", path);
-        telemetry.addData("position", "%.0f", x);
         telemetry.update();
-        sleep(1000);  // pause to display final telemetry message.
+        encoderStrafe(driveSpeed,2,0,0,0,0,5.0);
+        encoderDrive(driveSpeed,24,3.5,-1,0,0,5.0);
+        encoderSpin(turnSpeed, 90,3.5,0,0,0,5.0);
+        encoderDrive(driveSpeed,4,3.5,0,0,1,5.0);
+        encoderDrive(driveSpeed,-39,3.5,1,0, 1,5.0);
+        encoderStrafe(driveSpeed,2,3.5,0,0,0.5,5.0);
+        score(-1,2.0);
+        encoderStrafe(driveSpeed, -30,0,0,0,0.25,5.0);
+        encoderDrive(driveSpeed, -8,0,0,0,0.25,5.0);
+        sleep(26000);
+
+
     }
+
+
+
+
+
+
 
     /*
      *  Method to perform a relative move, based on encoder counts.
@@ -606,12 +622,12 @@ public class HiveAutoBackBlue extends LinearOpMode {
                 // choose one of the following:
                 //   Use setModelAssetName() if the custom TF Model is built in as an asset (AS only).
                 //   Use setModelFileName() if you have downloaded a custom team model to the Robot Controller.
-                //.setModelAssetName(TFOD_MODEL_ASSET)
+                .setModelAssetName(TFOD_MODEL_ASSET)
                 //.setModelFileName(TFOD_MODEL_FILE)
 
                 // The following default settings are available to un-comment and edit as needed to
                 // set parameters for custom models.
-                //.setModelLabels(LABELS)
+                .setModelLabels(LABELS)
                 //.setIsModelTensorFlow2(true)
                 //.setIsModelQuantized(true)
                 //.setModelInputSize(300)
@@ -650,7 +666,7 @@ public class HiveAutoBackBlue extends LinearOpMode {
         visionPortal = builder.build();
 
         // Set confidence threshold for TFOD recognitions, at any time.
-        //tfod.setMinResultConfidence(0.75f);
+        tfod.setMinResultConfidence(0.6f);
 
         // Disable or re-enable the TFOD processor at any time.
         //visionPortal.setProcessorEnabled(tfod, true);
@@ -660,22 +676,22 @@ public class HiveAutoBackBlue extends LinearOpMode {
     /**
      * Add telemetry about TensorFlow Object Detection (TFOD) recognitions.
      */
-    private double targetTfod() {
+    // private double targetTfod() {
 
-        List<Recognition> currentRecognitions = tfod.getRecognitions();
-
-
-        // Step through the list of recognitions and display info for each one.
-        for (Recognition recognition : currentRecognitions) {
-            double x = (recognition.getLeft() + recognition.getRight()) / 2 ;
-            y = (recognition.getTop()  + recognition.getBottom()) / 2 ;
-            return(y);
+    //     List<Recognition> currentRecognitions = tfod.getRecognitions();
 
 
+    //     // Step through the list of recognitions and display info for each one.
+    //     for (Recognition recognition : currentRecognitions) {
+    //         double x = (recognition.getLeft() + recognition.getRight()) / 2 ;
+    //         y = (recognition.getTop()  + recognition.getBottom()) / 2 ;
+    //         return(y);
 
-        }   // end for() loop
-        return(y);
-    }   // end method telemetryTfod()
+
+
+    //     }   // end for() loop
+    //     return(y);
+    // }   // end method telemetryTfod()
 
 }
 

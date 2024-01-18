@@ -117,6 +117,8 @@ public class HiveAutoBackRed extends LinearOpMode {
 
     public static double intakeSpeed = 0.5;
 
+    private String path = null;
+
 
 
 
@@ -202,7 +204,7 @@ public class HiveAutoBackRed extends LinearOpMode {
 
 
         initTfod();
-        targetTfod();
+
 
         // Send telemetry message to indicate successful Encoder reset
         telemetry.addData("Starting at",  "%7d :%7d",
