@@ -83,6 +83,7 @@ import java.util.List;
 
 @Autonomous(name="HiveAutoPrime", group="Hive")
 @Config
+@Disabled
 public class HiveAutoPrime extends LinearOpMode {
 
     /* Declare OpMode members. */
