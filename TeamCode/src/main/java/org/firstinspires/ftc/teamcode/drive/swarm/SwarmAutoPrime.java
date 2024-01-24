@@ -83,7 +83,7 @@ import java.util.List;
  */
 
 @Autonomous(name="SwarmAutoPrime", group="Swarm")
-@Disabled
+
 
 public class SwarmAutoPrime extends LinearOpMode {
 
@@ -272,9 +272,8 @@ public class SwarmAutoPrime extends LinearOpMode {
 //        encoderDrive(driveSpeed, -12,0,0,0,5.0);
         sleep(26000);
 
-
+        encoderLift(liftSpeed,1,0,5.0);
     }
-
 
     /*
      *  Method to perform a relative move, based on encoder counts.
