@@ -47,7 +47,7 @@ public class SwarmTele extends OpMode {
 
     private DistanceSensor sensorDistance;
 
-    static double droneStart = 0;
+    static double droneStart = 0.25;
 
     public static double dronePosition = 0.25;
 
