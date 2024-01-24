@@ -83,7 +83,7 @@ import java.util.List;
 
 @Autonomous(name="HiveAutoPrime", group="Hive")
 @Config
-@Disabled
+//@Disabled
 public class HiveAutoPrime extends LinearOpMode {
 
     /* Declare OpMode members. */
@@ -106,7 +106,7 @@ public class HiveAutoPrime extends LinearOpMode {
 
     final static double clawStart = 0.1;
     public static double clawMin = 0.0;
-    public static double clawMax = 0.25;
+    public static double clawMax = 0.5;
     public static double clawSpeed = 0.01;
     public double clawPosition = 0.0;
 
@@ -131,7 +131,7 @@ public class HiveAutoPrime extends LinearOpMode {
     private static final String TFOD_MODEL_ASSET = "18380Red.tflite";
     // TFOD_MODEL_FILE points to a model file stored onboard the Robot Controller's storage,
     // this is used when uploading models directly to the RC using the model upload interface.
-    //private static final String TFOD_MODEL_FILE = "/sdcard/FIRST/tflitemodels/myCustomModel.tflite";
+    private static final String TFOD_MODEL_FILE = "/sdcard/FIRST/tflitemodels/myCustomModel.tflite";
     // Define the labels recognized in the model for TFOD (must be in training order!)
     private static final String[] LABELS = {
             "Red Prop",
@@ -245,7 +245,7 @@ public class HiveAutoPrime extends LinearOpMode {
         for (Recognition recognition : currentRecognitions) {
             double x = (recognition.getLeft() + recognition.getRight()) / 2;
 
-            if (x > 50 && x <= 400) { // Middle Path
+            if (x < 600 && x > 400) { // Middle Path
                 path = "Middle";
                 telemetry.addData("Path", path);
                 telemetry.addData("position", "%.0f", x);
@@ -261,7 +261,7 @@ public class HiveAutoPrime extends LinearOpMode {
 //                encoderStrafe(driveSpeed, 24,0,0,0,0.25,5.0);
 //                encoderDrive(driveSpeed, -8,0,0,0,0.25,5.0);
                 sleep(26000);
-            } else if (x > 400) { // Right Path
+            } else if (x < 400) { // Right Path
                 path = "Right";
                 telemetry.addData("Path", path);
                 telemetry.addData("position", "%.0f", x);

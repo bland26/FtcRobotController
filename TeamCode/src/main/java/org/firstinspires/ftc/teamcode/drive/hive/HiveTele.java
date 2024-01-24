@@ -51,7 +51,7 @@ public class HiveTele extends OpMode {
 
     final static double clawStart = 0.1;
     public static double clawMin = 0.0;
-    public static double clawMax = 0.25;
+    public static double clawMax = 0.4;
     ;
     public static double clawSpeed = 0.01;
     public double clawPosition = 0.0;

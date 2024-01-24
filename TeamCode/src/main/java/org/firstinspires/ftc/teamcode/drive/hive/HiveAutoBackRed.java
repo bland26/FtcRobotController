@@ -127,7 +127,7 @@ public class HiveAutoBackRed extends LinearOpMode {
 
     // TFOD_MODEL_ASSET points to a model file stored in the project Asset location,
     // this is only used for Android Studio when using models in Assets.
-    private static final String TFOD_MODEL_ASSET = "model_20240122_161258.tflite";
+    private static final String TFOD_MODEL_ASSET = "18380Red.tflite";
     // TFOD_MODEL_FILE points to a model file stored onboard the Robot Controller's storage,
     // this is used when uploading models directly to the RC using the model upload interface.
     private static final String TFOD_MODEL_FILE = "/sdcard/FIRST/tflitemodels/myCustomModel.tflite";
@@ -244,7 +244,7 @@ public class HiveAutoBackRed extends LinearOpMode {
         for (Recognition recognition : currentRecognitions) {
             double x = (recognition.getLeft() + recognition.getRight()) / 2;
 
-            if (x > 50 && x <= 400) { // Middle Path
+            if (x < 600 && x > 400) { // Middle Path
                 path = "Middle";
                 telemetry.addData("Path", path);
                 telemetry.addData("position", "%.0f", x);
@@ -260,7 +260,7 @@ public class HiveAutoBackRed extends LinearOpMode {
                 encoderStrafe(driveSpeed, 24,0,0,0,0.25,5.0);
                 encoderDrive(driveSpeed, -8,0,0,0,0.25,5.0);
                 sleep(26000);
-            } else if (x > 400) { // Right Path
+            } else if (x < 400) { // Right Path
                 path = "Right";
                 telemetry.addData("Path", path);
                 telemetry.addData("position", "%.0f", x);
@@ -666,7 +666,7 @@ private void initTfod() {
         visionPortal = builder.build();
 
         // Set confidence threshold for TFOD recognitions, at any time.
-        tfod.setMinResultConfidence(0.6f);
+        tfod.setMinResultConfidence(0.7f);
 
         // Disable or re-enable the TFOD processor at any time.
         //visionPortal.setProcessorEnabled(tfod, true);
