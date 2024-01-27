@@ -251,13 +251,15 @@ public class HiveAutoBackRed extends LinearOpMode {
                 telemetry.update();
                 encoderStrafe(driveSpeed,-2,0,0,0,0,5.0);
                 encoderDrive(driveSpeed,20,3.5,-1,0,0,5.0);
-                encoderDrive(driveSpeed,4,3.5,1,0,1,5.0);
-                encoderDrive(driveSpeed, -4, 3.5,1,0,1,5.0);
+                encoderDrive(driveSpeed,2,3.5,1,0,1,5.0);
+                encoderDrive(driveSpeed, -2, 3.5,1,0,1,5.0);
                 encoderSpin(turnSpeed, -90,3.5,1,0,1,5.0);
-                encoderDrive(driveSpeed,-37,3.5,0,0, 1,5.0);
-                encoderStrafe(driveSpeed,6,3.5,0,0,0.5,5.0);
+                encoderDrive(driveSpeed,-30,3.5,0,0, 1,5.0);
+                encoderStrafe(driveSpeed,5,2.75,0,0,0.5,5.0);
+                encoderDrive(0.5,-7,2.75,0,0, 1,5.0);
                 score(-1,2.0);
-                encoderStrafe(driveSpeed, 24,0,0,0,0.25,5.0);
+                encoderStrafe(driveSpeed, 12,3,0,0,0.25,5.0);
+                encoderStrafe(driveSpeed, 10,0,0,0,0.25,5.0);
                 encoderDrive(driveSpeed, -8,0,0,0,0.25,5.0);
                 sleep(26000);
             } else if (x < 400) { // Right Path
@@ -268,11 +270,13 @@ public class HiveAutoBackRed extends LinearOpMode {
                 encoderStrafe(driveSpeed,-2,0,0,0,0,5.0);
                 encoderDrive(driveSpeed,24,3,-1,0,0,5.0);
                 encoderSpin(turnSpeed, -90,3,0,0,0,5.0);
-                encoderDrive(driveSpeed,-20,3,0,0,0,5.0);
-                encoderDrive(driveSpeed,-19,3,1,0, 1,5.0);
-                encoderStrafe(driveSpeed,4,3,0,0,0.5,5.0);
+                encoderDrive(driveSpeed,-18,3,0,0,0,5.0);
+                encoderDrive(0.5,-6,3,1,0, 1,5.0);
+                encoderStrafe(0.5,-6,2.75,0,0,0.5,5.0);
+                encoderDrive(0.5,-15,2.75,1,0, 1,5.0);
                 score(-1,2.0);
-                encoderStrafe(driveSpeed, 22,0,0,0,0.25,5.0);
+                encoderStrafe(driveSpeed, 20,3,0,0,0.25,5.0);
+                encoderStrafe(driveSpeed, 10,0,0,0,0.25,5.0);
                 encoderDrive(driveSpeed, -8,0,0,0,0.25,5.0);
                 sleep(26000);
             }
@@ -284,11 +288,13 @@ public class HiveAutoBackRed extends LinearOpMode {
         encoderStrafe(driveSpeed,-2,0,0,0,0,5.0);
         encoderDrive(driveSpeed,24,3,-1,0,0,5.0);
         encoderSpin(turnSpeed, -90,3,0,0,0,5.0);
-        encoderDrive(driveSpeed,4,3,0,0,1,5.0);
-        encoderDrive(driveSpeed,-39,3,1,0, 1,5.0);
-        encoderStrafe(driveSpeed,-2,3,0,0,0.5,5.0);
+        encoderDrive(driveSpeed,1,3,0,0,1,5.0);
+        encoderDrive(driveSpeed,-36,3,1,0, 1,5.0);
+        encoderStrafe(driveSpeed,6,2.75,0,0,0.5,5.0);
+        encoderDrive(0.5,-8,2.75,1,0, 1,5.0);
         score(-1,2.0);
-        encoderStrafe(driveSpeed, 30,0,0,0,0.25,5.0);
+        encoderStrafe(driveSpeed, 10,3,0,0,0.25,5.0);
+        encoderStrafe(driveSpeed, 10,0,0,0,0.25,5.0);
         encoderDrive(driveSpeed, -8,0,0,0,0.25,5.0);
         sleep(26000);
 
@@ -353,7 +359,7 @@ public class HiveAutoBackRed extends LinearOpMode {
             lift.setPower(liftSpeed);
             intake.setPower(intakeValue);
             outtake.setPower(outtakeValue);
-            claw.setPosition(clawValue);
+            claw.setPosition(clawValue*clawMax);
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
             // its target position, the motion will stop.  This is "safer" in the event that the robot will
@@ -666,7 +672,7 @@ private void initTfod() {
         visionPortal = builder.build();
 
         // Set confidence threshold for TFOD recognitions, at any time.
-        tfod.setMinResultConfidence(0.7f);
+        tfod.setMinResultConfidence(0.75f);
 
         // Disable or re-enable the TFOD processor at any time.
         //visionPortal.setProcessorEnabled(tfod, true);
