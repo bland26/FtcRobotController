@@ -127,7 +127,7 @@ public class HiveAutoBackBlue extends LinearOpMode {
 
     // TFOD_MODEL_ASSET points to a model file stored in the project Asset location,
     // this is only used for Android Studio when using models in Assets.
-    private static final String TFOD_MODEL_ASSET = "model_20240122_161316.tflite";
+    private static final String TFOD_MODEL_ASSET = "18380Blue.tflite";
     // TFOD_MODEL_FILE points to a model file stored onboard the Robot Controller's storage,
     // this is used when uploading models directly to the RC using the model upload interface.
     private static final String TFOD_MODEL_FILE = "/sdcard/FIRST/tflitemodels/myCustomModel.tflite";
@@ -244,51 +244,57 @@ public class HiveAutoBackBlue extends LinearOpMode {
         for (Recognition recognition : currentRecognitions) {
             double x = (recognition.getLeft() + recognition.getRight()) / 2;
 
-            if (x >= 100 && x < 500) { // Middle Path
+            if (x < 600 && x > 400) { // Middle Path
                 path = "Middle";
                 telemetry.addData("Path", path);
                 telemetry.addData("position", "%.0f", x);
                 telemetry.update();
                 encoderStrafe(driveSpeed,2,0,0,0,0,5.0);
-                encoderDrive(driveSpeed,20,3.25,-1,0,0,5.0);
-                encoderDrive(driveSpeed,4,3.25,1,0,1,5.0);
-                encoderDrive(driveSpeed, -4, 3.25,1,0,1,5.0);
-                encoderSpin(turnSpeed, 90,3.25,1,0,1,5.0);
-                encoderDrive(driveSpeed,-37,3.25,0,0, 1,5.0);
-                encoderStrafe(driveSpeed,-6,3.25,0,0,0.5,5.0);
+                encoderDrive(driveSpeed,20,3.5,-1,0,0,5.0);
+                encoderDrive(driveSpeed,2,3.5,1,0,1,5.0);
+                encoderDrive(driveSpeed, -2, 3.5,1,0,1,5.0);
+                encoderSpin(turnSpeed, 90,3.5,1,0,1,5.0);
+                encoderDrive(driveSpeed,-30,3.5,0,0, 1,5.0);
+                encoderStrafe(driveSpeed,-5,2.75,0,0,0.5,5.0);
+                encoderDrive(0.5,-7,2.75,0,0, 1,5.0);
                 score(-1,2.0);
-                encoderStrafe(driveSpeed, -24,0,0,0,0.25,5.0);
+                encoderStrafe(driveSpeed, -12,3,0,0,0.25,5.0);
+                encoderStrafe(driveSpeed, -10,0,0,0,0.25,5.0);
                 encoderDrive(driveSpeed, -8,0,0,0,0.25,5.0);
                 sleep(26000);
-            } else if (x < 100) { // Left Path
-                path = "Left";
+            } else if (x < 400) { // Right Path
+                path = "Right";
                 telemetry.addData("Path", path);
                 telemetry.addData("position", "%.0f", x);
                 telemetry.update();
                 encoderStrafe(driveSpeed,2,0,0,0,0,5.0);
-                encoderDrive(driveSpeed,24,3.5,-1,0,0,5.0);
-                encoderSpin(turnSpeed, 90,3.5,0,0,0,5.0);
-                encoderDrive(driveSpeed,-20,3.5,0,0,0,5.0);
-                encoderDrive(driveSpeed,-19,3.5,1,0, 1,5.0);
-                encoderStrafe(driveSpeed,-6,3.5,0,0,0.5,5.0);
+                encoderDrive(driveSpeed,24,3,-1,0,0,5.0);
+                encoderSpin(turnSpeed, 90,3,0,0,0,5.0);
+                encoderDrive(driveSpeed,-18,3,0,0,0,5.0);
+                encoderDrive(0.5,-6,3,1,0, 1,5.0);
+                encoderStrafe(0.5,6,2.75,0,0,0.5,5.0);
+                encoderDrive(0.5,-15,2.75,1,0, 1,5.0);
                 score(-1,2.0);
-                encoderStrafe(driveSpeed, -22,0,0,0,0.25,5.0);
+                encoderStrafe(driveSpeed, -20,3,0,0,0.25,5.0);
+                encoderStrafe(driveSpeed, -10,0,0,0,0.25,5.0);
                 encoderDrive(driveSpeed, -8,0,0,0,0.25,5.0);
                 sleep(26000);
             }
         }
-        // Right Path
-        path = "Right";
+        // Left Path
+        path = "Left";
         telemetry.addData("Path", path);
         telemetry.update();
         encoderStrafe(driveSpeed,2,0,0,0,0,5.0);
-        encoderDrive(driveSpeed,24,3.5,-1,0,0,5.0);
-        encoderSpin(turnSpeed, 90,3.5,0,0,0,5.0);
-        encoderDrive(driveSpeed,4,3.5,0,0,1,5.0);
-        encoderDrive(driveSpeed,-39,3.5,1,0, 1,5.0);
-        encoderStrafe(driveSpeed,2,3.5,0,0,0.5,5.0);
+        encoderDrive(driveSpeed,24,3,-1,0,0,5.0);
+        encoderSpin(turnSpeed, 90,3,0,0,0,5.0);
+        encoderDrive(driveSpeed,1,3,0,0,1,5.0);
+        encoderDrive(driveSpeed,-36,3,1,0, 1,5.0);
+        encoderStrafe(driveSpeed,-6,2.75,0,0,0.5,5.0);
+        encoderDrive(0.5,-8,2.75,1,0, 1,5.0);
         score(-1,2.0);
-        encoderStrafe(driveSpeed, -30,0,0,0,0.25,5.0);
+        encoderStrafe(driveSpeed, -10,3,0,0,0.25,5.0);
+        encoderStrafe(driveSpeed, -10,0,0,0,0.25,5.0);
         encoderDrive(driveSpeed, -8,0,0,0,0.25,5.0);
         sleep(26000);
 
@@ -353,7 +359,7 @@ public class HiveAutoBackBlue extends LinearOpMode {
             lift.setPower(liftSpeed);
             intake.setPower(intakeValue);
             outtake.setPower(outtakeValue);
-            claw.setPosition(clawValue);
+            claw.setPosition(clawValue*clawMax);
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
             // its target position, the motion will stop.  This is "safer" in the event that the robot will
