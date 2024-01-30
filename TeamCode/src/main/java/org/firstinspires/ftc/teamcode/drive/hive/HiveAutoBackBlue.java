@@ -244,7 +244,7 @@ public class HiveAutoBackBlue extends LinearOpMode {
         for (Recognition recognition : currentRecognitions) {
             double x = (recognition.getLeft() + recognition.getRight()) / 2;
 
-            if (x < 600 && x > 400) { // Middle Path
+            if (x > 200 && x < 450) { // Middle Path
                 path = "Middle";
                 telemetry.addData("Path", path);
                 telemetry.addData("position", "%.0f", x);
@@ -262,8 +262,9 @@ public class HiveAutoBackBlue extends LinearOpMode {
                 encoderStrafe(driveSpeed, -10,0,0,0,0.25,5.0);
                 encoderDrive(driveSpeed, -8,0,0,0,0.25,5.0);
                 sleep(26000);
-            } else if (x < 400) { // Right Path
-                path = "Right";
+            } else if (x > 450) {
+                // Left Path
+                path = "Left";
                 telemetry.addData("Path", path);
                 telemetry.addData("position", "%.0f", x);
                 telemetry.update();
@@ -278,12 +279,15 @@ public class HiveAutoBackBlue extends LinearOpMode {
                 encoderStrafe(driveSpeed, -20,3,0,0,0.25,5.0);
                 encoderStrafe(driveSpeed, -10,0,0,0,0.25,5.0);
                 encoderDrive(driveSpeed, -8,0,0,0,0.25,5.0);
+
                 sleep(26000);
+
             }
         }
-        // Left Path
-        path = "Left";
+        // Right Path
+        path = "Right";
         telemetry.addData("Path", path);
+
         telemetry.update();
         encoderStrafe(driveSpeed,2,0,0,0,0,5.0);
         encoderDrive(driveSpeed,24,3,-1,0,0,5.0);
@@ -373,11 +377,11 @@ public class HiveAutoBackBlue extends LinearOpMode {
 
 
                 // Display it for the driver.
-                telemetry.addData("Running to",  " %7d :%7d", newLeftBackTarget,  newRightBackTarget);
+               /* telemetry.addData("Running to",  " %7d :%7d", newLeftBackTarget,  newRightBackTarget);
                 telemetry.addData("Running to",  " %7d :%7d", newLeftFrontTarget,  newRightFrontTarget);
                 telemetry.addData("Currently at",  " at %7d :%7d", leftRear.getCurrentPosition(), rightRear.getCurrentPosition());
                 telemetry.addData("Currently at",  " at %7d :%7d", leftFront.getCurrentPosition(), rightFront.getCurrentPosition());
-                telemetry.update();
+                telemetry.update();*/
             }
 
 
@@ -454,13 +458,13 @@ public class HiveAutoBackBlue extends LinearOpMode {
 
 
                 // Display it for the driver.
-                telemetry.addData("Running to",  " %7d :%7d", newLeftBackTarget,  newRightBackTarget);
+/*                telemetry.addData("Running to",  " %7d :%7d", newLeftBackTarget,  newRightBackTarget);
                 telemetry.addData("Running to",  " %7d :%7d", newLeftFrontTarget,  newRightFrontTarget);
                 telemetry.addData("Currently at",  " at %7d :%7d",
                         leftRear.getCurrentPosition(), rightRear.getCurrentPosition());
                 telemetry.addData("Currently at",  " at %7d :%7d",
                         leftFront.getCurrentPosition(), rightFront.getCurrentPosition());
-                telemetry.update();
+                telemetry.update();*/
             }
 
 
@@ -538,13 +542,13 @@ public class HiveAutoBackBlue extends LinearOpMode {
 
 
                 // Display it for the driver.
-                telemetry.addData("Running to",  " %7d :%7d", newLeftBackTarget,  newRightBackTarget);
-                telemetry.addData("Running to",  " %7d :%7d", newLeftFrontTarget,  newRightFrontTarget);
-                telemetry.addData("Currently at",  " at %7d :%7d",
-                        leftRear.getCurrentPosition(), rightRear.getCurrentPosition());
-                telemetry.addData("Currently at",  " at %7d :%7d",
-                        leftFront.getCurrentPosition(), rightFront.getCurrentPosition());
-                telemetry.update();
+//                telemetry.addData("Running to",  " %7d :%7d", newLeftBackTarget,  newRightBackTarget);
+//                telemetry.addData("Running to",  " %7d :%7d", newLeftFrontTarget,  newRightFrontTarget);
+//                telemetry.addData("Currently at",  " at %7d :%7d",
+//                        leftRear.getCurrentPosition(), rightRear.getCurrentPosition());
+//                telemetry.addData("Currently at",  " at %7d :%7d",
+//                        leftFront.getCurrentPosition(), rightFront.getCurrentPosition());
+//                telemetry.update();
             }
 
             // Stop all motion;
