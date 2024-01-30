@@ -228,6 +228,7 @@ public class SwarmAutoRedBack extends LinearOpMode {
                 encoderDrive(driveSpeed, -37.5,9,0, 0, 5.0);
                 encoderStrafe(driveSpeed,4,9,0,0,5.0);
                 score(1,5.0);
+                encoderDrive(driveSpeed, 2,10,0,0,5.0);
                 encoderStrafe(driveSpeed,24,0,0,0,5.0);
                 encoderDrive(driveSpeed, -8, 0,0, 0, 5.0);
                 sleep(26000);
@@ -249,6 +250,7 @@ public class SwarmAutoRedBack extends LinearOpMode {
                 encoderStrafe(driveSpeed, -30, 10, 0, 0, 5.0);
                 encoderDrive(driveSpeed, -1, 10, 0, 0, 5.0);
                 score(1, 5.0);
+                encoderDrive(driveSpeed, 2,10,0,0,5.0);
                 encoderStrafe(driveSpeed, 30, 0, 0, 0, 5.0);
                 encoderDrive(driveSpeed, -10, 0, 0, 0, 5.0);
                 sleep(26000);
@@ -258,13 +260,14 @@ public class SwarmAutoRedBack extends LinearOpMode {
         path = "Left";
         telemetry.addData("Path", path);
         telemetry.update();
-        encoderStrafe(driveSpeed,-3,10,0,0,5.0);
+        encoderStrafe(driveSpeed,-2,10,0,0,5.0);
         encoderDrive(driveSpeed,26,10,0,0,5.0);
         encoderSpin(turnSpeed,-90,10,0,0,5.0);
-        encoderIntake(0.2,5.0);
-        encoderDrive(driveSpeed, -37,10,0, 0, 5.0);
+        encoderIntake(0.2,2.0);
+        encoderDrive(driveSpeed, -38,10,0, 0, 5.0);
         encoderStrafe(driveSpeed,6,10,0,0,5.0);
-        score(1,5.0);
+        score(1,3.0);
+        encoderDrive(driveSpeed, 2,10,0,0,5.0);
         encoderStrafe(driveSpeed,18,0,0,0,5.0);
         encoderDrive(driveSpeed, -10,0,0,0,5.0);
         sleep(26000);

@@ -222,29 +222,25 @@ public class SwarmAutoRedFront extends LinearOpMode {
 
             if (x >= 350 && x < 1100) { // Middle Path
                 path = "Middle";
-//                encoderDrive(driveSpeed, 28, 10, 0, 0, 5.0);
-//                encoderDrive(driveSpeed, 0, 10, -1, 0, 5.0);
-//                encoderSpin(turnSpeed, -90, 10, -1, 0, 5.0);
-//                encoderStrafe(driveSpeed, -28, 0, 0, 0, 5.0);
-//                encoderDrive(driveSpeed, -84, 10, 0, 0, 5.0);
-//                encoderStrafe(driveSpeed, 24, 0, 0, 0, 5.0);
-//                score(1, 5.0);
-//                encoderStrafe(driveSpeed, -24, 0, 0, 0, 5.0);
-//                encoderDrive(driveSpeed, -12, 0, 0, 0, 5.0);
-//                sleep(20000);
+                encoderStrafe(driveSpeed,4,0,0,0,5.0);
+                encoderDrive(driveSpeed,28,0,0,0,5.0);
+                encoderDrive(driveSpeed,-4,0,0,0,5.0);
+                encoderIntake(0.2,3.0);
+                encoderDrive(driveSpeed,-26,0,0,0,5.0);
+                encoderDrive(driveSpeed,-96,0,0,0,5.0);
+                score(1, 5.0);
+                encoderSpin(turnSpeed, 180, 0, 0, 0, 5.0);
+
             } else if (x < 350) { // Left Path
                 path = "Left";
-//                encoderDrive(driveSpeed, 26, 10, 0, 0, 5.0);
-//                encoderSpin(turnSpeed, -90, 10, 0, 0, 5.0);
-//                encoderDrive(driveSpeed, 2, 10, 0, 0, 5.0);
-//                encoderDrive(driveSpeed, 0, 10, -1, 0, 5.0);
-//                encoderStrafe(driveSpeed, -28, 0, 0, 0, 5.0);
-//                encoderDrive(driveSpeed, -84, 10, 0, 0, 5.0);
-//                encoderStrafe(driveSpeed, 24, 0, 0, 0, 5.0);
-//                score(1, 5.0);
-//                encoderStrafe(driveSpeed, -24, 0, 0, 0, 5.0);
-//                encoderDrive(driveSpeed, -12, 0, 0, 0, 5.0);
-                sleep(20000);
+                encoderStrafe(driveSpeed,2,0,0,0,5.0);
+                encoderDrive(driveSpeed,26,0,0,0,5.0);
+                encoderSpin(turnSpeed,-90,0,0,0,5.0);
+                encoderIntake(0.2,2.0);
+                encoderDrive(driveSpeed,-24,0,0,0,5.0);
+                encoderDrive(driveSpeed,-96,0,0,0,5.0);
+                score(1, 5.0);
+                encoderSpin(turnSpeed, 180, 0, 0, 0, 5.0);                sleep(20000);
             }
             telemetry.addData("Path", path);
             //telemetry.addData("position", "%.0f", x);
@@ -253,19 +249,14 @@ public class SwarmAutoRedFront extends LinearOpMode {
         }
 
         // Right Path
-//        encoderDrive(driveSpeed, 26, 10, 0, 0, 5.0);
-//        encoderSpin(turnSpeed, 90, 10, 0, 0, 5.0);
-//        encoderDrive(driveSpeed, 2, 10, 0, 0, 5.0);
-//        encoderDrive(driveSpeed, 0, 10, -1, 0, 5.0);
-//        encoderSpin(turnSpeed, 180, 10, 0, 0, 5.0);
-//        encoderStrafe(driveSpeed, -28, 0, 0, 0, 5.0);
-//        encoderDrive(driveSpeed, -84, 10, 0, 0, 5.0);
-//        encoderStrafe(driveSpeed, 24, 0, 0, 0, 5.0);
-//        score(1, 5.0);
-//        encoderStrafe(driveSpeed, -24, 0, 0, 0, 5.0);
-//        encoderDrive(driveSpeed, -12, 0, 0, 0, 5.0);
-//        sleep(20000);
-
+        encoderStrafe(driveSpeed,2.5,0,0,0,5.0);
+        encoderDrive(driveSpeed, 26, 0, 0, 0, 5.0);
+        encoderSpin(turnSpeed, 90, 0, 0, 0, 5.0);
+        encoderIntake(0.2, 1.0);
+        encoderDrive(driveSpeed,-24,0,0,0,5.0);
+        encoderDrive(driveSpeed,-96,0,0,0,5.0);
+        score(1, 5.0);
+        encoderSpin(turnSpeed, 180, 0, 0, 0, 5.0);
 
         encoderLift(liftSpeed,10,0,5.0);
 
