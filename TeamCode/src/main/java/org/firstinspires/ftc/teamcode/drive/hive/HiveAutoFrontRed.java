@@ -127,7 +127,7 @@ public class HiveAutoFrontRed extends LinearOpMode {
 
     // TFOD_MODEL_ASSET points to a model file stored in the project Asset location,
     // this is only used for Android Studio when using models in Assets.
-    private static final String TFOD_MODEL_ASSET = "model_20240122_161258.tflite";
+    private static final String TFOD_MODEL_ASSET = "18380Red.tflite";
     // TFOD_MODEL_FILE points to a model file stored onboard the Robot Controller's storage,
     // this is used when uploading models directly to the RC using the model upload interface.
     private static final String TFOD_MODEL_FILE = "/sdcard/FIRST/tflitemodels/myCustomModel.tflite";
@@ -244,24 +244,26 @@ public class HiveAutoFrontRed extends LinearOpMode {
         for (Recognition recognition : currentRecognitions) {
             double x = (recognition.getLeft() + recognition.getRight()) / 2;
 
-            if (x >= 350 && x < 1100) { // Middle Path
+            if (x > 200 && x < 450) { // Middle Path
                 path = "Middle";
                 telemetry.addData("Path", path);
                 telemetry.addData("position", "%.0f", x);
                 telemetry.update();
                 encoderStrafe(driveSpeed,2,0,0,0,0,5.0);
                 encoderDrive(driveSpeed,20,0,-1,0,0,5.0);
-                encoderDrive(driveSpeed,4,0,1,0,1,5.0);
-                encoderDrive(driveSpeed, -4, 3.5,1,0,1,5.0);
+                encoderDrive(driveSpeed,2,0,1,0,1,5.0);
+                encoderDrive(driveSpeed, -2, 0,1,0,1,5.0);
                 encoderSpin(turnSpeed, -90,0,1,0,1,5.0);
-                encoderDrive(driveSpeed,-40,3,0,0, 1,5.0);
-                encoderDrive(driveSpeed,-43,3,0,0, 1,5.0);
-                encoderStrafe(driveSpeed,2,3,0,0,0.5,5.0);
+                encoderDrive(driveSpeed,-40,0,0,0, 1,5.0);
+                encoderDrive(driveSpeed,-38,3.5,0,0, 1,5.0);
+                encoderStrafe(driveSpeed,5,2.75,0,0,0.5,5.0);
+                encoderDrive(0.5,-7,2.75,0,0, 1,5.0);
                 score(-1,2.0);
-                encoderStrafe(driveSpeed, 26,0,0,0,0.25,5.0);
+                encoderStrafe(driveSpeed, 12,3,0,0,0.25,5.0);
+                encoderStrafe(driveSpeed, 10,0,0,0,0.25,5.0);
                 encoderDrive(driveSpeed, -8,0,0,0,0.25,5.0);
                 sleep(26000);
-            } else if (x < 350) { // Left Path
+            } else if (x > 450) { // Left Path
                 path = "Left";
                 telemetry.addData("Path", path);
                 telemetry.addData("position", "%.0f", x);
@@ -269,14 +271,15 @@ public class HiveAutoFrontRed extends LinearOpMode {
                 encoderStrafe(driveSpeed,2,0,0,0,0,5.0);
                 encoderDrive(driveSpeed,24,0,-1,0,0,5.0);
                 encoderSpin(turnSpeed, -90,0,0,0,0,5.0);
-                encoderDrive(driveSpeed,-20,0,0,0,0,5.0);
-                encoderDrive(driveSpeed,-20,0,1,0, 1,5.0);
-                encoderDrive(driveSpeed,-43,3,0,0, 1,5.0);
-                encoderStrafe(driveSpeed,6,3,0,0,0.5,5.0);
+                encoderDrive(driveSpeed,1,0,0,0,1,5.0);
+                encoderDrive(driveSpeed,-40,0,1,0, 1,5.0);
+                encoderDrive(driveSpeed,-44,3,1,0, 1,5.0);
+                encoderStrafe(driveSpeed,6,2.75,0,0,0.5,5.0);
+                encoderDrive(0.5,-8,2.75,1,0, 1,5.0);
                 score(-1,2.0);
-                encoderStrafe(driveSpeed, 22,0,0,0,0.25,5.0);
+                encoderStrafe(driveSpeed, 10,3,0,0,0.25,5.0);
+                encoderStrafe(driveSpeed, 10,0,0,0,0.25,5.0);
                 encoderDrive(driveSpeed, -8,0,0,0,0.25,5.0);
-
                 sleep(26000);
             }
         }
@@ -285,14 +288,16 @@ public class HiveAutoFrontRed extends LinearOpMode {
         telemetry.addData("Path", path);
         telemetry.update();
         encoderStrafe(driveSpeed,2,0,0,0,0,5.0);
-        encoderDrive(driveSpeed,24,3,-1,0,0,5.0);
-        encoderSpin(turnSpeed, -90,3,0,0,0,5.0);
-        encoderDrive(driveSpeed,4,3,0,0,1,5.0);
-        encoderDrive(driveSpeed,-44,3,1,0, 1,5.0);
-        encoderDrive(driveSpeed,-43,3,0,0, 1,5.0);
-        encoderStrafe(driveSpeed,-2,3,0,0,0.5,5.0);
+        encoderDrive(driveSpeed,24,0,-1,0,0,5.0);
+        encoderSpin(turnSpeed, -90,0,0,0,0,5.0);
+        encoderDrive(driveSpeed,-40,0,0,0,0,5.0);
+        encoderDrive(driveSpeed,-26,3,0,0,0,5.0);
+        encoderDrive(0.5,-6,3,1,0, 1,5.0);
+        encoderStrafe(0.5,-6,2.75,0,0,0.5,5.0);
+        encoderDrive(0.5,-15,2.75,1,0, 1,5.0);
         score(-1,2.0);
-        encoderStrafe(driveSpeed, 30,0,0,0,0.25,5.0);
+        encoderStrafe(driveSpeed, 20,3,0,0,0.25,5.0);
+        encoderStrafe(driveSpeed, 10,0,0,0,0.25,5.0);
         encoderDrive(driveSpeed, -8,0,0,0,0.25,5.0);
         sleep(26000);
 
@@ -357,7 +362,7 @@ public class HiveAutoFrontRed extends LinearOpMode {
             lift.setPower(liftSpeed);
             intake.setPower(intakeValue);
             outtake.setPower(outtakeValue);
-            claw.setPosition(clawValue);
+            claw.setPosition(clawValue*clawMax);
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
             // its target position, the motion will stop.  This is "safer" in the event that the robot will
@@ -670,7 +675,7 @@ public class HiveAutoFrontRed extends LinearOpMode {
         visionPortal = builder.build();
 
         // Set confidence threshold for TFOD recognitions, at any time.
-        tfod.setMinResultConfidence(0.6f);
+        tfod.setMinResultConfidence(0.75f);
 
         // Disable or re-enable the TFOD processor at any time.
         //visionPortal.setProcessorEnabled(tfod, true);

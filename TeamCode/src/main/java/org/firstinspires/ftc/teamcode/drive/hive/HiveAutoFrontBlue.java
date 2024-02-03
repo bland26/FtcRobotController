@@ -244,23 +244,28 @@ public class HiveAutoFrontBlue extends LinearOpMode {
         for (Recognition recognition : currentRecognitions) {
             double x = (recognition.getLeft() + recognition.getRight()) / 2;
 
-            if (x > 50 && x <= 400) { // Object 1 path middle
+            if (x < 600 && x > 400) { // Object 1 path middle
                 path = "Middle";
                 telemetry.addData("Path", path);
                 telemetry.addData("position", "%.0f", x);
                 telemetry.update();
                 encoderStrafe(driveSpeed,-2,0,0,0,0,5.0);
                 encoderDrive(driveSpeed,20,0,-1,0,0,5.0);
-                encoderDrive(driveSpeed,4,0,1,0,1,5.0);
+                encoderDrive(driveSpeed,2,0,1,0,1,5.0);
+                encoderDrive(driveSpeed, -2, 0,1,0,1,5.0);
                 encoderSpin(turnSpeed, 90,0,1,0,1,5.0);
-                encoderDrive(driveSpeed,-40,3,0,0, 1,5.0);
-                encoderDrive(driveSpeed,-43,3,0,0, 1,5.0);
-                encoderStrafe(driveSpeed,-2,3,0,0,0.5,5.0);
+                encoderDrive(driveSpeed,-40,0,0,0, 1,5.0);
+                encoderDrive(driveSpeed,-38,3.5,0,0, 1,5.0);
+                encoderStrafe(driveSpeed,-5,2.75,0,0,0.5,5.0);
+                encoderDrive(0.5,-7,2.75,0,0, 1,5.0);
                 score(-1,2.0);
-                encoderStrafe(driveSpeed, -26,0,0,0,0.25,5.0);
+                encoderStrafe(driveSpeed, -12,3,0,0,0.25,5.0);
+                encoderStrafe(driveSpeed, -10,0,0,0,0.25,5.0);
+//                encoderStrafe(driveSpeed, 12,3,0,0,0.25,5.0);
+//                encoderStrafe(driveSpeed, 10,0,0,0,0.25,5.0);
                 encoderDrive(driveSpeed, -8,0,0,0,0.25,5.0);
                 sleep(26000);
-            } else if (x > 400) { // Right Path
+            } else if (x < 400) { // Right Path
                 path = "Right";
                 telemetry.addData("Path", path);
                 telemetry.addData("position", "%.0f", x);
@@ -268,12 +273,16 @@ public class HiveAutoFrontBlue extends LinearOpMode {
                 encoderStrafe(driveSpeed,-2,0,0,0,0,5.0);
                 encoderDrive(driveSpeed,24,0,-1,0,0,5.0);
                 encoderSpin(turnSpeed, 90,0,0,0,0,5.0);
-                encoderDrive(driveSpeed,-20,0,0,0,0,5.0);
-                encoderDrive(driveSpeed,-20,0,1,0, 1,5.0);
-                encoderDrive(driveSpeed,-43,3,0,0, 1,5.0);
-                encoderStrafe(driveSpeed,-6,3,0,0,0.5,5.0);
+                encoderDrive(driveSpeed,-40,0,0,0,0,5.0);
+                encoderDrive(driveSpeed,-26,2.75,0,0,0,5.0);
+                encoderDrive(0.5,-6,2.75,1,0, 1,5.0);
+                encoderStrafe(0.5,6,2.75,0,0,0.5,5.0);
+                encoderDrive(0.5,-15,2.75,1,0, 1,5.0);
                 score(-1,2.0);
-                encoderStrafe(driveSpeed, -22,0,0,0,0.25,5.0);
+                encoderStrafe(driveSpeed, -20,3,0,0,0.25,5.0);
+                encoderStrafe(driveSpeed, -10,0,0,0,0.25,5.0);
+//                encoderStrafe(driveSpeed, 10,3,0,0,0.25,5.0);
+//                encoderStrafe(driveSpeed, 10,0,0,0,0.25,5.0);
                 encoderDrive(driveSpeed, -8,0,0,0,0.25,5.0);
                 sleep(26000);
             }
@@ -283,14 +292,19 @@ public class HiveAutoFrontBlue extends LinearOpMode {
         telemetry.addData("Path", path);
         telemetry.update();
         encoderStrafe(driveSpeed,-2,0,0,0,0,5.0);
-        encoderDrive(driveSpeed,24,3,-1,0,0,5.0);
-        encoderSpin(turnSpeed, 90,3,0,0,0,5.0);
-        encoderDrive(driveSpeed,4,3,0,0,1,5.0);
+        encoderDrive(driveSpeed,24,0,-1,0,0,5.0);
+        encoderSpin(turnSpeed, 90,0,0,0,0,5.0);
+        encoderDrive(driveSpeed,1,0,0,0,1,5.0);
+        encoderDrive(driveSpeed,-40,0,1,0, 1,5.0);
         encoderDrive(driveSpeed,-44,3,1,0, 1,5.0);
-        encoderDrive(driveSpeed,-43,3,0,0, 1,5.0);
-        encoderStrafe(driveSpeed,2,3,0,0,0.5,5.0);
+        encoderStrafe(driveSpeed,-6,2.75,0,0,0.5,5.0);
+        encoderDrive(0.5,-8,2.75,1,0, 1,5.0);
         score(-1,2.0);
-        encoderStrafe(driveSpeed, -30,0,0,0,0.25,5.0);
+        encoderStrafe(driveSpeed, -10,3,0,0,0.25,5.0);
+        encoderStrafe(driveSpeed, -10,0,0,0,0.25,5.0);
+//        encoderStrafe(driveSpeed, 20,3,0,0,0.25,5.0);
+//        encoderStrafe(driveSpeed, 10,0,0,0,0.25,5.0);
+        encoderDrive(driveSpeed, -8,0,0,0,0.25,5.0);
         sleep(26000);
 
 
@@ -354,7 +368,7 @@ public class HiveAutoFrontBlue extends LinearOpMode {
             lift.setPower(liftSpeed);
             intake.setPower(intakeValue);
             outtake.setPower(outtakeValue);
-            claw.setPosition(clawValue);
+            claw.setPosition(clawValue*clawMax);
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
             // its target position, the motion will stop.  This is "safer" in the event that the robot will
