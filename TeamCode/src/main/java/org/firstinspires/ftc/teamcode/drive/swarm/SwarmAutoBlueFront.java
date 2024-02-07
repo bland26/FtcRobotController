@@ -221,29 +221,29 @@ public class SwarmAutoBlueFront extends LinearOpMode {
 
             if (x > 50 && x <= 400) { // Object 1 path middle
                 path = "Middle";
-                encoderStrafe(driveSpeed,4,0,0,0,5.0);
+                encoderStrafe(driveSpeed,-4,0,0,0,5.0);
                 encoderDrive(driveSpeed,28,0,0,0,5.0);
                 encoderDrive(driveSpeed,-4,0,0,0,5.0);
                 encoderIntake(0.2,3.0);
                 encoderDrive(driveSpeed,-22,0,0,0,5.0);
-                encoderStrafe(driveSpeed,86,0,0,0,5.0);
-                encoderSpin(turnSpeed,-90,0,0,0,5.0);
+                encoderSpin(turnSpeed,90,0,0,0,5.0);
+                encoderDrive(driveSpeed,-86,0,0,0,5.0);
                 score(1, 5.0);
-                encoderDrive(driveSpeed,3,0,0,0,5.0);
+                encoderDrive(driveSpeed,6,0,0,0,5.0);
                 encoderSpin(turnSpeed, 180, 0, 0, 0, 5.0);
 
             } else if (x > 400) { // Right Path
                 path = "Right";
-                encoderStrafe(driveSpeed,2,0,0,0,5.0);
+                encoderStrafe(driveSpeed,-2,0,0,0,5.0);
                 encoderDrive(driveSpeed,26,0,0,0,5.0);
-                encoderSpin(turnSpeed,-90,0,0,0,5.0);
-                encoderIntake(0.2,2.0);
                 encoderSpin(turnSpeed,90,0,0,0,5.0);
-                encoderDrive(driveSpeed,-24,0,0,0,5.0);
-                encoderStrafe(driveSpeed,86,0,0,0,5.0);
+                encoderIntake(0.2,2.0);
                 encoderSpin(turnSpeed,-90,0,0,0,5.0);
+                encoderDrive(driveSpeed,-24,0,0,0,5.0);
+                encoderSpin(turnSpeed,90,0,0,0,5.0);
+                encoderDrive(driveSpeed,-86,0,0,0,5.0);
                 score(1, 5.0);
-                encoderDrive(driveSpeed,3,0,0,0,5.0);
+                encoderDrive(driveSpeed,6,0,0,0,5.0);
                 encoderSpin(turnSpeed, 180, 0, 0, 0, 5.0);
                 sleep(20000);
             }
@@ -254,16 +254,17 @@ public class SwarmAutoBlueFront extends LinearOpMode {
         }
         // Left Path
         path = "Left";
-        encoderStrafe(driveSpeed,2.5,0,0,0,5.0);
+        encoderStrafe(driveSpeed,-2.5,0,0,0,5.0);
         encoderDrive(driveSpeed, 26, 0, 0, 0, 5.0);
-        encoderSpin(turnSpeed, 90, 0, 0, 0, 5.0);
+        encoderSpin(turnSpeed, -90, 0, 0, 0, 5.0);
         encoderIntake(0.2, 1.0);
-        encoderSpin(turnSpeed, -90, 0, 0, 0, 5.0);
+        encoderDrive(driveSpeed, -2, 0, 0, 0, 5.0);
+        encoderSpin(turnSpeed, 90, 0, 0, 0, 5.0);
         encoderDrive(driveSpeed,-24,0,0,0,5.0);
-        encoderStrafe(driveSpeed,-86,0,0,0,5.0);
-        encoderSpin(turnSpeed, -90, 0, 0, 0, 5.0);
+        encoderSpin(turnSpeed,93,0,0,0,5.0);
+        encoderDrive(driveSpeed,-86,0,0,0,5.0);
         score(1, 5.0);
-        encoderDrive(driveSpeed,3,0,0,0,5.0);
+        encoderDrive(driveSpeed,6,0,0,0,5.0);
         encoderSpin(turnSpeed, 180, 0, 0, 0, 5.0);
 
 
