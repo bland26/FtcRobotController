@@ -249,20 +249,20 @@ public class HiveAutoFrontRed extends LinearOpMode {
                 telemetry.addData("Path", path);
                 telemetry.addData("position", "%.0f", x);
                 telemetry.update();
-                encoderStrafe(driveSpeed,2,0,0,0,0,5.0);
-                encoderDrive(driveSpeed,20,0,-1,0,0,5.0);
+                encoderStrafe(driveSpeed,2,0,-1,0,0,5.0);
+                encoderDrive(driveSpeed,20,0,0,0,0,5.0);
                 encoderDrive(driveSpeed,2,0,1,0,1,5.0);
                 encoderDrive(driveSpeed, -2, 0,1,0,1,5.0);
-                encoderSpin(turnSpeed, -90,0,1,0,1,5.0);
-                encoderDrive(driveSpeed,-40,0,0,0, 1,5.0);
-                encoderDrive(driveSpeed,-38,3.5,0,0, 1,5.0);
-                encoderStrafe(driveSpeed,5,2.75,0,0,0.5,5.0);
-                encoderDrive(0.5,-7,2.75,0,0, 1,5.0);
-                score(-1,2.0);
-                encoderStrafe(driveSpeed, 12,3,0,0,0.25,5.0);
-                encoderStrafe(driveSpeed, 10,0,0,0,0.25,5.0);
-                encoderDrive(driveSpeed, -8,0,0,0,0.25,5.0);
-                sleep(26000);
+//                encoderSpin(turnSpeed, -90,0,1,0,1,5.0);
+//                encoderDrive(driveSpeed,-40,0,0,0, 1,5.0);
+//                encoderDrive(driveSpeed,-38,3.5,0,0, 1,5.0);
+//                encoderStrafe(driveSpeed,5,2.75,0,0,0.5,5.0);
+//                encoderDrive(0.5,-7,2.75,0,0, 1,5.0);
+//                score(-1,2.0);
+//                encoderStrafe(driveSpeed, 12,3,0,0,0.25,5.0);
+//                encoderStrafe(driveSpeed, 10,0,0,0,0.25,5.0);
+//                encoderDrive(driveSpeed, -8,0,0,0,0.25,5.0);
+                sleep(40000);
             } else if (x > 450) { // Left Path
                 path = "Left";
                 telemetry.addData("Path", path);
@@ -272,15 +272,16 @@ public class HiveAutoFrontRed extends LinearOpMode {
                 encoderDrive(driveSpeed,24,0,-1,0,0,5.0);
                 encoderSpin(turnSpeed, -90,0,0,0,0,5.0);
                 encoderDrive(driveSpeed,1,0,0,0,1,5.0);
-                encoderDrive(driveSpeed,-40,0,1,0, 1,5.0);
-                encoderDrive(driveSpeed,-44,3,1,0, 1,5.0);
-                encoderStrafe(driveSpeed,6,2.75,0,0,0.5,5.0);
-                encoderDrive(0.5,-8,2.75,1,0, 1,5.0);
-                score(-1,2.0);
-                encoderStrafe(driveSpeed, 10,3,0,0,0.25,5.0);
-                encoderStrafe(driveSpeed, 10,0,0,0,0.25,5.0);
-                encoderDrive(driveSpeed, -8,0,0,0,0.25,5.0);
-                sleep(26000);
+                //encoderDrive(driveSpeed,-40,0,1,0, 1,5.0);
+                encoderDrive(driveSpeed,-5,0,1,0, 1,5.0);
+//                encoderDrive(driveSpeed,-44,3,1,0, 1,5.0);
+//                encoderStrafe(driveSpeed,6,2.75,0,0,0.5,5.0);
+//                encoderDrive(0.5,-8,2.75,1,0, 1,5.0);
+//                score(-1,2.0);
+//                encoderStrafe(driveSpeed, 10,3,0,0,0.25,5.0);
+//                encoderStrafe(driveSpeed, 10,0,0,0,0.25,5.0);
+//                encoderDrive(driveSpeed, -8,0,0,0,0.25,5.0);
+                sleep(40000);
             }
         }
         // Right Path
@@ -290,15 +291,15 @@ public class HiveAutoFrontRed extends LinearOpMode {
         encoderStrafe(driveSpeed,2,0,0,0,0,5.0);
         encoderDrive(driveSpeed,24,0,-1,0,0,5.0);
         encoderSpin(turnSpeed, -90,0,0,0,0,5.0);
-        encoderDrive(driveSpeed,-40,0,0,0,0,5.0);
-        encoderDrive(driveSpeed,-26,3,0,0,0,5.0);
-        encoderDrive(0.5,-6,3,1,0, 1,5.0);
-        encoderStrafe(0.5,-6,2.75,0,0,0.5,5.0);
-        encoderDrive(0.5,-15,2.75,1,0, 1,5.0);
-        score(-1,2.0);
-        encoderStrafe(driveSpeed, 20,3,0,0,0.25,5.0);
-        encoderStrafe(driveSpeed, 10,0,0,0,0.25,5.0);
-        encoderDrive(driveSpeed, -8,0,0,0,0.25,5.0);
+        encoderDrive(driveSpeed,2,0,0,0,0,5.0);
+        encoderDrive(driveSpeed,-26,0,0,0,0,5.0);
+        encoderDrive(0.5,-6,0,1,0, 1,5.0);
+//        encoderStrafe(0.5,-6,2.75,0,0,0.5,5.0);
+//        encoderDrive(0.5,-15,2.75,1,0, 1,5.0);
+//        score(-1,2.0);
+//        encoderStrafe(driveSpeed, 20,3,0,0,0.25,5.0);
+//        encoderStrafe(driveSpeed, 10,0,0,0,0.25,5.0);
+//        encoderDrive(driveSpeed, -8,0,0,0,0.25,5.0);
         sleep(26000);
 
 
