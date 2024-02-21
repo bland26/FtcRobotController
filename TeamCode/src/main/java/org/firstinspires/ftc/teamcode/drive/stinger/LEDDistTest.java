@@ -248,7 +248,6 @@ public class LEDDistTest extends OpMode {
         }else {
             pattern = RevBlinkinLedDriver.BlinkinPattern.VIOLET;
             blinkinLedDriver.setPattern(pattern);
-
         }
 
 
