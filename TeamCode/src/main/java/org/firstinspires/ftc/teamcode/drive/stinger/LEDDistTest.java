@@ -51,6 +51,8 @@ public class LEDDistTest extends OpMode {
     private DistanceSensor sensorDistanceL;
 
     private double approach = 0;
+    private double distance = 0;
+
 
 
 
@@ -255,6 +257,11 @@ public class LEDDistTest extends OpMode {
         }
         blinkinLedDriver.setPattern(pattern);
 
+        distance = Math.abs((sensorDistanceR.getDistance(DistanceUnit.CM) + sensorDistanceL.getDistance(DistanceUnit.CM))/2);
+
+        if (approach < 10){
+
+        }
 
 
 
