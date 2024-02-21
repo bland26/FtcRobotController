@@ -173,7 +173,7 @@ public class HiveAutoFrontBlue extends LinearOpMode {
         rightFront.setDirection(DcMotor.Direction.FORWARD);
         lift.setDirection(DcMotor.Direction.REVERSE);
         intake.setDirection(DcMotor.Direction.FORWARD);
-        outtake.setDirection(DcMotor.Direction.FORWARD);
+        outtake.setDirection(DcMotor.Direction.REVERSE);
         claw.setPosition(clawPosition);
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
