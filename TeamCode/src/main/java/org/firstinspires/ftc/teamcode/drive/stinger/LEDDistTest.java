@@ -52,6 +52,8 @@ public class LEDDistTest extends OpMode {
 
     private double approach = 0;
 
+
+
     Rev2mDistanceSensor sensorTimeOfFlight = (Rev2mDistanceSensor) sensorDistanceR;
 
     private RevBlinkinLedDriver blinkinLedDriver;
@@ -101,6 +103,8 @@ public class LEDDistTest extends OpMode {
         blinkinLedDriver = hardwareMap.get(RevBlinkinLedDriver.class, "blinkin");
         sensorDistanceR = hardwareMap.get(DistanceSensor.class, "distanceR");
         sensorDistanceL = hardwareMap.get(DistanceSensor.class, "distanceL");
+
+        pattern = RevBlinkinLedDriver.BlinkinPattern.VIOLET;
 
         drone = hardwareMap.get(Servo.class, "drone");
         //TODO initilize new motors that were added
@@ -240,15 +244,16 @@ public class LEDDistTest extends OpMode {
             dronePosition = 0.25;
         }
 
-        approach = Math.abs(sensorDistanceR.getDistance(DistanceUnit.MM) - sensorDistanceL.getDistance(DistanceUnit.MM));
+        approach = Math.abs(sensorDistanceR.getDistance(DistanceUnit.CM) - sensorDistanceL.getDistance(DistanceUnit.CM));
 
-        if (approach < 3){
+        if (approach < 2){
             pattern = RevBlinkinLedDriver.BlinkinPattern.YELLOW;
-            blinkinLedDriver.setPattern(pattern);
+
         }else {
             pattern = RevBlinkinLedDriver.BlinkinPattern.VIOLET;
-            blinkinLedDriver.setPattern(pattern);
+
         }
+        blinkinLedDriver.setPattern(pattern);
 
 
 
@@ -307,8 +312,8 @@ public class LEDDistTest extends OpMode {
         // Show the elapsed game time and wheel power.
         telemetry.addData("Status", "Run Time: " + runtime.toString());
         telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftRearPower, rightRearPower);
-        telemetry.addData("Drone",droneInputSet);
-        telemetry.addData("Drone",droneInput);
+        telemetry.addData("approach","(%.2f)", approach);
+        telemetry.addData("right","(%.2f)", sensorDistanceR.getDistance(DistanceUnit.CM));
     }
 
     /*
