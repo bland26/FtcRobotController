@@ -1,16 +1,20 @@
 package org.firstinspires.ftc.teamcode.drive.stinger;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
+
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 /**
  * This file contains an example of an iterative (Non-Linear) "OpMode".
@@ -43,7 +47,15 @@ public class LEDDistTest extends OpMode {
 
     private Servo drone = null;
 
-    private DistanceSensor sensorDistance;
+    private DistanceSensor sensorDistanceR;
+    private DistanceSensor sensorDistanceL;
+
+    private double approach = 0;
+
+    Rev2mDistanceSensor sensorTimeOfFlight = (Rev2mDistanceSensor) sensorDistanceR;
+
+    private RevBlinkinLedDriver blinkinLedDriver;
+    private RevBlinkinLedDriver.BlinkinPattern pattern;
 
     static double droneStart = 0.25;
 
@@ -52,6 +64,7 @@ public class LEDDistTest extends OpMode {
 
     private TouchSensor limitDown = null;
     private TouchSensor limitClimb = null;
+
 
 
     //TODO Decide names for and declare extra motors. (Top intake, bottom intake, lift)
@@ -85,8 +98,10 @@ public class LEDDistTest extends OpMode {
         outtake = hardwareMap.get(CRServo.class, "outtake");
         limitDown = hardwareMap.get(TouchSensor.class, "limitDown");
         limitClimb = hardwareMap.get(TouchSensor.class, "limitClimb");
-//        sensorDistance = hardwareMap.get(DistanceSensor.class, "sensor_distance");
-//        Rev2mDistanceSensor sensorTimeOfFlight = (Rev2mDistanceSensor) sensorDistance;
+        blinkinLedDriver = hardwareMap.get(RevBlinkinLedDriver.class, "blinkin");
+        sensorDistanceR = hardwareMap.get(DistanceSensor.class, "distanceR");
+        sensorDistanceL = hardwareMap.get(DistanceSensor.class, "distanceL");
+
         drone = hardwareMap.get(Servo.class, "drone");
         //TODO initilize new motors that were added
 
@@ -107,6 +122,7 @@ public class LEDDistTest extends OpMode {
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         climb.setDirection(DcMotorSimple.Direction.FORWARD);
         climb.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        blinkinLedDriver.setPattern(pattern);
 
         //TODO set new motor directions
 
@@ -223,6 +239,18 @@ public class LEDDistTest extends OpMode {
         if(droneInputSet){
             dronePosition = 0.25;
         }
+
+        approach = Math.abs(sensorDistanceR.getDistance(DistanceUnit.MM) - sensorDistanceL.getDistance(DistanceUnit.MM));
+
+        if (approach < 3){
+            pattern = RevBlinkinLedDriver.BlinkinPattern.YELLOW;
+            blinkinLedDriver.setPattern(pattern);
+        }else {
+            pattern = RevBlinkinLedDriver.BlinkinPattern.VIOLET;
+            blinkinLedDriver.setPattern(pattern);
+
+        }
+
 
 
 
