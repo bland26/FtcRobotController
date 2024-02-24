@@ -37,6 +37,7 @@ import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.driveSpe
 import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.turnSpeed;
 import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.liftSpeed;
 
+import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -48,6 +49,7 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.tfod.TfodProcessor;
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 
 import java.util.List;
 
@@ -97,6 +99,11 @@ public class SwarmAutoRedBack extends LinearOpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
 
+    private RevBlinkinLedDriver blinkinLedDriver;
+    private RevBlinkinLedDriver.BlinkinPattern pattern;
+
+
+
 
 
     private String path = null;
@@ -138,6 +145,9 @@ public class SwarmAutoRedBack extends LinearOpMode {
         intakeBot = hardwareMap.get(DcMotor.class, "intakeBot");
         indexer = hardwareMap.get(CRServo.class, "indexer");
         outtake = hardwareMap.get(CRServo.class, "outtake");
+        blinkinLedDriver = hardwareMap.get(RevBlinkinLedDriver.class, "blinkin");
+
+        pattern = RevBlinkinLedDriver.BlinkinPattern.COLOR_WAVES_RAINBOW_PALETTE;
 
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
@@ -172,6 +182,8 @@ public class SwarmAutoRedBack extends LinearOpMode {
         leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+
 
 
         initTfod();
@@ -216,9 +228,7 @@ public class SwarmAutoRedBack extends LinearOpMode {
 
             if (x > 50 && x <= 400) { // Middle Path
                 path = "Middle";
-                telemetry.addData("Path", path);
-                telemetry.addData("position", "%.0f", x);
-                telemetry.update();
+                blinkinLedDriver.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
                 encoderStrafe(driveSpeed,-4,0,0,0,5.0);
                 encoderDrive(driveSpeed,28,0,0,0,5.0);
                 encoderDrive(driveSpeed,-4,8,0,0,5.0);
@@ -234,9 +244,7 @@ public class SwarmAutoRedBack extends LinearOpMode {
                 sleep(26000);
             } else if (x > 400) { // Right Path
                 path = "Right";
-                telemetry.addData("Path", path);
-                telemetry.addData("position", "%.0f", x);
-                telemetry.update();
+                blinkinLedDriver.setPattern(RevBlinkinLedDriver.BlinkinPattern.YELLOW);
                 /*
                 encoderStrafe(driveSpeed,-2.5,0,0,0,5.0);
                 encoderDrive(driveSpeed, 26, 0, 0, 0, 5.0);
@@ -271,8 +279,7 @@ public class SwarmAutoRedBack extends LinearOpMode {
         }
         // Left Path
         path = "Left";
-        telemetry.addData("Path", path);
-        telemetry.update();
+        blinkinLedDriver.setPattern(RevBlinkinLedDriver.BlinkinPattern.VIOLET);
         encoderStrafe(driveSpeed,-2,0,0,0,5.0);
         encoderDrive(driveSpeed,26,0,0,0,5.0);
         encoderSpin(turnSpeed,-90,10,0,0,5.0);

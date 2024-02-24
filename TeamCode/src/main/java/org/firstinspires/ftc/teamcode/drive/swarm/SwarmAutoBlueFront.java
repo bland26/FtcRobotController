@@ -48,6 +48,7 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.tfod.TfodProcessor;
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 
 import java.util.List;
 
@@ -97,6 +98,9 @@ public class SwarmAutoBlueFront extends LinearOpMode {
 
     private ElapsedTime     runtime = new ElapsedTime();
 
+    private RevBlinkinLedDriver blinkinLedDriver;
+    private RevBlinkinLedDriver.BlinkinPattern pattern;
+
 
 
     private String path = null;
@@ -138,6 +142,9 @@ public class SwarmAutoBlueFront extends LinearOpMode {
         intakeBot = hardwareMap.get(DcMotor.class, "intakeBot");
         indexer = hardwareMap.get(CRServo.class, "indexer");
         outtake = hardwareMap.get(CRServo.class, "outtake");
+        blinkinLedDriver = hardwareMap.get(RevBlinkinLedDriver.class, "blinkin");
+
+        pattern = RevBlinkinLedDriver.BlinkinPattern.COLOR_WAVES_RAINBOW_PALETTE;
 
 
 
@@ -174,6 +181,8 @@ public class SwarmAutoBlueFront extends LinearOpMode {
         leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        blinkinLedDriver.setPattern(pattern);
 
 
         initTfod();

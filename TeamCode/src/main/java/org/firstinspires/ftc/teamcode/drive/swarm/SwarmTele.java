@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.drive.swarm;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
@@ -45,11 +46,22 @@ public class SwarmTele extends OpMode {
 
     private Servo drone = null;
 
-    private DistanceSensor sensorDistance;
+    private DistanceSensor sensorDistanceR;
+    private DistanceSensor sensorDistanceL;
+
+    private double approach = 0;
+    private double distance = 0;
+
+    Rev2mDistanceSensor sensorTimeOfFlight = (Rev2mDistanceSensor) sensorDistanceR;
+
+    private RevBlinkinLedDriver blinkinLedDriver;
+    private RevBlinkinLedDriver.BlinkinPattern pattern;
 
     static double droneStart = 0.25;
 
     public static double dronePosition = 0.25;
+
+
 
 
     private TouchSensor limitDown = null;
@@ -87,9 +99,12 @@ public class SwarmTele extends OpMode {
         outtake = hardwareMap.get(CRServo.class, "outtake");
         limitDown = hardwareMap.get(TouchSensor.class, "limitDown");
         limitClimb = hardwareMap.get(TouchSensor.class, "limitClimb");
-//        sensorDistance = hardwareMap.get(DistanceSensor.class, "sensor_distance");
-//        Rev2mDistanceSensor sensorTimeOfFlight = (Rev2mDistanceSensor) sensorDistance;
         drone = hardwareMap.get(Servo.class, "drone");
+        blinkinLedDriver = hardwareMap.get(RevBlinkinLedDriver.class, "blinkin");
+        sensorDistanceR = hardwareMap.get(DistanceSensor.class, "distanceR");
+        sensorDistanceL = hardwareMap.get(DistanceSensor.class, "distanceL");
+
+        pattern = RevBlinkinLedDriver.BlinkinPattern.VIOLET;
         //TODO initilize new motors that were added
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
@@ -109,6 +124,8 @@ public class SwarmTele extends OpMode {
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         climb.setDirection(DcMotorSimple.Direction.FORWARD);
         climb.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        blinkinLedDriver.setPattern(pattern);
+
 
         //TODO set new motor directions
 
@@ -225,6 +242,17 @@ public class SwarmTele extends OpMode {
         if(droneInputSet){
             dronePosition = 0.25;
         }
+
+        approach = Math.abs(sensorDistanceR.getDistance(DistanceUnit.CM) - sensorDistanceL.getDistance(DistanceUnit.CM));
+
+        if (approach < 2){
+            pattern = RevBlinkinLedDriver.BlinkinPattern.YELLOW;
+
+        }else {
+            pattern = RevBlinkinLedDriver.BlinkinPattern.VIOLET;
+
+        }
+        blinkinLedDriver.setPattern(pattern);
 
 
 
