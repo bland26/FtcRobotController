@@ -249,11 +249,11 @@ public class HiveAutoBackRed extends LinearOpMode {
                 telemetry.addData("Path", path);
                 telemetry.addData("position", "%.0f", x);
                 telemetry.update();
-                encoderStrafe(driveSpeed,-2,0,0,0,0,5.0);
+                //encoderStrafe(driveSpeed,-2,0,0,0,0,5.0);
                 encoderDrive(driveSpeed,20,3.5,-1,0,0,5.0);
                 encoderDrive(driveSpeed,2,3.5,1,0,1,5.0);
                 encoderDrive(driveSpeed, -2, 3.5,1,0,1,5.0);
-                encoderSpin(turnSpeed, -90,3.5,1,0,1,5.0);
+                encoderSpin(turnSpeed, -85,3.5,1,0,1,5.0);
                 encoderDrive(driveSpeed,-30,3.5,0,0, 1,5.0);
                 encoderStrafe(driveSpeed,5,2.75,0,0,0.5,5.0);
                 encoderDrive(0.5,-7,2.75,0,0, 1,5.0);

@@ -259,9 +259,6 @@ public class LEDDistTest extends OpMode {
 
         distance = Math.abs((sensorDistanceR.getDistance(DistanceUnit.CM) + sensorDistanceL.getDistance(DistanceUnit.CM))/2);
 
-        if (approach < 10){
-
-        }
 
 
 
@@ -312,6 +309,19 @@ public class LEDDistTest extends OpMode {
         } else {
             lift.setPower(liftPower * liftSpeed);
         }
+
+        if (distance < 10 && driveSpeed < 0){
+            leftRear.setPower(0);
+            rightRear.setPower(0);
+            leftFront.setPower(0);
+            rightFront.setPower(0);
+        }else {
+            leftRear.setPower(leftRearPower * driveSpeed);
+            rightRear.setPower(rightRearPower * driveSpeed);
+            leftFront.setPower(leftFrontPower * driveSpeed);
+            rightFront.setPower(rightFrontPower * driveSpeed);
+        }
+
 
         //TODO set new motor power
 
