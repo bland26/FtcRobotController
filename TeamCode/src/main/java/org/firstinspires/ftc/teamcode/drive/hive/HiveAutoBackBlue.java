@@ -111,7 +111,7 @@ public class HiveAutoBackBlue extends LinearOpMode {
 
 
 
-    public static double driveSpeed = 0.8;
+    public static double driveSpeed = 0.4;
 
     public static double liftSpeed = 1.0;
 
@@ -167,7 +167,7 @@ public class HiveAutoBackBlue extends LinearOpMode {
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // When run, this OpMode should start both motors driving forward. So adjust these two lines based on your first test drive.
         // Note: The settings here assume direct drive on left and right wheels.  Gear Reduction or 90 Deg drives may require direction flips
-        leftRear.setDirection(DcMotor.Direction.FORWARD);
+        leftRear.setDirection(DcMotor.Direction.REVERSE);
         rightRear.setDirection(DcMotor.Direction.REVERSE);
         leftFront.setDirection(DcMotor.Direction.FORWARD);
         rightFront.setDirection(DcMotor.Direction.FORWARD);
@@ -251,16 +251,16 @@ public class HiveAutoBackBlue extends LinearOpMode {
                 telemetry.update();
                 encoderStrafe(driveSpeed,2,0,0,0,0,5.0);
                 encoderDrive(driveSpeed,20,3.5,-1,0,0,5.0);
-                encoderDrive(driveSpeed,2,3.5,1,0,1,5.0);
-                encoderDrive(driveSpeed, -2, 3.5,1,0,1,5.0);
-                encoderSpin(turnSpeed, 90,3.5,1,0,1,5.0);
+                encoderDrive(driveSpeed,2,3.5,0,0,1,5.0);
+                encoderDrive(driveSpeed, -2, 3.5,0,0,1,5.0);
+                encoderSpin(turnSpeed, 90,3.5,0,0,1,5.0);
                 encoderDrive(driveSpeed,-30,3.5,0,0, 1,5.0);
                 encoderStrafe(driveSpeed,-5,2.75,0,0,0.5,5.0);
                 encoderDrive(0.5,-7,2.75,0,0, 1,5.0);
                 score(-1,2.0);
                 encoderStrafe(driveSpeed, -12,3,0,0,0.25,5.0);
                 encoderStrafe(driveSpeed, -10,0,0,0,0.25,5.0);
-                encoderDrive(driveSpeed, -8,0,0,0,0.25,5.0);
+                encoderDrive(driveSpeed, -8,0,1,0,0.25,5.0);
                 sleep(26000);
             } else if (x > 450) {
                 // Left Path
@@ -272,13 +272,13 @@ public class HiveAutoBackBlue extends LinearOpMode {
                 encoderDrive(driveSpeed,24,3,-1,0,0,5.0);
                 encoderSpin(turnSpeed, 90,3,0,0,0,5.0);
                 encoderDrive(driveSpeed,-18,3,0,0,0,5.0);
-                encoderDrive(0.5,-6,3,1,0, 1,5.0);
+                encoderDrive(0.5,-6,3,0,0, 1,5.0);
                 encoderStrafe(0.5,6,2.75,0,0,0.5,5.0);
-                encoderDrive(0.5,-15,2.75,1,0, 1,5.0);
+                encoderDrive(0.5,-15,2.75,0,0, 1,5.0);
                 score(-1,2.0);
                 encoderStrafe(driveSpeed, -20,3,0,0,0.25,5.0);
                 encoderStrafe(driveSpeed, -10,0,0,0,0.25,5.0);
-                encoderDrive(driveSpeed, -8,0,0,0,0.25,5.0);
+                encoderDrive(driveSpeed, -8,0,1,0,0.25,5.0);
 
                 sleep(26000);
 
@@ -293,13 +293,13 @@ public class HiveAutoBackBlue extends LinearOpMode {
         encoderDrive(driveSpeed,24,3,-1,0,0,5.0);
         encoderSpin(turnSpeed, 90,3,0,0,0,5.0);
         encoderDrive(driveSpeed,1,3,0,0,1,5.0);
-        encoderDrive(driveSpeed,-36,3,1,0, 1,5.0);
+        encoderDrive(driveSpeed,-36,3,0,0, 1,5.0);
         encoderStrafe(driveSpeed,-6,2.75,0,0,0.5,5.0);
-        encoderDrive(0.5,-8,2.75,1,0, 1,5.0);
+        encoderDrive(0.5,-8,2.75,0,0, 1,5.0);
         score(-1,2.0);
         encoderStrafe(driveSpeed, -10,3,0,0,0.25,5.0);
         encoderStrafe(driveSpeed, -10,0,0,0,0.25,5.0);
-        encoderDrive(driveSpeed, -8,0,0,0,0.25,5.0);
+        encoderDrive(driveSpeed, -8,0,1,0,0.25,5.0);
         sleep(26000);
 
 
