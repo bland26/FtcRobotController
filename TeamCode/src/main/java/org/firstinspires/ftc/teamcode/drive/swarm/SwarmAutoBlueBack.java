@@ -235,9 +235,7 @@ public class SwarmAutoBlueBack extends LinearOpMode {
 
             if (x >= 100 && x < 500) { // Middle Path
                 path = "Middle";
-                telemetry.addData("Path", path);
-                telemetry.addData("position", "%.0f", x);
-                telemetry.update();
+                blinkinLedDriver.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
                 encoderStrafe(driveSpeed,4,0,0,0,5.0);
                 encoderDrive(driveSpeed,28,0,0,0,5.0);
                 encoderDrive(driveSpeed,-4,9,0,0,5.0);
@@ -253,9 +251,7 @@ public class SwarmAutoBlueBack extends LinearOpMode {
                 sleep(26000);
             } else if (x < 100) { // Left Path
                 path = "Left";
-                telemetry.addData("Path", path);
-                telemetry.addData("position", "%.0f", x);
-                telemetry.update();
+                blinkinLedDriver.setPattern(RevBlinkinLedDriver.BlinkinPattern.VIOLET);
                 /*
                 encoderStrafe(driveSpeed,2.5,0,0,0,5.0);
                 encoderDrive(driveSpeed, 26, 0, 0, 0, 5.0);
@@ -290,8 +286,7 @@ public class SwarmAutoBlueBack extends LinearOpMode {
         }
         // Right Path
         path = "Right";
-        telemetry.addData("Path", path);
-        telemetry.update();
+        blinkinLedDriver.setPattern(RevBlinkinLedDriver.BlinkinPattern.YELLOW);
         encoderStrafe(driveSpeed,2,0,0,0,5.0);
         encoderDrive(driveSpeed,26,0,0,0,5.0);
         encoderSpin(turnSpeed,90,8,0,0,5.0);

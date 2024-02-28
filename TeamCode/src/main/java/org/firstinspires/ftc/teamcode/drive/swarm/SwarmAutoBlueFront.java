@@ -230,6 +230,7 @@ public class SwarmAutoBlueFront extends LinearOpMode {
 
             if (x > 50 && x <= 400) { // Object 1 path middle
                 path = "Middle";
+                blinkinLedDriver.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
                 encoderStrafe(driveSpeed,-4,0,0,0,5.0);
                 encoderDrive(driveSpeed,28,0,0,0,5.0);
                 encoderDrive(driveSpeed,-4,0,0,0,5.0);
@@ -243,6 +244,7 @@ public class SwarmAutoBlueFront extends LinearOpMode {
 
             } else if (x > 400) { // Right Path
                 path = "Right";
+                blinkinLedDriver.setPattern(RevBlinkinLedDriver.BlinkinPattern.YELLOW);
                 encoderStrafe(driveSpeed,-2,0,0,0,5.0);
                 encoderDrive(driveSpeed,26,0,0,0,5.0);
                 encoderSpin(turnSpeed,90,0,0,0,5.0);
@@ -264,6 +266,7 @@ public class SwarmAutoBlueFront extends LinearOpMode {
         }
         // Left Path
         path = "Left";
+        blinkinLedDriver.setPattern(RevBlinkinLedDriver.BlinkinPattern.VIOLET);
         encoderStrafe(driveSpeed,-2.5,0,0,0,5.0);
         encoderDrive(driveSpeed, 26, 0, 0, 0, 5.0);
         encoderSpin(turnSpeed, -90, 0, 0, 0, 5.0);
