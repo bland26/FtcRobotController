@@ -107,10 +107,6 @@ public class HiveTele extends OpMode {
         climb.setDirection(DcMotor.Direction.REVERSE);
         claw.setPosition(clawPosition);
         drone.setPosition(dronePosition);
-        rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         climb.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         //TODO set new motor directions
