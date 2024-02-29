@@ -252,32 +252,36 @@ public class HiveAutoBackRed extends LinearOpMode {
                 encoderStrafe(driveSpeed,-2,0,0,0,0,5.0);
                 encoderDrive(driveSpeed,20,3.5,-1,0,0,5.0);
                 encoderDrive(driveSpeed,2,3.5,0,0,1,5.0);
-                encoderDrive(driveSpeed, -2, 3.5,0,0,1,5.0);
-                encoderSpin(turnSpeed, -85,3.5,0,0,1,5.0);
+                encoderDrive(driveSpeed, -2, 3.5,1,0,1,5.0);
+                encoderSpin(turnSpeed, -90,3.5,1,0,1,5.0);
                 encoderDrive(driveSpeed,-28,3.5,0,0, 1,5.0);
-                encoderStrafe(driveSpeed,5,2.75,0,0,0.5,5.0);
-                encoderDrive(0.5,-7,2.75,0,0, 1,5.0);
+                encoderStrafe(driveSpeed,6,3.3,0,0,0.5,5.0);
+                encoderDrive(0.5,-8,3.3,0,0, 1,5.0);
                 score(-1,2.0);
+                encoderDrive(driveSpeed, 3,3,0,0,0.25,5.0);
                 encoderStrafe(driveSpeed, 12,3,0,0,0.25,5.0);
                 encoderStrafe(driveSpeed, 10,0,0,0,0.25,5.0);
-                encoderDrive(driveSpeed, -8,0,1,0,0.25,5.0);
+                encoderDrive(driveSpeed, -11,0,1,0,0.25,5.0);
                 sleep(26000);
             } else if (x < 400) { // Right Path
                 path = "Right";
                 telemetry.addData("Path", path);
                 telemetry.addData("position", "%.0f", x);
                 telemetry.update();
-                encoderStrafe(driveSpeed,-2,0,0,0,0,5.0);
+
+                encoderStrafe(driveSpeed,2,0,0,0,0,5.0);
                 encoderDrive(driveSpeed,24,3,-1,0,0,5.0);
+                encoderStrafe(driveSpeed,-4,0,0,0,0,5.0);
                 encoderSpin(turnSpeed, -90,3,0,0,0,5.0);
                 encoderDrive(driveSpeed,-18,3,0,0,0,5.0);
                 encoderDrive(0.5,-6,3,0,0, 1,5.0);
-                encoderStrafe(0.5,-6,2.75,0,0,0.5,5.0);
-                encoderDrive(0.5,-15,2.75,0,0, 1,5.0);
+                encoderStrafe(0.5,-6,3.3,0,0,0.5,5.0);
+                encoderDrive(0.5,-16,3.3,0,0, 1,5.0);
                 score(-1,2.0);
+                encoderDrive(driveSpeed, 3,3,0,0,0.25,5.0);
                 encoderStrafe(driveSpeed, 20,3,0,0,0.25,5.0);
                 encoderStrafe(driveSpeed, 10,0,0,0,0.25,5.0);
-                encoderDrive(driveSpeed, -8,0,1,0,0.25,5.0);
+                encoderDrive(driveSpeed, -11,0,1,0,0.25,5.0);
                 sleep(26000);
             }
         }
@@ -290,12 +294,13 @@ public class HiveAutoBackRed extends LinearOpMode {
         encoderSpin(turnSpeed, -90,3,0,0,0,5.0);
         encoderDrive(driveSpeed,1,3,0,0,1,5.0);
         encoderDrive(driveSpeed,-36,3,0,0, 1,5.0);
-        encoderStrafe(driveSpeed,6,2.75,0,0,0.5,5.0);
-        encoderDrive(0.5,-8,2.75,0,0, 1,5.0);
+        encoderStrafe(driveSpeed,6,3.3,0,0,0.5,5.0);
+        encoderDrive(0.5,-8,3.3,0,0, 1,5.0);
         score(-1,2.0);
+        encoderDrive(driveSpeed, 3,3,0,0,0.25,5.0);
         encoderStrafe(driveSpeed, 10,3,0,0,0.25,5.0);
         encoderStrafe(driveSpeed, 10,0,0,0,0.25,5.0);
-        encoderDrive(driveSpeed, -8,0,1,0,0.25,5.0);
+        encoderDrive(driveSpeed, -11,0,1,0,0.25,5.0);
         sleep(26000);
 
 
