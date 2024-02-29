@@ -236,7 +236,7 @@ public class SwarmAutoBlueFront extends LinearOpMode {
                 encoderDrive(driveSpeed,-4,0,0,0,5.0);
                 encoderIntake(0.2,3.0);
                 encoderDrive(driveSpeed,-22,0,0,0,5.0);
-                encoderSpin(turnSpeed,90,0,0,0,5.0);
+                encoderSpin(turnSpeed,94,0,0,0,5.0);
                 encoderDrive(driveSpeed,-86,0,0,0,5.0);
                 score(1, 5.0);
                 encoderDrive(driveSpeed,6,0,0,0,5.0);
@@ -252,7 +252,7 @@ public class SwarmAutoBlueFront extends LinearOpMode {
                 encoderDrive(driveSpeed,-3,0,0,0,5.0);
                 encoderSpin(turnSpeed,-90,0,0,0,5.0);
                 encoderDrive(driveSpeed,-24,0,0,0,5.0);
-                encoderSpin(turnSpeed,90,0,0,0,5.0);
+                encoderSpin(turnSpeed,94,0,0,0,5.0);
                 encoderDrive(driveSpeed,-86,0,0,0,5.0);
                 score(1, 5.0);
                 encoderDrive(driveSpeed,6,0,0,0,5.0);
@@ -274,7 +274,7 @@ public class SwarmAutoBlueFront extends LinearOpMode {
         encoderDrive(driveSpeed, -4, 0, 0, 0, 5.0);
         encoderSpin(turnSpeed, 90, 0, 0, 0, 5.0);
         encoderDrive(driveSpeed,-24,0,0,0,5.0);
-        encoderSpin(turnSpeed,93,0,0,0,5.0);
+        encoderSpin(turnSpeed,94,0,0,0,5.0);
         encoderDrive(driveSpeed,-86,0,0,0,5.0);
         score(1, 5.0);
         encoderDrive(driveSpeed,6,0,0,0,5.0);

@@ -268,8 +268,8 @@ public class SwarmAutoRedBack extends LinearOpMode {
                 encoderDrive(driveSpeed,26,0,0,0,5.0);
                 encoderSpin(turnSpeed,-90,8,0,0,5.0);
                 encoderIntake(0.2,2.0);
-                encoderDrive(driveSpeed,-18,8,0,0,5.0);
                 encoderStrafe(driveSpeed,-8,8,0,0,5.0);
+                encoderDrive(driveSpeed,-18,8,0,0,5.0);
                 score(1, 5.0);
                 encoderDrive(driveSpeed, 2,8,0,0,5.0);
                 encoderStrafe(driveSpeed, 30, 0, 0, 0, 5.0);
@@ -280,14 +280,14 @@ public class SwarmAutoRedBack extends LinearOpMode {
         // Left Path
         path = "Left";
         blinkinLedDriver.setPattern(RevBlinkinLedDriver.BlinkinPattern.VIOLET);
-        encoderStrafe(driveSpeed,-2,0,0,0,5.0);
+        encoderStrafe(driveSpeed,-3,0,0,0,5.0);
         encoderDrive(driveSpeed,26,0,0,0,5.0);
-        encoderSpin(turnSpeed,-90,10,0,0,5.0);
+        encoderSpin(turnSpeed,-90,8,0,0,5.0);
         encoderIntake(0.2,2.0);
-        encoderDrive(driveSpeed, -38,10,0, 0, 5.0);
-        encoderStrafe(driveSpeed,6,10,0,0,5.0);
+        encoderStrafe(driveSpeed,6,8,0,0,5.0);
+        encoderDrive(driveSpeed, -38,8,0, 0, 5.0);
         score(1,3.0);
-        encoderDrive(driveSpeed, 3,10,0,0,5.0);
+        encoderDrive(driveSpeed, 3,8,0,0,5.0);
         encoderStrafe(driveSpeed,18,0,0,0,5.0);
         encoderDrive(driveSpeed, -10,0,0,0,5.0);
         sleep(26000);

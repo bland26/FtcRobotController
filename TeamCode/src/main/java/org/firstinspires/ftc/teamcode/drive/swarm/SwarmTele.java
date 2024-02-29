@@ -236,7 +236,7 @@ public class SwarmTele extends OpMode {
 
         boolean droneInput = gamepad2.y;
         if(droneInput){
-            dronePosition = 0.1;
+            dronePosition = 0.01;
         }
         boolean droneInputSet = gamepad2.x;
         if(droneInputSet){

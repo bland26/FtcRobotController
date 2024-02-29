@@ -236,7 +236,7 @@ public class SwarmAutoBlueBack extends LinearOpMode {
             if (x >= 100 && x < 500) { // Middle Path
                 path = "Middle";
                 blinkinLedDriver.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
-                encoderStrafe(driveSpeed,4,0,0,0,5.0);
+                encoderStrafe(driveSpeed,3,0,0,0,5.0);
                 encoderDrive(driveSpeed,28,0,0,0,5.0);
                 encoderDrive(driveSpeed,-4,9,0,0,5.0);
                 encoderIntake(0.2,3.0);
@@ -272,12 +272,12 @@ public class SwarmAutoBlueBack extends LinearOpMode {
                  */
                 encoderStrafe(driveSpeed,-19,0,0,0,5.0);
                 encoderDrive(driveSpeed,26,0,0,0,5.0);
-                encoderSpin(turnSpeed,90,10,0,0,5.0);
+                encoderSpin(turnSpeed,90,8,0,0,5.0);
                 encoderIntake(0.2,2.0);
-                encoderDrive(driveSpeed,-18,10,0,0,5.0);
-                encoderStrafe(driveSpeed,8,10,0,0,5.0);
+                encoderStrafe(driveSpeed,10,8,0,0,5.0);
+                encoderDrive(driveSpeed,-17,8,0,0,5.0);
                 score(1, 5.0);
-                encoderDrive(driveSpeed, 3,10,0,0,5.0);
+                encoderDrive(driveSpeed, 3,8,0,0,5.0);
                 encoderStrafe(driveSpeed, -30, 0, 0, 0, 5.0);
                 encoderDrive(driveSpeed, -10, 0, 0, 0, 5.0);
                 sleep(26000);
@@ -291,9 +291,8 @@ public class SwarmAutoBlueBack extends LinearOpMode {
         encoderDrive(driveSpeed,26,0,0,0,5.0);
         encoderSpin(turnSpeed,90,8,0,0,5.0);
         encoderIntake(0.2,2.0);
-        encoderDrive(driveSpeed, -36,8,0, 0, 5.0);
         encoderStrafe(driveSpeed,-4,8,0,0,5.0);
-        encoderDrive(driveSpeed, -3,8,0,0,5.0);
+        encoderDrive(driveSpeed, -36,8,0, 0, 5.0);
         score(1,2.0);
         encoderDrive(driveSpeed, 2,8,0,1,5.0);
         encoderStrafe(driveSpeed,-18,0,0,0,5.0);
