@@ -54,9 +54,9 @@ import com.qualcomm.robotcore.util.Range;
 
 // we are the rizzly bears and we are sigma
 
-@TeleOp(name="Glider", group="Iterative OpMode")
+@TeleOp(name="EveryBot", group="Iterative OpMode")
 //@Disabled  xx x cx x x x x x x x c
-public class Glider extends OpMode
+public class EveryBot extends OpMode
 {
     // Declare OpMode members./.c
     private ElapsedTime runtime = new ElapsedTime();
@@ -64,9 +64,36 @@ public class Glider extends OpMode
     private DcMotor rightBack = null;
     private DcMotor leftFront = null;
     private DcMotor rightFront = null;
+    private DcMotor leftLift = null;
 
-    public double driveSpeed = 0.5;
 
+    private DcMotor rightLift = null;
+
+    private Servo wrist = null;
+
+    private Servo claw = null;
+
+    final static double clawStart = 0.1;
+
+    public static double clawMin = 0.4;
+
+    public static double clawMax = 0.8;
+
+    public static double clawSpeed = 0.01;
+
+    public double clawPosition = 0.5;
+
+    public static double wristMin = 0.4;
+
+    public static double wristMax = 1.0; 
+
+    public static double wristSpeed = 0.01;
+
+    public double wristPosition = 0.5;
+
+    public double driveSpeed = 1.0;
+
+    public double liftSpeed = 0.5;
 
 
 
@@ -84,13 +111,22 @@ public class Glider extends OpMode
         rightBack = hardwareMap.get(DcMotor.class,"rightBack"); //Control Hub 0
         leftFront = hardwareMap.get(DcMotor.class,"leftFront");  //Expansion Hub 1
         rightFront = hardwareMap.get(DcMotor.class,"rightFront"); //Expansion Hub 0
+        leftLift   = hardwareMap.get(DcMotor.class,"leftLift");   //Control Hub 3
+        rightLift  = hardwareMap.get(DcMotor.class,"rightLift");  //Control Hub 2
+        wrist = hardwareMap.get(Servo.class, "wrist");          //Control Hub Servo 1
+        claw = hardwareMap.get(Servo.class, "claw");              //Control Hub Servo 0
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // Pushing the left stick forward MUST make robot go forward. So adjust these two lines based on your first test drive.
         // Note: The settings here assume direct drive on left and right wheels.  Gear Reduction or 90 Deg drives may require direction flips
         leftBack.setDirection(DcMotor.Direction.FORWARD);
         rightBack.setDirection(DcMotor.Direction.REVERSE);
-        leftFront.setDirection(DcMotor.Direction.REVERSE);
-        rightFront.setDirection(DcMotor.Direction.REVERSE);
+        leftFront.setDirection(DcMotor.Direction.FORWARD);
+        rightFront.setDirection(DcMotor.Direction.FORWARD);
+        leftLift.setDirection(DcMotor.Direction.FORWARD);
+        rightLift.setDirection(DcMotor.Direction.REVERSE);
+        claw.setDirection(Servo.Direction.FORWARD);
+        leftLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
         // Tell the driver that initialization is complete.
@@ -122,7 +158,9 @@ public class Glider extends OpMode
         double rightBackPower;
         double leftFrontPower;
         double rightFrontPower;
-
+        double leftLiftPower;
+        double rightLiftPower;
+        double wristPower;
 
 
         // Choose to drive using either Tank Mode, or POV Mode
@@ -150,17 +188,38 @@ public class Glider extends OpMode
         leftFront.setPower(leftFrontPower * driveSpeed);
         rightFront.setPower(rightFrontPower * driveSpeed);
 
+        double lift = -gamepad2.left_stick_y;
+        leftLiftPower = Range.clip(lift, -1.0, 1.0);
+        rightLiftPower = Range.clip(lift, -1.0, 1.0);
+
+        leftLift.setPower(leftLiftPower * liftSpeed);
+        rightLift.setPower(rightLiftPower * liftSpeed);
 
 
 
+        if (gamepad2.right_stick_y > 0 && wristPosition < wristMax)
+            wristPosition += wristSpeed;
+        if (gamepad2.right_stick_y < 0 && wristPosition >= wristMin)
+            wristPosition -= wristSpeed;
 
 
+        if (gamepad2.right_trigger > 0 && clawPosition < clawMax)
+            clawPosition += clawSpeed;
+        if (gamepad2.left_trigger > 0 && clawPosition >= clawMin)
+            clawPosition -= clawSpeed;
+
+
+        clawPosition = Range.clip(clawPosition,clawMin,clawMax);
+        claw.setPosition(clawPosition);
+
+        wristPosition = Range.clip(wristPosition,wristMin,wristMax);
+        wrist.setPosition(wristPosition);
 
         // Show the elapsed game time and wheel power.
         telemetry.addData("Status", "Run Time: " + runtime.toString());
         telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftBackPower, rightBackPower);
-
-
+        telemetry.addData("Wrist", wristPosition);
+        telemetry.addData("Claw", clawPosition);
     }
 
     /*

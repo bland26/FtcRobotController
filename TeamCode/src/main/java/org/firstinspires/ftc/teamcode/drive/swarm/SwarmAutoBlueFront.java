@@ -29,13 +29,13 @@
 
 package org.firstinspires.ftc.teamcode.drive.swarm;
 
-import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.COUNTS_PER_DEGREE;
-import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.COUNTS_PER_INCH;
-import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.LIFT_COUNTS_PER_INCH;
-import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.STRAFE_COUNTS_PER_INCH;
-import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.driveSpeed;
-import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.liftSpeed;
-import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.turnSpeed;
+import static org.firstinspires.ftc.teamcode.drive.stinger.StingerConstants.COUNTS_PER_DEGREE;
+import static org.firstinspires.ftc.teamcode.drive.stinger.StingerConstants.COUNTS_PER_INCH;
+import static org.firstinspires.ftc.teamcode.drive.stinger.StingerConstants.LIFT_COUNTS_PER_INCH;
+import static org.firstinspires.ftc.teamcode.drive.stinger.StingerConstants.STRAFE_COUNTS_PER_INCH;
+import static org.firstinspires.ftc.teamcode.drive.stinger.StingerConstants.driveSpeed;
+import static org.firstinspires.ftc.teamcode.drive.stinger.StingerConstants.liftSpeed;
+import static org.firstinspires.ftc.teamcode.drive.stinger.StingerConstants.turnSpeed;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -231,32 +231,37 @@ public class SwarmAutoBlueFront extends LinearOpMode {
             if (x > 50 && x <= 400) { // Object 1 path middle
                 path = "Middle";
                 blinkinLedDriver.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
+                //sleep(2000);
                 encoderStrafe(driveSpeed,-4,0,0,0,5.0);
                 encoderDrive(driveSpeed,28,0,0,0,5.0);
                 encoderDrive(driveSpeed,-4,0,0,0,5.0);
-                encoderIntake(0.2,3.0);
-                encoderDrive(driveSpeed,-22,0,0,0,5.0);
-                encoderSpin(turnSpeed,94,0,0,0,5.0);
-                encoderDrive(driveSpeed,-86,0,0,0,5.0);
-                score(1, 5.0);
-                encoderDrive(driveSpeed,6,0,0,0,5.0);
-                encoderSpin(turnSpeed, 180, 0, 0, 0, 5.0);
+                encoderIntake(0.2,1.0);
+//                encoderDrive(driveSpeed,-22,0,0,0,5.0);
+//                encoderSpin(turnSpeed,92,0,0,0,5.0);
+//                encoderDrive(driveSpeed,-86,0,0,0,5.0);
+//                score(1, 5.0);
+//                encoderStrafe(driveSpeed,5,0,0,0,5.0);
+                //encoderDrive(driveSpeed,6,0,0,0,5.0);
+                //encoderSpin(turnSpeed, 180, 0, 0, 0, 5.0);
+                sleep(20000);
 
             } else if (x > 400) { // Right Path
                 path = "Right";
                 blinkinLedDriver.setPattern(RevBlinkinLedDriver.BlinkinPattern.YELLOW);
-                encoderStrafe(driveSpeed,-2,0,0,0,5.0);
+                //sleep(2000);
+                encoderStrafe(driveSpeed,-3,0,0,0,5.0);
                 encoderDrive(driveSpeed,26,0,0,0,5.0);
                 encoderSpin(turnSpeed,90,0,0,0,5.0);
-                encoderIntake(0.2,2.0);
-                encoderDrive(driveSpeed,-3,0,0,0,5.0);
-                encoderSpin(turnSpeed,-90,0,0,0,5.0);
-                encoderDrive(driveSpeed,-24,0,0,0,5.0);
-                encoderSpin(turnSpeed,94,0,0,0,5.0);
-                encoderDrive(driveSpeed,-86,0,0,0,5.0);
-                score(1, 5.0);
-                encoderDrive(driveSpeed,6,0,0,0,5.0);
-                encoderSpin(turnSpeed, 180, 0, 0, 0, 5.0);
+                encoderIntake(0.2,1.0);
+//                encoderDrive(driveSpeed,-3,0,0,0,5.0);
+//                encoderSpin(turnSpeed,-90,0,0,0,5.0);
+//                encoderDrive(driveSpeed,-24,0,0,0,5.0);
+//                encoderSpin(turnSpeed,92,0,0,0,5.0);
+//                encoderDrive(driveSpeed,-86,0,0,0,5.0);
+//                score(1, 5.0);
+//                encoderStrafe(driveSpeed,5,0,0,0,5.0);
+                //encoderDrive(driveSpeed,6,0,0,0,5.0);
+                //encoderSpin(turnSpeed, 180, 0, 0, 0, 5.0);
                 sleep(20000);
             }
             telemetry.addData("Path", path);
@@ -267,18 +272,22 @@ public class SwarmAutoBlueFront extends LinearOpMode {
         // Left Path
         path = "Left";
         blinkinLedDriver.setPattern(RevBlinkinLedDriver.BlinkinPattern.VIOLET);
+        //sleep(2000);
         encoderStrafe(driveSpeed,-2.5,0,0,0,5.0);
         encoderDrive(driveSpeed, 26, 0, 0, 0, 5.0);
         encoderSpin(turnSpeed, -90, 0, 0, 0, 5.0);
         encoderIntake(0.2, 1.0);
-        encoderDrive(driveSpeed, -4, 0, 0, 0, 5.0);
-        encoderSpin(turnSpeed, 90, 0, 0, 0, 5.0);
-        encoderDrive(driveSpeed,-24,0,0,0,5.0);
-        encoderSpin(turnSpeed,94,0,0,0,5.0);
-        encoderDrive(driveSpeed,-86,0,0,0,5.0);
-        score(1, 5.0);
-        encoderDrive(driveSpeed,6,0,0,0,5.0);
-        encoderSpin(turnSpeed, 180, 0, 0, 0, 5.0);
+//        encoderDrive(driveSpeed, -4, 0, 0, 0, 5.0);
+//        encoderSpin(turnSpeed, 90, 0, 0, 0, 5.0);
+//        encoderDrive(driveSpeed,-24,0,0,0,5.0);
+//        encoderSpin(turnSpeed,92,0,0,0,5.0);
+//        encoderDrive(driveSpeed,-86,0,0,0,5.0);
+//        score(1, 5.0);
+//        encoderStrafe(driveSpeed,5,0,0,0,5.0);
+
+        //encoderDrive(driveSpeed,6,0,0,0,5.0);
+        //encoderSpin(turnSpeed, 180, 0, 0, 0, 5.0);
+        sleep(20000);
 
 
 

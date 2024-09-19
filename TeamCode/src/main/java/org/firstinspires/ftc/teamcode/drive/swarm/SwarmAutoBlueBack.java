@@ -29,13 +29,13 @@
 
 package org.firstinspires.ftc.teamcode.drive.swarm;
 
-import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.COUNTS_PER_DEGREE;
-import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.COUNTS_PER_INCH;
-import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.LIFT_COUNTS_PER_INCH;
-import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.STRAFE_COUNTS_PER_INCH;
-import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.driveSpeed;
-import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.turnSpeed;
-import static org.firstinspires.ftc.teamcode.drive.swarm.SwarmConstants.liftSpeed;
+import static org.firstinspires.ftc.teamcode.drive.stinger.StingerConstants.COUNTS_PER_DEGREE;
+import static org.firstinspires.ftc.teamcode.drive.stinger.StingerConstants.COUNTS_PER_INCH;
+import static org.firstinspires.ftc.teamcode.drive.stinger.StingerConstants.LIFT_COUNTS_PER_INCH;
+import static org.firstinspires.ftc.teamcode.drive.stinger.StingerConstants.STRAFE_COUNTS_PER_INCH;
+import static org.firstinspires.ftc.teamcode.drive.stinger.StingerConstants.driveSpeed;
+import static org.firstinspires.ftc.teamcode.drive.stinger.StingerConstants.turnSpeed;
+import static org.firstinspires.ftc.teamcode.drive.stinger.StingerConstants.liftSpeed;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -238,14 +238,14 @@ public class SwarmAutoBlueBack extends LinearOpMode {
                 blinkinLedDriver.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
                 encoderStrafe(driveSpeed,3,0,0,0,5.0);
                 encoderDrive(driveSpeed,28,0,0,0,5.0);
-                encoderDrive(driveSpeed,-4,9,0,0,5.0);
+                encoderDrive(driveSpeed,-4,8,0,0,5.0);
                 encoderIntake(0.2,3.0);
-                encoderDrive(driveSpeed,-3,9,0,0,5.0);
-                encoderSpin(turnSpeed,90,9,0,0,5.0);
-                encoderDrive(driveSpeed, -37.5,9,0, 0, 5.0);
-                encoderStrafe(driveSpeed,-4,9,0,0,5.0);
+                encoderDrive(driveSpeed,-3,8,0,0,5.0);
+                encoderSpin(turnSpeed,90,8,0,0,5.0);
+                encoderDrive(driveSpeed, -37.5,8,0, 0, 5.0);
+                encoderStrafe(driveSpeed,-4,8,0,0,5.0);
                 score(1,5.0);
-                encoderDrive(driveSpeed, 2,9,0,0,5.0);
+                encoderDrive(driveSpeed, 2,8,0,0,5.0);
                 encoderStrafe(driveSpeed,-24,0,0,0,5.0);
                 encoderDrive(driveSpeed, -8, 0,0, 0, 5.0);
                 sleep(26000);

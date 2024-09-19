@@ -1,11 +1,9 @@
-package org.firstinspires.ftc.teamcode.drive.swarm;
+package org.firstinspires.ftc.teamcode.drive.stinger;
 
 import com.acmerobotics.dashboard.config.Config;
-import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
-import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 @Config
-public class SwarmConstants {
+public class StingerConstants {
 
     public static final double  driveSpeed = 0.6;
     public static final double  turnSpeed = 0.5;

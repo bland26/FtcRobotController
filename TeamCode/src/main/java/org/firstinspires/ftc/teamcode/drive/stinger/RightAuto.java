@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.drive.swarm;
+package org.firstinspires.ftc.teamcode.drive.stinger;
 
 import static org.firstinspires.ftc.teamcode.drive.stinger.StingerConstants.COUNTS_PER_DEGREE;
 import static org.firstinspires.ftc.teamcode.drive.stinger.StingerConstants.COUNTS_PER_INCH;
@@ -39,18 +39,8 @@ import static org.firstinspires.ftc.teamcode.drive.stinger.StingerConstants.turn
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
-import org.firstinspires.ftc.vision.VisionPortal;
-import org.firstinspires.ftc.vision.tfod.TfodProcessor;
-import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
-
-import java.util.List;
 
 //code for cam and other related thangs
 
@@ -81,9 +71,9 @@ import java.util.List;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="SwarmAutoRedFront", group="Swarm")
+@Autonomous(name="RightAuto", group="Swarm")
 
-public class SwarmAutoRedFront extends LinearOpMode {
+public class RightAuto extends LinearOpMode {
 
     /* Declare OpMode members. */
     private DcMotor leftRear = null;
@@ -91,42 +81,9 @@ public class SwarmAutoRedFront extends LinearOpMode {
     private DcMotor leftFront = null;
     private DcMotor rightFront = null;
     private DcMotor lift = null;
-    private DcMotor intakeTop = null;
-    private DcMotor intakeBot = null;
-    private CRServo indexer = null;
-    private CRServo outtake = null;
 
-    private ElapsedTime     runtime = new ElapsedTime();
+    private ElapsedTime runtime = new ElapsedTime();
 
-    private RevBlinkinLedDriver blinkinLedDriver;
-    private RevBlinkinLedDriver.BlinkinPattern pattern;
-
-
-    private String path = null;
-
-
-    private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
-
-    // TFOD_MODEL_ASSET points to a model file stored in the project Asset location,
-    // this is only used for Android Studio when using models in Assets.
-    private static final String TFOD_MODEL_ASSET = "model_20231201_103711.tflite";
-    // TFOD_MODEL_FILE points to a model file stored onboard the Robot Controller's storage,
-    // this is used when uploading models directly to the RC using the model upload interface.
-    //private static final String TFOD_MODEL_FILE = "/sdcard/FIRST/tflitemodels/model_20231201_103711.tflite";
-    // Define the labels recognized in the model for TFOD (must be in training order!)
-    private static final String[] LABELS = {
-            "Swarm Prop",
-    };
-
-    /**
-     * The variable to store our instance of the TensorFlow Object Detection processor.
-     */
-    private TfodProcessor tfod;
-
-    /**
-     * The variable to store our instance of the vision portal.
-     */
-    private VisionPortal visionPortal;
 
     @Override
     public void runOpMode() {
@@ -137,35 +94,23 @@ public class SwarmAutoRedFront extends LinearOpMode {
         leftFront = hardwareMap.get(DcMotor.class, "leftFront");
         rightFront = hardwareMap.get(DcMotor.class, "rightFront");
         lift = hardwareMap.get(DcMotor.class, "lift");
-        intakeTop = hardwareMap.get(DcMotor.class, "intakeTop");
-        intakeBot = hardwareMap.get(DcMotor.class, "intakeBot");
-        indexer = hardwareMap.get(CRServo.class, "indexer");
-        outtake = hardwareMap.get(CRServo.class, "outtake");
-        blinkinLedDriver = hardwareMap.get(RevBlinkinLedDriver.class, "blinkin");
-
-        pattern = RevBlinkinLedDriver.BlinkinPattern.COLOR_WAVES_RAINBOW_PALETTE;
-
 
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // When run, this OpMode should start both motors driving forward. So adjust these two lines based on your first test drive.
         // Note: The settings here assume direct drive on left and right wheels.  Gear Reduction or 90 Deg drives may require direction flips
         leftRear.setDirection(DcMotor.Direction.FORWARD);
-        rightRear.setDirection(DcMotor.Direction.FORWARD);
-        leftFront.setDirection(DcMotor.Direction.FORWARD);
-        rightFront.setDirection(DcMotor.Direction.FORWARD);
+        rightRear.setDirection(DcMotor.Direction.REVERSE);
+        leftFront.setDirection(DcMotor.Direction.REVERSE);
+        rightFront.setDirection(DcMotor.Direction.REVERSE);
         lift.setDirection(DcMotor.Direction.FORWARD);
-        intakeTop.setDirection(DcMotorSimple.Direction.FORWARD);
-        intakeBot.setDirection(DcMotorSimple.Direction.FORWARD);
-        indexer.setDirection(CRServo.Direction.REVERSE);
-        outtake.setDirection(CRServo.Direction.FORWARD);
+
 
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
 
 
         leftRear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -181,17 +126,13 @@ public class SwarmAutoRedFront extends LinearOpMode {
         rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        blinkinLedDriver.setPattern(pattern);
-
-        initTfod();
-
 
 
 
 
 
         // Send telemetry message to indicate successful Encoder reset
-        telemetry.addData("Starting at",  "%7d :%7d",
+        telemetry.addData("Starting at", "%7d :%7d",
                 leftRear.getCurrentPosition(),
                 rightRear.getCurrentPosition());
         telemetry.update();
@@ -199,8 +140,6 @@ public class SwarmAutoRedFront extends LinearOpMode {
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
-
-
 
 
         // Step through each leg of the path,
@@ -222,73 +161,33 @@ public class SwarmAutoRedFront extends LinearOpMode {
         maximum time allowed for the step before it automatically stops.)
          */
 
-        List<Recognition> currentRecognitions = tfod.getRecognitions();
 
 
-        // Step through the list of recognitions and display info for each one.
-        for (Recognition recognition : currentRecognitions) {
-            double x = (recognition.getLeft() + recognition.getRight()) / 2;
+           /*
+                encoderStrafe(driveSpeed,0,5.0);
+                encoderDrive(driveSpeed,0,5.0);
+                encoderDrive(driveSpeed,0,5.0);
+                encoderDrive(driveSpeed,0,5.0);
+                encoderSpin(turnSpeed,0,5.0);
+                encoderDrive(driveSpeed, 0,5.0);
+                encoderStrafe(driveSpeed,0,5.0);
+                encoderDrive(driveSpeed, 0,5.0);
+                encoderStrafe(driveSpeed,0,5.0);
+                encoderDrive(driveSpeed, 0, 5.0);
+                sleep(26000);
+          */
+        //Skibidi Left Auto
+       // encoderDrive(driveSpeed, 24, 5.0);
+       // encoderSpin(turnSpeed,-90,5.0);
+        //Place purple pixel on spike mark
+        //encoderDrive(driveSpeed, -36, 5.0);
+        //encoderStrafe(driveSpeed,6,5.0);
+        //Place yellow pixel on back drop
+        //encoderStrafe(driveSpeed, 18, 5.0);
+        //encoderDrive(driveSpeed, -12, 5.0);
 
-            if (x >= 100 && x < 500) { // Middle Path
-                path = "Middle";
-                blinkinLedDriver.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
-                encoderStrafe(driveSpeed,4,0,0,0,5.0);
-                encoderDrive(driveSpeed,28,0,0,0,5.0);
-                encoderDrive(driveSpeed,-4,0,0,0,5.0);
-                encoderIntake(0.2,3.0);
-                encoderDrive(driveSpeed,-22,0,0,0,5.0);
-                encoderSpin(turnSpeed,-94,0,0,0,5.0);
-                encoderDrive(driveSpeed,-84,0,0,0,5.0);
-                score(1, 5.0);
-                encoderDrive(driveSpeed,6,0,0,0,5.0);
-                encoderSpin(turnSpeed, 180, 0, 0, 0, 5.0);
-
-            } else if (x < 100) { // Left Path
-                path = "Left";
-                blinkinLedDriver.setPattern(RevBlinkinLedDriver.BlinkinPattern.VIOLET);
-                encoderStrafe(driveSpeed,2,0,0,0,5.0);
-                encoderDrive(driveSpeed,26,0,0,0,5.0);
-                encoderSpin(turnSpeed,-90,0,0,0,5.0);
-                encoderIntake(0.2,2.0);
-                encoderDrive(driveSpeed,-3,0,0,0,5.0);
-                encoderSpin(turnSpeed,90,0,0,0,5.0);
-                encoderStrafe(driveSpeed,-2,0,0,0,5.0);
-                encoderDrive(driveSpeed,-24,0,0,0,5.0);
-                encoderSpin(turnSpeed,-93,0,0,0,5.0);
-                encoderDrive(driveSpeed,-86,0,0,0,5.0);
-                score(1, 5.0);
-                encoderDrive(driveSpeed,6,0,0,0,5.0);
-                encoderSpin(turnSpeed, 180, 0, 0, 0, 5.0);
-            }
-            telemetry.addData("Path", path);
-            //telemetry.addData("position", "%.0f", x);
-            telemetry.update();
-            sleep(20000);  // pause to display final telemetry message.
-        }
-
-        // Right Path
-        path = "Right";
-        blinkinLedDriver.setPattern(RevBlinkinLedDriver.BlinkinPattern.YELLOW);
-        encoderStrafe(driveSpeed,2,0,0,0,5.0);
-        encoderDrive(driveSpeed,26,0,0,0,5.0);
-        encoderSpin(turnSpeed,90,0,0,0,5.0);
-        encoderIntake(0.2,2.0);
-        encoderDrive(driveSpeed,-3,0,0,0,5.0);
-        encoderSpin(turnSpeed,-90,0,0,0,5.0);
-        encoderDrive(driveSpeed,-24,0,0,0,5.0);
-        encoderSpin(turnSpeed,-94,0,0,0,5.0);
-        encoderDrive(driveSpeed,-86,0,0,0,5.0);
-        score(1, 5.0);
-        encoderDrive(driveSpeed,6,0,0,0,5.0);
-        encoderSpin(turnSpeed, 180, 0, 0, 0, 5.0);
-        sleep(20000);
-
-
-        telemetry.addData("Path", path);
-       //telemetry.addData("position", "%.0f", x);
-        telemetry.update();
-        sleep(1000);  // pause to display final telemetry message.
     }
+
 
     /*
      *  Method to perform a relative move, based on encoder counts.
@@ -301,15 +200,14 @@ public class SwarmAutoRedFront extends LinearOpMode {
 
 
     public void encoderDrive(double speed,
-                             double inches,
-                             double liftInches, double intakeValue,
-                             double scoreValue,
+                             double inches, double liftInches,
                              double timeoutS) {
         int newLeftBackTarget;
         int newRightBackTarget;
         int newLeftFrontTarget;
         int newRightFrontTarget;
         int newLiftTarget;
+
         // Ensure that the opmode is still active
         if (opModeIsActive()) {
 
@@ -338,10 +236,7 @@ public class SwarmAutoRedFront extends LinearOpMode {
             leftFront.setPower(Math.abs(speed));
             rightFront.setPower(Math.abs(speed));
             lift.setPower(liftSpeed);
-            intakeTop.setPower(intakeValue);
-            intakeBot.setPower(intakeValue);
-            indexer.setPower(intakeValue);
-            outtake.setPower(scoreValue);
+
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
             // its target position, the motion will stop.  This is "safer" in the event that the robot will
@@ -382,24 +277,22 @@ public class SwarmAutoRedFront extends LinearOpMode {
 
 
     public void encoderStrafe(double speed,
-                              double inches,
-                              double liftInches,
-                              double intakeValue,
-                              double scoreValue,
-                              double timeoutS) {
+                             double inches, double liftInches,
+                             double timeoutS) {
         int newLeftBackTarget;
         int newRightBackTarget;
         int newLeftFrontTarget;
         int newRightFrontTarget;
         int newLiftTarget;
+
         // Ensure that the opmode is still active
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-            newLeftBackTarget = leftRear.getCurrentPosition() - (int)(inches * STRAFE_COUNTS_PER_INCH);
-            newRightBackTarget = rightRear.getCurrentPosition() + (int)(inches * STRAFE_COUNTS_PER_INCH);
-            newLeftFrontTarget = leftFront.getCurrentPosition() + (int)(inches * STRAFE_COUNTS_PER_INCH);
-            newRightFrontTarget = rightFront.getCurrentPosition() - (int)(inches * STRAFE_COUNTS_PER_INCH);
+            newLeftBackTarget = leftRear.getCurrentPosition() - (int)(inches * COUNTS_PER_INCH);
+            newRightBackTarget = rightRear.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
+            newLeftFrontTarget = leftFront.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
+            newRightFrontTarget = rightFront.getCurrentPosition() - (int)(inches * COUNTS_PER_INCH);
             newLiftTarget = (int)(liftInches * LIFT_COUNTS_PER_INCH);
             leftRear.setTargetPosition(newLeftBackTarget);
             rightRear.setTargetPosition(newRightBackTarget);
@@ -420,10 +313,7 @@ public class SwarmAutoRedFront extends LinearOpMode {
             leftFront.setPower(Math.abs(speed));
             rightFront.setPower(Math.abs(speed));
             lift.setPower(liftSpeed);
-            intakeTop.setPower(intakeValue);
-            intakeBot.setPower(intakeValue);
-            indexer.setPower(intakeValue);
-            outtake.setPower(scoreValue);
+
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
             // its target position, the motion will stop.  This is "safer" in the event that the robot will
@@ -439,13 +329,10 @@ public class SwarmAutoRedFront extends LinearOpMode {
                 // Display it for the driver.
                 telemetry.addData("Running to",  " %7d :%7d", newLeftBackTarget,  newRightBackTarget);
                 telemetry.addData("Running to",  " %7d :%7d", newLeftFrontTarget,  newRightFrontTarget);
-                telemetry.addData("Currently at",  " at %7d :%7d",
-                        leftRear.getCurrentPosition(), rightRear.getCurrentPosition());
-                telemetry.addData("Currently at",  " at %7d :%7d",
-                        leftFront.getCurrentPosition(), rightFront.getCurrentPosition());
+                telemetry.addData("Currently at",  " at %7d :%7d", leftRear.getCurrentPosition(), rightRear.getCurrentPosition());
+                telemetry.addData("Currently at",  " at %7d :%7d", leftFront.getCurrentPosition(), rightFront.getCurrentPosition());
                 telemetry.update();
             }
-
 
 
             // Stop all motion;
@@ -456,7 +343,6 @@ public class SwarmAutoRedFront extends LinearOpMode {
             lift.setPower(0);
 
 
-
             // Turn off RUN_TO_POSITION
             leftRear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rightRear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -465,11 +351,9 @@ public class SwarmAutoRedFront extends LinearOpMode {
             sleep(250);   // optional pause after each move.
         }
     }
+
     public void encoderSpin(double speed,
                             double degrees,
-                            double liftInches,
-                            double intakeValue,
-                            double scoreValue,
                             double timeoutS) {
         int newLeftBackTarget;
         int newRightBackTarget;
@@ -484,18 +368,15 @@ public class SwarmAutoRedFront extends LinearOpMode {
             newRightBackTarget = rightRear.getCurrentPosition() - (int)(degrees * COUNTS_PER_DEGREE);
             newLeftFrontTarget = leftFront.getCurrentPosition() + (int)(degrees * COUNTS_PER_DEGREE);
             newRightFrontTarget = rightFront.getCurrentPosition() - (int)(degrees * COUNTS_PER_DEGREE);
-            newLiftTarget = (int)(liftInches * LIFT_COUNTS_PER_INCH);
             leftRear.setTargetPosition(newLeftBackTarget);
             rightRear.setTargetPosition(newRightBackTarget);
             leftFront.setTargetPosition(newLeftFrontTarget);
             rightFront.setTargetPosition(newRightFrontTarget);
-            lift.setTargetPosition(newLiftTarget);
             // Turn On RUN_TO_POSITION
             leftRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rightRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             // reset the timeout time and start motion.
             runtime.reset();
@@ -503,12 +384,7 @@ public class SwarmAutoRedFront extends LinearOpMode {
             rightRear.setPower(Math.abs(speed));
             leftFront.setPower(Math.abs(speed));
             rightFront.setPower(Math.abs(speed));
-            lift.setPower(liftSpeed);
-            intakeTop.setPower(intakeValue);
-            intakeBot.setPower(intakeValue);
-            indexer.setPower(intakeValue);
-            outtake.setPower(scoreValue);
-            // keep looping while we are still active, and there is time left, and both motors are running.
+                        // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
             // its target position, the motion will stop.  This is "safer" in the event that the robot will
             // always end the motion as soon as possible.
@@ -536,7 +412,6 @@ public class SwarmAutoRedFront extends LinearOpMode {
             rightRear.setPower(0);
             leftFront.setPower(0);
             rightFront.setPower(0);
-            lift.setPower(0);
 
 
 
@@ -549,163 +424,6 @@ public class SwarmAutoRedFront extends LinearOpMode {
         }
     }
 
-    public void encoderLift(double speed,
-                            int liftInches, int claw,
-                            double timeoutS) {
 
-        int newLiftTarget;
-
-        if (opModeIsActive()) {
-
-            newLiftTarget = (int)(liftInches * LIFT_COUNTS_PER_INCH);
-
-            lift.setTargetPosition(newLiftTarget);
-
-            lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-            runtime.reset();
-            lift.setPower(liftSpeed);
-
-            while (opModeIsActive() &&
-                    (runtime.seconds() < timeoutS) &&
-                    (lift.isBusy())) {
-
-
-            }
-            lift.setPower(0);
-
-
-
-            sleep(250);
-
-        }
-    }
-    private void score(int scoreValue, double timeoutS) {
-
-        outtake.setPower(scoreValue);
-
-        if (opModeIsActive()) {
-
-
-            runtime.reset();
-            lift.setPower(liftSpeed);
-
-            while (opModeIsActive() &&
-                    (runtime.seconds() < timeoutS)) {
-
-
-            }
-            outtake.setPower(0);
-
-
-            sleep(250);
-        }
-    }
-    private void encoderIntake(double intakeValue, double timeoutS) {
-
-        intakeTop.setPower(intakeValue);
-        indexer.setPower(intakeValue);
-        intakeBot.setPower(intakeValue);
-
-        if (opModeIsActive()) {
-
-
-            runtime.reset();
-            lift.setPower(liftSpeed);
-
-            while (opModeIsActive() &&
-                    (runtime.seconds() < timeoutS)) {
-
-
-            }
-            intakeBot.setPower(0);
-            intakeTop.setPower(0);
-            indexer.setPower(0);
-
-
-            sleep(250);
-        }
-    }
-    private void initTfod() {
-
-        // Create the TensorFlow processor by using a builder.
-        tfod = new TfodProcessor.Builder()
-
-                // With the following lines commented out, the default TfodProcessor Builder
-                // will load the default model for the season. To define a custom model to load,
-                // choose one of the following:
-                //   Use setModelAssetName() if the custom TF Model is built in as an asset (AS only).
-                //   Use setModelFileName() if you have downloaded a custom team model to the Robot Controller.
-                .setModelAssetName(TFOD_MODEL_ASSET)
-                //.setModelFileName(TFOD_MODEL_FILE)
-
-                // The following default settings are available to un-comment and edit as needed to
-                // set parameters for custom models.
-                .setModelLabels(LABELS)
-                //.setIsModelTensorFlow2(true)
-                //.setIsModelQuantized(true)
-                //.setModelInputSize(300)
-                //.setModelAspectRatio(16.0 / 9.0)
-
-                .build();
-
-        // Create the vision portal by using a builder.
-        VisionPortal.Builder builder = new VisionPortal.Builder();
-
-        // Set the camera (webcam vs. built-in RC phone camera).
-        if (USE_WEBCAM) {
-            builder.setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"));
-        } else {
-            builder.setCamera(BuiltinCameraDirection.BACK);
-        }
-
-        // Choose a camera resolution. Not all cameras support all resolutions.
-        //builder.setCameraResolution(new Size(640, 480));
-
-        // Enable the RC preview (LiveView).  Set "false" to omit camera monitoring.
-        //builder.enableLiveView(true);
-
-        // Set the stream format; MJPEG uses less bandwidth than default YUY2.
-        //builder.setStreamFormat(VisionPortal.StreamFormat.YUY2);
-
-        // Choose whether or not LiveView stops if no processors are enabled.
-        // If set "true", monitor shows solid orange screen if no processors enabled.
-        // If set "false", monitor shows camera view without annotations.
-        //builder.setAutoStopLiveView(false);
-
-        // Set and enable the processor.
-        builder.addProcessor(tfod);
-
-        // Build the Vision Portal, using the above settings.
-        visionPortal = builder.build();
-
-        // Set confidence threshold for TFOD recognitions, at any time.
-        //tfod.setMinResultConfidence(0.75f);
-
-        // Disable or re-enable the TFOD processor at any time.
-        //visionPortal.setProcessorEnabled(tfod, true);
-
-    }   // end method initTfod()
-
-    /**
-     * Add telemetry about TensorFlow Object Detection (TFOD) recognitions.
-     */
-//    private double targetTfod() {
-//
-//        List<Recognition> currentRecognitions = tfod.getRecognitions();
-//
-//
-//        // Step through the list of recognitions and display info for each one.
-//        for (Recognition recognition : currentRecognitions) {
-//            x = (recognition.getLeft() + recognition.getRight()) / 2 ;
-//            double y = (recognition.getTop()  + recognition.getBottom()) / 2 ;
-//            return(x);
-//
-//
-//
-//        }   // end for() loop
-//        return(x);
-//    }   // end method telemetryTfod()
 
 }
-
