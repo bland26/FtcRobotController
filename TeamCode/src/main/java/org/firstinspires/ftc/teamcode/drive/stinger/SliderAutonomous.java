@@ -169,25 +169,25 @@ public class SliderAutonomous extends LinearOpMode {
         //Rizzy Right Auto
         encoderDrive(driveSpeed, 32, 5.0);
         //Place specimen on bar
-        encoderStrafe(turnSpeed,32,5.0);
+        encoderStrafe(driveSpeed,32,5.0);
         encoderDrive(driveSpeed, 24, 5.0);
-        encoderSpin(driveSpeed,180,5.0);
+        encoderSpin(turnSpeed,180,5.0);
         encoderStrafe(driveSpeed, -13, 5.0);
         encoderDrive(driveSpeed, 60, 5.0);
         //Take the specimen
         encoderStrafe(driveSpeed, 40, 5.0);
-        encoderDrive(turnSpeed,-32,5.0);
-        encoderSpin(driveSpeed, 180, 5.0);
+        encoderDrive(driveSpeed,-32,5.0);
+        encoderSpin(turnSpeed, 180, 5.0);
         //Place specimen on bar
         encoderDrive(driveSpeed, 24, 5.0);
-        encoderSpin(driveSpeed,180,5.0);
+        encoderSpin(turnSpeed,180,5.0);
         encoderStrafe(driveSpeed, -24, 5.0);
         encoderDrive(driveSpeed, 56, 5.0);
         encoderStrafe(driveSpeed, 11, 5.0);
         encoderDrive(driveSpeed, 4, 5.0);
         //Take the specimen
         encoderStrafe(driveSpeed, 40, 5.0);
-        encoderDrive(turnSpeed,-32,5.0);
+        encoderDrive(driveSpeed,-32,5.0);
         encoderSpin(driveSpeed, 180, 5.0);
         //Place specimen on bar
         encoderDrive(driveSpeed, 24, 5.0);
@@ -203,8 +203,20 @@ public class SliderAutonomous extends LinearOpMode {
         //Place specimen on bar
         encoderStrafe(driveSpeed, 42, 5.0);
         encoderSpin(turnSpeed, 180, 5.0);
-        //Hook the new specimen
-        //Repeat steps 3-11 until Auto period is over
+        encoderDrive(driveSpeed, -36, 5.0);
+        //Take the specimen
+        encoderStrafe(driveSpeed, 40, 5.0);
+        encoderDrive(driveSpeed,-32,5.0);
+        encoderSpin(turnSpeed, 180, 5.0);
+        //Place specimen on bar
+        encoderStrafe(driveSpeed, 42, 5.0);
+        encoderSpin(turnSpeed, 180, 5.0);
+        encoderDrive(driveSpeed, -36, 5.0);
+        //Take the specimen
+        encoderStrafe(driveSpeed, 40, 5.0);
+        encoderDrive(driveSpeed,-32,5.0);
+        encoderSpin(turnSpeed, 180, 5.0);
+        //Place specimen on bar
 
     }
 
