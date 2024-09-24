@@ -27,7 +27,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
  */
 
 
-@TeleOp(name="Cerberus Driver", group="Swarm")
+@TeleOp(name="Kraken Driver", group="Swarm")
 @Config
 
 //@Disabled

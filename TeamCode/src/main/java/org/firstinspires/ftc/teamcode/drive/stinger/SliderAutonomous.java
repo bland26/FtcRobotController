@@ -69,7 +69,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Sigmatonomous", group="Swarm")
+@Autonomous(name="SliderAutonomous", group="Swarm")
 
 public class SliderAutonomous extends LinearOpMode {
 
