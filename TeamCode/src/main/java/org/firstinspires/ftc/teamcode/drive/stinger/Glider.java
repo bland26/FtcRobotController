@@ -80,8 +80,8 @@ public class Glider extends OpMode
         // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
         // step (using the FTC Robot Controller app on the phone).
-        leftBack = hardwareMap.get(DcMotor.class,"leftBack");  //Control Hub 1
-        rightBack = hardwareMap.get(DcMotor.class,"rightBack"); //Control Hub 0
+        leftBack = hardwareMap.get(DcMotor.class,"leftRear");  //Control Hub 1
+        rightBack = hardwareMap.get(DcMotor.class,"rightRear"); //Control Hub 0
         leftFront = hardwareMap.get(DcMotor.class,"leftFront");  //Expansion Hub 1
         rightFront = hardwareMap.get(DcMotor.class,"rightFront"); //Expansion Hub 0
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.

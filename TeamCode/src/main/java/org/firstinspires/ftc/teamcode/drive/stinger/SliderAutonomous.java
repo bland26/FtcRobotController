@@ -79,6 +79,9 @@ public class SliderAutonomous extends LinearOpMode {
     private DcMotor leftFront = null;
     private DcMotor rightFront = null;
 
+    public double driveSpeed = 0.5;
+
+
     private ElapsedTime runtime = new ElapsedTime();
 
 
@@ -167,15 +170,15 @@ public class SliderAutonomous extends LinearOpMode {
                 sleep(26000);
           */
         //Rizzy Right Auto
-        encoderDrive(driveSpeed, 32, 5.0);
+        encoderDrive(driveSpeed, 24, 5.0);
         //Place specimen on bar
         encoderStrafe(driveSpeed,32,5.0);
         encoderDrive(driveSpeed, 24, 5.0);
         encoderSpin(turnSpeed,180,5.0);
         encoderStrafe(driveSpeed, -13, 5.0);
-        encoderDrive(driveSpeed, 60, 5.0);
+        encoderDrive(driveSpeed, 48, 5.0);
         //Take the specimen
-        encoderStrafe(driveSpeed, 40, 5.0);
+        encoderStrafe(driveSpeed, 32, 5.0);
         encoderDrive(driveSpeed,-32,5.0);
         encoderSpin(turnSpeed, 180, 5.0);
         //Place specimen on bar
