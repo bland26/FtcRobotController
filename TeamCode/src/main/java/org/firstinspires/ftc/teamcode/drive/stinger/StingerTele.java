@@ -63,9 +63,9 @@ public class StingerTele extends OpMode {
         rightRear = hardwareMap.get(DcMotor.class, "rightRear");
         leftFront = hardwareMap.get(DcMotor.class, "leftFront");
         rightFront = hardwareMap.get(DcMotor.class, "rightFront");
-        frontLift = hardwareMap.get(DcMotor.class, "lift");
-        backLift = hardwareMap.get(DcMotor.class, "lift");
-        arm = hardwareMap.get(DcMotor.class, "lift");
+        frontLift = hardwareMap.get(DcMotor.class, "frontLift");
+        backLift = hardwareMap.get(DcMotor.class, "backLift");
+        arm = hardwareMap.get(DcMotor.class, "arm");
         intake = hardwareMap.get(CRServo.class, "intake");
         frontLiftLimit = hardwareMap.get(TouchSensor.class, "frontLiftLimit");
         backLiftLimit = hardwareMap.get(TouchSensor.class, "backLiftLimit");

@@ -189,6 +189,35 @@ public class RightAuto extends LinearOpMode {
         //Place yellow pixel on back drop
         //encoderStrafe(driveSpeed, 18, 5.0);
         //encoderDrive(driveSpeed, -12, 5.0);
+        encoderDrive(driveSpeed, 24,16, 5.0);
+        encoderLift(liftSpeed,0,5.0);
+        //Place specimen on bar
+        encoderStrafe(driveSpeed,32,0,5.0);
+        encoderSpin(turnSpeed,180,0,5.0);
+        encoderDrive(driveSpeed, 22,0,5.0);
+        encoderLift(liftSpeed,14,5.0);
+        //Take the specimen
+        encoderDrive(driveSpeed,-12,16,5.0);
+        encoderSpin(turnSpeed, 180,16, 5.0);
+        encoderStrafe(driveSpeed, -41,16, 5.0);
+        encoderDrive(driveSpeed,11,16,5.0);
+        encoderLift(liftSpeed,0,5.0);
+        //Place specimen on bar
+        encoderDrive(driveSpeed, -8, 0,5.0);
+        encoderSpin(turnSpeed, 180,0, 5.0);
+        encoderStrafe(driveSpeed, -43, 0,5.0);
+        encoderDrive(driveSpeed,10,0,5.0);
+        encoderLift(liftSpeed,16,5.0);
+        //Take the specimen
+        encoderDrive(driveSpeed,-10,16,5.0);
+        encoderSpin(turnSpeed, 180, 16,5.0);
+        encoderStrafe(driveSpeed, -45, 16,5.0);
+        encoderDrive(driveSpeed,15,16,5.0);
+        encoderLift(liftSpeed,0,5.0);
+        //Place the specimen on bar
+        encoderStrafe(driveSpeed, 57, 0,5.0);
+        encoderDrive(driveSpeed, -30, 0,5.0);
+        //Park
 
     }
 
