@@ -77,7 +77,7 @@ public class Deimos extends OpMode
 
     public double clawPosition = 0.5;
 
-    public double driveSpeed = 1;
+    public double driveSpeed = 0.75;
 
     public double liftSpeed = 0.5;
 
@@ -149,6 +149,7 @@ public class Deimos extends OpMode
         double drive = -gamepad1.left_stick_y;
         double turn  = gamepad1.left_stick_x;
 
+
         leftWheelPower = Range.clip(drive + turn, -1.0, 1.0) ;
         rightWheelPower   = Range.clip(drive - turn, -1.0, 1.0) ;
 
@@ -163,8 +164,15 @@ public class Deimos extends OpMode
         rightWheel.setPower(rightWheelPower * driveSpeed);
 
 
+
+
+        //int liftUp = (gamepad1.right_bumper) ? 1 : 0;
+        //int liftDown = (gamepad1.left_bumper) ? 1 : 0;
+
+        //liftPower = Range.clip(liftUp - liftDown, -1.0, 1.0);
+
         double liftInput = -gamepad1.right_stick_y;
-        liftPower = Range.clip(liftInput, -1.0, 1.0);
+        liftPower = Range.clip(liftInput,-1.0,1.0);
         lift.setPower(liftPower * liftSpeed);
 
 
