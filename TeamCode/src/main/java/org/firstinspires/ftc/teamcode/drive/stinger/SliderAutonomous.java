@@ -174,57 +174,30 @@ public class SliderAutonomous extends LinearOpMode {
         //Rizzy Right Auto
         encoderDrive(driveSpeed, 24, 5.0);
         //Place specimen on bar
-        encoderStrafe(driveSpeed,23,5.0);
-        encoderDrive(driveSpeed, 24, 5.0);
+        encoderStrafe(driveSpeed,32,5.0);
         encoderSpin(turnSpeed,180,5.0);
-        encoderStrafe(driveSpeed, -13, 5.0);
-        encoderDrive(driveSpeed, 46, 5.0);
+        encoderDrive(driveSpeed, 22, 5.0);
         //Take the specimen
         encoderDrive(driveSpeed,-12,5.0);
         encoderSpin(turnSpeed, 180, 5.0);
-        encoderStrafe(driveSpeed, -50, 5.0);
-        encoderDrive(driveSpeed,8,5.0);
+        encoderStrafe(driveSpeed, -41, 5.0);
+        encoderDrive(driveSpeed,11,5.0);
         //Place specimen on bar
-        encoderStrafe(driveSpeed,44,5.0);
-        encoderDrive(driveSpeed, 24, 5.0);
-        encoderSpin(turnSpeed,180,5.0);
-        encoderStrafe(driveSpeed, -13, 5.0);
-        encoderDrive(driveSpeed, 46, 5.0);
-        //Take the specimen
-        encoderDrive(driveSpeed,-12,5.0);
+        encoderDrive(driveSpeed, -8, 5.0);
         encoderSpin(turnSpeed, 180, 5.0);
-        encoderStrafe(driveSpeed, -54, 5.0);
-        encoderDrive(driveSpeed,12,5.0);
-        //Place specimen on bar
-        encoderStrafe(driveSpeed,44,5.0);
-        encoderDrive(driveSpeed, 20, 5.0);
-        encoderSpin(turnSpeed,180,5.0);
-        encoderStrafe(driveSpeed, -20, 5.0);
-        encoderDrive(driveSpeed, 46, 5.0);
+        encoderStrafe(driveSpeed, -43, 5.0);
+        encoderDrive(driveSpeed,10,5.0);
         //Take the specimen
-        encoderDrive(driveSpeed,-12,5.0);
+        encoderDrive(driveSpeed,-10,5.0);
         encoderSpin(turnSpeed, 180, 5.0);
-        encoderStrafe(driveSpeed, -58, 5.0);
-        encoderDrive(driveSpeed,12,5.0);
-        //Place specimen on bar
-        encoderStrafe(driveSpeed,44,5.0);
-        encoderSpin(turnSpeed,180,5.0);
-        encoderDrive(driveSpeed, 26, 5.0);
-        //Take the specimen
-        encoderDrive(driveSpeed,-12,5.0);
+        encoderStrafe(driveSpeed, -45, 5.0);
+        encoderDrive(driveSpeed,17,5.0);
+        //Place the specimen on bar
+        encoderDrive(driveSpeed, -8, 5.0);
         encoderSpin(turnSpeed, 180, 5.0);
-        encoderStrafe(driveSpeed, -62, 5.0);
-        encoderDrive(driveSpeed,12,5.0);
-        //Place specimen on bar
-        encoderStrafe(driveSpeed,44,5.0);
-        encoderSpin(turnSpeed,180,5.0);
-        encoderDrive(driveSpeed, 26, 5.0);
-        //Take the specimen
-        encoderDrive(driveSpeed,-12,5.0);
-        encoderSpin(turnSpeed, 180, 5.0);
-        encoderStrafe(driveSpeed, -54, 5.0);
-        encoderDrive(driveSpeed,12,5.0);
-        //Place specimen on bar
+        encoderStrafe(driveSpeed, -57, 5.0);
+        encoderDrive(driveSpeed,15,5.0);
+
 
     }
 
