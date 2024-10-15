@@ -199,29 +199,35 @@ public class SliderAutonomous extends LinearOpMode {
 //        //Park
 
         //Livvy Left Auto
-          encoderDrive(driveSpeed, 12, 5.0);
-          encoderSpin(turnSpeed, 145, 5.0);
           encoderDrive(driveSpeed, 36, 5.0);
-          //Place sample in high basket
-          encoderDrive(driveSpeed, -36, 5.0);
-          encoderSpin(turnSpeed, 215, 5.0);
+          //Place specimen on bar
+          encoderStrafe(driveSpeed, -30, 5.0);
+          encoderSpin(turnSpeed, 90, 5.0);
           encoderStrafe(driveSpeed, 4, 5.0);
+          encoderDrive(driveSpeed, 6, 5.0);
           //Pick up sample
-          encoderStrafe(driveSpeed, -4, 5.0);
+          encoderSpin(turnSpeed, 90, 5.0);
+          encoderDrive(driveSpeed, 36, 5.0);
+          //Place sample in high basket
+          encoderDrive(driveSpeed, -36, 5.0);
+          encoderSpin(turnSpeed, -145, 5.0);
+          encoderStrafe(driveSpeed, 6, 5.0);
+          //Pick up sample
+          encoderStrafe(driveSpeed, -6, 5.0);
           encoderSpin(turnSpeed, 145, 5.0);
           encoderDrive(driveSpeed, 36, 5.0);
           //Place sample in high basket
           encoderDrive(driveSpeed, -36, 5.0);
-          encoderSpin(turnSpeed, 215, 5.0);
-          encoderStrafe(driveSpeed, 8, 5.0);
+          encoderSpin(turnSpeed, -145, 5.0);
+          encoderStrafe(driveSpeed, 11, 5.0);
           //Pick up sample
-          encoderStrafe(driveSpeed, -8, 5.0);
+          encoderStrafe(driveSpeed, -11, 5.0);
           encoderSpin(turnSpeed, 145, 5.0);
           encoderDrive(driveSpeed, 36, 5.0);
           //Place sample in high basket
           encoderDrive(driveSpeed, -36, 5.0);
-          encoderSpin(turnSpeed, 15, 5.0);
-          encoderStrafe(driveSpeed, -50, 5.0);
+          encoderSpin(turnSpeed, -145, 5.0);
+          encoderStrafe(driveSpeed, 50, 5.0);
           encoderDrive(driveSpeed, -12, 5.0);
           //Park
 
