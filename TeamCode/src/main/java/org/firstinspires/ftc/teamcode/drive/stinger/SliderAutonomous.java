@@ -206,30 +206,32 @@ public class SliderAutonomous extends LinearOpMode {
           encoderStrafe(driveSpeed, 4, 5.0);
           encoderDrive(driveSpeed, 6, 5.0);
           //Pick up sample
-          encoderSpin(turnSpeed, 90, 5.0);
-          encoderDrive(driveSpeed, 36, 5.0);
+          encoderStrafe(driveSpeed, -18, 5.0);
+          encoderSpin(turnSpeed, -45, 5.0);
+          encoderDrive(driveSpeed, 24, 5.0);
           //Place sample in high basket
-          encoderDrive(driveSpeed, -36, 5.0);
-          encoderSpin(turnSpeed, -145, 5.0);
-          encoderStrafe(driveSpeed, 6, 5.0);
+          encoderDrive(driveSpeed, -18, 5.0);
+          encoderSpin(turnSpeed, -45, 5.0);
+          encoderStrafe(driveSpeed, 18, 5.0);
           //Pick up sample
-          encoderStrafe(driveSpeed, -6, 5.0);
-          encoderSpin(turnSpeed, 145, 5.0);
-          encoderDrive(driveSpeed, 36, 5.0);
+          encoderStrafe(driveSpeed, -18, 5.0);
+          encoderSpin(turnSpeed, -45, 5.0);
+          encoderDrive(driveSpeed, 18, 5.0);
           //Place sample in high basket
-          encoderDrive(driveSpeed, -36, 5.0);
-          encoderSpin(turnSpeed, -145, 5.0);
-          encoderStrafe(driveSpeed, 11, 5.0);
-          //Pick up sample
-          encoderStrafe(driveSpeed, -11, 5.0);
-          encoderSpin(turnSpeed, 145, 5.0);
-          encoderDrive(driveSpeed, 36, 5.0);
-          //Place sample in high basket
-          encoderDrive(driveSpeed, -36, 5.0);
-          encoderSpin(turnSpeed, -145, 5.0);
-          encoderStrafe(driveSpeed, 50, 5.0);
           encoderDrive(driveSpeed, -12, 5.0);
-          //Park
+          encoderSpin(turnSpeed, -45, 5.0);
+          encoderStrafe(driveSpeed, 18, 5.0);
+          //Pick up sample
+          encoderStrafe(driveSpeed, -18, 5.0);
+          encoderSpin(turnSpeed, -45, 5.0);
+          encoderDrive(driveSpeed, 12, 5.0);
+          //Place sample in high basket
+          encoderDrive(driveSpeed, -6, 5.0);
+          encoderSpin(turnSpeed, -45, 5.0);
+          encoderStrafe(driveSpeed, -120, 5.0);
+
+
+
 
 
 
