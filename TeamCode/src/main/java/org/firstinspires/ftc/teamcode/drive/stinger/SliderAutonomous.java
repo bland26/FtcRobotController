@@ -80,7 +80,7 @@ public class SliderAutonomous extends LinearOpMode {
     private DcMotor leftFront = null;
     private DcMotor rightFront = null;
 
-    public double driveSpeed = 1.0;
+    public double driveSpeed = 0.2;
 
     public double turnSpeed = 1.0;
 
