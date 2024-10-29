@@ -36,6 +36,7 @@ import static org.firstinspires.ftc.teamcode.drive.stinger.StingerConstants.driv
 import static org.firstinspires.ftc.teamcode.drive.stinger.StingerConstants.turnSpeed;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -70,7 +71,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 
 @Autonomous(name="RightPushAuto", group="Swarm")
-
+@Disabled
 public class RightPushAuto extends LinearOpMode {
 
     /* Declare OpMode members. */

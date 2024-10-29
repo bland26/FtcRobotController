@@ -29,14 +29,15 @@
 
 package org.firstinspires.ftc.teamcode.drive.stinger;
 
-import static org.firstinspires.ftc.teamcode.drive.stinger.StingerConstants.COUNTS_PER_DEGREE;
-import static org.firstinspires.ftc.teamcode.drive.stinger.StingerConstants.COUNTS_PER_INCH;
-import static org.firstinspires.ftc.teamcode.drive.stinger.StingerConstants.STRAFE_COUNTS_PER_INCH;
-import static org.firstinspires.ftc.teamcode.drive.stinger.StingerConstants.driveSpeed;
-//import static org.firstinspires.ftc.teamcode.drive.stinger.StingerConstants.driveSpeed;
-//import static org.firstinspires.ftc.teamcode.drive.stinger.StingerConstants.turnSpeed;
+import static org.firstinspires.ftc.teamcode.drive.stinger.SliderConstants.COUNTS_PER_DEGREE;
+import static org.firstinspires.ftc.teamcode.drive.stinger.SliderConstants.COUNTS_PER_INCH;
+import static org.firstinspires.ftc.teamcode.drive.stinger.SliderConstants.STRAFE_COUNTS_PER_INCH;
+import static org.firstinspires.ftc.teamcode.drive.stinger.SliderConstants.driveSpeed;
+//import static org.firstinspires.ftc.teamcode.drive.stinger.SliderConstants.driveSpeed;
+//import static org.firstinspires.ftc.teamcode.drive.stinger.SliderConstants.turnSpeed;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -70,8 +71,10 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="SliderAutonomous", group="Swarm")
+//9.75 and 9.25
 
+@Autonomous(name="SliderAutonomous", group="Swarm")
+//@Disabled
 public class SliderAutonomous extends LinearOpMode {
 
     /* Declare OpMode members. */
@@ -80,9 +83,25 @@ public class SliderAutonomous extends LinearOpMode {
     private DcMotor leftFront = null;
     private DcMotor rightFront = null;
 
-    public double driveSpeed = 0.2;
+    public static final double  driveSpeed = 0.6;
+    public static final double  turnSpeed = 1.0;
+    public static final double liftSpeed = 1.0;
+    public static final double intakeSpeed = 1;
+    public static final double     COUNTS_PER_MOTOR_REV    = 529.2 ;
+    public static final double      WHEEL_DIAMETER_INCHES   = 75/25.4 ;     // For figuring circumference
+    public static final double      DRIVE_GEAR_REDUCTION    = 1.0 ;     // No External Gearing.
 
-    public double turnSpeed = 1.0;
+    public static final double      COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
+            (WHEEL_DIAMETER_INCHES * Math.PI);
+    public static final double     STRAFE_INCH_PER_REV     = 9.5;
+    public static final double     STRAFE_COUNTS_PER_INCH  = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
+            STRAFE_INCH_PER_REV;
+    public static final double     DEGREE_PER_REV          = 37.1;
+    public static final double      COUNTS_PER_DEGREE       = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
+            DEGREE_PER_REV;
+    public static final double    LIFT_INCH_PER_REV       = 2.5;
+    public static final double     LIFT_COUNTS_PER_INCH    = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
+            LIFT_INCH_PER_REV;
 
 
     private ElapsedTime runtime = new ElapsedTime();
@@ -199,38 +218,37 @@ public class SliderAutonomous extends LinearOpMode {
 //        //Park
 
         //Livvy Left Auto
-          encoderDrive(driveSpeed, 36, 5.0);
+          encoderDrive(driveSpeed, 26, 5.0);
           //Place specimen on bar
           encoderStrafe(driveSpeed, -30, 5.0);
-          encoderSpin(turnSpeed, 90, 5.0);
-          encoderStrafe(driveSpeed, 4, 5.0);
-          encoderDrive(driveSpeed, 6, 5.0);
+          encoderSpin(turnSpeed, -90, 5.0);
+          encoderStrafe(driveSpeed, 8, 5.0);
+          //Pick up sample
+          encoderStrafe(driveSpeed, -17, 5.0);
+          encoderSpin(turnSpeed, -45, 5.0);
+          encoderDrive(driveSpeed, 28, 5.0);
+          //Place sample in high basket
+          encoderDrive(driveSpeed, -13, 5.0);
+          encoderSpin(turnSpeed, 40, 5.0);
+          encoderStrafe(driveSpeed, 27, 5.0);
+          //Pick up sample
+          encoderStrafe(driveSpeed, -22, 5.0);
+          encoderSpin(turnSpeed, -45, 5.0);
+          encoderDrive(driveSpeed, 20, 5.0);
+          //Place sample in high basket
+          encoderDrive(driveSpeed, -7, 5.0);
+          encoderSpin(turnSpeed, 45, 5.0);
+          encoderStrafe(driveSpeed, 20, 5.0);
           //Pick up sample
           encoderStrafe(driveSpeed, -18, 5.0);
           encoderSpin(turnSpeed, -45, 5.0);
-          encoderDrive(driveSpeed, 24, 5.0);
+          encoderDrive(driveSpeed, 7, 5.0);
           //Place sample in high basket
-          encoderDrive(driveSpeed, -18, 5.0);
-          encoderSpin(turnSpeed, -45, 5.0);
-          encoderStrafe(driveSpeed, 18, 5.0);
-          //Pick up sample
-          encoderStrafe(driveSpeed, -18, 5.0);
-          encoderSpin(turnSpeed, -45, 5.0);
-          encoderDrive(driveSpeed, 18, 5.0);
-          //Place sample in high basket
-          encoderDrive(driveSpeed, -12, 5.0);
-          encoderSpin(turnSpeed, -45, 5.0);
-          encoderStrafe(driveSpeed, 18, 5.0);
-          //Pick up sample
-          encoderStrafe(driveSpeed, -18, 5.0);
-          encoderSpin(turnSpeed, -45, 5.0);
-          encoderDrive(driveSpeed, 12, 5.0);
-          //Place sample in high basket
-          encoderDrive(driveSpeed, -6, 5.0);
-          encoderSpin(turnSpeed, -45, 5.0);
+          encoderDrive(driveSpeed, -20, 5.0);
+          encoderSpin(turnSpeed, 45, 5.0);
           encoderStrafe(driveSpeed, -120, 5.0);
-
-
+          encoderDrive(driveSpeed, 12, 5.0);
+          //Park
 
 
 

@@ -36,6 +36,7 @@ import static org.firstinspires.ftc.teamcode.drive.stinger.StingerConstants.lift
 
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -71,6 +72,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
  */
 
 @Autonomous(name="LeftAuto", group="Swarm")
+@Disabled
 
 public class LeftAuto extends LinearOpMode {
 

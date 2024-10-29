@@ -30,6 +30,7 @@
 
 package org.firstinspires.ftc.teamcode.drive.stinger;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -55,7 +56,7 @@ import com.qualcomm.robotcore.util.Range;
 // we are the rizzly bears and we are sigma
 
 @TeleOp(name="EveryBot", group="Iterative OpMode")
-//@Disabled  xx x cx x x x x x x x c
+@Disabled
 public class EveryBot extends OpMode
 {
     // Declare OpMode members./.c

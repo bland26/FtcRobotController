@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.drive.hive;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -26,6 +27,7 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 
 @TeleOp(name="Astro Driver", group="Hive")
 @Config
+@Disabled
 
 //@Disabled
 public class HiveTele extends OpMode {

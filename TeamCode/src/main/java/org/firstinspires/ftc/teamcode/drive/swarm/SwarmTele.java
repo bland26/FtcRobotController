@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.drive.swarm;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
@@ -29,6 +30,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 @TeleOp(name="Cerberus Driver", group="Swarm")
 @Config
+@Disabled
 
 //@Disabled
 public class SwarmTele extends OpMode {

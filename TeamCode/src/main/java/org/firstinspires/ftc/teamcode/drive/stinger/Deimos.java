@@ -33,6 +33,7 @@ package org.firstinspires.ftc.teamcode.drive.stinger;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -55,13 +56,17 @@ import com.qualcomm.robotcore.util.Range;
 // we are the rizzly bears and we are sigma
 
 @TeleOp(name="Deimos", group="Iterative OpMode")
-//@Disabled  xx x cx x x x x x x x c
+//@Disabled
 public class Deimos extends OpMode
 {
     // Declare OpMode members./.c
     private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor leftWheel = null;
-    private DcMotor rightWheel = null;
+    private DcMotor leftRear = null;
+    private DcMotor rightRear = null;
+
+    private DcMotor leftFront = null;
+
+    private DcMotor rightFront = null;
 
     private DcMotor lift = null;
 
@@ -94,8 +99,10 @@ public class Deimos extends OpMode
         // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
         // step (using the FTC Robot Controller app on the phone).
-        leftWheel = hardwareMap.get(DcMotor.class,"leftWheel");  //Control Hub 1
-        rightWheel = hardwareMap.get(DcMotor.class,"rightWheel"); //Control Hub 0
+        leftRear = hardwareMap.get(DcMotor.class,"leftRear");  //Control Hub 1
+        rightRear = hardwareMap.get(DcMotor.class,"rightRear"); //Control Hub 0
+        leftFront = hardwareMap.get(DcMotor.class,"leftFront");
+        rightFront = hardwareMap.get(DcMotor.class,"rightFront");
         lift = hardwareMap.get(DcMotor.class,"lift");             //Control Hub 2
         claw = hardwareMap.get(Servo.class, "claw");              //Control Hub Servo 0
         liftLimit = hardwareMap.get(TouchSensor.class, "limitDown");
@@ -103,8 +110,10 @@ public class Deimos extends OpMode
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // Pushing the left stick forward MUST make robot go forward. So adjust these two lines based on your first test drive.
         // Note: The settings here assume direct drive on left and right wheels.  Gear Reduction or 90 Deg drives may require direction flips
-        leftWheel.setDirection(DcMotor.Direction.REVERSE);
-        rightWheel.setDirection(DcMotor.Direction.FORWARD);
+        leftRear.setDirection(DcMotor.Direction.FORWARD);
+        rightRear.setDirection(DcMotor.Direction.FORWARD);
+        leftFront.setDirection(DcMotor.Direction.FORWARD);
+        rightFront.setDirection(DcMotor.Direction.FORWARD);
         lift.setDirection(DcMotor.Direction.FORWARD);
         claw.setDirection(Servo.Direction.FORWARD);
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -135,8 +144,10 @@ public class Deimos extends OpMode
     @Override
     public void loop() {
         // Setup a variable for each drive wheel to save power level for telemetry
-        double leftWheelPower;
-        double rightWheelPower;
+        double leftRearPower;
+        double rightRearPower;
+        double leftFrontPower;
+        double rightFrontPower;
         double liftPower;
 
 
@@ -147,21 +158,26 @@ public class Deimos extends OpMode
         // POV Mode uses left stick to go forward, and right stick to turn.
         // - This uses basic math to combine motions and is easier to drive straight.
         double drive = -gamepad1.left_stick_y;
-        double turn  = gamepad1.left_stick_x;
+        double turn  = gamepad1.right_stick_x;
+        double strafe  = gamepad1.left_stick_x;
 
 
-        leftWheelPower = Range.clip(drive + turn, -1.0, 1.0) ;
-        rightWheelPower   = Range.clip(drive - turn, -1.0, 1.0) ;
+        leftRearPower = Range.clip(drive + turn - strafe, -1.0, 1.0) ;
+        rightRearPower   = Range.clip(drive - turn + strafe,-1.0, 1.0) ;
+        leftFrontPower = Range.clip(drive + turn + strafe, -1.0, 1.0) ;
+        rightFrontPower   = Range.clip(drive - turn - strafe, -1.0, 1.0) ;
 
 
         // Tank Mode uses one stick to control each wheel.
         // - This requires no math, but it is hard to drive forward slowly and keep straight.
-        //leftWheelPower  = -gamepad1.left_stick_y ;
-        //rightWheelPower = -gamepad1.right_stick_y ;
+        //leftRearPower  = -gamepad1.left_stick_y ;
+        //rightRearPower = -gamepad1.right_stick_y ;
 
         // Send calculated power to wheels
-        leftWheel.setPower(leftWheelPower * driveSpeed);
-        rightWheel.setPower(rightWheelPower * driveSpeed);
+        leftRear.setPower(leftRearPower * driveSpeed);
+        rightRear.setPower(rightRearPower * driveSpeed);
+        leftFront.setPower(leftFrontPower * driveSpeed);
+        rightFront.setPower(rightFrontPower * driveSpeed);
 
 
 
@@ -198,7 +214,7 @@ public class Deimos extends OpMode
 
         // Show the elapsed game time and wheel power.
         telemetry.addData("Status", "Run Time: " + runtime.toString());
-        telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftWheelPower, rightWheelPower);
+        telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftRearPower, rightRearPower);
         telemetry.addData("Claw", clawPosition);
     }
 

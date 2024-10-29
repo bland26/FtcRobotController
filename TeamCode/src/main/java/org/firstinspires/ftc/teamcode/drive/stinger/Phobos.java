@@ -30,6 +30,7 @@
 
 package org.firstinspires.ftc.teamcode.drive.stinger;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -55,7 +56,7 @@ import com.qualcomm.robotcore.util.Range;
 // we are the rizzly bears and we are sigma
 
 @TeleOp(name="Phobos", group="Iterative OpMode")
-//@Disabled  xx x cx x x x x x x x c
+@Disabled
 public class Phobos extends OpMode
 {
     // Declare OpMode members./.c
@@ -69,7 +70,7 @@ public class Phobos extends OpMode
 
     final static double clawStart = 1.0;
 
-    public static double clawMin = 0;
+    public static double clawMin = 0.2;
 
     public static double clawMax = 1.0;
 

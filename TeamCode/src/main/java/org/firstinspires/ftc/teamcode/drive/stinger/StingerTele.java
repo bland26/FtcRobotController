@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.drive.stinger;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -25,7 +26,7 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 @TeleOp(name="StingerTele", group="Swarm")
 @Config
 
-//@Disabled
+@Disabled
 public class StingerTele extends OpMode {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
@@ -84,7 +85,7 @@ public class StingerTele extends OpMode {
         rightFront.setDirection(DcMotor.Direction.FORWARD);
         frontLift.setDirection(DcMotor.Direction.FORWARD);
         backLift.setDirection(DcMotor.Direction.FORWARD);
-        arm.setDirection(DcMotor.Direction.REVERSE);
+        arm.setDirection(DcMotor.Direction.FORWARD);
         intake.setDirection(CRServo.Direction.FORWARD);
 
         frontLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -174,7 +175,7 @@ public class StingerTele extends OpMode {
         }
         double backLiftCubed = backLiftInput * backLiftInput * backLiftInput;
 
-        double armInput = -gamepad2.right_stick_y;
+        double armInput = gamepad2.right_stick_y;
         if (Math.abs(armInput) < DEADZONE) {
             armInput = 0;
         }
