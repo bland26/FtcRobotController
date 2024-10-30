@@ -26,7 +26,7 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 @TeleOp(name="StingerTele", group="Swarm")
 @Config
 
-@Disabled
+//@Disabled
 public class StingerTele extends OpMode {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();

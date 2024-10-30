@@ -167,6 +167,7 @@ public class RightPushAuto extends LinearOpMode {
                 encoderDrive(driveSpeed, 0, 5.0);
                 sleep(26000);
           */
+        /*
         //Skibidi Left Auto
         encoderDrive(driveSpeed, 24, 5.0);
         encoderSpin(turnSpeed,-90,5.0);
@@ -176,7 +177,11 @@ public class RightPushAuto extends LinearOpMode {
         //Place yellow pixel on back drop
         encoderStrafe(driveSpeed, 18, 5.0);
         encoderDrive(driveSpeed, -12, 5.0);
+        */
 
+        //Preppy Parking Auto
+        encoderStrafe(driveSpeed, 36, 5.0);
+        //Park
     }
 
 

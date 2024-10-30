@@ -83,8 +83,8 @@ public class SliderAutonomous extends LinearOpMode {
     private DcMotor leftFront = null;
     private DcMotor rightFront = null;
 
-    public static final double  driveSpeed = 0.6;
-    public static final double  turnSpeed = 1.0;
+    public static final double  driveSpeed = 0.8;
+    public static final double  turnSpeed = 0.6;
     public static final double liftSpeed = 1.0;
     public static final double intakeSpeed = 1;
     public static final double     COUNTS_PER_MOTOR_REV    = 529.2 ;
@@ -191,31 +191,34 @@ public class SliderAutonomous extends LinearOpMode {
                 encoderDrive(driveSpeed, 0, 5.0);
                 sleep(26000);
           */
+        /*
         //Rizzy Right Auto
-//        encoderDrive(driveSpeed, 24, 5.0);
-//        //Place specimen on bar
-//        encoderStrafe(driveSpeed,32,5.0);
-//        encoderSpin(turnSpeed,180,5.0);
-//        encoderDrive(driveSpeed, 22, 5.0);
-//        //Take the specimen
-//        encoderDrive(driveSpeed,-12,5.0);
-//        encoderSpin(turnSpeed, 180, 5.0);
-//        encoderStrafe(driveSpeed, -41, 5.0);
-//        encoderDrive(driveSpeed,11,5.0);
-//        //Place specimen on bar
-//        encoderDrive(driveSpeed, -8, 5.0);
-//        encoderSpin(turnSpeed, 180, 5.0);
-//        encoderStrafe(driveSpeed, -43, 5.0);
-//        encoderDrive(driveSpeed,10,5.0);
-//        //Take the specimen
-//        encoderDrive(driveSpeed,-10,5.0);
-//        encoderSpin(turnSpeed, 180, 5.0);
-//        encoderStrafe(driveSpeed, -45, 5.0);
-//        encoderDrive(driveSpeed,15,5.0);
-//        //Place the specimen on bar
-//        encoderDrive(driveSpeed, -30, 5.0);
-//        encoderStrafe(driveSpeed, 57, 5.0);
-//        //Park
+          encoderDrive(driveSpeed, 24, 5.0);
+          //Place specimen on bar
+          encoderStrafe(driveSpeed,32,5.0);
+          encoderSpin(turnSpeed,180,5.0);
+          encoderDrive(driveSpeed, 22, 5.0);
+          //Take the specimen
+          encoderDrive(driveSpeed,-12,5.0);
+          encoderSpin(turnSpeed, 180, 5.0);
+          encoderStrafe(driveSpeed, -41, 5.0);
+          encoderDrive(driveSpeed,11,5.0);
+          //Place specimen on bar
+          encoderDrive(driveSpeed, -8, 5.0);
+          encoderSpin(turnSpeed, 180, 5.0);
+          encoderStrafe(driveSpeed, -43, 5.0);
+          encoderDrive(driveSpeed,10,5.0);
+          //Take the specimen
+          encoderDrive(driveSpeed,-10,5.0);
+          encoderSpin(turnSpeed, 180, 5.0);
+          encoderStrafe(driveSpeed, -45, 5.0);
+          encoderDrive(driveSpeed,15,5.0);
+          //Place the specimen on bar
+          encoderDrive(driveSpeed, -30, 5.0);
+          encoderStrafe(driveSpeed, 57, 5.0);
+        //Park
+        */
+
 
         //Livvy Left Auto
           encoderDrive(driveSpeed, 26, 5.0);
@@ -228,30 +231,31 @@ public class SliderAutonomous extends LinearOpMode {
           encoderSpin(turnSpeed, -45, 5.0);
           encoderDrive(driveSpeed, 28, 5.0);
           //Place sample in high basket
-          encoderDrive(driveSpeed, -13, 5.0);
+          encoderDrive(driveSpeed, -11, 5.0);
           encoderSpin(turnSpeed, 40, 5.0);
           encoderStrafe(driveSpeed, 27, 5.0);
           //Pick up sample
-          encoderStrafe(driveSpeed, -22, 5.0);
+          encoderStrafe(driveSpeed, -26, 5.0);
           encoderSpin(turnSpeed, -45, 5.0);
           encoderDrive(driveSpeed, 20, 5.0);
           //Place sample in high basket
-          encoderDrive(driveSpeed, -7, 5.0);
+          encoderDrive(driveSpeed, -4, 5.0);
           encoderSpin(turnSpeed, 45, 5.0);
-          encoderStrafe(driveSpeed, 20, 5.0);
+          encoderStrafe(driveSpeed, 29, 5.0);
           //Pick up sample
-          encoderStrafe(driveSpeed, -18, 5.0);
+          encoderStrafe(driveSpeed, -29, 5.0);
           encoderSpin(turnSpeed, -45, 5.0);
           encoderDrive(driveSpeed, 7, 5.0);
           //Place sample in high basket
           encoderDrive(driveSpeed, -20, 5.0);
-          encoderSpin(turnSpeed, 45, 5.0);
-          encoderStrafe(driveSpeed, -120, 5.0);
-          encoderDrive(driveSpeed, 12, 5.0);
+          encoderSpin(turnSpeed, -47, 5.0);
+          encoderStrafe(driveSpeed, -115, 5.0);
           //Park
 
 
-
+        //Preppy Parking Auto
+          //encoderStrafe(driveSpeed, 48, 5.0);
+          //Park
 
     }
 
