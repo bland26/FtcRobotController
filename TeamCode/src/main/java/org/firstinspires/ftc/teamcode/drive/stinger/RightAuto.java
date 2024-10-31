@@ -40,6 +40,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -73,7 +74,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 
 @Autonomous(name="RightAuto", group="Swarm")
-@Disabled
+//@Disabled
 public class RightAuto extends LinearOpMode {
 
     /* Declare OpMode members. */
@@ -83,6 +84,25 @@ public class RightAuto extends LinearOpMode {
     private DcMotor rightFront = null;
     private DcMotor frontLift = null;
 
+    public static final double  driveSpeed = 0.6;
+    public static final double  turnSpeed = 0.5;
+    public static final double liftSpeed = 1.0;
+    public static final double intakeSpeed = 1;
+    public static final double     COUNTS_PER_MOTOR_REV    = 529.2 ;
+    public static final double      WHEEL_DIAMETER_INCHES   = 75/25.4 ;     // For figuring circumference
+    public static final double      DRIVE_GEAR_REDUCTION    = 1.0 ;     // No External Gearing.
+
+    public static final double      COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
+            (WHEEL_DIAMETER_INCHES * Math.PI);
+    public static final double     STRAFE_INCH_PER_REV     = 0.5;
+    public static final double     STRAFE_COUNTS_PER_INCH  = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
+            STRAFE_INCH_PER_REV;
+    public static final double     DEGREE_PER_REV          = 60;
+    public static final double      COUNTS_PER_DEGREE       = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
+            DEGREE_PER_REV;
+    public static final double    LIFT_INCH_PER_REV       = 2.5;
+    public static final double     LIFT_COUNTS_PER_INCH    = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
+            LIFT_INCH_PER_REV;
 
 
     private ElapsedTime runtime = new ElapsedTime();
@@ -104,9 +124,9 @@ public class RightAuto extends LinearOpMode {
         // When run, this OpMode should start both motors driving forward. So adjust these two lines based on your first test drive.
         // Note: The settings here assume direct drive on left and right wheels.  Gear Reduction or 90 Deg drives may require direction flips
         leftRear.setDirection(DcMotor.Direction.FORWARD);
-        rightRear.setDirection(DcMotor.Direction.REVERSE);
-        leftFront.setDirection(DcMotor.Direction.REVERSE);
-        rightFront.setDirection(DcMotor.Direction.REVERSE);
+        rightRear.setDirection(DcMotor.Direction.FORWARD);
+        leftFront.setDirection(DcMotor.Direction.FORWARD);
+        rightFront.setDirection(DcMotor.Direction.FORWARD);
         frontLift.setDirection(DcMotor.Direction.FORWARD);
 
 
@@ -190,35 +210,39 @@ public class RightAuto extends LinearOpMode {
         //Place yellow pixel on back drop
         //encoderStrafe(driveSpeed, 18, 5.0);
         //encoderDrive(driveSpeed, -12, 5.0);
-        encoderDrive(driveSpeed, 24,16, 5.0);
-        encoderLift(liftSpeed,0,5.0);
-        //Place specimen on bar
-        encoderStrafe(driveSpeed,32,0,5.0);
-        encoderSpin(turnSpeed,180,0,5.0);
-        encoderDrive(driveSpeed, 22,0,5.0);
-        encoderLift(liftSpeed,14,5.0);
-        //Take the specimen
-        encoderDrive(driveSpeed,-12,16,5.0);
-        encoderSpin(turnSpeed, 180,16, 5.0);
-        encoderStrafe(driveSpeed, -41,16, 5.0);
-        encoderDrive(driveSpeed,11,16,5.0);
-        encoderLift(liftSpeed,0,5.0);
-        //Place specimen on bar
-        encoderDrive(driveSpeed, -8, 0,5.0);
-        encoderSpin(turnSpeed, 180,0, 5.0);
-        encoderStrafe(driveSpeed, -43, 0,5.0);
-        encoderDrive(driveSpeed,10,0,5.0);
-        encoderLift(liftSpeed,16,5.0);
-        //Take the specimen
-        encoderDrive(driveSpeed,-10,16,5.0);
-        encoderSpin(turnSpeed, 180, 16,5.0);
-        encoderStrafe(driveSpeed, -45, 16,5.0);
-        encoderDrive(driveSpeed,15,16,5.0);
-        encoderLift(liftSpeed,0,5.0);
-        //Place the specimen on bar
-        encoderStrafe(driveSpeed, 57, 0,5.0);
-        encoderDrive(driveSpeed, -30, 0,5.0);
+
+
+//        encoderDrive(driveSpeed, 24,16, 5.0);
+//        encoderLift(liftSpeed,0,5.0);
+//        //Place specimen on bar
+//        encoderStrafe(driveSpeed,32,0,5.0);
+//        encoderSpin(turnSpeed,180,0,5.0);
+//        encoderDrive(driveSpeed, 22,0,5.0);
+//        encoderLift(liftSpeed,14,5.0);
+//        //Take the specimen
+//        encoderDrive(driveSpeed,-12,16,5.0);
+//        encoderSpin(turnSpeed, 180,16, 5.0);
+//        encoderStrafe(driveSpeed, -41,16, 5.0);
+//        encoderDrive(driveSpeed,11,16,5.0);
+//        encoderLift(liftSpeed,0,5.0);
+//        //Place specimen on bar
+//        encoderDrive(driveSpeed, -8, 0,5.0);
+//        encoderSpin(turnSpeed, 180,0, 5.0);
+//        encoderStrafe(driveSpeed, -43, 0,5.0);
+//        encoderDrive(driveSpeed,10,0,5.0);
+//        encoderLift(liftSpeed,16,5.0);
+//        //Take the specimen
+//        encoderDrive(driveSpeed,-10,16,5.0);
+//        encoderSpin(turnSpeed, 180, 16,5.0);
+//        encoderStrafe(driveSpeed, -45, 16,5.0);
+//        encoderDrive(driveSpeed,15,16,5.0);
+//        encoderLift(liftSpeed,0,5.0);
+//        //Place the specimen on bar
+//        encoderStrafe(driveSpeed, 57, 0,5.0);
+//        encoderDrive(driveSpeed, -30, 0,5.0);
         //Park
+
+        encoderSpin(turnSpeed, 360, 0,5.0);
 
     }
 
@@ -390,7 +414,7 @@ public class RightAuto extends LinearOpMode {
     }
 
     public void encoderSpin(double speed,
-                            double inches,
+                            double degress,
                             double frontLiftInches,
                             double timeoutS) {
         int newLeftBackTarget;
@@ -403,10 +427,10 @@ public class RightAuto extends LinearOpMode {
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-            newLeftBackTarget = leftRear.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
-            newRightBackTarget = rightRear.getCurrentPosition() - (int)(inches * COUNTS_PER_INCH);
-            newLeftFrontTarget = leftFront.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
-            newRightFrontTarget = rightFront.getCurrentPosition() - (int)(inches * COUNTS_PER_INCH);
+            newLeftBackTarget = leftRear.getCurrentPosition() + (int)(degress* COUNTS_PER_INCH);
+            newRightBackTarget = rightRear.getCurrentPosition() - (int)(degress * COUNTS_PER_INCH);
+            newLeftFrontTarget = leftFront.getCurrentPosition() + (int)(degress * COUNTS_PER_INCH);
+            newRightFrontTarget = rightFront.getCurrentPosition() - (int)(degress * COUNTS_PER_INCH);
             newFrontLiftTarget = (int)(frontLiftInches * LIFT_COUNTS_PER_INCH);
             leftRear.setTargetPosition(newLeftBackTarget);
             rightRear.setTargetPosition(newRightBackTarget);
