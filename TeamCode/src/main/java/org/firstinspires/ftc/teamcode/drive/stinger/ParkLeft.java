@@ -1,91 +1,53 @@
-/* Copyright (c) 2017 FIRST. All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without modification,
- * are permitted (subject to the limitations in the disclaimer below) provided that
- * the following conditions are met:
- *
- * Redistributions of source code must retain the above copyright notice, this list
- * of conditions and the following disclaimer.
- *
- * Redistributions in binary form must reproduce the above copyright notice, this
- * list of conditions and the following disclaimer in the documentation and/or
- * other materials provided with the distribution.
- *
- * Neither the name of FIRST nor the names of its contributors may be used to endorse or
- * promote products derived from this software without specific prior written permission.
- *
- * NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED BY THIS
- * LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
- * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
-
 package org.firstinspires.ftc.teamcode.drive.stinger;
 
-import static org.firstinspires.ftc.teamcode.drive.stinger.SliderConstants.COUNTS_PER_DEGREE;
-import static org.firstinspires.ftc.teamcode.drive.stinger.SliderConstants.COUNTS_PER_INCH;
-import static org.firstinspires.ftc.teamcode.drive.stinger.SliderConstants.STRAFE_COUNTS_PER_INCH;
-import static org.firstinspires.ftc.teamcode.drive.stinger.SliderConstants.driveSpeed;
-//import static org.firstinspires.ftc.teamcode.drive.stinger.SliderConstants.driveSpeed;
-//import static org.firstinspires.ftc.teamcode.drive.stinger.SliderConstants.turnSpeed;
-
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-//code for cam and other related thangs
-
-
 /**
- * This file illustrates the concept of driving a path based on encoder counts.
- * The code is structured as a LinearOpMode
- *
- * The code REQUIRES that you DO have encoders on the wheels,
- *   otherwise you would use: RobotAutoDriveByTime;
- *
- *  This code ALSO requires that the drive Motors have been configured such that a positive
- *  power command moves them forward, and causes the encoders to count UP.
- *
- *   The desired path in this example is:
- *   - Drive forward for 48 inches
- *   - Spin right for 12 Inches
- *   - Drive Backward for 24 inches
- *   - Stop and close the claw.
- *
- *  The code is written using a method called: encoderDrive(speed, inches, inches, timeoutS)
- *  that performs the actual movement.
- *  This method assumes that each movement is relative to the last stopping place.
- *  There are other ways to perform encoder based moves, but this method is probably the simplest.
- *  This code uses the RUN_TO_POSITION mode to enable the Motor controllers to generate the run profile
- *
+ * This file contains an example of an iterative (Non-Linear) "OpMode".
+ * An OpMode is a 'program' that runs in either the autonomous or the teleop period of an FTC match.
+ * The names of OpModes appear on the menu of the FTC Driver Station.
+ * When a selection is made from the menu, the corresponding OpMode
+ * class is instantiated on the Robot Controller and executed.
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
- * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
- */
+ * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list*/
 
-//9.75 and 9.25
 
-@Autonomous(name="SliderAutonomous", group="Swarm")
+
+
+
+@Autonomous(name="ParkLeft", group="Swarm")
 //@Disabled
-public class SliderAutonomous extends LinearOpMode {
-
-    /* Declare OpMode members. */
-    private DcMotor leftRear = null;
-    private DcMotor rightRear = null;
+public class ParkLeft extends LinearOpMode {
+    // Declare OpMode members.
+    private ElapsedTime runtime = new ElapsedTime();
     private DcMotor leftFront = null;
     private DcMotor rightFront = null;
+    private DcMotor leftRear = null;
+    private DcMotor rightRear = null;
+    private DcMotor frontLift = null;
+    private DcMotor backLift = null;
+    private DcMotor arm = null;
+    private CRServo intake = null;
+    private TouchSensor frontLiftLimit = null;
+    private TouchSensor backLiftLimit = null;
+    private TouchSensor armLimit = null;
 
-    public static final double  driveSpeed = 0.8;
-    public static final double  turnSpeed = 0.6;
-    public static final double liftSpeed = 1.0;
+
+    //TODO Decide names for and declare extra motors. (Top intake, bottom intake, lift)
+    //TODO Decide names for and declare servos.
+
+
+    public static double driveSpeed = 1.0;
+
+    public static double liftSpeed = 1.0;
+
     public static final double intakeSpeed = 1;
     public static final double     COUNTS_PER_MOTOR_REV    = 529.2 ;
     public static final double      WHEEL_DIAMETER_INCHES   = 75/25.4 ;     // For figuring circumference
@@ -104,10 +66,8 @@ public class SliderAutonomous extends LinearOpMode {
             LIFT_INCH_PER_REV;
 
 
-    private ElapsedTime runtime = new ElapsedTime();
 
 
-    @Override
     public void runOpMode() {
 
         // Initialize the drive system variables.
@@ -115,15 +75,26 @@ public class SliderAutonomous extends LinearOpMode {
         rightRear = hardwareMap.get(DcMotor.class, "rightRear");
         leftFront = hardwareMap.get(DcMotor.class, "leftFront");
         rightFront = hardwareMap.get(DcMotor.class, "rightFront");
+        frontLift = hardwareMap.get(DcMotor.class, "frontLift");
+        backLift = hardwareMap.get(DcMotor.class, "backLift");
+        arm = hardwareMap.get(DcMotor.class, "arm");
+        intake = hardwareMap.get(CRServo.class, "intake");
+        frontLiftLimit = hardwareMap.get(TouchSensor.class, "frontLiftLimit");
+        backLiftLimit = hardwareMap.get(TouchSensor.class, "backLiftLimit");
+        armLimit = hardwareMap.get(TouchSensor.class, "armLimit");
 
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // When run, this OpMode should start both motors driving forward. So adjust these two lines based on your first test drive.
         // Note: The settings here assume direct drive on left and right wheels.  Gear Reduction or 90 Deg drives may require direction flips
         leftRear.setDirection(DcMotor.Direction.FORWARD);
-        rightRear.setDirection(DcMotor.Direction.REVERSE);
-        leftFront.setDirection(DcMotor.Direction.REVERSE);
-        rightFront.setDirection(DcMotor.Direction.REVERSE);
+        rightRear.setDirection(DcMotor.Direction.FORWARD);
+        leftFront.setDirection(DcMotor.Direction.FORWARD);
+        rightFront.setDirection(DcMotor.Direction.FORWARD);
+        frontLift.setDirection(DcMotor.Direction.FORWARD);
+        backLift.setDirection(DcMotor.Direction.REVERSE); // slide
+        arm.setDirection(DcMotor.Direction.FORWARD);
+        intake.setDirection(CRServo.Direction.FORWARD);
 
 
         rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -159,8 +130,8 @@ public class SliderAutonomous extends LinearOpMode {
 
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
-        /* parameters :
-        encoderDrive(DRIVE_SPEED, How many inches you want to move (+ forward - reverse),
+ parameters :
+  /*      encoderDrive(DRIVE_SPEED, How many inches you want to move (+ forward - reverse),
         Where you want to set the lift height in inches,
         Whether you want the claw open (1) or closed (0) at the end of the step,
         maximum time allowed for the step before it automatically stops.)
@@ -174,11 +145,11 @@ public class SliderAutonomous extends LinearOpMode {
         Where you want to set the lift height in inches,
         Whether you want the claw open (1) or closed (0) at the end of the step,
         maximum time allowed for the step before it automatically stops.)
-         */
 
 
 
-           /*
+
+
                 encoderStrafe(driveSpeed,0,5.0);
                 encoderDrive(driveSpeed,0,5.0);
                 encoderDrive(driveSpeed,0,5.0);
@@ -190,8 +161,8 @@ public class SliderAutonomous extends LinearOpMode {
                 encoderStrafe(driveSpeed,0,5.0);
                 encoderDrive(driveSpeed, 0, 5.0);
                 sleep(26000);
-          */
-        /*
+
+
         //Rizzy Right Auto
           encoderDrive(driveSpeed, 24, 5.0);
           //Place specimen on bar
@@ -217,9 +188,9 @@ public class SliderAutonomous extends LinearOpMode {
           encoderDrive(driveSpeed, -30, 5.0);
           encoderStrafe(driveSpeed, 57, 5.0);
         //Park
-        */
 
-        /*
+
+
         //Livvy Left Auto
           encoderDrive(driveSpeed, 26, 5.0);
           //Place specimen on bar
@@ -251,23 +222,24 @@ public class SliderAutonomous extends LinearOpMode {
           encoderSpin(turnSpeed, -47, 5.0);
           encoderStrafe(driveSpeed, -115, 5.0);
           //Park
-          */
 
+
+*/
         //Preppy Parking Auto
-          encoderStrafe(driveSpeed, 48, 5.0);
-          //Park
+        encoderStrafe(driveSpeed, -48, 5.0);
+        //Park
 
     }
 
 
-    /*
-     *  Method to perform a relative move, based on encoder counts.
+/*     *  Method to perform a relative move, based on encoder counts.
      *  Encoders are not reset as the move is based on the current position.
      *  Move will stop if any of three conditions occur:
      *  1) Move gets to the desired position
      *  2) Move runs out of time
-     *  3) Driver stops the opmode running.
-     */
+     *  3) Driver stops the opmode running.*/
+
+
 
 
     public void encoderDrive(double speed,
@@ -372,7 +344,7 @@ public class SliderAutonomous extends LinearOpMode {
             rightRear.setPower(Math.abs(speed));
             leftFront.setPower(Math.abs(speed));
             rightFront.setPower(Math.abs(speed));
-                        // keep looping while we are still active, and there is time left, and both motors are running.
+            // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
             // its target position, the motion will stop.  This is "safer" in the event that the robot will
             // always end the motion as soon as possible.
@@ -444,7 +416,7 @@ public class SliderAutonomous extends LinearOpMode {
             rightRear.setPower(Math.abs(speed));
             leftFront.setPower(Math.abs(speed));
             rightFront.setPower(Math.abs(speed));
-                        // keep looping while we are still active, and there is time left, and both motors are running.
+            // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
             // its target position, the motion will stop.  This is "safer" in the event that the robot will
             // always end the motion as soon as possible.

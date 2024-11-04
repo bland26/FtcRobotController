@@ -84,13 +84,21 @@ public class StingerTele extends OpMode {
         leftFront.setDirection(DcMotor.Direction.FORWARD);
         rightFront.setDirection(DcMotor.Direction.FORWARD);
         frontLift.setDirection(DcMotor.Direction.FORWARD);
-        backLift.setDirection(DcMotor.Direction.FORWARD);
+        backLift.setDirection(DcMotor.Direction.REVERSE); // slide
         arm.setDirection(DcMotor.Direction.FORWARD);
         intake.setDirection(CRServo.Direction.FORWARD);
+
+        arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        backLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
 
         frontLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+
 
 
 
@@ -197,6 +205,8 @@ public class StingerTele extends OpMode {
 
 
 
+
+
         //TODO create methods for new motors
 
        /* if (!scoreCon) {
@@ -223,6 +233,43 @@ public class StingerTele extends OpMode {
         backLiftPower = Range.clip(backLiftCubed, -1.0, 1.0);
         armPower = Range.clip(armCubed, -1.0, 1.0);
 
+        if ( gamepad2.dpad_up) {
+            if (arm.getCurrentPosition() < -3661) {
+                arm.setPower(liftSpeed);
+            } else if (arm.getCurrentPosition() > -3659) {
+                arm.setPower(-liftSpeed);
+            } else {
+                arm.setPower(0);
+            }
+            if (backLift.getCurrentPosition() < 2575 & arm.getCurrentPosition() < -1661) {
+                backLift.setPower(liftSpeed);
+            } else {
+                backLift.setPower(0);
+            }
+
+        } else if(gamepad2.dpad_down){
+            if (arm.getCurrentPosition() < 0) {
+                arm.setPower(liftSpeed);
+            } else if (arm.getCurrentPosition() > 0) {
+                arm.setPower(-liftSpeed);
+            } else {
+                arm.setPower(0);
+            }
+            if (backLift.getCurrentPosition() < 0 ) {
+                backLift.setPower(liftSpeed);
+            } else {
+                backLift.setPower(0);
+            }
+        } else{
+
+            arm.setPower(armPower * liftSpeed);
+            if (backLiftPower < 0 && backLiftLimit.isPressed()) {
+                backLift.setPower(0);
+            } else {
+                backLift.setPower(backLiftPower * liftSpeed);
+            }
+        }
+
         // Send calculated power to wheels
 
         leftRear.setPower(leftRearPower * driveSpeed);
@@ -243,16 +290,16 @@ public class StingerTele extends OpMode {
 
 
 
-        if (backLiftPower < 0 && backLiftLimit.isPressed()) {
-            backLift.setPower(0);
-        } else {
-            backLift.setPower(backLiftPower * liftSpeed);
-        }
-        if (armPower < 0 && armLimit.isPressed()) {
-            arm.setPower(0);
-        } else {
-            arm.setPower(armPower * liftSpeed);
-        }
+//        if (backLiftPower < 0 && backLiftLimit.isPressed()) {
+//            backLift.setPower(0);
+//        } else {
+//            backLift.setPower(backLiftPower * liftSpeed);
+//        }
+//        if (armPower < 0 && armLimit.isPressed()) {
+//            arm.setPower(0);
+//        } else {
+//            arm.setPower(armPower * liftSpeed);
+//        }
 
         //TODO set new motor power
 
@@ -260,6 +307,8 @@ public class StingerTele extends OpMode {
         // Show the elapsed game time and wheel power.
         telemetry.addData("Status", "Run Time: " + runtime.toString());
         telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftRearPower, rightRearPower);
+        telemetry.addData("lift", arm.getCurrentPosition());
+        telemetry.addData("Slide", backLift.getCurrentPosition());
 
     }
 

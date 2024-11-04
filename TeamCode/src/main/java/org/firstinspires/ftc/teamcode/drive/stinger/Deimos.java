@@ -30,6 +30,7 @@
 
 package org.firstinspires.ftc.teamcode.drive.stinger;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -84,7 +85,7 @@ public class Deimos extends OpMode
 
     public double driveSpeed = 0.75;
 
-    public double liftSpeed = 0.5;
+    public double liftSpeed = 1.0;
 
 
 
@@ -114,14 +115,29 @@ public class Deimos extends OpMode
         rightRear.setDirection(DcMotor.Direction.REVERSE);
         leftFront.setDirection(DcMotor.Direction.REVERSE);
         rightFront.setDirection(DcMotor.Direction.REVERSE);
-        lift.setDirection(DcMotor.Direction.REVERSE);
+        lift.setDirection(DcMotor.Direction.FORWARD);
         claw.setDirection(Servo.Direction.FORWARD);
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+
 
 
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
     }
+
+    public void encoderLift(int position) {
+
+        lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        lift.setTargetPosition(position);
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        lift.setPower(1);
+        lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        }
 
     /*
      * Code to run REPEATEDLY after the driver hits INIT, but before they hit PLAY
@@ -157,9 +173,9 @@ public class Deimos extends OpMode
 
         // POV Mode uses left stick to go forward, and right stick to turn.
         // - This uses basic math to combine motions and is easier to drive straight.
-        double drive = -gamepad1.left_stick_y;
-        double turn  = gamepad1.right_stick_x;
-        double strafe  = gamepad1.left_stick_x;
+        double drive = gamepad1.left_stick_y;
+        double turn  = -gamepad1.right_stick_x;
+        double strafe  = -gamepad1.left_stick_x;
 
 
         leftRearPower = Range.clip(drive + turn - strafe, -1.0, 1.0) ;
@@ -182,14 +198,29 @@ public class Deimos extends OpMode
 
 
 
-        //int liftUp = (gamepad1.right_bumper) ? 1 : 0;
-        //int liftDown = (gamepad1.left_bumper) ? 1 : 0;
+        double liftInput = -gamepad2.right_stick_y;
 
-        //liftPower = Range.clip(liftUp - liftDown, -1.0, 1.0);
+        if ( gamepad2.a) {
+            if ( lift.getCurrentPosition() < 1433) {
+                lift.setPower( liftSpeed);
+            } else if( lift.getCurrentPosition() > 1434){
+                lift.setPower( -liftSpeed);
+            } else {
+                lift.setPower(0);
+            }
+        } else if(gamepad2.b){
+            if ( lift.getCurrentPosition() < 1162) {
+                lift.setPower( liftSpeed);
+            } else if( lift.getCurrentPosition() > 1163){
+                lift.setPower( -liftSpeed);
+            } else {
+                lift.setPower(0);
+            }
+        } else{
+            liftPower = Range.clip(liftInput, -1.0, 1.0);
+            lift.setPower(liftPower * liftSpeed);
+        }
 
-        double liftInput = -gamepad1.right_stick_y;
-        liftPower = Range.clip(liftInput,-1.0,1.0);
-        lift.setPower(liftPower * liftSpeed);
 
 
 
@@ -197,24 +228,26 @@ public class Deimos extends OpMode
 
 
 
-        if (gamepad1.right_trigger > 0 && clawPosition < clawMax)
+
+        if (gamepad2.right_trigger > 0 && clawPosition < clawMax)
             clawPosition += clawSpeed;
-        if (gamepad1.left_trigger > 0 && clawPosition >= clawMin)
+        if (gamepad2.left_trigger > 0 && clawPosition >= clawMin)
             clawPosition -= clawSpeed;
 
 
         clawPosition = Range.clip(clawPosition,clawMin,clawMax);
         claw.setPosition(clawPosition);
 
-        if (liftPower < 0 && liftLimit.isPressed()) {
-            lift.setPower(0);
-        } else {
-            lift.setPower(liftPower * liftSpeed);
-        }
+//        if (liftPower < 0 && liftLimit.isPressed()) {
+//            lift.setPower(0);
+//        } else {
+//            lift.setPower(liftPower * liftSpeed);
+//        }
 
         // Show the elapsed game time and wheel power.
         telemetry.addData("Status", "Run Time: " + runtime.toString());
         telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftRearPower, rightRearPower);
+        telemetry.addData("Lift",lift.getCurrentPosition());
         telemetry.addData("Claw", clawPosition);
     }
 
