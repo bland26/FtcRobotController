@@ -209,7 +209,7 @@ public class Phobos extends OpMode
 
         //liftPower = Range.clip(liftUp - liftDown, -1.0, 1.0);
 
-        double liftInput = -gamepad1.right_stick_y;
+        double liftInput = -gamepad2.right_stick_y;
         liftPower = Range.clip(liftInput,-1.0,1.0);
         lift.setPower(liftPower * liftSpeed);
 
