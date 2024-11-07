@@ -33,7 +33,9 @@ package org.firstinspires.ftc.teamcode.drive.stinger;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -56,27 +58,32 @@ import com.qualcomm.robotcore.util.Range;
 // we are the rizzly bears and we are sigma
 
 @TeleOp(name="Phobos", group="Iterative OpMode")
-@Disabled
+//@Disabled
 public class Phobos extends OpMode
 {
     // Declare OpMode members./.c
     private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor leftWheel = null;
-    private DcMotor rightWheel = null;
+    private DcMotor leftRear = null;
+    private DcMotor rightRear = null;
+
+    private DcMotor leftFront = null;
+
+    private DcMotor rightFront = null;
 
     private DcMotor lift = null;
+    private CRServo intake = null;
 
-    private Servo claw = null;
-
-    final static double clawStart = 1.0;
-
-    public static double clawMin = 0.2;
-
-    public static double clawMax = 1.0;
-
-    public static double clawSpeed = 0.01;
-
-    public double clawPosition = 0.5;
+//    private Servo claw = null;
+//
+//    final static double clawStart = 1.0;
+//
+//    public static double clawMin = 0.2;
+//
+//    public static double clawMax = 1.0;
+//
+//    public static double clawSpeed = 0.01;
+//
+//    public double clawPosition = 0.5;
 
     public double driveSpeed = 0.75;
 
@@ -95,20 +102,27 @@ public class Phobos extends OpMode
         // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
         // step (using the FTC Robot Controller app on the phone).
-        leftWheel = hardwareMap.get(DcMotor.class,"leftWheel");  //Control Hub 1
-        rightWheel = hardwareMap.get(DcMotor.class,"rightWheel"); //Control Hub 0
-        lift = hardwareMap.get(DcMotor.class,"lift");             //Control Hub 2
-        claw = hardwareMap.get(Servo.class, "claw");              //Control Hub Servo 0
+        leftRear = hardwareMap.get(DcMotor.class,"leftRear");  //Control Hub 1
+        rightRear = hardwareMap.get(DcMotor.class,"rightRear"); //Control Hub 0
+        leftFront = hardwareMap.get(DcMotor.class,"leftFront");
+        rightFront = hardwareMap.get(DcMotor.class,"rightFront");//Control Hub 0
+        lift = hardwareMap.get(DcMotor.class,"lift");
+        intake = hardwareMap.get(CRServo.class, "intake");//Control Hub 2
+//        claw = hardwareMap.get(Servo.class, "claw");              //Control Hub Servo 0
         liftLimit = hardwareMap.get(TouchSensor.class, "limitDown");
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // Pushing the left stick forward MUST make robot go forward. So adjust these two lines based on your first test drive.
         // Note: The settings here assume direct drive on left and right wheels.  Gear Reduction or 90 Deg drives may require direction flips
-        leftWheel.setDirection(DcMotor.Direction.REVERSE);
-        rightWheel.setDirection(DcMotor.Direction.FORWARD);
+        leftRear.setDirection(DcMotor.Direction.FORWARD);
+        rightRear.setDirection(DcMotor.Direction.REVERSE);
+        leftFront.setDirection(DcMotor.Direction.FORWARD);
+        rightFront.setDirection(DcMotor.Direction.REVERSE);
         lift.setDirection(DcMotor.Direction.FORWARD);
-        claw.setDirection(Servo.Direction.FORWARD);
+//        claw.setDirection(Servo.Direction.FORWARD);
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        intake.setDirection(CRServo.Direction.FORWARD);
+
 
 
         // Tell the driver that initialization is complete.
@@ -136,9 +150,14 @@ public class Phobos extends OpMode
     @Override
     public void loop() {
         // Setup a variable for each drive wheel to save power level for telemetry
-        double leftWheelPower;
-        double rightWheelPower;
+        double leftRearPower;
+        double rightRearPower;
+        double leftFrontPower;
+        double rightFrontPower;
         double liftPower;
+        double intakePower;
+
+
 
 
 
@@ -148,11 +167,26 @@ public class Phobos extends OpMode
         // POV Mode uses left stick to go forward, and right stick to turn.
         // - This uses basic math to combine motions and is easier to drive straight.
         double drive = -gamepad1.left_stick_y;
-        double turn  = gamepad1.left_stick_x;
+        double turn  = gamepad1.right_stick_x;
+        double strafe  = -gamepad1.left_stick_x;
+
+        boolean intakeInput = gamepad2.a;
+        if (intakeInput){
+            intakePower=1;
+        }else {
+            intakePower=0;
+        }
+
+        boolean intakeInputR = gamepad2.b;
+        if (intakeInputR){
+            intakePower = -1;
+        }
 
 
-        leftWheelPower = Range.clip(drive + turn, -1.0, 1.0) ;
-        rightWheelPower   = Range.clip(drive - turn, -1.0, 1.0) ;
+        leftRearPower = Range.clip(drive + turn - strafe, -1.0, 1.0) ;
+        rightRearPower   = Range.clip(drive - turn + strafe,-1.0, 1.0) ;
+        leftFrontPower = Range.clip(drive + turn + strafe, -1.0, 1.0) ;
+        rightFrontPower   = Range.clip(drive - turn - strafe, -1.0, 1.0) ;
 
 
         // Tank Mode uses one stick to control each wheel.
@@ -161,8 +195,11 @@ public class Phobos extends OpMode
         //rightWheelPower = -gamepad1.right_stick_y ;
 
         // Send calculated power to wheels
-        leftWheel.setPower(leftWheelPower * driveSpeed);
-        rightWheel.setPower(rightWheelPower * driveSpeed);
+        leftRear.setPower(leftRearPower * driveSpeed);
+        rightRear.setPower(rightRearPower * driveSpeed);
+        leftFront.setPower(leftFrontPower * driveSpeed);
+        rightFront.setPower(rightFrontPower * driveSpeed);
+        intake.setPower(intakePower);
 
 
 
@@ -182,14 +219,14 @@ public class Phobos extends OpMode
 
 
 
-        if (gamepad1.right_trigger > 0 && clawPosition < clawMax)
-            clawPosition += clawSpeed;
-        if (gamepad1.left_trigger > 0 && clawPosition >= clawMin)
-            clawPosition -= clawSpeed;
-
-
-        clawPosition = Range.clip(clawPosition,clawMin,clawMax);
-        claw.setPosition(clawPosition);
+//        if (gamepad1.right_trigger > 0 && clawPosition < clawMax)
+//            clawPosition += clawSpeed;
+//        if (gamepad1.left_trigger > 0 && clawPosition >= clawMin)
+//            clawPosition -= clawSpeed;
+//
+//
+//        clawPosition = Range.clip(clawPosition,clawMin,clawMax);
+//        claw.setPosition(clawPosition);
 
         if (liftPower < 0 && liftLimit.isPressed()) {
             lift.setPower(0);
@@ -199,8 +236,8 @@ public class Phobos extends OpMode
 
         // Show the elapsed game time and wheel power.
         telemetry.addData("Status", "Run Time: " + runtime.toString());
-        telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftWheelPower, rightWheelPower);
-        telemetry.addData("Claw", clawPosition);
+        telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftRearPower, rightRearPower);
+//        telemetry.addData("Claw", clawPosition);
     }
 
     /*
