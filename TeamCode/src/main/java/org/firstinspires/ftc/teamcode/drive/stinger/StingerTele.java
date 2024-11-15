@@ -1,11 +1,9 @@
 package org.firstinspires.ftc.teamcode.drive.stinger;
 
 import com.acmerobotics.dashboard.config.Config;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -34,11 +32,11 @@ public class StingerTele extends OpMode {
     private DcMotor rightFront = null;
     private DcMotor leftRear = null;
     private DcMotor rightRear = null;
-    private DcMotor frontLift = null;
     private DcMotor backLift = null;
     private DcMotor arm = null;
+    private DcMotor climbRight = null;
+    private DcMotor climbLeft = null;
     private CRServo intake = null;
-    private TouchSensor frontLiftLimit = null;
     private TouchSensor backLiftLimit = null;
     private TouchSensor armLimit = null;
 
@@ -50,6 +48,8 @@ public class StingerTele extends OpMode {
     public static double driveSpeed = 1.0;
 
     public static double liftSpeed = 1.0;
+    public static double climbSpeed = 1.0;
+
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -65,11 +65,11 @@ public class StingerTele extends OpMode {
         rightRear = hardwareMap.get(DcMotor.class, "rightRear");
         leftFront = hardwareMap.get(DcMotor.class, "leftFront");
         rightFront = hardwareMap.get(DcMotor.class, "rightFront");
-        frontLift = hardwareMap.get(DcMotor.class, "frontLift");
         backLift = hardwareMap.get(DcMotor.class, "backLift");
         arm = hardwareMap.get(DcMotor.class, "arm");
+        climbRight = hardwareMap.get(DcMotor.class, "climbRight");
+        climbLeft = hardwareMap.get(DcMotor.class, "climbLeft");
         intake = hardwareMap.get(CRServo.class, "intake");
-        frontLiftLimit = hardwareMap.get(TouchSensor.class, "frontLiftLimit");
         backLiftLimit = hardwareMap.get(TouchSensor.class, "backLiftLimit");
         armLimit = hardwareMap.get(TouchSensor.class, "armLimit");
 
@@ -83,9 +83,10 @@ public class StingerTele extends OpMode {
         rightRear.setDirection(DcMotor.Direction.FORWARD);
         leftFront.setDirection(DcMotor.Direction.FORWARD);
         rightFront.setDirection(DcMotor.Direction.FORWARD);
-        frontLift.setDirection(DcMotor.Direction.FORWARD);
         backLift.setDirection(DcMotor.Direction.REVERSE); // slide
         arm.setDirection(DcMotor.Direction.FORWARD);
+        climbRight.setDirection(DcMotor.Direction.FORWARD);
+        climbLeft.setDirection(DcMotor.Direction.FORWARD);
         intake.setDirection(CRServo.Direction.FORWARD);
 
         arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -94,7 +95,6 @@ public class StingerTele extends OpMode {
         backLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
-        frontLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
@@ -133,9 +133,9 @@ public class StingerTele extends OpMode {
         double rightRearPower;
         double leftFrontPower;
         double rightFrontPower;
-        double frontLiftPower;
         double backLiftPower;
         double armPower;
+        double climbPower;
         double intakePower;
         //TODO initilize New Motor power variables
 
@@ -165,17 +165,6 @@ public class StingerTele extends OpMode {
         }
         double spinCubed = spin * spin * spin;
 
-        boolean frontLiftInput = gamepad2.right_bumper;
-        if (frontLiftInput && !frontLiftLimit.isPressed()){
-            frontLiftPower=1;
-        }else {
-            frontLiftPower=0;
-        }
-
-        boolean frontLiftInputR = gamepad2.left_bumper;
-        if (frontLiftInputR){
-            frontLiftPower = -1;
-        }
 
         double backLiftInput = -gamepad2.left_stick_y;
         if (Math.abs(backLiftInput) < DEADZONE) {
@@ -189,6 +178,17 @@ public class StingerTele extends OpMode {
         }
         double armCubed = armInput * armInput * armInput;
 
+        boolean climb = gamepad2.right_bumper;
+        if (climb){
+            climbPower=1;
+        }else {
+            climbPower=0;
+        }
+
+        boolean climbReverse = gamepad2.left_bumper;
+        if (climbReverse){
+            climbPower = -1;
+        }
         boolean intakeInput = gamepad2.a;
         if (intakeInput){
             intakePower=1;
@@ -276,8 +276,9 @@ public class StingerTele extends OpMode {
         rightRear.setPower(rightRearPower * driveSpeed);
         leftFront.setPower(leftFrontPower * driveSpeed);
         rightFront.setPower(rightFrontPower * driveSpeed);
+        climbRight.setPower(climbPower);
+        climbLeft.setPower(-climbPower);
         intake.setPower(intakePower);
-        frontLift.setPower(frontLiftPower);
 
 
 

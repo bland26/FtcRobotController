@@ -168,16 +168,16 @@ public class Phobos extends OpMode
         // - This uses basic math to combine motions and is easier to drive straight.
         double drive = -gamepad1.left_stick_y;
         double turn  = gamepad1.right_stick_x;
-        double strafe  = -gamepad1.left_stick_x;
+        double strafe  = gamepad1.left_stick_x;
 
-        boolean intakeInput = gamepad2.a;
+        boolean intakeInput = gamepad1.a;
         if (intakeInput){
             intakePower=1;
         }else {
             intakePower=0;
         }
 
-        boolean intakeInputR = gamepad2.b;
+        boolean intakeInputR = gamepad1.b;
         if (intakeInputR){
             intakePower = -1;
         }
@@ -209,7 +209,7 @@ public class Phobos extends OpMode
 
         //liftPower = Range.clip(liftUp - liftDown, -1.0, 1.0);
 
-        double liftInput = -gamepad2.right_stick_y;
+        double liftInput = -gamepad1.right_stick_y;
         liftPower = Range.clip(liftInput,-1.0,1.0);
         lift.setPower(liftPower * liftSpeed);
 
