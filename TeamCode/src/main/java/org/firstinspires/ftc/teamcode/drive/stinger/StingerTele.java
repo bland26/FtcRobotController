@@ -19,6 +19,7 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
+//you can has cheezburger
 
 
 @TeleOp(name="StingerTele", group="Swarm")
