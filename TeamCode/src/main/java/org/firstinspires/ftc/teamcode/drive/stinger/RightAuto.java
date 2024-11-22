@@ -29,20 +29,12 @@
 
 package org.firstinspires.ftc.teamcode.drive.stinger;
 
-import static org.firstinspires.ftc.teamcode.drive.stinger.StingerConstants.COUNTS_PER_INCH;
-import static org.firstinspires.ftc.teamcode.drive.stinger.StingerConstants.LIFT_COUNTS_PER_INCH;
-import static org.firstinspires.ftc.teamcode.drive.stinger.StingerConstants.liftSpeed;
-import static org.firstinspires.ftc.teamcode.drive.stinger.StingerConstants.driveSpeed;
-import static org.firstinspires.ftc.teamcode.drive.stinger.StingerConstants.turnSpeed;
-
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.hardware.CRServo;
 
 //code for cam and other related thangs
 
@@ -75,6 +67,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Autonomous(name="RightAuto", group="Swarm")
 //@Disabled
+
 public class RightAuto extends LinearOpMode {
 
     /* Declare OpMode members. */
@@ -82,6 +75,9 @@ public class RightAuto extends LinearOpMode {
     private DcMotor rightRear = null;
     private DcMotor leftFront = null;
     private DcMotor rightFront = null;
+    private DcMotor backLift = null;
+    private DcMotor arm = null;
+    private CRServo intake = null;
     private DcMotor frontLift = null;
 
     public static final double  driveSpeed = 0.6;
@@ -105,6 +101,7 @@ public class RightAuto extends LinearOpMode {
             LIFT_INCH_PER_REV;
 
 
+
     private ElapsedTime runtime = new ElapsedTime();
 
 
@@ -116,7 +113,11 @@ public class RightAuto extends LinearOpMode {
         rightRear = hardwareMap.get(DcMotor.class, "rightRear");
         leftFront = hardwareMap.get(DcMotor.class, "leftFront");
         rightFront = hardwareMap.get(DcMotor.class, "rightFront");
+        backLift = hardwareMap.get(DcMotor.class, "backLift");
+        arm = hardwareMap.get(DcMotor.class, "arm");
+        intake = hardwareMap.get(CRServo.class, "intake");
         frontLift = hardwareMap.get(DcMotor.class, "frontLift");
+
 
 
 
@@ -124,31 +125,42 @@ public class RightAuto extends LinearOpMode {
         // When run, this OpMode should start both motors driving forward. So adjust these two lines based on your first test drive.
         // Note: The settings here assume direct drive on left and right wheels.  Gear Reduction or 90 Deg drives may require direction flips
         leftRear.setDirection(DcMotor.Direction.FORWARD);
-        rightRear.setDirection(DcMotor.Direction.FORWARD);
-        leftFront.setDirection(DcMotor.Direction.FORWARD);
-        rightFront.setDirection(DcMotor.Direction.FORWARD);
+        rightRear.setDirection(DcMotor.Direction.REVERSE);
+        leftFront.setDirection(DcMotor.Direction.REVERSE);
+        rightFront.setDirection(DcMotor.Direction.REVERSE);
+        backLift.setDirection(DcMotor.Direction.FORWARD);
+        arm.setDirection(DcMotor.Direction.FORWARD);
+        intake.setDirection(CRServo.Direction.FORWARD);
         frontLift.setDirection(DcMotor.Direction.FORWARD);
 
 
 
         frontLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
+
         leftRear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightRear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         frontLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
 
 
         leftRear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightRear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         frontLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
@@ -202,47 +214,15 @@ public class RightAuto extends LinearOpMode {
                 sleep(26000);
           */
         //Skibidi Left Auto
-       // encoderDrive(driveSpeed, 24, 5.0);
-       // encoderSpin(turnSpeed,-90,5.0);
+        // encoderDrive(driveSpeed, 24, 5.0);
+        // encoderSpin(turnSpeed,-90,5.0);
         //Place purple pixel on spike mark
         //encoderDrive(driveSpeed, -36, 5.0);
         //encoderStrafe(driveSpeed,6,5.0);
         //Place yellow pixel on back drop
         //encoderStrafe(driveSpeed, 18, 5.0);
         //encoderDrive(driveSpeed, -12, 5.0);
-
-
-//        encoderDrive(driveSpeed, 24,16, 5.0);
-//        encoderLift(liftSpeed,0,5.0);
-//        //Place specimen on bar
-//        encoderStrafe(driveSpeed,32,0,5.0);
-//        encoderSpin(turnSpeed,180,0,5.0);
-//        encoderDrive(driveSpeed, 22,0,5.0);
-//        encoderLift(liftSpeed,14,5.0);
-//        //Take the specimen
-//        encoderDrive(driveSpeed,-12,16,5.0);
-//        encoderSpin(turnSpeed, 180,16, 5.0);
-//        encoderStrafe(driveSpeed, -41,16, 5.0);
-//        encoderDrive(driveSpeed,11,16,5.0);
-//        encoderLift(liftSpeed,0,5.0);
-//        //Place specimen on bar
-//        encoderDrive(driveSpeed, -8, 0,5.0);
-//        encoderSpin(turnSpeed, 180,0, 5.0);
-//        encoderStrafe(driveSpeed, -43, 0,5.0);
-//        encoderDrive(driveSpeed,10,0,5.0);
-//        encoderLift(liftSpeed,16,5.0);
-//        //Take the specimen
-//        encoderDrive(driveSpeed,-10,16,5.0);
-//        encoderSpin(turnSpeed, 180, 16,5.0);
-//        encoderStrafe(driveSpeed, -45, 16,5.0);
-//        encoderDrive(driveSpeed,15,16,5.0);
-//        encoderLift(liftSpeed,0,5.0);
-//        //Place the specimen on bar
-//        encoderStrafe(driveSpeed, 57, 0,5.0);
-//        encoderDrive(driveSpeed, -30, 0,5.0);
-        //Park
-
-        encoderSpin(turnSpeed, 360, 0,5.0);
+        encoderStrafe(driveSpeed,10,0,0,0,0,5.0);
 
     }
 
@@ -260,12 +240,18 @@ public class RightAuto extends LinearOpMode {
     public void encoderDrive(double speed,
                              double inches,
                              double frontLiftInches,
+                             double backLiftInches,
+                             double armInches,
+                             int intakeValue,
                              double timeoutS) {
         int newLeftBackTarget;
         int newRightBackTarget;
         int newLeftFrontTarget;
         int newRightFrontTarget;
         int newFrontLiftTarget;
+        int newBackLiftTarget;
+        int newArmTarget;
+
 
         // Ensure that the opmode is still active
         if (opModeIsActive()) {
@@ -276,17 +262,23 @@ public class RightAuto extends LinearOpMode {
             newLeftFrontTarget = leftFront.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
             newRightFrontTarget = rightFront.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
             newFrontLiftTarget = (int)(frontLiftInches * LIFT_COUNTS_PER_INCH);
+            newBackLiftTarget = (int)(backLiftInches * LIFT_COUNTS_PER_INCH);
+            newArmTarget = (int)(armInches * LIFT_COUNTS_PER_INCH);
             leftRear.setTargetPosition(newLeftBackTarget);
             rightRear.setTargetPosition(newRightBackTarget);
             leftFront.setTargetPosition(newLeftFrontTarget);
             rightFront.setTargetPosition(newRightFrontTarget);
             frontLift.setTargetPosition(newFrontLiftTarget);
+            backLift.setTargetPosition(newBackLiftTarget);
+            arm.setTargetPosition(newArmTarget);
             // Turn On RUN_TO_POSITION
             leftRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rightRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             frontLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            backLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             // reset the timeout time and start motion.
             runtime.reset();
@@ -295,6 +287,9 @@ public class RightAuto extends LinearOpMode {
             leftFront.setPower(Math.abs(speed));
             rightFront.setPower(Math.abs(speed));
             frontLift.setPower(liftSpeed);
+            backLift.setPower(liftSpeed);
+            arm.setPower(liftSpeed);
+            intake.setPower(intakeValue);
 
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
@@ -323,6 +318,8 @@ public class RightAuto extends LinearOpMode {
             leftFront.setPower(0);
             rightFront.setPower(0);
             frontLift.setPower(0);
+            backLift.setPower(0);
+            arm.setPower(0);
 
 
             // Turn off RUN_TO_POSITION
@@ -338,12 +335,17 @@ public class RightAuto extends LinearOpMode {
     public void encoderStrafe(double speed,
                               double inches,
                               double frontLiftInches,
+                              double backLiftInches,
+                              double armInches,
+                              int intakeValue,
                               double timeoutS) {
         int newLeftBackTarget;
         int newRightBackTarget;
         int newLeftFrontTarget;
         int newRightFrontTarget;
         int newFrontLiftTarget;
+        int newBackLiftTarget;
+        int newArmTarget;
 
         // Ensure that the opmode is still active
         if (opModeIsActive()) {
@@ -352,19 +354,25 @@ public class RightAuto extends LinearOpMode {
             newLeftBackTarget = leftRear.getCurrentPosition() - (int)(inches * COUNTS_PER_INCH);
             newRightBackTarget = rightRear.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
             newLeftFrontTarget = leftFront.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
-            newRightFrontTarget = rightFront.getCurrentPosition() - (int)(inches * COUNTS_PER_INCH);
             newFrontLiftTarget = (int)(frontLiftInches * LIFT_COUNTS_PER_INCH);
+            newRightFrontTarget = rightFront.getCurrentPosition() - (int)(inches * COUNTS_PER_INCH);
+            newBackLiftTarget = (int)(backLiftInches * LIFT_COUNTS_PER_INCH);
+            newArmTarget = (int)(armInches * LIFT_COUNTS_PER_INCH);
             leftRear.setTargetPosition(newLeftBackTarget);
             rightRear.setTargetPosition(newRightBackTarget);
             leftFront.setTargetPosition(newLeftFrontTarget);
             rightFront.setTargetPosition(newRightFrontTarget);
             frontLift.setTargetPosition(newFrontLiftTarget);
+            backLift.setTargetPosition(newBackLiftTarget);
+            arm.setTargetPosition(newArmTarget);
             // Turn On RUN_TO_POSITION
             leftRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rightRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             frontLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            backLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             // reset the timeout time and start motion.
             runtime.reset();
@@ -373,6 +381,9 @@ public class RightAuto extends LinearOpMode {
             leftFront.setPower(Math.abs(speed));
             rightFront.setPower(Math.abs(speed));
             frontLift.setPower(liftSpeed);
+            backLift.setPower(liftSpeed);
+            arm.setPower(liftSpeed);
+            intake.setPower(intakeValue);
 
 
             // keep looping while we are still active, and there is time left, and both motors are running.
@@ -402,6 +413,8 @@ public class RightAuto extends LinearOpMode {
             leftFront.setPower(0);
             rightFront.setPower(0);
             frontLift.setPower(0);
+            backLift.setPower(0);
+            arm.setPower(0);
 
 
             // Turn off RUN_TO_POSITION
@@ -414,35 +427,46 @@ public class RightAuto extends LinearOpMode {
     }
 
     public void encoderSpin(double speed,
-                            double degress,
+                            double degrees,
                             double frontLiftInches,
+                            double backLiftInches,
+                            double armInches,
+                            int intakeValue,
                             double timeoutS) {
         int newLeftBackTarget;
         int newRightBackTarget;
         int newLeftFrontTarget;
         int newRightFrontTarget;
         int newFrontLiftTarget;
+        int newBackLiftTarget;
+        int newArmTarget;
 
         // Ensure that the opmode is still active
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-            newLeftBackTarget = leftRear.getCurrentPosition() + (int)(degress* COUNTS_PER_INCH);
-            newRightBackTarget = rightRear.getCurrentPosition() - (int)(degress * COUNTS_PER_INCH);
-            newLeftFrontTarget = leftFront.getCurrentPosition() + (int)(degress * COUNTS_PER_INCH);
-            newRightFrontTarget = rightFront.getCurrentPosition() - (int)(degress * COUNTS_PER_INCH);
+            newLeftBackTarget = leftRear.getCurrentPosition() + (int)(degrees * COUNTS_PER_DEGREE);
+            newRightBackTarget = rightRear.getCurrentPosition() - (int)(degrees * COUNTS_PER_DEGREE);
+            newLeftFrontTarget = leftFront.getCurrentPosition() + (int)(degrees * COUNTS_PER_DEGREE);
+            newRightFrontTarget = rightFront.getCurrentPosition() - (int)(degrees * COUNTS_PER_DEGREE);
             newFrontLiftTarget = (int)(frontLiftInches * LIFT_COUNTS_PER_INCH);
+            newBackLiftTarget = (int)(backLiftInches * LIFT_COUNTS_PER_INCH);
+            newArmTarget = (int)(armInches * LIFT_COUNTS_PER_INCH);
             leftRear.setTargetPosition(newLeftBackTarget);
             rightRear.setTargetPosition(newRightBackTarget);
             leftFront.setTargetPosition(newLeftFrontTarget);
             rightFront.setTargetPosition(newRightFrontTarget);
             frontLift.setTargetPosition(newFrontLiftTarget);
+            backLift.setTargetPosition(newBackLiftTarget);
+            arm.setTargetPosition(newArmTarget);
             // Turn On RUN_TO_POSITION
             leftRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rightRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             frontLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            backLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             // reset the timeout time and start motion.
             runtime.reset();
@@ -451,6 +475,9 @@ public class RightAuto extends LinearOpMode {
             leftFront.setPower(Math.abs(speed));
             rightFront.setPower(Math.abs(speed));
             frontLift.setPower(liftSpeed);
+            backLift.setPower(liftSpeed);
+            arm.setPower(liftSpeed);
+            intake.setPower(intakeValue);
 
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
@@ -479,6 +506,8 @@ public class RightAuto extends LinearOpMode {
             leftFront.setPower(0);
             rightFront.setPower(0);
             frontLift.setPower(0);
+            backLift.setPower(0);
+            arm.setPower(0);
 
 
             // Turn off RUN_TO_POSITION
@@ -491,6 +520,7 @@ public class RightAuto extends LinearOpMode {
     }
     public void encoderLift(double liftSpeed,
                             int frontLiftInches,
+                            double intakeValue,
                             double timeoutS) {
 
         int newFrontLiftTarget;
@@ -518,6 +548,27 @@ public class RightAuto extends LinearOpMode {
 
             sleep(250);
 
+        }
+    }
+    private void encoderIntake(int intakeValue,
+                               double timeoutS) {
+
+        intake.setPower(intakeValue);
+
+        if (opModeIsActive()) {
+
+
+            runtime.reset();
+
+            while (opModeIsActive() &&
+                    (runtime.seconds() < timeoutS)) {
+
+
+            }
+            intake.setPower(0);
+
+
+            sleep(250);
         }
     }
 
