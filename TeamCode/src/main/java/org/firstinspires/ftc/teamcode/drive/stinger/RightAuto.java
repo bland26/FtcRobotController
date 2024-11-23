@@ -78,7 +78,6 @@ public class RightAuto extends LinearOpMode {
     private DcMotor backLift = null;
     private DcMotor arm = null;
     private CRServo intake = null;
-    private DcMotor frontLift = null;
 
     public static final double  driveSpeed = 0.6;
     public static final double  turnSpeed = 0.5;
@@ -116,7 +115,6 @@ public class RightAuto extends LinearOpMode {
         backLift = hardwareMap.get(DcMotor.class, "backLift");
         arm = hardwareMap.get(DcMotor.class, "arm");
         intake = hardwareMap.get(CRServo.class, "intake");
-        frontLift = hardwareMap.get(DcMotor.class, "frontLift");
 
 
 
@@ -131,11 +129,9 @@ public class RightAuto extends LinearOpMode {
         backLift.setDirection(DcMotor.Direction.FORWARD);
         arm.setDirection(DcMotor.Direction.FORWARD);
         intake.setDirection(CRServo.Direction.FORWARD);
-        frontLift.setDirection(DcMotor.Direction.FORWARD);
 
 
 
-        frontLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -151,7 +147,6 @@ public class RightAuto extends LinearOpMode {
         rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         backLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        frontLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
 
 
@@ -161,7 +156,6 @@ public class RightAuto extends LinearOpMode {
         rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        frontLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
 
@@ -222,7 +216,7 @@ public class RightAuto extends LinearOpMode {
         //Place yellow pixel on back drop
         //encoderStrafe(driveSpeed, 18, 5.0);
         //encoderDrive(driveSpeed, -12, 5.0);
-        encoderStrafe(driveSpeed,10,0,0,0,0,5.0);
+        encoderStrafe(driveSpeed,10,0,0,0,5.0);
 
     }
 
@@ -239,7 +233,6 @@ public class RightAuto extends LinearOpMode {
 
     public void encoderDrive(double speed,
                              double inches,
-                             double frontLiftInches,
                              double backLiftInches,
                              double armInches,
                              int intakeValue,
@@ -248,7 +241,6 @@ public class RightAuto extends LinearOpMode {
         int newRightBackTarget;
         int newLeftFrontTarget;
         int newRightFrontTarget;
-        int newFrontLiftTarget;
         int newBackLiftTarget;
         int newArmTarget;
 
@@ -261,14 +253,12 @@ public class RightAuto extends LinearOpMode {
             newRightBackTarget = rightRear.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
             newLeftFrontTarget = leftFront.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
             newRightFrontTarget = rightFront.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
-            newFrontLiftTarget = (int)(frontLiftInches * LIFT_COUNTS_PER_INCH);
             newBackLiftTarget = (int)(backLiftInches * LIFT_COUNTS_PER_INCH);
             newArmTarget = (int)(armInches * LIFT_COUNTS_PER_INCH);
             leftRear.setTargetPosition(newLeftBackTarget);
             rightRear.setTargetPosition(newRightBackTarget);
             leftFront.setTargetPosition(newLeftFrontTarget);
             rightFront.setTargetPosition(newRightFrontTarget);
-            frontLift.setTargetPosition(newFrontLiftTarget);
             backLift.setTargetPosition(newBackLiftTarget);
             arm.setTargetPosition(newArmTarget);
             // Turn On RUN_TO_POSITION
@@ -276,7 +266,6 @@ public class RightAuto extends LinearOpMode {
             rightRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            frontLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             backLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
@@ -286,7 +275,6 @@ public class RightAuto extends LinearOpMode {
             rightRear.setPower(Math.abs(speed));
             leftFront.setPower(Math.abs(speed));
             rightFront.setPower(Math.abs(speed));
-            frontLift.setPower(liftSpeed);
             backLift.setPower(liftSpeed);
             arm.setPower(liftSpeed);
             intake.setPower(intakeValue);
@@ -317,7 +305,6 @@ public class RightAuto extends LinearOpMode {
             rightRear.setPower(0);
             leftFront.setPower(0);
             rightFront.setPower(0);
-            frontLift.setPower(0);
             backLift.setPower(0);
             arm.setPower(0);
 
@@ -334,7 +321,6 @@ public class RightAuto extends LinearOpMode {
 
     public void encoderStrafe(double speed,
                               double inches,
-                              double frontLiftInches,
                               double backLiftInches,
                               double armInches,
                               int intakeValue,
@@ -343,7 +329,6 @@ public class RightAuto extends LinearOpMode {
         int newRightBackTarget;
         int newLeftFrontTarget;
         int newRightFrontTarget;
-        int newFrontLiftTarget;
         int newBackLiftTarget;
         int newArmTarget;
 
@@ -354,7 +339,6 @@ public class RightAuto extends LinearOpMode {
             newLeftBackTarget = leftRear.getCurrentPosition() - (int)(inches * COUNTS_PER_INCH);
             newRightBackTarget = rightRear.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
             newLeftFrontTarget = leftFront.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
-            newFrontLiftTarget = (int)(frontLiftInches * LIFT_COUNTS_PER_INCH);
             newRightFrontTarget = rightFront.getCurrentPosition() - (int)(inches * COUNTS_PER_INCH);
             newBackLiftTarget = (int)(backLiftInches * LIFT_COUNTS_PER_INCH);
             newArmTarget = (int)(armInches * LIFT_COUNTS_PER_INCH);
@@ -362,7 +346,6 @@ public class RightAuto extends LinearOpMode {
             rightRear.setTargetPosition(newRightBackTarget);
             leftFront.setTargetPosition(newLeftFrontTarget);
             rightFront.setTargetPosition(newRightFrontTarget);
-            frontLift.setTargetPosition(newFrontLiftTarget);
             backLift.setTargetPosition(newBackLiftTarget);
             arm.setTargetPosition(newArmTarget);
             // Turn On RUN_TO_POSITION
@@ -370,7 +353,6 @@ public class RightAuto extends LinearOpMode {
             rightRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            frontLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             backLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
@@ -380,7 +362,6 @@ public class RightAuto extends LinearOpMode {
             rightRear.setPower(Math.abs(speed));
             leftFront.setPower(Math.abs(speed));
             rightFront.setPower(Math.abs(speed));
-            frontLift.setPower(liftSpeed);
             backLift.setPower(liftSpeed);
             arm.setPower(liftSpeed);
             intake.setPower(intakeValue);
@@ -412,7 +393,6 @@ public class RightAuto extends LinearOpMode {
             rightRear.setPower(0);
             leftFront.setPower(0);
             rightFront.setPower(0);
-            frontLift.setPower(0);
             backLift.setPower(0);
             arm.setPower(0);
 
@@ -428,7 +408,6 @@ public class RightAuto extends LinearOpMode {
 
     public void encoderSpin(double speed,
                             double degrees,
-                            double frontLiftInches,
                             double backLiftInches,
                             double armInches,
                             int intakeValue,
@@ -437,7 +416,6 @@ public class RightAuto extends LinearOpMode {
         int newRightBackTarget;
         int newLeftFrontTarget;
         int newRightFrontTarget;
-        int newFrontLiftTarget;
         int newBackLiftTarget;
         int newArmTarget;
 
@@ -449,14 +427,12 @@ public class RightAuto extends LinearOpMode {
             newRightBackTarget = rightRear.getCurrentPosition() - (int)(degrees * COUNTS_PER_DEGREE);
             newLeftFrontTarget = leftFront.getCurrentPosition() + (int)(degrees * COUNTS_PER_DEGREE);
             newRightFrontTarget = rightFront.getCurrentPosition() - (int)(degrees * COUNTS_PER_DEGREE);
-            newFrontLiftTarget = (int)(frontLiftInches * LIFT_COUNTS_PER_INCH);
             newBackLiftTarget = (int)(backLiftInches * LIFT_COUNTS_PER_INCH);
             newArmTarget = (int)(armInches * LIFT_COUNTS_PER_INCH);
             leftRear.setTargetPosition(newLeftBackTarget);
             rightRear.setTargetPosition(newRightBackTarget);
             leftFront.setTargetPosition(newLeftFrontTarget);
             rightFront.setTargetPosition(newRightFrontTarget);
-            frontLift.setTargetPosition(newFrontLiftTarget);
             backLift.setTargetPosition(newBackLiftTarget);
             arm.setTargetPosition(newArmTarget);
             // Turn On RUN_TO_POSITION
@@ -464,7 +440,6 @@ public class RightAuto extends LinearOpMode {
             rightRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            frontLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             backLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
@@ -474,7 +449,6 @@ public class RightAuto extends LinearOpMode {
             rightRear.setPower(Math.abs(speed));
             leftFront.setPower(Math.abs(speed));
             rightFront.setPower(Math.abs(speed));
-            frontLift.setPower(liftSpeed);
             backLift.setPower(liftSpeed);
             arm.setPower(liftSpeed);
             intake.setPower(intakeValue);
@@ -505,7 +479,6 @@ public class RightAuto extends LinearOpMode {
             rightRear.setPower(0);
             leftFront.setPower(0);
             rightFront.setPower(0);
-            frontLift.setPower(0);
             backLift.setPower(0);
             arm.setPower(0);
 
