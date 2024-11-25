@@ -22,23 +22,23 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 //you can has cheezburger
 
 
-@TeleOp(name="StingerTele", group="Swarm")
+@TeleOp(name="RiptideTele", group="Swarm")
 @Config
 
 //@Disabled
-public class StingerTele extends OpMode {
+public class RiptideTele extends OpMode {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor leftFront = null;
     private DcMotor rightFront = null;
     private DcMotor leftRear = null;
     private DcMotor rightRear = null;
-    private DcMotor backLift = null;
+    private DcMotor lift = null;
     private DcMotor arm = null;
     private DcMotor climbRight = null;
     private DcMotor climbLeft = null;
     private CRServo intake = null;
-    private TouchSensor backLiftLimit = null;
+    private TouchSensor liftLimit = null;
     private TouchSensor armLimit = null;
 
 
@@ -66,12 +66,12 @@ public class StingerTele extends OpMode {
         rightRear = hardwareMap.get(DcMotor.class, "rightRear");
         leftFront = hardwareMap.get(DcMotor.class, "leftFront");
         rightFront = hardwareMap.get(DcMotor.class, "rightFront");
-        backLift = hardwareMap.get(DcMotor.class, "backLift");
+        lift = hardwareMap.get(DcMotor.class, "backLift");
         arm = hardwareMap.get(DcMotor.class, "arm");
         climbRight = hardwareMap.get(DcMotor.class, "climbRight");
         climbLeft = hardwareMap.get(DcMotor.class, "climbLeft");
         intake = hardwareMap.get(CRServo.class, "intake");
-        backLiftLimit = hardwareMap.get(TouchSensor.class, "backLiftLimit");
+        liftLimit = hardwareMap.get(TouchSensor.class, "backLiftLimit");
         armLimit = hardwareMap.get(TouchSensor.class, "armLimit");
 
 
@@ -84,19 +84,19 @@ public class StingerTele extends OpMode {
         rightRear.setDirection(DcMotor.Direction.FORWARD);
         leftFront.setDirection(DcMotor.Direction.FORWARD);
         rightFront.setDirection(DcMotor.Direction.FORWARD);
-        backLift.setDirection(DcMotor.Direction.REVERSE); // slide
-        arm.setDirection(DcMotor.Direction.FORWARD);
+        lift.setDirection(DcMotor.Direction.REVERSE); // slide
+        arm.setDirection(DcMotor.Direction.REVERSE);
         climbRight.setDirection(DcMotor.Direction.FORWARD);
         climbLeft.setDirection(DcMotor.Direction.FORWARD);
         intake.setDirection(CRServo.Direction.FORWARD);
 
         arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        backLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        backLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
-        backLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
@@ -173,7 +173,7 @@ public class StingerTele extends OpMode {
         }
         double backLiftCubed = backLiftInput * backLiftInput * backLiftInput;
 
-        double armInput = gamepad2.right_stick_y;
+        double armInput = -gamepad2.right_stick_y;
         if (Math.abs(armInput) < DEADZONE) {
             armInput = 0;
         }
@@ -235,39 +235,53 @@ public class StingerTele extends OpMode {
         armPower = Range.clip(armCubed, -1.0, 1.0);
 
         if ( gamepad2.dpad_up) {
-            if (arm.getCurrentPosition() < -3661) {
+            if (arm.getCurrentPosition() < 2400) {
                 arm.setPower(liftSpeed);
-            } else if (arm.getCurrentPosition() > -3659) {
-                arm.setPower(-liftSpeed);
+            } else if (arm.getCurrentPosition() < 2492) {
+                arm.setPower(liftSpeed * 0.5);
             } else {
                 arm.setPower(0);
             }
-            if (backLift.getCurrentPosition() < 2575 & arm.getCurrentPosition() < -1661) {
-                backLift.setPower(liftSpeed);
+            if (lift.getCurrentPosition() < 2662 && arm.getCurrentPosition() > 2200) {
+                lift.setPower(liftSpeed);
             } else {
-                backLift.setPower(0);
+                lift.setPower(0);
             }
-
+        } else if ( gamepad2.dpad_right) {
+            if (arm.getCurrentPosition() < 1400) {
+                arm.setPower(liftSpeed);
+            } else if (arm.getCurrentPosition() < 1492) {
+                arm.setPower(liftSpeed*0.5);
+            } else {
+                arm.setPower(0);
+            }
+            if (lift.getCurrentPosition() < 1662 && arm.getCurrentPosition() > 1300) {
+                lift.setPower(liftSpeed);
+            } else {
+                lift.setPower(0);
+            }
         } else if(gamepad2.dpad_down){
-            if (arm.getCurrentPosition() < 0) {
-                arm.setPower(liftSpeed);
-            } else if (arm.getCurrentPosition() > 0) {
+            if (arm.getCurrentPosition() > 0 && lift.getCurrentPosition() < 500) {
                 arm.setPower(-liftSpeed);
             } else {
                 arm.setPower(0);
             }
-            if (backLift.getCurrentPosition() < 0 ) {
-                backLift.setPower(liftSpeed);
+            if (lift.getCurrentPosition() > 0) {
+                lift.setPower(-liftSpeed);
             } else {
-                backLift.setPower(0);
+                lift.setPower(0);
             }
-        } else{
+        } else {
 
-            arm.setPower(armPower * liftSpeed);
-            if (backLiftPower < 0 && backLiftLimit.isPressed()) {
-                backLift.setPower(0);
+            if(arm.getCurrentPosition() > 2600 && armPower > 0){
+                arm.setPower(0);
+            } else{
+                arm.setPower(armPower* liftSpeed);
+            }
+            if (backLiftPower < 0 && liftLimit.isPressed()) {
+                lift.setPower(0);
             } else {
-                backLift.setPower(backLiftPower * liftSpeed);
+                lift.setPower(backLiftPower * liftSpeed);
             }
         }
 
@@ -310,7 +324,7 @@ public class StingerTele extends OpMode {
         telemetry.addData("Status", "Run Time: " + runtime.toString());
         telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftRearPower, rightRearPower);
         telemetry.addData("lift", arm.getCurrentPosition());
-        telemetry.addData("Slide", backLift.getCurrentPosition());
+        telemetry.addData("Slide", lift.getCurrentPosition());
 
     }
 
