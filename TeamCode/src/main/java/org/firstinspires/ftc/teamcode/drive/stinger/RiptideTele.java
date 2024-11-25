@@ -4,6 +4,7 @@ import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -87,7 +88,7 @@ public class RiptideTele extends OpMode {
         lift.setDirection(DcMotor.Direction.REVERSE); // slide
         arm.setDirection(DcMotor.Direction.REVERSE);
         climbRight.setDirection(DcMotor.Direction.FORWARD);
-        climbLeft.setDirection(DcMotor.Direction.FORWARD);
+        climbLeft.setDirection(DcMotor.Direction.REVERSE);
         intake.setDirection(CRServo.Direction.FORWARD);
 
         arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -190,15 +191,15 @@ public class RiptideTele extends OpMode {
         if (climbReverse){
             climbPower = -1;
         }
-        boolean intakeInput = gamepad2.a;
-        if (intakeInput){
+        float intakeInput = gamepad2.right_trigger;
+        if (intakeInput > 0){
             intakePower=1;
         }else {
             intakePower=0;
         }
 
-        boolean intakeInputR = gamepad2.b;
-        if (intakeInputR){
+        float intakeInputR = gamepad2.left_trigger;
+        if (intakeInputR > 0){
             intakePower = -1;
         }
 
