@@ -320,8 +320,8 @@ public class RiptideTele extends OpMode {
                 climbLeft.setPower(0);
             }
         } else if (gamepad2.left_bumper) {
-            if (climbLeft.getCurrentPosition() < -5000) {
-                climbLeft.setPower(climbSpeed);
+            if (climbLeft.getCurrentPosition() > 0) {
+                climbLeft.setPower(-climbSpeed);
             } else {
                 climbLeft.setPower(0);
             }
@@ -333,8 +333,8 @@ public class RiptideTele extends OpMode {
                 climbRight.setPower(0);
             }
         } else if (gamepad2.left_bumper) {
-            if (climbRight.getCurrentPosition() < -5000) {
-                climbRight.setPower(climbSpeed);
+            if (climbRight.getCurrentPosition() > 0) {
+                climbRight.setPower(-climbSpeed);
             } else {
                 climbRight.setPower(0);
             }
