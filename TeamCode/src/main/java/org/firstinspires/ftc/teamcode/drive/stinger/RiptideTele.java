@@ -88,17 +88,24 @@ public class RiptideTele extends OpMode {
         lift.setDirection(DcMotor.Direction.REVERSE); // slide
         arm.setDirection(DcMotor.Direction.REVERSE);
         climbRight.setDirection(DcMotor.Direction.FORWARD);
-        climbLeft.setDirection(DcMotor.Direction.REVERSE);
+        climbLeft.setDirection(DcMotor.Direction.FORWARD);
         intake.setDirection(CRServo.Direction.FORWARD);
 
         arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        climbRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        climbRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        climbLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        climbLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        climbRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        climbLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
 
 
 
@@ -180,17 +187,7 @@ public class RiptideTele extends OpMode {
         }
         double armCubed = armInput * armInput * armInput;
 
-        boolean climb = gamepad2.right_bumper;
-        if (climb){
-            climbPower=1;
-        }else {
-            climbPower=0;
-        }
 
-        boolean climbReverse = gamepad2.left_bumper;
-        if (climbReverse){
-            climbPower = -1;
-        }
         float intakeInput = gamepad2.right_trigger;
         if (intakeInput > 0){
             intakePower=1;
@@ -234,6 +231,7 @@ public class RiptideTele extends OpMode {
         rightFrontPower = Range.clip(driveCubed - spinCubed - strafeCubed, -1.0, 1.0);
         backLiftPower = Range.clip(backLiftCubed, -1.0, 1.0);
         armPower = Range.clip(armCubed, -1.0, 1.0);
+
 
         if ( gamepad2.dpad_up) {
             if (arm.getCurrentPosition() < 2400) {
@@ -286,14 +284,45 @@ public class RiptideTele extends OpMode {
             }
         }
 
+
+        boolean climb = gamepad2.right_bumper;
+        if (climb){
+            climbLeft.setTargetPosition(-5000);
+            climbRight.setTargetPosition(-5000);
+            //arm.setTargetPosition(2000);
+            climbLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            climbRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            //arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            climbLeft.setPower(1);
+            climbRight.setPower(1);
+            //arm.setPower(1);
+        }else {
+            climbPower=0;
+        }
+
+        boolean climbReverse = gamepad2.left_bumper;
+        if (climbReverse){
+            climbLeft.setTargetPosition(0);
+            climbRight.setTargetPosition(0);
+           // arm.setTargetPosition(1000);
+            climbLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            climbRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+           // arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            climbLeft.setPower(1);
+            climbRight.setPower(1);
+           // arm.setPower(1);
+        }
+
+
+
         // Send calculated power to wheels
 
         leftRear.setPower(leftRearPower * driveSpeed);
         rightRear.setPower(rightRearPower * driveSpeed);
         leftFront.setPower(leftFrontPower * driveSpeed);
         rightFront.setPower(rightFrontPower * driveSpeed);
-        climbRight.setPower(climbPower);
-        climbLeft.setPower(-climbPower);
+        //climbRight.setPower(climbPower);
+        //climbLeft.setPower(climbPower);
         intake.setPower(intakePower);
 
 
@@ -324,8 +353,8 @@ public class RiptideTele extends OpMode {
         // Show the elapsed game time and wheel power.
         telemetry.addData("Status", "Run Time: " + runtime.toString());
         telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftRearPower, rightRearPower);
-        telemetry.addData("lift", arm.getCurrentPosition());
-        telemetry.addData("Slide", lift.getCurrentPosition());
+        telemetry.addData("right", climbRight.getCurrentPosition());
+        telemetry.addData("left", climbLeft.getCurrentPosition());
 
     }
 
