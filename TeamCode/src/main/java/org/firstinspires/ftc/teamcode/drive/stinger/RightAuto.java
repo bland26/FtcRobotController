@@ -33,6 +33,7 @@ package org.firstinspires.ftc.teamcode.drive.stinger;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.CRServo;
 
@@ -115,7 +116,7 @@ public class RightAuto extends LinearOpMode {
         rightRear = hardwareMap.get(DcMotor.class, "rightRear");
         leftFront = hardwareMap.get(DcMotor.class, "leftFront");
         rightFront = hardwareMap.get(DcMotor.class, "rightFront");
-        backLift = hardwareMap.get(DcMotor.class, "backLift");
+        backLift = hardwareMap.get(DcMotor.class, "lift");
         arm = hardwareMap.get(DcMotor.class, "arm");
         intake = hardwareMap.get(CRServo.class, "intake");
 
@@ -129,8 +130,8 @@ public class RightAuto extends LinearOpMode {
         rightRear.setDirection(DcMotor.Direction.FORWARD);
         leftFront.setDirection(DcMotor.Direction.FORWARD);
         rightFront.setDirection(DcMotor.Direction.FORWARD);
-        backLift.setDirection(DcMotor.Direction.FORWARD);
-        arm.setDirection(DcMotor.Direction.FORWARD);
+        backLift.setDirection(DcMotor.Direction.REVERSE);
+        arm.setDirection(DcMotor.Direction.REVERSE);
         intake.setDirection(CRServo.Direction.FORWARD);
 
 
@@ -199,15 +200,15 @@ public class RightAuto extends LinearOpMode {
 
           encoderDrive(driveSpeed,24,0,0,0,5.0);
           encoderLift(liftSpeed,0,0,0,5.0);
-          encoderStrafe(driveSpeed,26,0,0,0,5.0);
+          encoderStrafe(driveSpeed,28,0,0,0,5.0);
           encoderDrive(driveSpeed,24,0,0,0,5.0);
-          encoderStrafe(driveSpeed,10,0,0,0,5.0);
+          encoderStrafe(driveSpeed,12,0,0,0,5.0);
           encoderDrive(driveSpeed,-40,0,0,0,5.0);
           encoderDrive(driveSpeed,40,0,0,0,5.0);
           encoderStrafe(driveSpeed,10,0,0,0,5.0);
           encoderDrive(driveSpeed,-40,0,0,0,5.0);
           encoderDrive(driveSpeed,40,0,0,0,5.0);
-          encoderStrafe(driveSpeed,5,0,0,0,5.0);
+          encoderStrafe(driveSpeed,10,0,0,0,5.0);
           encoderDrive(driveSpeed,-40,0,0,0,5.0);
 
 

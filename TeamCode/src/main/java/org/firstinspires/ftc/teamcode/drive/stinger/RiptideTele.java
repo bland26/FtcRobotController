@@ -67,7 +67,7 @@ public class RiptideTele extends OpMode {
         rightRear = hardwareMap.get(DcMotor.class, "rightRear");
         leftFront = hardwareMap.get(DcMotor.class, "leftFront");
         rightFront = hardwareMap.get(DcMotor.class, "rightFront");
-        lift = hardwareMap.get(DcMotor.class, "backLift");
+        lift = hardwareMap.get(DcMotor.class, "lift");
         arm = hardwareMap.get(DcMotor.class, "arm");
         climbRight = hardwareMap.get(DcMotor.class, "climbRight");
         climbLeft = hardwareMap.get(DcMotor.class, "climbLeft");
