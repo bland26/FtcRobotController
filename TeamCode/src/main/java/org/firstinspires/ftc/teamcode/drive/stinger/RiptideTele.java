@@ -285,32 +285,59 @@ public class RiptideTele extends OpMode {
         }
 
 
-        boolean climb = gamepad2.right_bumper;
-        if (climb){
-            climbLeft.setTargetPosition(-5000);
-            climbRight.setTargetPosition(-5000);
-            //arm.setTargetPosition(2000);
-            climbLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            climbRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            //arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            climbLeft.setPower(1);
-            climbRight.setPower(1);
-            //arm.setPower(1);
-        }else {
-            climbPower=0;
-        }
+//        boolean climb = gamepad2.right_bumper;
+//        if (climb){
+//            climbLeft.setTargetPosition(-5000);
+//            climbRight.setTargetPosition(-5000);
+//            //arm.setTargetPosition(2000);
+//            climbLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//            climbRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//            //arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//            climbLeft.setPower(1);
+//            climbRight.setPower(1);
+//            //arm.setPower(1);
+//        }else {
+//            climbPower=0;
+//        }
+//
+//        boolean climbReverse = gamepad2.left_bumper;
+//        if (climbReverse){
+//            climbLeft.setTargetPosition(0);
+//            climbRight.setTargetPosition(0);
+//           // arm.setTargetPosition(1000);
+//            climbLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//            climbRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//           // arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//            climbLeft.setPower(1);
+//            climbRight.setPower(1);
+//           // arm.setPower(1);
+//        }
 
-        boolean climbReverse = gamepad2.left_bumper;
-        if (climbReverse){
-            climbLeft.setTargetPosition(0);
-            climbRight.setTargetPosition(0);
-           // arm.setTargetPosition(1000);
-            climbLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            climbRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-           // arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            climbLeft.setPower(1);
-            climbRight.setPower(1);
-           // arm.setPower(1);
+        if ( gamepad2.right_bumper) {
+            if (climbLeft.getCurrentPosition() < -5000) {
+                climbLeft.setPower(climbSpeed);
+            } else {
+                climbLeft.setPower(0);
+            }
+        } else if (gamepad2.left_bumper) {
+            if (climbLeft.getCurrentPosition() < -5000) {
+                climbLeft.setPower(climbSpeed);
+            } else {
+                climbLeft.setPower(0);
+            }
+        }
+        if ( gamepad2.right_bumper) {
+            if (climbRight.getCurrentPosition() < -5000) {
+                climbRight.setPower(climbSpeed);
+            } else {
+                climbRight.setPower(0);
+            }
+        } else if (gamepad2.left_bumper) {
+            if (climbRight.getCurrentPosition() < -5000) {
+                climbRight.setPower(climbSpeed);
+            } else {
+                climbRight.setPower(0);
+            }
         }
 
 
