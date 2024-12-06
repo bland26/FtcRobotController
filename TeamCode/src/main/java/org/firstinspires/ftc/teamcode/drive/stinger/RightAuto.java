@@ -95,10 +95,10 @@ public class RightAuto extends LinearOpMode {
     public static final double     DEGREE_PER_REV          = 37.75;
     public static final double      COUNTS_PER_DEGREE       = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             DEGREE_PER_REV;
-    public static final double LIFT_INCH_PER_REV = 2.5;
+    public static final double LIFT_INCH_PER_REV = 2.1;
     public static final double LIFT_COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             LIFT_INCH_PER_REV;
-    public static final double ARM_INCH_PER_REV = 2.5;
+    public static final double ARM_INCH_PER_REV = 3;
     public static final double     ARM_COUNTS_PER_INCH    = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             ARM_INCH_PER_REV;
 
@@ -197,15 +197,31 @@ public class RightAuto extends LinearOpMode {
 
 
 
-          encoderLift(liftSpeed,0,1000,0,2.0);
+//        encoderDrive(driveSpeed,24,0,0,0,5.0);
+//        encoderLift(liftSpeed,0,0,0,5.0);
+//        encoderStrafe(driveSpeed,-38.5,0,0,0,5.0);
+//        encoderIntake(intakeSpeed,1,5.0);
+//        encoderSpin(turnSpeed,-135,0,0,0,5.0);
+//        encoderLift(0,0,0,0,5.0);
+//        encoderIntake(intakeSpeed,-1,5.0);
+//        encoderSpin(turnSpeed,135,0,0,0,5.0);
+//        encoderStrafe(driveSpeed,-12,0,0,0,5.0);
+//        encoderIntake(intakeSpeed,1,5.0);
+//        encoderStrafe(driveSpeed,12,0,0,0,5.0);
+//        encoderSpin(turnSpeed,-135,0,0,0,5.0);
+//        encoderLift(0,0,0,0,5.0);
+//        encoderIntake(intakeSpeed,-1,5.0);
+//        encoderLift(0,0,0,0,5.0);
+//        encoderSpin(turnSpeed,-45,0,0,0,5.0);
+//        encoderDrive(driveSpeed,20,0,0,0,5.0);
+//        encoderStrafe(driveSpeed,-110,0,0,0,5.0);
+
+        encoderLift(liftSpeed,0,1000,0,2.0);
         encoderDrive(driveSpeed, 26, 0,1900,0, 5.0 );
         encoderLift(liftSpeed,0,1756,0,2.0);
         encoderDrive(driveSpeed /2, -26, 0, 1600,0,5.0);
         encoderLift(liftSpeed,0,0,0,2.0);
-        encoderStrafe(driveSpeed,-48,0,0,0,5.0);
-
-
-
+        encoderStrafe(driveSpeed,48,0,0,0,5.0);
 
 
     }
@@ -243,8 +259,8 @@ public class RightAuto extends LinearOpMode {
             newRightBackTarget = rightRear.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
             newLeftFrontTarget = leftFront.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
             newRightFrontTarget = rightFront.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
-            newliftTarget = (int)(liftInches * LIFT_COUNTS_PER_INCH);
-            newArmTarget = (int)(armInches * ARM_COUNTS_PER_INCH);
+            newliftTarget = (int)(liftInches);
+            newArmTarget = (int)(armInches);
             leftRear.setTargetPosition(newLeftBackTarget);
             rightRear.setTargetPosition(newRightBackTarget);
             leftFront.setTargetPosition(newLeftFrontTarget);
@@ -331,8 +347,8 @@ public class RightAuto extends LinearOpMode {
             newRightBackTarget = rightRear.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
             newLeftFrontTarget = leftFront.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
             newRightFrontTarget = rightFront.getCurrentPosition() - (int)(inches * COUNTS_PER_INCH);
-            newliftTarget = (int)(liftInches * LIFT_COUNTS_PER_INCH);
-            newArmTarget = (int)(armInches * ARM_COUNTS_PER_INCH);
+            newliftTarget = (int)(liftInches);
+            newArmTarget = (int)(armInches);
             leftRear.setTargetPosition(newLeftBackTarget);
             rightRear.setTargetPosition(newRightBackTarget);
             leftFront.setTargetPosition(newLeftFrontTarget);
@@ -419,8 +435,8 @@ public class RightAuto extends LinearOpMode {
             newRightBackTarget = rightRear.getCurrentPosition() - (int)(degrees * COUNTS_PER_DEGREE);
             newLeftFrontTarget = leftFront.getCurrentPosition() + (int)(degrees * COUNTS_PER_DEGREE);
             newRightFrontTarget = rightFront.getCurrentPosition() - (int)(degrees * COUNTS_PER_DEGREE);
-            newliftTarget = (int)(liftInches * LIFT_COUNTS_PER_INCH);
-            newArmTarget = (int)(armInches * ARM_COUNTS_PER_INCH);
+            newliftTarget = (int)(liftInches);
+            newArmTarget = (int)(armInches);
             leftRear.setTargetPosition(newLeftBackTarget);
             rightRear.setTargetPosition(newRightBackTarget);
             leftFront.setTargetPosition(newLeftFrontTarget);
@@ -487,7 +503,7 @@ public class RightAuto extends LinearOpMode {
     public void encoderLift(double liftSpeed,
                             double liftInches,
                             double armInches,
-                            double intakeValue,
+                            int intakeValue,
                             double timeoutS) {
 
         int newliftTarget;
@@ -495,8 +511,8 @@ public class RightAuto extends LinearOpMode {
 
         if (opModeIsActive()) {
 
-            newliftTarget = (int)(liftInches * LIFT_COUNTS_PER_INCH);
-            newArmTarget = (int)(armInches * ARM_COUNTS_PER_INCH);
+            newliftTarget = (int)(liftInches);
+            newArmTarget = (int)(armInches);
 
             lift.setTargetPosition(newliftTarget);
             arm.setTargetPosition(newArmTarget);
@@ -511,8 +527,12 @@ public class RightAuto extends LinearOpMode {
 
 
             while (opModeIsActive() &&
-                    (runtime.seconds() < timeoutS) &&
-                    (arm.isBusy() && lift.isBusy())) {
+                    ((runtime.seconds() < timeoutS) && (arm.isBusy() || lift.isBusy()))){
+
+                telemetry.addData("Status", "Run Time: " + runtime.toString());
+
+                telemetry.addData("arm", arm.getCurrentPosition());
+                telemetry.addData("lift", lift.getCurrentPosition());
 
 
             }

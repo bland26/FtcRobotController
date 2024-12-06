@@ -201,9 +201,9 @@ public class RiptideTele extends OpMode {
         }
 
         if ( gamepad2.right_bumper  ) {
-            climbPower = climbSpeed;
-        } else if ((gamepad2.left_bumper & climbLeft.getCurrentPosition() > 0) || (gamepad2.left_bumper & gamepad2.y)) {
-            climbPower = - climbSpeed;
+            climbPower = -climbSpeed;
+        } else if ((gamepad2.left_bumper & climbLeft.getCurrentPosition() < 0) || (gamepad2.left_bumper & gamepad2.y)) {
+            climbPower =  climbSpeed;
 
         } else {
             climbPower = 0;
