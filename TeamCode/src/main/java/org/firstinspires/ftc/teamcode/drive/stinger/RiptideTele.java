@@ -200,6 +200,15 @@ public class RiptideTele extends OpMode {
             intakePower = -1;
         }
 
+        if ( gamepad2.right_bumper  ) {
+            climbPower = climbSpeed;
+        } else if ((gamepad2.left_bumper & climbLeft.getCurrentPosition() > 0) || (gamepad2.left_bumper & gamepad2.y)) {
+            climbPower = - climbSpeed;
+
+        } else {
+            climbPower = 0;
+        }
+
 
 
 
@@ -312,33 +321,24 @@ public class RiptideTele extends OpMode {
 //            climbRight.setPower(1);
 //           // arm.setPower(1);
 //        }
-
-        if ( gamepad2.right_bumper) {
-            if (climbLeft.getCurrentPosition() < -5000) {
-                climbLeft.setPower(climbSpeed);
+/*
+        if ( gamepad2.right_bumper & climbLeft.getCurrentPosition() < -5000) {
+            climbLeft.setPower(climbSpeed);
+            climbRight.setPower(climbSpeed);
             } else {
                 climbLeft.setPower(0);
+                climbRight.setPower(0);
             }
         } else if (gamepad2.left_bumper) {
             if (climbLeft.getCurrentPosition() > 0) {
                 climbLeft.setPower(-climbSpeed);
-            } else {
-                climbLeft.setPower(0);
-            }
-        }
-        if ( gamepad2.right_bumper) {
-            if (climbRight.getCurrentPosition() < -5000) {
-                climbRight.setPower(climbSpeed);
-            } else {
-                climbRight.setPower(0);
-            }
-        } else if (gamepad2.left_bumper) {
-            if (climbRight.getCurrentPosition() > 0) {
                 climbRight.setPower(-climbSpeed);
             } else {
+                climbLeft.setPower(0);
                 climbRight.setPower(0);
             }
         }
+*/
 
 
 
@@ -348,8 +348,8 @@ public class RiptideTele extends OpMode {
         rightRear.setPower(rightRearPower * driveSpeed);
         leftFront.setPower(leftFrontPower * driveSpeed);
         rightFront.setPower(rightFrontPower * driveSpeed);
-        //climbRight.setPower(climbPower);
-        //climbLeft.setPower(climbPower);
+        climbRight.setPower(climbPower);
+        climbLeft.setPower(climbPower);
         intake.setPower(intakePower);
 
 
@@ -382,6 +382,7 @@ public class RiptideTele extends OpMode {
         telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftRearPower, rightRearPower);
         telemetry.addData("right", climbRight.getCurrentPosition());
         telemetry.addData("left", climbLeft.getCurrentPosition());
+        telemetry.addData("arm", arm.getCurrentPosition());
 
     }
 
