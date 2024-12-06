@@ -197,18 +197,12 @@ public class RightAuto extends LinearOpMode {
 
 
 
-          encoderDrive(driveSpeed,24,0,0,0,5.0);
-          encoderLift(liftSpeed,0,0,0,5.0);
-          encoderStrafe(driveSpeed,28,0,0,0,5.0);
-          encoderDrive(driveSpeed,24,0,0,0,5.0);
-          encoderStrafe(driveSpeed,12,0,0,0,5.0);
-          encoderDrive(driveSpeed,-40,0,0,0,5.0);
-          encoderDrive(driveSpeed,40,0,0,0,5.0);
-          encoderStrafe(driveSpeed,10,0,0,0,5.0);
-          encoderDrive(driveSpeed,-40,0,0,0,5.0);
-          encoderDrive(driveSpeed,40,0,0,0,5.0);
-          encoderStrafe(driveSpeed,10,0,0,0,5.0);
-          encoderDrive(driveSpeed,-40,0,0,0,5.0);
+          encoderLift(liftSpeed,0,1000,0,2.0);
+        encoderDrive(driveSpeed, 26, 0,1900,0, 5.0 );
+        encoderLift(liftSpeed,0,1756,0,2.0);
+        encoderDrive(driveSpeed /2, -26, 0, 1600,0,5.0);
+        encoderLift(liftSpeed,0,0,0,2.0);
+        encoderStrafe(driveSpeed,-48,0,0,0,5.0);
 
 
 
