@@ -1,54 +1,87 @@
+/* Copyright (c) 2017 FIRST. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification,
+ * are permitted (subject to the limitations in the disclaimer below) provided that
+ * the following conditions are met:
+ *
+ * Redistributions of source code must retain the above copyright notice, this list
+ * of conditions and the following disclaimer.
+ *
+ * Redistributions in binary form must reproduce the above copyright notice, this
+ * list of conditions and the following disclaimer in the documentation and/or
+ * other materials provided with the distribution.
+ *
+ * Neither the name of FIRST nor the names of its contributors may be used to endorse or
+ * promote products derived from this software without specific prior written permission.
+ *
+ * NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED BY THIS
+ * LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 
 package org.firstinspires.ftc.teamcode.drive.stinger;
 
 
-import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.hardware.CRServo;
 
-/* * This file contains an example of an iterative (Non-Linear) "OpMode".
- * An OpMode is a 'program' that runs in either the autonomous or the teleop period of an FTC match.
- * The names of OpModes appear on the menu of the FTC Driver Station.
- * When a selection is made from the menu, the corresponding OpMode
- * class is instantiated on the Robot Controller and executed.
+//code for cam and other related thangs
+
+
+/**
+ * This file illustrates the concept of driving a path based on encoder counts.
+ * The code is structured as a LinearOpMode
+ *
+ * The code REQUIRES that you DO have encoders on the wheels,
+ *   otherwise you would use: RobotAutoDriveByTime;
+ *
+ *  This code ALSO requires that the drive Motors have been configured such that a positive
+ *  power command moves them forward, and causes the encoders to count UP.
+ *
+ *   The desired path in this example is:
+ *   - Drive forward for 48 inches
+ *   - Spin right for 12 Inches
+ *   - Drive Backward for 24 inches
+ *   - Stop and close the claw.
+ *
+ *  The code is written using a method called: encoderDrive(speed, inches, inches, timeoutS)
+ *  that performs the actual movement.
+ *  This method assumes that each movement is relative to the last stopping place.
+ *  There are other ways to perform encoder based moves, but this method is probably the simplest.
+ *  This code uses the RUN_TO_POSITION mode to enable the Motor controllers to generate the run profile
+ *
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
- * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list*/
-
-
-
-
+ * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
+ */
 
 @Autonomous(name="ParkRight", group="Swarm")
 //@Disabled
+
 public class ParkRight extends LinearOpMode {
-    // Declare OpMode members.
-    private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor leftFront = null;
-    private DcMotor rightFront = null;
+
+    /* Declare OpMode members. */
     private DcMotor leftRear = null;
     private DcMotor rightRear = null;
-    private DcMotor frontLift = null;
-    private DcMotor backLift = null;
+    private DcMotor leftFront = null;
+    private DcMotor rightFront = null;
+    private DcMotor lift = null;
     private DcMotor arm = null;
     private CRServo intake = null;
-    private TouchSensor frontLiftLimit = null;
-    private TouchSensor backLiftLimit = null;
-    private TouchSensor armLimit = null;
 
-
-    //TODO Decide names for and declare extra motors. (Top intake, bottom intake, lift)
-    //TODO Decide names for and declare servos.
-
-
-    public static double driveSpeed = 1.0;
-
-    public static double liftSpeed = 1.0;
-
+    public static final double  driveSpeed = 0.6;
+    public static final double  turnSpeed = 0.5;
+    public static final double liftSpeed = 1.0;
     public static final double intakeSpeed = 1;
     public static final double     COUNTS_PER_MOTOR_REV    = 529.2 ;
     public static final double      WHEEL_DIAMETER_INCHES   = 75/25.4 ;     // For figuring circumference
@@ -56,19 +89,25 @@ public class ParkRight extends LinearOpMode {
 
     public static final double      COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * Math.PI);
-    public static final double     STRAFE_INCH_PER_REV     = 9.5;
+    public static final double     STRAFE_INCH_PER_REV     = 0.5;
     public static final double     STRAFE_COUNTS_PER_INCH  = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             STRAFE_INCH_PER_REV;
-    public static final double     DEGREE_PER_REV          = 37.1;
+    public static final double     DEGREE_PER_REV          = 37.75;
     public static final double      COUNTS_PER_DEGREE       = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             DEGREE_PER_REV;
-    public static final double    LIFT_INCH_PER_REV       = 2.5;
-    public static final double     LIFT_COUNTS_PER_INCH    = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
+    public static final double LIFT_INCH_PER_REV = 2.1;
+    public static final double LIFT_COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             LIFT_INCH_PER_REV;
+    public static final double ARM_INCH_PER_REV = 3;
+    public static final double     ARM_COUNTS_PER_INCH    = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
+            ARM_INCH_PER_REV;
 
 
 
+    private ElapsedTime runtime = new ElapsedTime();
 
+
+    @Override
     public void runOpMode() {
 
         // Initialize the drive system variables.
@@ -76,13 +115,11 @@ public class ParkRight extends LinearOpMode {
         rightRear = hardwareMap.get(DcMotor.class, "rightRear");
         leftFront = hardwareMap.get(DcMotor.class, "leftFront");
         rightFront = hardwareMap.get(DcMotor.class, "rightFront");
-        frontLift = hardwareMap.get(DcMotor.class, "frontLift");
-        backLift = hardwareMap.get(DcMotor.class, "backLift");
+        lift = hardwareMap.get(DcMotor.class, "lift");
         arm = hardwareMap.get(DcMotor.class, "arm");
         intake = hardwareMap.get(CRServo.class, "intake");
-        frontLiftLimit = hardwareMap.get(TouchSensor.class, "frontLiftLimit");
-        backLiftLimit = hardwareMap.get(TouchSensor.class, "backLiftLimit");
-        armLimit = hardwareMap.get(TouchSensor.class, "armLimit");
+
+
 
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
@@ -92,27 +129,37 @@ public class ParkRight extends LinearOpMode {
         rightRear.setDirection(DcMotor.Direction.FORWARD);
         leftFront.setDirection(DcMotor.Direction.FORWARD);
         rightFront.setDirection(DcMotor.Direction.FORWARD);
-        frontLift.setDirection(DcMotor.Direction.FORWARD);
-        backLift.setDirection(DcMotor.Direction.REVERSE); // slide
-        arm.setDirection(DcMotor.Direction.FORWARD);
+        lift.setDirection(DcMotor.Direction.REVERSE);
+        arm.setDirection(DcMotor.Direction.REVERSE);
         intake.setDirection(CRServo.Direction.FORWARD);
 
 
+
+        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
+
         leftRear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightRear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+
 
         leftRear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightRear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
 
 
 
@@ -131,8 +178,8 @@ public class ParkRight extends LinearOpMode {
 
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
- parameters :
-/*        encoderDrive(DRIVE_SPEED, How many inches you want to move (+ forward - reverse),
+        /* parameters :
+        encoderDrive(DRIVE_SPEED, How many inches you want to move (+ forward - reverse),
         Where you want to set the lift height in inches,
         Whether you want the claw open (1) or closed (0) at the end of the step,
         maximum time allowed for the step before it automatically stops.)
@@ -146,110 +193,59 @@ public class ParkRight extends LinearOpMode {
         Where you want to set the lift height in inches,
         Whether you want the claw open (1) or closed (0) at the end of the step,
         maximum time allowed for the step before it automatically stops.)
+         */
 
 
 
+//        encoderDrive(driveSpeed,24,0,0,0,5.0);
+//        encoderLift(liftSpeed,0,0,0,5.0);
+//        encoderStrafe(driveSpeed,-38.5,0,0,0,5.0);
+//        encoderIntake(intakeSpeed,1,5.0);
+//        encoderSpin(turnSpeed,-135,0,0,0,5.0);
+//        encoderLift(0,0,0,0,5.0);
+//        encoderIntake(intakeSpeed,-1,5.0);
+//        encoderSpin(turnSpeed,135,0,0,0,5.0);
+//        encoderStrafe(driveSpeed,-12,0,0,0,5.0);
+//        encoderIntake(intakeSpeed,1,5.0);
+//        encoderStrafe(driveSpeed,12,0,0,0,5.0);
+//        encoderSpin(turnSpeed,-135,0,0,0,5.0);
+//        encoderLift(0,0,0,0,5.0);
+//        encoderIntake(intakeSpeed,-1,5.0);
+//        encoderLift(0,0,0,0,5.0);
+//        encoderSpin(turnSpeed,-45,0,0,0,5.0);
+//        encoderDrive(driveSpeed,20,0,0,0,5.0);
+//        encoderStrafe(driveSpeed,-110,0,0,0,5.0);
 
 
-                encoderStrafe(driveSpeed,0,5.0);
-                encoderDrive(driveSpeed,0,5.0);
-                encoderDrive(driveSpeed,0,5.0);
-                encoderDrive(driveSpeed,0,5.0);
-                encoderSpin(turnSpeed,0,5.0);
-                encoderDrive(driveSpeed, 0,5.0);
-                encoderStrafe(driveSpeed,0,5.0);
-                encoderDrive(driveSpeed, 0,5.0);
-                encoderStrafe(driveSpeed,0,5.0);
-                encoderDrive(driveSpeed, 0, 5.0);
-                sleep(26000);
+        encoderStrafe(driveSpeed,48,0,0,0,5.0);
 
-
-        //Rizzy Right Auto
-          encoderDrive(driveSpeed, 24, 5.0);
-          //Place specimen on bar
-          encoderStrafe(driveSpeed,32,5.0);
-          encoderSpin(turnSpeed,180,5.0);
-          encoderDrive(driveSpeed, 22, 5.0);
-          //Take the specimen
-          encoderDrive(driveSpeed,-12,5.0);
-          encoderSpin(turnSpeed, 180, 5.0);
-          encoderStrafe(driveSpeed, -41, 5.0);
-          encoderDrive(driveSpeed,11,5.0);
-          //Place specimen on bar
-          encoderDrive(driveSpeed, -8, 5.0);
-          encoderSpin(turnSpeed, 180, 5.0);
-          encoderStrafe(driveSpeed, -43, 5.0);
-          encoderDrive(driveSpeed,10,5.0);
-          //Take the specimen
-          encoderDrive(driveSpeed,-10,5.0);
-          encoderSpin(turnSpeed, 180, 5.0);
-          encoderStrafe(driveSpeed, -45, 5.0);
-          encoderDrive(driveSpeed,15,5.0);
-          //Place the specimen on bar
-          encoderDrive(driveSpeed, -30, 5.0);
-          encoderStrafe(driveSpeed, 57, 5.0);
-        //Park
-
-
-
-        //Livvy Left Auto
-          encoderDrive(driveSpeed, 26, 5.0);
-          //Place specimen on bar
-          encoderStrafe(driveSpeed, -30, 5.0);
-          encoderSpin(turnSpeed, -90, 5.0);
-          encoderStrafe(driveSpeed, 8, 5.0);
-          //Pick up sample
-          encoderStrafe(driveSpeed, -17, 5.0);
-          encoderSpin(turnSpeed, -45, 5.0);
-          encoderDrive(driveSpeed, 28, 5.0);
-          //Place sample in high basket
-          encoderDrive(driveSpeed, -11, 5.0);
-          encoderSpin(turnSpeed, 40, 5.0);
-          encoderStrafe(driveSpeed, 27, 5.0);
-          //Pick up sample
-          encoderStrafe(driveSpeed, -26, 5.0);
-          encoderSpin(turnSpeed, -45, 5.0);
-          encoderDrive(driveSpeed, 20, 5.0);
-          //Place sample in high basket
-          encoderDrive(driveSpeed, -4, 5.0);
-          encoderSpin(turnSpeed, 45, 5.0);
-          encoderStrafe(driveSpeed, 29, 5.0);
-          //Pick up sample
-          encoderStrafe(driveSpeed, -29, 5.0);
-          encoderSpin(turnSpeed, -45, 5.0);
-          encoderDrive(driveSpeed, 7, 5.0);
-          //Place sample in high basket
-          encoderDrive(driveSpeed, -20, 5.0);
-          encoderSpin(turnSpeed, -47, 5.0);
-          encoderStrafe(driveSpeed, -115, 5.0);
-          //Park*/
-
-
-
-        //Preppy Parking Auto
-        encoderStrafe(driveSpeed, 48, 5.0);
-        //Park
 
     }
 
 
-/*     *  Method to perform a relative move, based on encoder counts.
+    /*
+     *  Method to perform a relative move, based on encoder counts.
      *  Encoders are not reset as the move is based on the current position.
      *  Move will stop if any of three conditions occur:
      *  1) Move gets to the desired position
      *  2) Move runs out of time
-     *  3) Driver stops the opmode running.*/
-
-
+     *  3) Driver stops the opmode running.
+     */
 
 
     public void encoderDrive(double speed,
                              double inches,
+                             double liftInches,
+                             double armInches,
+                             int intakeValue,
                              double timeoutS) {
         int newLeftBackTarget;
         int newRightBackTarget;
         int newLeftFrontTarget;
         int newRightFrontTarget;
+        int newliftTarget;
+        int newArmTarget;
+
 
         // Ensure that the opmode is still active
         if (opModeIsActive()) {
@@ -259,15 +255,21 @@ public class ParkRight extends LinearOpMode {
             newRightBackTarget = rightRear.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
             newLeftFrontTarget = leftFront.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
             newRightFrontTarget = rightFront.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
+            newliftTarget = (int)(liftInches);
+            newArmTarget = (int)(armInches);
             leftRear.setTargetPosition(newLeftBackTarget);
             rightRear.setTargetPosition(newRightBackTarget);
             leftFront.setTargetPosition(newLeftFrontTarget);
             rightFront.setTargetPosition(newRightFrontTarget);
+            lift.setTargetPosition(newliftTarget);
+            arm.setTargetPosition(newArmTarget);
             // Turn On RUN_TO_POSITION
             leftRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rightRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             // reset the timeout time and start motion.
             runtime.reset();
@@ -275,6 +277,10 @@ public class ParkRight extends LinearOpMode {
             rightRear.setPower(Math.abs(speed));
             leftFront.setPower(Math.abs(speed));
             rightFront.setPower(Math.abs(speed));
+            lift.setPower(liftSpeed);
+            arm.setPower(liftSpeed);
+            intake.setPower(intakeValue);
+
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
             // its target position, the motion will stop.  This is "safer" in the event that the robot will
@@ -301,6 +307,9 @@ public class ParkRight extends LinearOpMode {
             rightRear.setPower(0);
             leftFront.setPower(0);
             rightFront.setPower(0);
+            lift.setPower(0);
+            arm.setPower(0);
+            intake.setPower(0);
 
 
             // Turn off RUN_TO_POSITION
@@ -315,29 +324,40 @@ public class ParkRight extends LinearOpMode {
 
     public void encoderStrafe(double speed,
                               double inches,
+                              double liftInches,
+                              double armInches,
+                              int intakeValue,
                               double timeoutS) {
         int newLeftBackTarget;
         int newRightBackTarget;
         int newLeftFrontTarget;
         int newRightFrontTarget;
-        int newLiftTarget;
+        int newliftTarget;
+        int newArmTarget;
+
         // Ensure that the opmode is still active
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-            newLeftBackTarget = leftRear.getCurrentPosition() - (int)(inches * STRAFE_COUNTS_PER_INCH);
-            newRightBackTarget = rightRear.getCurrentPosition() + (int)(inches * STRAFE_COUNTS_PER_INCH);
-            newLeftFrontTarget = leftFront.getCurrentPosition() + (int)(inches * STRAFE_COUNTS_PER_INCH);
-            newRightFrontTarget = rightFront.getCurrentPosition() - (int)(inches * STRAFE_COUNTS_PER_INCH);
+            newLeftBackTarget = leftRear.getCurrentPosition() - (int)(inches * COUNTS_PER_INCH);
+            newRightBackTarget = rightRear.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
+            newLeftFrontTarget = leftFront.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
+            newRightFrontTarget = rightFront.getCurrentPosition() - (int)(inches * COUNTS_PER_INCH);
+            newliftTarget = (int)(liftInches);
+            newArmTarget = (int)(armInches);
             leftRear.setTargetPosition(newLeftBackTarget);
             rightRear.setTargetPosition(newRightBackTarget);
             leftFront.setTargetPosition(newLeftFrontTarget);
             rightFront.setTargetPosition(newRightFrontTarget);
+            lift.setTargetPosition(newliftTarget);
+            arm.setTargetPosition(newArmTarget);
             // Turn On RUN_TO_POSITION
             leftRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rightRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             // reset the timeout time and start motion.
             runtime.reset();
@@ -345,6 +365,11 @@ public class ParkRight extends LinearOpMode {
             rightRear.setPower(Math.abs(speed));
             leftFront.setPower(Math.abs(speed));
             rightFront.setPower(Math.abs(speed));
+            lift.setPower(liftSpeed);
+            arm.setPower(liftSpeed);
+            intake.setPower(intakeValue);
+
+
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
             // its target position, the motion will stop.  This is "safer" in the event that the robot will
@@ -360,13 +385,10 @@ public class ParkRight extends LinearOpMode {
                 // Display it for the driver.
                 telemetry.addData("Running to",  " %7d :%7d", newLeftBackTarget,  newRightBackTarget);
                 telemetry.addData("Running to",  " %7d :%7d", newLeftFrontTarget,  newRightFrontTarget);
-                telemetry.addData("Currently at",  " at %7d :%7d",
-                        leftRear.getCurrentPosition(), rightRear.getCurrentPosition());
-                telemetry.addData("Currently at",  " at %7d :%7d",
-                        leftFront.getCurrentPosition(), rightFront.getCurrentPosition());
+                telemetry.addData("Currently at",  " at %7d :%7d", leftRear.getCurrentPosition(), rightRear.getCurrentPosition());
+                telemetry.addData("Currently at",  " at %7d :%7d", leftFront.getCurrentPosition(), rightFront.getCurrentPosition());
                 telemetry.update();
             }
-
 
 
             // Stop all motion;
@@ -374,7 +396,9 @@ public class ParkRight extends LinearOpMode {
             rightRear.setPower(0);
             leftFront.setPower(0);
             rightFront.setPower(0);
-
+            lift.setPower(0);
+            arm.setPower(0);
+            intake.setPower(0);
 
 
             // Turn off RUN_TO_POSITION
@@ -385,14 +409,20 @@ public class ParkRight extends LinearOpMode {
             sleep(250);   // optional pause after each move.
         }
     }
+
     public void encoderSpin(double speed,
                             double degrees,
+                            double liftInches,
+                            double armInches,
+                            int intakeValue,
                             double timeoutS) {
         int newLeftBackTarget;
         int newRightBackTarget;
         int newLeftFrontTarget;
         int newRightFrontTarget;
-        int newLiftTarget;
+        int newliftTarget;
+        int newArmTarget;
+
         // Ensure that the opmode is still active
         if (opModeIsActive()) {
 
@@ -401,15 +431,21 @@ public class ParkRight extends LinearOpMode {
             newRightBackTarget = rightRear.getCurrentPosition() - (int)(degrees * COUNTS_PER_DEGREE);
             newLeftFrontTarget = leftFront.getCurrentPosition() + (int)(degrees * COUNTS_PER_DEGREE);
             newRightFrontTarget = rightFront.getCurrentPosition() - (int)(degrees * COUNTS_PER_DEGREE);
+            newliftTarget = (int)(liftInches);
+            newArmTarget = (int)(armInches);
             leftRear.setTargetPosition(newLeftBackTarget);
             rightRear.setTargetPosition(newRightBackTarget);
             leftFront.setTargetPosition(newLeftFrontTarget);
             rightFront.setTargetPosition(newRightFrontTarget);
+            lift.setTargetPosition(newliftTarget);
+            arm.setTargetPosition(newArmTarget);
             // Turn On RUN_TO_POSITION
             leftRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rightRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             // reset the timeout time and start motion.
             runtime.reset();
@@ -417,6 +453,10 @@ public class ParkRight extends LinearOpMode {
             rightRear.setPower(Math.abs(speed));
             leftFront.setPower(Math.abs(speed));
             rightFront.setPower(Math.abs(speed));
+            lift.setPower(liftSpeed);
+            arm.setPower(liftSpeed);
+            intake.setPower(intakeValue);
+
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
             // its target position, the motion will stop.  This is "safer" in the event that the robot will
@@ -429,23 +469,23 @@ public class ParkRight extends LinearOpMode {
                     )) {
 
 
-
                 // Display it for the driver.
                 telemetry.addData("Running to",  " %7d :%7d", newLeftBackTarget,  newRightBackTarget);
                 telemetry.addData("Running to",  " %7d :%7d", newLeftFrontTarget,  newRightFrontTarget);
-                telemetry.addData("Currently at",  " at %7d :%7d",
-                        leftRear.getCurrentPosition(), rightRear.getCurrentPosition());
-                telemetry.addData("Currently at",  " at %7d :%7d",
-                        leftFront.getCurrentPosition(), rightFront.getCurrentPosition());
+                telemetry.addData("Currently at",  " at %7d :%7d", leftRear.getCurrentPosition(), rightRear.getCurrentPosition());
+                telemetry.addData("Currently at",  " at %7d :%7d", leftFront.getCurrentPosition(), rightFront.getCurrentPosition());
                 telemetry.update();
             }
+
 
             // Stop all motion;
             leftRear.setPower(0);
             rightRear.setPower(0);
             leftFront.setPower(0);
             rightFront.setPower(0);
-
+            lift.setPower(0);
+            arm.setPower(0);
+            intake.setPower(0);
 
 
             // Turn off RUN_TO_POSITION
@@ -456,7 +496,73 @@ public class ParkRight extends LinearOpMode {
             sleep(250);   // optional pause after each move.
         }
     }
+    public void encoderLift(double liftSpeed,
+                            double liftInches,
+                            double armInches,
+                            int intakeValue,
+                            double timeoutS) {
 
+        int newliftTarget;
+        int newArmTarget;
+
+        if (opModeIsActive()) {
+
+            newliftTarget = (int)(liftInches);
+            newArmTarget = (int)(armInches);
+
+            lift.setTargetPosition(newliftTarget);
+            arm.setTargetPosition(newArmTarget);
+
+            lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            runtime.reset();
+            lift.setPower(liftSpeed);
+            arm.setPower(liftSpeed);
+            intake.setPower(intakeValue);
+
+
+            while (opModeIsActive() &&
+                    ((runtime.seconds() < timeoutS) && (arm.isBusy() || lift.isBusy()))){
+
+                telemetry.addData("Status", "Run Time: " + runtime.toString());
+
+                telemetry.addData("arm", arm.getCurrentPosition());
+                telemetry.addData("lift", lift.getCurrentPosition());
+
+
+            }
+            lift.setPower(0);
+            arm.setPower(0);
+            intake.setPower(0);
+
+
+
+            sleep(250);
+
+        }
+    }
+    private void encoderIntake(int intakeValue,
+                               double timeoutS) {
+
+
+        if (opModeIsActive()) {
+
+
+            runtime.reset();
+            intake.setPower(intakeValue);
+
+            while (opModeIsActive() &&
+                    (runtime.seconds() < timeoutS)) {
+
+
+            }
+            intake.setPower(0);
+
+
+            sleep(250);
+        }
+    }
 
 
 }

@@ -65,10 +65,10 @@ import com.qualcomm.robotcore.hardware.CRServo;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="ParkLeft", group="Swarm")
+@Autonomous(name="RightAutoV2", group="Swarm")
 //@Disabled
 
-public class ParkLeft extends LinearOpMode {
+public class RightAutoV2 extends LinearOpMode {
 
     /* Declare OpMode members. */
     private DcMotor leftRear = null;
@@ -216,12 +216,40 @@ public class ParkLeft extends LinearOpMode {
 //        encoderDrive(driveSpeed,20,0,0,0,5.0);
 //        encoderStrafe(driveSpeed,-110,0,0,0,5.0);
 
+        encoderLift(liftSpeed,0,1000,0,2.0);
+        encoderDrive(driveSpeed, 26, 0,1900,0, 5.0 );
+        encoderLift(liftSpeed,0,1756,0,2.0);
+        encoderDrive(driveSpeed,-2,0,1700,0,5.0);
+        encoderLift(liftSpeed, 0, 0, 0,5.0);
+        encoderDrive(driveSpeed,-20,0,0,0,5.0);
+        encoderSpin(turnSpeed,180,0,0,0,5.0);
+        encoderStrafe(driveSpeed,-20,0,0,0,5.0);
+        encoderDrive(driveSpeed,4,0,0,1,5.0);
+        encoderIntake(1,5.0);
+        encoderDrive(driveSpeed,-4,0,0,1,5.0);
+        encoderStrafe(driveSpeed,20,0,0,0,5.0);
+        encoderSpin(turnSpeed,180,0,0,0,5.0);
+        encoderLift(liftSpeed,0,1000,0,2.0);
+        encoderDrive(driveSpeed, 24, 0,1900,0, 5.0 );
+        encoderLift(liftSpeed,0,1756,0,2.0);
+        encoderDrive(driveSpeed,-2,0,1700,0,5.0);
+        encoderLift(liftSpeed, 0, 0, 0,5.0);
+        encoderDrive(driveSpeed,-20,0,0,0,5.0);
+        encoderSpin(turnSpeed,180,0,0,0,5.0);
+        encoderStrafe(driveSpeed,-20,0,0,0,5.0);
+        encoderDrive(driveSpeed,4,0,0,1,5.0);
+        encoderIntake(1,5.0);
+        encoderDrive(driveSpeed,-4,0,0,1,5.0);
+        encoderStrafe(driveSpeed,20,0,0,0,5.0);
+        encoderSpin(turnSpeed,180,0,0,0,5.0);
+        encoderLift(liftSpeed,0,1000,0,2.0);
+        encoderDrive(driveSpeed, 24, 0,1900,0, 5.0 );
+        encoderLift(liftSpeed,0,1756,0,2.0);
+        encoderDrive(driveSpeed,-2,0,1700,0,5.0);
+        encoderLift(liftSpeed, 0, 0, 0,5.0);
+        encoderDrive(driveSpeed,-24,0,0,0,5.0);
+        encoderStrafe(driveSpeed,48,0,0,0,5.0);
 
-        encoderStrafe(driveSpeed,-26,0,0,0,5.0);
-        encoderDrive(driveSpeed,60,0,0,0,5.0);
-        encoderSpin(turnSpeed,90,0,0,0,5.0);
-        encoderLift(liftSpeed,0,1100,0,5.0);
-        encoderDrive(driveSpeed,10,0,1400,0,5.0);
 
     }
 

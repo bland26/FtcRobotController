@@ -52,6 +52,8 @@ public class RiptideTele extends OpMode {
     public static double liftSpeed = 1.0;
     public static double climbSpeed = 1.0;
 
+    public double encoderOverride = 0;
+
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -241,35 +243,39 @@ public class RiptideTele extends OpMode {
         backLiftPower = Range.clip(backLiftCubed, -1.0, 1.0);
         armPower = Range.clip(armCubed, -1.0, 1.0);
 
+        if (gamepad2.x){
+            encoderOverride =  -arm.getCurrentPosition();
+        }
+
 
         if ( gamepad2.dpad_up) {
-            if (arm.getCurrentPosition() < 2400) {
+            if (arm.getCurrentPosition() + encoderOverride < 3200) {
                 arm.setPower(liftSpeed);
-            } else if (arm.getCurrentPosition() < 2492) {
+            } else if (arm.getCurrentPosition()  + encoderOverride < 3240) {
                 arm.setPower(liftSpeed * 0.5);
             } else {
                 arm.setPower(0);
             }
-            if (lift.getCurrentPosition() < 2662 && arm.getCurrentPosition() > 2200) {
+            if (lift.getCurrentPosition() < 2662 && arm.getCurrentPosition()  + encoderOverride > 2200) {
                 lift.setPower(liftSpeed);
             } else {
                 lift.setPower(0);
             }
         } else if ( gamepad2.dpad_right) {
-            if (arm.getCurrentPosition() < 1400) {
+            if (arm.getCurrentPosition()  + encoderOverride < 1400) {
                 arm.setPower(liftSpeed);
-            } else if (arm.getCurrentPosition() < 1492) {
+            } else if (arm.getCurrentPosition()  + encoderOverride < 1492) {
                 arm.setPower(liftSpeed*0.5);
             } else {
                 arm.setPower(0);
             }
-            if (lift.getCurrentPosition() < 1662 && arm.getCurrentPosition() > 1300) {
+            if (lift.getCurrentPosition() < 1662 && arm.getCurrentPosition()  + encoderOverride > 1300) {
                 lift.setPower(liftSpeed);
             } else {
                 lift.setPower(0);
             }
         } else if(gamepad2.dpad_down){
-            if (arm.getCurrentPosition() > 0 && lift.getCurrentPosition() < 500) {
+            if (arm.getCurrentPosition()  + encoderOverride > 0 && lift.getCurrentPosition() < 500) {
                 arm.setPower(-liftSpeed);
             } else {
                 arm.setPower(0);
@@ -281,12 +287,12 @@ public class RiptideTele extends OpMode {
             }
         } else {
 
-            if(arm.getCurrentPosition() > 2600 && armPower > 0){
+            if(arm.getCurrentPosition()  + encoderOverride > 3240 && armPower > 0){
                 arm.setPower(0);
             } else{
                 arm.setPower(armPower* liftSpeed);
             }
-            if (backLiftPower < 0 && liftLimit.isPressed()) {
+            if ((backLiftPower < 0 && liftLimit.isPressed()) || (backLiftPower > 0 && lift.getCurrentPosition() > 2700)) {
                 lift.setPower(0);
             } else {
                 lift.setPower(backLiftPower * liftSpeed);
@@ -383,6 +389,7 @@ public class RiptideTele extends OpMode {
         telemetry.addData("right", climbRight.getCurrentPosition());
         telemetry.addData("left", climbLeft.getCurrentPosition());
         telemetry.addData("arm", arm.getCurrentPosition());
+        telemetry.addData("slide", lift.getCurrentPosition());
 
     }
 

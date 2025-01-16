@@ -32,9 +32,9 @@ package org.firstinspires.ftc.teamcode.drive.stinger;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.hardware.CRServo;
 
 //code for cam and other related thangs
 
@@ -65,10 +65,10 @@ import com.qualcomm.robotcore.hardware.CRServo;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="ParkLeft", group="Swarm")
+@Autonomous(name="LeftAutoV3", group="Swarm")
 //@Disabled
 
-public class ParkLeft extends LinearOpMode {
+public class LeftAutoV3 extends LinearOpMode {
 
     /* Declare OpMode members. */
     private DcMotor leftRear = null;
@@ -79,8 +79,8 @@ public class ParkLeft extends LinearOpMode {
     private DcMotor arm = null;
     private CRServo intake = null;
 
-    public static final double  driveSpeed = 0.6;
-    public static final double  turnSpeed = 0.5;
+    public static final double  driveSpeed = 0.8;
+    public static final double  turnSpeed = 0.7;
     public static final double liftSpeed = 1.0;
     public static final double intakeSpeed = 1;
     public static final double     COUNTS_PER_MOTOR_REV    = 529.2 ;
@@ -195,7 +195,36 @@ public class ParkLeft extends LinearOpMode {
         maximum time allowed for the step before it automatically stops.)
          */
 
+        encoderDrive(driveSpeed, 22,0,0,0,5.0);
+        encoderStrafe(driveSpeed, -40,0,0,0,5.0);
+        encoderSpin(turnSpeed, -135,0,0,0,5.0);
+        encoderStrafe(driveSpeed,-5,0,0,0,5.0);
+        encoderDrive(driveSpeed,12,0,0,0,5.0);
+        encoderSpin(turnSpeed,135,0,0,0,5.0);
+        encoderDrive(driveSpeed,16,0,0,0,5.0);
+        encoderStrafe(driveSpeed, -2, 0, 0, 0, 5.0);
+        encoderSpin(turnSpeed,-135,0,0,0,5.0);
+        encoderStrafe(driveSpeed,-15,0,0,0,5.0);
+        encoderDrive(driveSpeed,14,0,0,0,5.0);
+        encoderDrive(driveSpeed, -14, 0, 0, 0, 5.0);
+        encoderSpin(turnSpeed, -135, 0, 0, 0, 5.0);
+        encoderStrafe(driveSpeed, -36, 0,0,0,5.0);
+        encoderDrive(driveSpeed,22,0,0,0,5.0);
+        //End of Left Auto
 
+
+
+
+        //Testing the Lift
+        //liftInches extends the intake, armInches lifts the entire thing
+        /*
+        encoderLift(liftSpeed, 1700, 0, 1, 5.0);
+        encoderIntake(1, 1.5);
+        encoderDrive(driveSpeed/2, 6, 0, 0, 1, 5.0);
+        encoderDrive(driveSpeed/2, -6, 0, 0, 1, 5.0);
+        encoderLift(liftSpeed,0, 0, 1, 5.0);
+
+         */
 
 //        encoderDrive(driveSpeed,24,0,0,0,5.0);
 //        encoderLift(liftSpeed,0,0,0,5.0);
@@ -216,12 +245,20 @@ public class ParkLeft extends LinearOpMode {
 //        encoderDrive(driveSpeed,20,0,0,0,5.0);
 //        encoderStrafe(driveSpeed,-110,0,0,0,5.0);
 
+//        encoderLift(liftSpeed,0,1000,0,2.0);
+//        encoderDrive(driveSpeed, 26, 0,1900,0, 5.0 );
+//        encoderLift(liftSpeed,0,1756,0,2.0);
+//        encoderDrive(driveSpeed/2,-2,0,1700,0,5.0);
+//        encoderLift(liftSpeed/2, 0, 0, 0,5.0);
+//        encoderDrive(driveSpeed,-10,0,0,0,5.0);
+//        encoderStrafe(driveSpeed,-36,0,0,0,5.0);
+//       encoderLift(liftSpeed,2614,377,1,5.0);
+//       encoderIntake(1,5.0);
+//       encoderSpin(turnSpeed,-135,0,0,0,5.0);
+//       encoderLift(liftSpeed,2492,2662,0,5.0);
+//       encoderIntake(-1,5.0);
 
-        encoderStrafe(driveSpeed,-26,0,0,0,5.0);
-        encoderDrive(driveSpeed,60,0,0,0,5.0);
-        encoderSpin(turnSpeed,90,0,0,0,5.0);
-        encoderLift(liftSpeed,0,1100,0,5.0);
-        encoderDrive(driveSpeed,10,0,1400,0,5.0);
+
 
     }
 
