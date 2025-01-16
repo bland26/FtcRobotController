@@ -217,11 +217,23 @@ public class SwarmAuto extends LinearOpMode {
 //        encoderStrafe(driveSpeed,-110,0,0,0,5.0);
 
         encoderlift(extensionSpeed, 0, 1000, 0, 2.0);
-        encoderDrive(driveSpeed,27,0,1925,0,5.0);
-        encoderlift(extensionSpeed, 0, 1775, 0, 2.0);
+        encoderDrive(driveSpeed,28,0,1604,0,5.0);
+        encoderlift(extensionSpeed, 0, 1000, 0, 5.0);
         encoderDrive(driveSpeed,-24,0,0,0,5.0);
-        encoderStrafe(driveSpeed, 48, 0, 0, 0, 5.0);
-
+        encoderStrafe(driveSpeed, 31, 0, 0, 0, 5.0);
+        encoderDrive(driveSpeed, 48, 0, 0, 0, 5.0);
+        encoderSpin(turnSpeed, 180, 0, 0, 0, 5.0);
+        encoderStrafe(driveSpeed, -4,0,0,0,5.0);
+        encoderDrive(driveSpeed, 40,0,0,0,5.0);
+        encoderDrive(driveSpeed, -40,0,0,0,5.0);
+        encoderStrafe(driveSpeed,-8,0,0,0,5.0);
+        encoderDrive(driveSpeed,40,0,0,0,5.0);
+        encoderDrive(driveSpeed,-12,0,0,0,5.0);
+        encoderlift(extensionSpeed, 0,500,0,5.0);
+        encoderlift(extensionSpeed, -500,500,0,2.0);
+        encoderlift(extensionSpeed,-500,0,0,5.0);
+        encoderStrafe(driveSpeed,8,0,0,0,5.0);
+        encoderDrive(driveSpeed/2,12,0,0,1,5.0);
 
 
     }

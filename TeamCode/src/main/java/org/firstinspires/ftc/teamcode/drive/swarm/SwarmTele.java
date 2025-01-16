@@ -318,9 +318,10 @@ public class SwarmTele extends OpMode
         telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
         telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
         telemetry.addData("Intake", "%%4.2f", intakePower);
-        telemetry.addData("Extension", "%4.2f", extension.getPower());
+        telemetry.addData("ExtensionPower", "%4.2f", extension.getPower());
         telemetry.addData("Pivot Current/Target/power", "%d, %d, %4.2f", pivot.getCurrentPosition(), pivot.getTargetPosition(),pivot.getPower());
         telemetry.addData("Pivot MODE", "%s", pivot_mode_str);
+        telemetry.addData("Extension", extension.getCurrentPosition());
         telemetry.update();
     }
 

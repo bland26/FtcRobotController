@@ -221,6 +221,7 @@ public class EveryBot extends OpMode
         telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftBackPower, rightBackPower);
         telemetry.addData("Wrist", wristPosition);
         telemetry.addData("Claw", clawPosition);
+
     }
 
     /*
