@@ -144,7 +144,7 @@ public class RiptideTele extends OpMode {
         double rightRearPower;
         double leftFrontPower;
         double rightFrontPower;
-        double backLiftPower;
+        double liftPower;
         double armPower;
         double climbPower;
         double intakePower;
@@ -240,7 +240,7 @@ public class RiptideTele extends OpMode {
         rightRearPower = Range.clip(driveCubed - spinCubed + strafeCubed, -1.0, 1.0);
         leftFrontPower = Range.clip(driveCubed + spinCubed + strafeCubed, -1.0, 1.0);
         rightFrontPower = Range.clip(driveCubed - spinCubed - strafeCubed, -1.0, 1.0);
-        backLiftPower = Range.clip(backLiftCubed, -1.0, 1.0);
+        liftPower = Range.clip(backLiftCubed, -1.0, 1.0);
         armPower = Range.clip(armCubed, -1.0, 1.0);
 
         if (gamepad2.x){
@@ -251,7 +251,7 @@ public class RiptideTele extends OpMode {
         if ( gamepad2.dpad_up) {
             if (arm.getCurrentPosition() + encoderOverride < 3200) {
                 arm.setPower(liftSpeed);
-            } else if (arm.getCurrentPosition()  + encoderOverride < 3240) {
+            } else if (arm.getCurrentPosition()  + encoderOverride < 3400) {
                 arm.setPower(liftSpeed * 0.5);
             } else {
                 arm.setPower(0);
@@ -287,15 +287,15 @@ public class RiptideTele extends OpMode {
             }
         } else {
 
-            if(arm.getCurrentPosition()  + encoderOverride > 3240 && armPower > 0){
+            if(arm.getCurrentPosition()  + encoderOverride > 3400 && armPower > 0){
                 arm.setPower(0);
             } else{
                 arm.setPower(armPower* liftSpeed);
             }
-            if ((backLiftPower < 0 && liftLimit.isPressed()) || (backLiftPower > 0 && lift.getCurrentPosition() > 2700)) {
+            if ((liftPower < 0 && liftLimit.isPressed()) || (liftPower > 0 && lift.getCurrentPosition() > 2700)) {
                 lift.setPower(0);
             } else {
-                lift.setPower(backLiftPower * liftSpeed);
+                lift.setPower(liftPower * liftSpeed);
             }
         }
 
@@ -369,10 +369,10 @@ public class RiptideTele extends OpMode {
 
 
 
-//        if (backLiftPower < 0 && backLiftLimit.isPressed()) {
+//        if (liftPower < 0 && backLiftLimit.isPressed()) {
 //            backLift.setPower(0);
 //        } else {
-//            backLift.setPower(backLiftPower * liftSpeed);
+//            backLift.setPower(liftPower * liftSpeed);
 //        }
 //        if (armPower < 0 && armLimit.isPressed()) {
 //            arm.setPower(0);

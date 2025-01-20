@@ -172,6 +172,8 @@ public class LeftAutoV3 extends LinearOpMode {
         telemetry.update();
 
 
+
+
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
