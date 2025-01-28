@@ -114,6 +114,7 @@ public class SwarmTele extends OpMode
         leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
         rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
+        pivot.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         intake.setDirection(CRServo.Direction.FORWARD); // Forward should INTAKE.
         extension.setDirection(DcMotor.Direction.REVERSE); // Forward should EXTEND.

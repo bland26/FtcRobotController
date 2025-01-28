@@ -216,40 +216,54 @@ public class RightAutoV2 extends LinearOpMode {
 //        encoderDrive(driveSpeed,20,0,0,0,5.0);
 //        encoderStrafe(driveSpeed,-110,0,0,0,5.0);
 
-        encoderLift(liftSpeed,0,1000,0,2.0);
-        encoderDrive(driveSpeed, 26, 0,1900,0, 5.0 );
-        encoderLift(liftSpeed,0,1756,0,2.0);
-        encoderDrive(driveSpeed,-2,0,1700,0,5.0);
-        encoderLift(liftSpeed, 0, 0, 0,5.0);
-        encoderDrive(driveSpeed,-20,0,0,0,5.0);
-        encoderSpin(turnSpeed,180,0,0,0,5.0);
-        encoderStrafe(driveSpeed,-20,0,0,0,5.0);
-        encoderDrive(driveSpeed,4,0,0,1,5.0);
-        encoderIntake(1,5.0);
-        encoderDrive(driveSpeed,-4,0,0,1,5.0);
-        encoderStrafe(driveSpeed,20,0,0,0,5.0);
-        encoderSpin(turnSpeed,180,0,0,0,5.0);
-        encoderLift(liftSpeed,0,1000,0,2.0);
-        encoderDrive(driveSpeed, 24, 0,1900,0, 5.0 );
-        encoderLift(liftSpeed,0,1756,0,2.0);
-        encoderDrive(driveSpeed,-2,0,1700,0,5.0);
-        encoderLift(liftSpeed, 0, 0, 0,5.0);
-        encoderDrive(driveSpeed,-20,0,0,0,5.0);
-        encoderSpin(turnSpeed,180,0,0,0,5.0);
-        encoderStrafe(driveSpeed,-20,0,0,0,5.0);
-        encoderDrive(driveSpeed,4,0,0,1,5.0);
-        encoderIntake(1,5.0);
-        encoderDrive(driveSpeed,-4,0,0,1,5.0);
-        encoderStrafe(driveSpeed,20,0,0,0,5.0);
-        encoderSpin(turnSpeed,180,0,0,0,5.0);
-        encoderLift(liftSpeed,0,1000,0,2.0);
-        encoderDrive(driveSpeed, 24, 0,1900,0, 5.0 );
-        encoderLift(liftSpeed,0,1756,0,2.0);
-        encoderDrive(driveSpeed,-2,0,1700,0,5.0);
-        encoderLift(liftSpeed, 0, 0, 0,5.0);
+        encoderLift(liftSpeed, 0, 1000, 0, 2.0);
+        encoderDrive(driveSpeed,28,0,1417,0,5.0);
+        encoderLift(liftSpeed, 0, 1000, 0, 5.0);
         encoderDrive(driveSpeed,-24,0,0,0,5.0);
-        encoderStrafe(driveSpeed,48,0,0,0,5.0);
-
+        encoderStrafe(driveSpeed, 31, 0, 0, 0, 5.0);
+//        encoderDrive(driveSpeed, 48, 0, 0, 0, 5.0);
+//        encoderStrafe(driveSpeed, 12,0,0,0,5.0);
+//        encoderDrive(driveSpeed, -40,0,0,0,5.0);
+//        encoderDrive(driveSpeed, 40,0,0,0,5.0);
+//        encoderStrafe(driveSpeed,12,0,0,0,5.0);
+//        encoderDrive(driveSpeed,-40,0,0,0,5.0);
+//        encoderDrive(driveSpeed, 40,0,0,0,5.0);
+//        encoderStrafe(driveSpeed,8,0,0,0,5.0);
+//        encoderDrive(driveSpeed,-40,0,0,0,5.0);
+//        encoderDrive(driveSpeed,12,0,0,0,5.0);
+//        encoderStrafe(driveSpeed,9,0,0,0,5.0);
+//        encoderSpin(turnSpeed, 180, 0, 0, 0, 5.0);
+//        encoderDrive(driveSpeed/2,12,0,0,1,5.0);
+//        encoderDrive(driveSpeed, -24, 0, 0, 0, 5.0);
+//        encoderSpin(turnSpeed, 180, 0, 0, 0, 5.0);
+//        encoderStrafe(driveSpeed, -48, 0, 0, 0, 5.0);
+//        encoderLift(liftSpeed, 0, 1000, 0, 2.0);
+//        encoderDrive(driveSpeed, 4, 0, 1417, 0, 5.0);
+//        encoderLift(liftSpeed, 0, 1000, 0, 5.0);
+//        encoderDrive(driveSpeed, -4, 0, 0, 0, 5.0);
+        /*
+        encoderStrafe(driveSpeed, 48, 0, 0, 0, 5.0);
+        encoderSpin(turnSpeed, 180, 0, 0, 0, 5.0);
+        encoderDrive(driveSpeed/2, 24, 0, 0, 1, 5.0);
+        encoderDrive(driveSpeed, -24, 0, 0, 0, 5.0);
+        encoderSpin(turnSpeed, 180, 0, 0, 0, 5.0);
+        encoderStrafe(driveSpeed, -52, 0, 0, 0, 5.0);
+        encoderlift(extensionSpeed, 0, 1000, 0, 2.0);
+        encoderDrive(driveSpeed, 4, 0, 1417, 0, 5.0);
+        encoderlift(extensionSpeed, 0, 1000, 0, 5.0);
+        encoderDrive(driveSpeed, -4, 0, 0, 0, 5.0);
+        encoderStrafe(driveSpeed, 52, 0, 0, 0, 5.0);
+        encoderSpin(turnSpeed, 180, 0, 0, 0, 5.0);
+        encoderDrive(driveSpeed/2, 24, 0, 0, 1, 5.0);
+        encoderDrive(driveSpeed, -24, 0, 0, 0, 5.0);
+        encoderSpin(turnSpeed, 180, 0, 0, 0, 5.0);
+        encoderStrafe(driveSpeed, -56, 0, 0, 0, 5.0);
+        encoderlift(extensionSpeed, 0, 1000, 0, 2.0);
+        encoderDrive(driveSpeed, 4, 0, 1417, 0, 5.0);
+        encoderlift(extensionSpeed, 0, 1000, 0, 5.0);
+        encoderDrive(driveSpeed, -24, 0, 0, 0, 5.0);
+        encoderStrafe(driveSpeed, -60, 0, 0, 0, 5.0);
+         */
 
     }
 
