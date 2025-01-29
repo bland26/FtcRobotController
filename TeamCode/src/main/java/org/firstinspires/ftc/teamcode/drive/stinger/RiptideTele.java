@@ -87,7 +87,7 @@ public class RiptideTele extends OpMode {
         rightRear.setDirection(DcMotor.Direction.FORWARD);
         leftFront.setDirection(DcMotor.Direction.FORWARD);
         rightFront.setDirection(DcMotor.Direction.FORWARD);
-        lift.setDirection(DcMotor.Direction.FORWARD); // slide
+        lift.setDirection(DcMotor.Direction.REVERSE); // slide
         arm.setDirection(DcMotor.Direction.REVERSE);
         climbRight.setDirection(DcMotor.Direction.FORWARD);
         climbLeft.setDirection(DcMotor.Direction.FORWARD);
@@ -124,11 +124,6 @@ public class RiptideTele extends OpMode {
      */
     @Override
     public void init_loop() {
-        if(!liftLimit.isPressed()){
-            lift.setPower(-0.5);
-        }else{
-            lift.setPower(0);
-        }
     }
 
     /*
@@ -254,14 +249,14 @@ public class RiptideTele extends OpMode {
 
 
         if ( gamepad2.dpad_up) {
-            if (arm.getCurrentPosition() + encoderOverride < 3400) {
+            if (arm.getCurrentPosition() + encoderOverride < 3200) {
                 arm.setPower(liftSpeed);
-            } else if (arm.getCurrentPosition()  + encoderOverride < 3421) {
+            } else if (arm.getCurrentPosition()  + encoderOverride < 3240) {
                 arm.setPower(liftSpeed * 0.5);
             } else {
                 arm.setPower(0);
             }
-            if (lift.getCurrentPosition() < 2019 && arm.getCurrentPosition()  + encoderOverride > 1200) {
+            if (lift.getCurrentPosition() < 2662 && arm.getCurrentPosition()  + encoderOverride > 2200) {
                 lift.setPower(liftSpeed);
             } else {
                 lift.setPower(0);
