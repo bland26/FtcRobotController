@@ -129,7 +129,7 @@ public class RightAuto extends LinearOpMode {
         rightRear.setDirection(DcMotor.Direction.FORWARD);
         leftFront.setDirection(DcMotor.Direction.FORWARD);
         rightFront.setDirection(DcMotor.Direction.FORWARD);
-        lift.setDirection(DcMotor.Direction.REVERSE);
+        lift.setDirection(DcMotor.Direction.FORWARD);
         arm.setDirection(DcMotor.Direction.REVERSE);
         intake.setDirection(CRServo.Direction.FORWARD);
 
@@ -219,9 +219,9 @@ public class RightAuto extends LinearOpMode {
 //        encoderStrafe(driveSpeed,-110,0,0,0,5.0);
 
         encoderLift(liftSpeed,0,1000,0,2.0);
-        encoderDrive(driveSpeed, 26, 0,1900,0, 5.0 );
-        encoderLift(liftSpeed,0,1756,0,2.0);
-        encoderDrive(driveSpeed,-2,0,1700,0,5.0);
+        encoderDrive(driveSpeed, 26, 0,2000,0, 5.0 );
+        encoderLift(liftSpeed,0,1000,0,2.0);
+        encoderDrive(driveSpeed,-2,0,0,0,5.0);
         encoderLift(liftSpeed, 0, 0, 0,5.0);
         encoderDrive(driveSpeed,-24,0,0,0,5.0);
         encoderStrafe(driveSpeed,48,0,0,0,5.0);
