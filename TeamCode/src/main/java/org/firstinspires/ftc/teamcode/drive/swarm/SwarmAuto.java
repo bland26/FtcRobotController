@@ -230,7 +230,7 @@ public class SwarmAuto extends LinearOpMode {
         encoderDrive(driveSpeed,12,0,500,0,5.0);
         encoderSpin(turnSpeed, 175, 0, 0, 0, 5.0);
         sleep(1000);
-        encoderDrive(driveSpeed/2,12,400,0,1,5.0);
+        encoderDrive(driveSpeed/2,12,300,0,1,5.0);
         encoderDrive(driveSpeed, -8, 0, 500, 1, 5.0);
         encoderSpin(turnSpeed, 170, 0, 500, 1, 5.0);
         encoderStrafe(driveSpeed, -48, 0, 1000, 1, 5.0);
