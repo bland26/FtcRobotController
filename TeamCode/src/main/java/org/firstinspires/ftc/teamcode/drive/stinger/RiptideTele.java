@@ -54,6 +54,16 @@ public class RiptideTele extends OpMode {
 
     public double encoderOverride = 0;
 
+    public static final double     COUNTS_PER_MOTOR_REV    = 529.2 ;
+    public static final double      WHEEL_DIAMETER_INCHES   = 75/25.4 ;     // For figuring circumference
+    public static final double      DRIVE_GEAR_REDUCTION    = 1.0 ;     // No External Gearing.
+
+    public static final double      COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
+            (WHEEL_DIAMETER_INCHES * Math.PI);
+    public static final double     STRAFE_INCH_PER_REV     = 0.5;
+    public static final double     STRAFE_COUNTS_PER_INCH  = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
+            STRAFE_INCH_PER_REV;
+
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -201,7 +211,7 @@ public class RiptideTele extends OpMode {
         if (intakeInputR > 0){
             intakePower = -1;
         }
-
+/*
         if ( gamepad2.right_bumper  ) {
             climbPower = -climbSpeed;
         } else if ((gamepad2.left_bumper & climbLeft.getCurrentPosition() < 0) || (gamepad2.left_bumper & gamepad2.y)) {
@@ -210,8 +220,13 @@ public class RiptideTele extends OpMode {
         } else {
             climbPower = 0;
         }
-
-
+*/
+        if ( gamepad2.right_bumper  ) {
+            encoderStrafe(1,1,0.5);
+        }
+        if( gamepad2.left_bumper){
+            encoderStrafe(1,-1,0.5);
+        }
 
 
 
@@ -354,8 +369,8 @@ public class RiptideTele extends OpMode {
         rightRear.setPower(rightRearPower * driveSpeed);
         leftFront.setPower(leftFrontPower * driveSpeed);
         rightFront.setPower(rightFrontPower * driveSpeed);
-        climbRight.setPower(climbPower);
-        climbLeft.setPower(climbPower);
+        //climbRight.setPower(climbPower);
+        //climbLeft.setPower(climbPower);
         intake.setPower(intakePower);
 
 
@@ -399,5 +414,76 @@ public class RiptideTele extends OpMode {
     @Override
     public void stop() {
     }
+    public void encoderStrafe(double speed,
+                              double inches,
+
+                              double timeoutS) {
+        int newLeftBackTarget;
+        int newRightBackTarget;
+        int newLeftFrontTarget;
+        int newRightFrontTarget;
+
+
+
+
+            // Determine new target position, and pass to motor controller
+            newLeftBackTarget = leftRear.getCurrentPosition() - (int)(inches * COUNTS_PER_INCH);
+            newRightBackTarget = rightRear.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
+            newLeftFrontTarget = leftFront.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
+            newRightFrontTarget = rightFront.getCurrentPosition() - (int)(inches * COUNTS_PER_INCH);
+
+            leftRear.setTargetPosition(newLeftBackTarget);
+            rightRear.setTargetPosition(newRightBackTarget);
+            leftFront.setTargetPosition(newLeftFrontTarget);
+            rightFront.setTargetPosition(newRightFrontTarget);
+
+            // Turn On RUN_TO_POSITION
+            leftRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            rightRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
+            // reset the timeout time and start motion.
+            runtime.reset();
+            leftRear.setPower(Math.abs(speed));
+            rightRear.setPower(Math.abs(speed));
+            leftFront.setPower(Math.abs(speed));
+            rightFront.setPower(Math.abs(speed));
+
+
+
+            // keep looping while we are still active, and there is time left, and both motors are running.
+            // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
+            // its target position, the motion will stop.  This is "safer" in the event that the robot will
+            // always end the motion as soon as possible.
+            // However, if you require that BOTH motors have finished their moves before the robot continues
+            // onto the next step, use (isBusy() || isBusy()) in the loop test.
+            while (
+                    (runtime.seconds() < timeoutS) &&
+                    (leftRear.isBusy() && rightRear.isBusy() && leftFront.isBusy() && rightFront.isBusy()
+                    )) {
+
+
+
+            }
+
+
+            // Stop all motion;
+            leftRear.setPower(0);
+            rightRear.setPower(0);
+            leftFront.setPower(0);
+            rightFront.setPower(0);
+
+
+
+            // Turn off RUN_TO_POSITION
+            leftRear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            rightRear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        }
+
 }
 
