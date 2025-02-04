@@ -225,8 +225,8 @@ public class SwarmLeftAuto extends LinearOpMode {
         encoderStrafe(driveSpeed,-28,0,0,0,5.0);
         encoderDrive(driveSpeed,32,0,0,0,5.0);
         encoderSpin(turnSpeed,90,0,0,0,5.0);
-        encoderLift(extensionSpeed,0,1200,0,5.0);
-        encoderDrive(driveSpeed,12,0,1100,0,5.0);
+        encoderLift(extensionSpeed,0,600,0,5.0);
+        encoderDrive(driveSpeed,12,0,1200,0,5.0);
 
         /*
         encoderStrafe(driveSpeed, 48, 0, 0, 0, 5.0);
