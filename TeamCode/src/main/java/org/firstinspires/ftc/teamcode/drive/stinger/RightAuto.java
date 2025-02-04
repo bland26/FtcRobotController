@@ -79,10 +79,12 @@ public class RightAuto extends LinearOpMode {
     private DcMotor arm = null;
     private CRServo intake = null;
 
+
     public static final double  driveSpeed = 0.6;
     public static final double  turnSpeed = 0.5;
     public static final double liftSpeed = 1.0;
     public static final double intakeSpeed = 1;
+
     public static final double     COUNTS_PER_MOTOR_REV    = 529.2 ;
     public static final double      WHEEL_DIAMETER_INCHES   = 75/25.4 ;     // For figuring circumference
     public static final double      DRIVE_GEAR_REDUCTION    = 1.0 ;     // No External Gearing.
@@ -219,12 +221,10 @@ public class RightAuto extends LinearOpMode {
 //        encoderStrafe(driveSpeed,-110,0,0,0,5.0);
 
         encoderLift(liftSpeed,0,1000,0,2.0);
-        encoderDrive(driveSpeed, 26, 0,2000,0, 5.0 );
-        encoderLift(liftSpeed,0,1000,0,2.0);
-        encoderDrive(driveSpeed,-2,0,0,0,5.0);
-        encoderLift(liftSpeed, 0, 0, 0,5.0);
-        encoderDrive(driveSpeed,-24,0,0,0,5.0);
-        encoderStrafe(driveSpeed,48,0,0,0,5.0);
+        encoderDrive(driveSpeed, 28, 0,2000,0, 5.0 );
+        encoderLift(liftSpeed,0,1300,1,2.0);
+        encoderDrive(driveSpeed,-24,0,1300,1,5.0);
+        encoderStrafe(driveSpeed,48,0,1300,0,5.0);
 
 
     }

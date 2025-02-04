@@ -216,17 +216,15 @@ public class LeftAuto extends LinearOpMode {
 //        encoderDrive(driveSpeed,20,0,0,0,5.0);
 //        encoderStrafe(driveSpeed,-110,0,0,0,5.0);
 
-        encoderLift(liftSpeed,0,1000,0,2.0);
-        encoderDrive(driveSpeed, 26, 0,1900,0, 5.0 );
-        encoderLift(liftSpeed,0,1756,0,2.0);
-        encoderDrive(driveSpeed/2,-2,0,1700,0,5.0);
-        encoderLift(liftSpeed/2, 0, 0, 0,5.0);
-        encoderDrive(driveSpeed,-10,0,0,0,5.0);
+        encoderLift(liftSpeed, 0, 1000, 0, 2.0);
+        encoderDrive(driveSpeed,28,0,2000,0,5.0);
+        encoderLift(liftSpeed, 0, 1300, 1, 5.0);
+        encoderDrive(driveSpeed,-10,0,0,1,5.0);
         encoderStrafe(driveSpeed,-28,0,0,0,5.0);
-        encoderDrive(driveSpeed,40,0,0,0,5.0);
+        encoderDrive(driveSpeed,32,0,0,0,5.0);
         encoderSpin(turnSpeed,90,0,0,0,5.0);
-        encoderLift(liftSpeed,0,1100,0,5.0);
-        encoderDrive(driveSpeed,10,0,1400,0,5.0);
+        encoderLift(liftSpeed,0,1200,0,5.0);
+        encoderDrive(driveSpeed,12,0,1800,0,5.0);
 
     }
 

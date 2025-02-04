@@ -154,7 +154,7 @@ public class RiptideTele extends OpMode {
         double rightRearPower;
         double leftFrontPower;
         double rightFrontPower;
-        double backLiftPower;
+        double liftPower;
         double armPower;
         double climbPower;
         double intakePower;
@@ -222,10 +222,10 @@ public class RiptideTele extends OpMode {
         }
 */
         if ( gamepad2.right_bumper  ) {
-            encoderStrafe(1,1,0.5);
+            encoderStrafe(1,2,1);
         }
         if( gamepad2.left_bumper){
-            encoderStrafe(1,-1,0.5);
+            encoderStrafe(1,-2,1);
         }
 
 
@@ -255,7 +255,7 @@ public class RiptideTele extends OpMode {
         rightRearPower = Range.clip(driveCubed - spinCubed + strafeCubed, -1.0, 1.0);
         leftFrontPower = Range.clip(driveCubed + spinCubed + strafeCubed, -1.0, 1.0);
         rightFrontPower = Range.clip(driveCubed - spinCubed - strafeCubed, -1.0, 1.0);
-        backLiftPower = Range.clip(backLiftCubed, -1.0, 1.0);
+        liftPower = Range.clip(backLiftCubed, -1.0, 1.0);
         armPower = Range.clip(armCubed, -1.0, 1.0);
 
         if (gamepad2.x){
@@ -264,31 +264,31 @@ public class RiptideTele extends OpMode {
 
 
         if ( gamepad2.dpad_up) {
-            if (arm.getCurrentPosition() + encoderOverride < 3200) {
+            if (arm.getCurrentPosition() + encoderOverride < 3100) {
                 arm.setPower(liftSpeed);
-            } else if (arm.getCurrentPosition()  + encoderOverride < 3240) {
+            } else if (arm.getCurrentPosition()  + encoderOverride < 3200) {
                 arm.setPower(liftSpeed * 0.5);
             } else {
                 arm.setPower(0);
             }
-            if (lift.getCurrentPosition() < 2662 && arm.getCurrentPosition()  + encoderOverride > 2200) {
+            if (lift.getCurrentPosition() < 850 && arm.getCurrentPosition()  + encoderOverride > 2200) {
                 lift.setPower(liftSpeed);
             } else {
                 lift.setPower(0);
             }
         } else if ( gamepad2.dpad_right) {
-            if (arm.getCurrentPosition()  + encoderOverride < 1400) {
+            if (arm.getCurrentPosition()  + encoderOverride < 1900) {
                 arm.setPower(liftSpeed);
-            } else if (arm.getCurrentPosition()  + encoderOverride < 1492) {
+            } else if (arm.getCurrentPosition()  + encoderOverride < 2000) {
                 arm.setPower(liftSpeed*0.5);
             } else {
                 arm.setPower(0);
             }
-            if (lift.getCurrentPosition() < 1662 && arm.getCurrentPosition()  + encoderOverride > 1300) {
-                lift.setPower(liftSpeed);
-            } else {
-                lift.setPower(0);
-            }
+//            if (lift.getCurrentPosition() < 1662 && arm.getCurrentPosition()  + encoderOverride > 1300) {
+//                lift.setPower(liftSpeed);
+//            } else {
+//                lift.setPower(0);
+//            }
         } else if(gamepad2.dpad_down){
             if (arm.getCurrentPosition()  + encoderOverride > 0 && lift.getCurrentPosition() < 500) {
                 arm.setPower(-liftSpeed);
@@ -307,10 +307,10 @@ public class RiptideTele extends OpMode {
             } else{
                 arm.setPower(armPower* liftSpeed);
             }
-            if ((backLiftPower < 0 && liftLimit.isPressed()) || (backLiftPower > 0 && lift.getCurrentPosition() > 2700)) {
+            if ((liftPower < 0 && liftLimit.isPressed()) || (liftPower > 0 && lift.getCurrentPosition() > 2700)) {
                 lift.setPower(0);
             } else {
-                lift.setPower(backLiftPower * liftSpeed);
+                lift.setPower(liftPower * liftSpeed);
             }
         }
 
@@ -384,10 +384,10 @@ public class RiptideTele extends OpMode {
 
 
 
-//        if (backLiftPower < 0 && backLiftLimit.isPressed()) {
+//        if (liftPower < 0 && backLiftLimit.isPressed()) {
 //            backLift.setPower(0);
 //        } else {
-//            backLift.setPower(backLiftPower * liftSpeed);
+//            backLift.setPower(liftPower * liftSpeed);
 //        }
 //        if (armPower < 0 && armLimit.isPressed()) {
 //            arm.setPower(0);
