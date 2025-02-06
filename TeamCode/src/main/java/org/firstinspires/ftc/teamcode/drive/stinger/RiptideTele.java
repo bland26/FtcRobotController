@@ -187,11 +187,11 @@ public class RiptideTele extends OpMode {
         double spinCubed = spin * spin * spin;
 
 
-        double backLiftInput = -gamepad2.left_stick_y;
-        if (Math.abs(backLiftInput) < DEADZONE) {
-            backLiftInput = 0;
+        double liftInput = -gamepad2.left_stick_y;
+        if (Math.abs(liftInput) < DEADZONE) {
+            liftInput = 0;
         }
-        double backLiftCubed = backLiftInput * backLiftInput * backLiftInput;
+        double liftCubed = liftInput * liftInput * liftInput;
 
         double armInput = -gamepad2.right_stick_y;
         if (Math.abs(armInput) < DEADZONE) {
@@ -255,13 +255,15 @@ public class RiptideTele extends OpMode {
         rightRearPower = Range.clip(driveCubed - spinCubed + strafeCubed, -1.0, 1.0);
         leftFrontPower = Range.clip(driveCubed + spinCubed + strafeCubed, -1.0, 1.0);
         rightFrontPower = Range.clip(driveCubed - spinCubed - strafeCubed, -1.0, 1.0);
-        liftPower = Range.clip(backLiftCubed, -1.0, 1.0);
+        liftPower = Range.clip(liftCubed, -1.0, 1.0);
         armPower = Range.clip(armCubed, -1.0, 1.0);
 
         if (gamepad2.x){
             encoderOverride =  -arm.getCurrentPosition();
         }
-
+        if (gamepad1.right_trigger > 0){
+            driveSpeed /= 2;
+        }
 
         if ( gamepad2.dpad_up) {
             if (arm.getCurrentPosition() + encoderOverride < 3100) {

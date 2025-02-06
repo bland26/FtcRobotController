@@ -293,7 +293,12 @@ public class SwarmTele extends OpMode
 //            pivotPower = PIVOT_HOLD_POWER;
 //        }
 
-
+        if (gamepad1.right_trigger > 0){
+            leftFrontPower /= 2;
+            rightFrontPower /= 2;
+            leftBackPower /= 2;
+            rightBackPower /= 2;
+        }
         // WRITE EFFECTORS
         leftFrontDrive.setPower(leftFrontPower);
         rightFrontDrive.setPower(rightFrontPower);

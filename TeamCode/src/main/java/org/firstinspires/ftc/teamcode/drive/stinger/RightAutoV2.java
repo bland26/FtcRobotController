@@ -227,11 +227,12 @@ public class RightAutoV2 extends LinearOpMode {
         encoderDrive(driveSpeed, 44,0,0,0,5.0);
         encoderStrafe(driveSpeed, 12,0,0,0,5.0);
         encoderDrive(driveSpeed, -44,0,0,0,5.0);
-        encoderDrive(driveSpeed,12,0,0,0,5.0);
+        encoderDrive(driveSpeed,16,0,0,0,5.0);
         encoderStrafe(driveSpeed, -12,0,0,0,5.0);
         encoderSpin(turnSpeed, 180, 0, 0, 0, 5.0);
-        encoderLift(liftSpeed,300,100,0,1.0);
-        encoderDrive(driveSpeed/2,18,300,100,1,5.0);
+        encoderLift(liftSpeed,0,500,0,1.0);
+        sleep(500);
+        encoderDrive(driveSpeed/2,22,400,0,1,5.0);
         encoderDrive(driveSpeed, -8, 0, 2000, 1, 5.0);
         encoderSpin(turnSpeed, 190, 0, 2000., 1, 5.0);
         encoderStrafe(driveSpeed, -48, 0, 2000, 1, 5.0);
