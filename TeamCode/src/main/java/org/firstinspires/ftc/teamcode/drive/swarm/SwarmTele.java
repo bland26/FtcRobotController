@@ -30,6 +30,7 @@
 package org.firstinspires.ftc.teamcode.drive.swarm;
 
 import com.qualcomm.hardware.lynx.commands.core.LynxResetMotorEncoderCommand;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -54,6 +55,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
  */
 
 @TeleOp(name="SwarmTele", group="Teleop")
+//@Disabled
 
 public class SwarmTele extends OpMode
 {

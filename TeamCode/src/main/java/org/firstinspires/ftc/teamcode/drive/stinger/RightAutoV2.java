@@ -79,8 +79,8 @@ public class RightAutoV2 extends LinearOpMode {
     private DcMotor arm = null;
     private CRServo intake = null;
 
-    public static final double  driveSpeed = 0.9;
-    public static final double  turnSpeed = 0.8;
+    public static final double  driveSpeed = 1.0;
+    public static final double  turnSpeed = 1.0;
     public static final double liftSpeed = 1.0;
     public static final double intakeSpeed = 1;
     public static final double     COUNTS_PER_MOTOR_REV    = 529.2 ;
@@ -216,28 +216,25 @@ public class RightAutoV2 extends LinearOpMode {
 //        encoderDrive(driveSpeed,20,0,0,0,5.0);
 //        encoderStrafe(driveSpeed,-110,0,0,0,5.0);
 
-        encoderLift(liftSpeed, 0, 1000, 0, 2.0);
-        encoderDrive(driveSpeed,28,0,2000,0,5.0);
-        encoderLift(liftSpeed, 0, 1200, 1, 5.0);
+        encoderLift(liftSpeed, 0, 1200, 0, 2.0);
+        encoderDrive(driveSpeed,28,0,1800,0,5.0);
+        encoderLift(liftSpeed, 0, 1000, 1, 5.0);
         encoderDrive(driveSpeed,-10,0,0,1,5.0);
         encoderStrafe(driveSpeed, 31, 0, 0, 0, 5.0);
         encoderDrive(driveSpeed, 32, 0, 0, 0, 5.0);
         encoderStrafe(driveSpeed, 10,0,0,0,5.0);
         encoderDrive(driveSpeed, -40,0,0,0,5.0);
-        encoderDrive(driveSpeed, 44,0,0,0,5.0);
-        encoderStrafe(driveSpeed, 12,0,0,0,5.0);
-        encoderDrive(driveSpeed, -44,0,0,0,5.0);
         encoderDrive(driveSpeed,16,0,0,0,5.0);
-        encoderStrafe(driveSpeed, -12,0,0,0,5.0);
-        encoderSpin(turnSpeed, 180, 0, 0, 0, 5.0);
-        encoderLift(liftSpeed,0,500,0,1.0);
+        encoderSpin(turnSpeed, 190, 0, 0, 0, 5.0);
+        encoderLift(liftSpeed,0,100,0,1.0);
+        encoderLift(liftSpeed,450,100,0,1.0);
         sleep(500);
-        encoderDrive(driveSpeed/2,22,400,0,1,5.0);
-        encoderDrive(driveSpeed, -8, 0, 2000, 1, 5.0);
-        encoderSpin(turnSpeed, 190, 0, 2000., 1, 5.0);
-        encoderStrafe(driveSpeed, -48, 0, 2000, 1, 5.0);
-        encoderDrive(driveSpeed, 18, 0, 2000, 1, 5.0);
-        encoderLift(liftSpeed, 0, 1300, 1, 5.0);
+        encoderDrive(driveSpeed/4,20,450,100,1,5.0);
+        encoderDrive(driveSpeed, -8, 0, 1000, 1, 5.0);
+        encoderSpin(turnSpeed, 180, 0, 1000, 1, 5.0);
+        encoderStrafe(driveSpeed, -48, 0, 1500, 1, 5.0);
+        encoderDrive(driveSpeed, 18, 0, 1800, 1, 5.0);
+        encoderLift(liftSpeed, 0, 1000, 1, 5.0);
         encoderDrive(driveSpeed, -24, 0, 0, 0, 5.0);
         encoderStrafe(driveSpeed, 48, 0, 0, 0, 5.0);
         /*

@@ -262,26 +262,29 @@ public class RiptideTele extends OpMode {
             encoderOverride =  -arm.getCurrentPosition();
         }
         if (gamepad1.right_trigger > 0){
-            driveSpeed /= 2;
+            leftFrontPower /= 2;
+            rightFrontPower /= 2;
+            leftRearPower /= 2;
+            rightRearPower /= 2;
         }
 
         if ( gamepad2.dpad_up) {
-            if (arm.getCurrentPosition() + encoderOverride < 3100) {
+            if (arm.getCurrentPosition() + encoderOverride < 3400) {
                 arm.setPower(liftSpeed);
-            } else if (arm.getCurrentPosition()  + encoderOverride < 3200) {
+            } else if (arm.getCurrentPosition()  + encoderOverride < 3500) {
                 arm.setPower(liftSpeed * 0.5);
             } else {
                 arm.setPower(0);
             }
-            if (lift.getCurrentPosition() < 850 && arm.getCurrentPosition()  + encoderOverride > 2200) {
+            if (lift.getCurrentPosition() < 1200 && arm.getCurrentPosition()  + encoderOverride > 2200) {
                 lift.setPower(liftSpeed);
             } else {
                 lift.setPower(0);
             }
         } else if ( gamepad2.dpad_right) {
-            if (arm.getCurrentPosition()  + encoderOverride < 1900) {
+            if (arm.getCurrentPosition()  + encoderOverride < 1800) {
                 arm.setPower(liftSpeed);
-            } else if (arm.getCurrentPosition()  + encoderOverride < 2000) {
+            } else if (arm.getCurrentPosition()  + encoderOverride < 1900) {
                 arm.setPower(liftSpeed*0.5);
             } else {
                 arm.setPower(0);
@@ -292,12 +295,12 @@ public class RiptideTele extends OpMode {
 //                lift.setPower(0);
 //            }
         } else if(gamepad2.dpad_down){
-            if (arm.getCurrentPosition()  + encoderOverride > 0 && lift.getCurrentPosition() < 500) {
+            if (arm.getCurrentPosition()  + encoderOverride > 0 ) {
                 arm.setPower(-liftSpeed);
             } else {
                 arm.setPower(0);
             }
-            if (lift.getCurrentPosition() > 0) {
+            if (lift.getCurrentPosition() > 0 && arm.getCurrentPosition() < 3000) {
                 lift.setPower(-liftSpeed);
             } else {
                 lift.setPower(0);
