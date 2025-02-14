@@ -221,8 +221,8 @@ public class SwarmRightAutoV2 extends LinearOpMode {
 
         encoderLift(extensionSpeed, 0, 1000, 0, 2.0);
         encoderDrive(driveSpeed,27,0,1500,0,5.0);
-        encoderLift(extensionSpeed, 0, 1000, 0, 5.0);
-        encoderDrive(driveSpeed,-10,0,500,0,5.0);
+        encoderLift(extensionSpeed, 0, 1000, 1, 5.0);
+        encoderDrive(driveSpeed,-10,0,500,1,5.0);
         encoderStrafe(driveSpeed, 31, 0, 500, 0, 5.0);
         encoderDrive(driveSpeed, 32, 0, 500, 0, 5.0);
         encoderStrafe(driveSpeed, 10,0,500,0,5.0);
@@ -232,14 +232,14 @@ public class SwarmRightAutoV2 extends LinearOpMode {
         encoderDrive(driveSpeed, -40,0,500,0,5.0);
         encoderDrive(driveSpeed,12,0,500,0,5.0);
         encoderStrafe(driveSpeed, -12, 0, 500, 0, 5.0);
-        encoderSpin(turnSpeed, 175, 0, 0, 0, 5.0);
+        encoderSpin(turnSpeed, 170, 0, 0, 0, 5.0);
         sleep(1000);
-        encoderDrive(driveSpeed/2,12,300,0,1,5.0);
+        encoderDrive(driveSpeed/3,12,300,0,1,5.0);
         encoderDrive(driveSpeed, -6, 0, 500, 1, 5.0);
-        encoderSpin(turnSpeed, 177, 0, 500, 1, 5.0);
+        encoderSpin(turnSpeed, 170, 0, 500, 1, 5.0);
         encoderStrafe(driveSpeed, -48, 0, 1000, 1, 5.0);
-        encoderDrive(driveSpeed, 13.5, 0, 1417, 1, 5.0);
-        encoderLift(extensionSpeed, 0, 1000, 0, 5.0);
+        encoderDrive(driveSpeed, 12, 0, 1417, 1, 5.0);
+        encoderLift(extensionSpeed, 0, 1000, 1, 5.0);
         encoderDrive(driveSpeed, -24, 0, 0, 0, 5.0);
         encoderStrafe(driveSpeed, 48, 0, 0, 0, 5.0);
 

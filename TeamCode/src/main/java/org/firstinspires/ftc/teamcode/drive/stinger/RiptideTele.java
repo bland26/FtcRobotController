@@ -211,7 +211,7 @@ public class RiptideTele extends OpMode {
         if (intakeInputR > 0){
             intakePower = -1;
         }
-/*
+
         if ( gamepad2.right_bumper  ) {
             climbPower = -climbSpeed;
         } else if ((gamepad2.left_bumper & climbLeft.getCurrentPosition() < 0) || (gamepad2.left_bumper & gamepad2.y)) {
@@ -220,8 +220,8 @@ public class RiptideTele extends OpMode {
         } else {
             climbPower = 0;
         }
-*/
-        if ( gamepad2.right_bumper  ) {
+
+        if ( gamepad2.right_bumper) {
             encoderStrafe(1,2,1);
         }
         if( gamepad2.left_bumper){
@@ -261,6 +261,20 @@ public class RiptideTele extends OpMode {
         if (gamepad2.x){
             encoderOverride =  -arm.getCurrentPosition();
         }
+//        if (gamepad1.a){
+//            boolean pause = true;
+//            while(pause) {
+//                encoderDrive(driveSpeed / 4, 10, 450, 100, 1, 5.0);
+//                encoderDrive(driveSpeed, -4, 0, 1000, 1, 5.0);
+//                pause = false;
+//            }
+//        }
+
+        if (gamepad1.b){
+            encoderLift(liftSpeed,0,100,0,1.0);
+            encoderLift(liftSpeed,450,100,0,1.0);
+        }
+
         if (gamepad1.right_trigger > 0){
             leftFrontPower /= 2;
             rightFrontPower /= 2;
@@ -272,7 +286,7 @@ public class RiptideTele extends OpMode {
             if (arm.getCurrentPosition() + encoderOverride < 3400) {
                 arm.setPower(liftSpeed);
             } else if (arm.getCurrentPosition()  + encoderOverride < 3500) {
-                arm.setPower(liftSpeed * 0.5);
+                arm.setPower(liftSpeed);// * 0.5);
             } else {
                 arm.setPower(0);
             }
@@ -281,14 +295,14 @@ public class RiptideTele extends OpMode {
             } else {
                 lift.setPower(0);
             }
-        } else if ( gamepad2.dpad_right) {
-            if (arm.getCurrentPosition()  + encoderOverride < 1800) {
-                arm.setPower(liftSpeed);
-            } else if (arm.getCurrentPosition()  + encoderOverride < 1900) {
-                arm.setPower(liftSpeed*0.5);
-            } else {
-                arm.setPower(0);
-            }
+//        } else if ( gamepad2.dpad_right) {
+//            if (arm.getCurrentPosition()  + encoderOverride < 1800) {
+//                arm.setPower(liftSpeed);
+//            } else if (arm.getCurrentPosition()  + encoderOverride < 1900) {
+//                arm.setPower(liftSpeed*0.5);
+//            } else {
+//                arm.setPower(0);
+//            }
 //            if (lift.getCurrentPosition() < 1662 && arm.getCurrentPosition()  + encoderOverride > 1300) {
 //                lift.setPower(liftSpeed);
 //            } else {
@@ -300,14 +314,14 @@ public class RiptideTele extends OpMode {
             } else {
                 arm.setPower(0);
             }
-            if (lift.getCurrentPosition() > 0 && arm.getCurrentPosition() < 3000) {
+            if (lift.getCurrentPosition() > 0 && arm.getCurrentPosition() + encoderOverride < 3000) {
                 lift.setPower(-liftSpeed);
             } else {
                 lift.setPower(0);
             }
         } else {
 
-            if(arm.getCurrentPosition()  + encoderOverride > 3240 && armPower > 0){
+            if(arm.getCurrentPosition()  + encoderOverride > 2800 && armPower > 0){
                 arm.setPower(0);
             } else{
                 arm.setPower(armPower* liftSpeed);
@@ -355,7 +369,8 @@ public class RiptideTele extends OpMode {
                 climbLeft.setPower(0);
                 climbRight.setPower(0);
             }
-        } else if (gamepad2.left_bumper) {
+
+        if (gamepad2.left_bumper) {
             if (climbLeft.getCurrentPosition() > 0) {
                 climbLeft.setPower(-climbSpeed);
                 climbRight.setPower(-climbSpeed);
@@ -374,8 +389,8 @@ public class RiptideTele extends OpMode {
         rightRear.setPower(rightRearPower * driveSpeed);
         leftFront.setPower(leftFrontPower * driveSpeed);
         rightFront.setPower(rightFrontPower * driveSpeed);
-        //climbRight.setPower(climbPower);
-        //climbLeft.setPower(climbPower);
+        climbRight.setPower(climbPower);
+        climbLeft.setPower(climbPower);
         intake.setPower(intakePower);
 
 
@@ -489,6 +504,137 @@ public class RiptideTele extends OpMode {
             rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         }
+    public void encoderDrive(double speed,
+                             double inches,
+                             double liftInches,
+                             double armInches,
+                             int intakeValue,
+                             double timeoutS) {
+        int newLeftBackTarget;
+        int newRightBackTarget;
+        int newLeftFrontTarget;
+        int newRightFrontTarget;
+        int newliftTarget;
+        int newArmTarget;
+
+
+
+
+            // Determine new target position, and pass to motor controller
+            newLeftBackTarget = leftRear.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
+            newRightBackTarget = rightRear.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
+            newLeftFrontTarget = leftFront.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
+            newRightFrontTarget = rightFront.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
+            newliftTarget = (int)(liftInches);
+            newArmTarget = (int)(armInches);
+            leftRear.setTargetPosition(newLeftBackTarget);
+            rightRear.setTargetPosition(newRightBackTarget);
+            leftFront.setTargetPosition(newLeftFrontTarget);
+            rightFront.setTargetPosition(newRightFrontTarget);
+            lift.setTargetPosition(newliftTarget);
+            arm.setTargetPosition(newArmTarget);
+            // Turn On RUN_TO_POSITION
+            leftRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            rightRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            // reset the timeout time and start motion.
+            runtime.reset();
+            leftRear.setPower(Math.abs(speed));
+            rightRear.setPower(Math.abs(speed));
+            leftFront.setPower(Math.abs(speed));
+            rightFront.setPower(Math.abs(speed));
+            lift.setPower(liftSpeed);
+            arm.setPower(liftSpeed);
+            intake.setPower(intakeValue);
+
+            // keep looping while we are still active, and there is time left, and both motors are running.
+            // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
+            // its target position, the motion will stop.  This is "safer" in the event that the robot will
+            // always end the motion as soon as possible.
+            // However, if you require that BOTH motors have finished their moves before the robot continues
+            // onto the next step, use (isBusy() || isBusy()) in the loop test.
+            while (
+                    (runtime.seconds() < timeoutS) &&
+                    (leftRear.isBusy() && rightRear.isBusy() && leftFront.isBusy() && rightFront.isBusy())
+                    ) {
+
+
+
+
+
+            // Stop all motion;
+            leftRear.setPower(0);
+            rightRear.setPower(0);
+            leftFront.setPower(0);
+            rightFront.setPower(0);
+            lift.setPower(0);
+            arm.setPower(0);
+            intake.setPower(0);
+
+
+            // Turn off RUN_TO_POSITION
+            leftRear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            rightRear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        }
+
+    }
+    public void encoderLift(double liftSpeed,
+                            double liftInches,
+                            double armInches,
+                            int intakeValue,
+                            double timeoutS) {
+
+        int newliftTarget;
+        int newArmTarget;
+
+
+
+            newliftTarget = (int)(liftInches);
+            newArmTarget = (int)(armInches);
+
+            lift.setTargetPosition(newliftTarget);
+            arm.setTargetPosition(newArmTarget);
+
+            lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            runtime.reset();
+            lift.setPower(liftSpeed);
+            arm.setPower(liftSpeed);
+            intake.setPower(intakeValue);
+
+
+            while (
+                    ((runtime.seconds() < timeoutS) && (arm.isBusy() || lift.isBusy()))){
+
+                telemetry.addData("Status", "Run Time: " + runtime.toString());
+
+                telemetry.addData("arm", arm.getCurrentPosition());
+                telemetry.addData("lift", lift.getCurrentPosition());
+
+
+            }
+            lift.setPower(0);
+            arm.setPower(0);
+            intake.setPower(0);
+
+            lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+
+
+
+
+    }
 
 }
 

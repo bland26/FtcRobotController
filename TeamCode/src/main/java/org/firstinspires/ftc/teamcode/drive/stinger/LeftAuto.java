@@ -65,7 +65,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="LeftAuto", group="Swarm")
+@Autonomous(name="LeftUseThis", group="Swarm")
 //@Disabled
 
 public class LeftAuto extends LinearOpMode {
@@ -216,15 +216,16 @@ public class LeftAuto extends LinearOpMode {
 //        encoderDrive(driveSpeed,20,0,0,0,5.0);
 //        encoderStrafe(driveSpeed,-110,0,0,0,5.0);
 
-        encoderLift(liftSpeed, 0, 1000, 0, 2.0);
-        encoderDrive(driveSpeed,28,0,2000,0,5.0);
-        encoderLift(liftSpeed, 0, 1300, 1, 5.0);
-        encoderDrive(driveSpeed,-10,0,0,1,5.0);
+        encoderLift(liftSpeed, 0, 1200, 0, 2.0);
+        encoderDrive(driveSpeed,26,0,1800,0,5.0);
+        encoderLift(liftSpeed, 0, 1600, 1, 5.0);
+        encoderDrive(driveSpeed,-10,0,1500,1,5.0);
         encoderStrafe(driveSpeed,-28,0,0,0,5.0);
         encoderDrive(driveSpeed,32,0,0,0,5.0);
         encoderSpin(turnSpeed,90,0,0,0,5.0);
-        encoderLift(liftSpeed,0,1200,0,5.0);
-        encoderDrive(driveSpeed,12,0,1800,0,5.0);
+        encoderLift(liftSpeed,0,1000,0,5.0);
+        encoderDrive(driveSpeed,12,0,1500,0,5.0);
+        encoderLift(liftSpeed,0,1450,0,5.0);
 
     }
 

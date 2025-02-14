@@ -29,16 +29,13 @@
 
 package org.firstinspires.ftc.teamcode.drive.swarm;
 
-import com.qualcomm.hardware.lynx.commands.core.LynxResetMotorEncoderCommand;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
-import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
+import com.qualcomm.robotcore.util.Range;
 
 /*
  * This file contains an example of an iterative (Non-Linear) "OpMode".
@@ -69,16 +66,18 @@ public class SwarmTele extends OpMode
     private DcMotor rightBackDrive = null;
 
     // Declare end-effector members
-    private CRServo intake = null;
+    private Servo intake = null;
     //private Ser = null;
     private DcMotor extension = null;
     private DcMotorEx pivot = null;
 
-    private double INTAKE_IN_POWER = 1.0;
-    private double INTAKE_OUT_POWER = -1.0;
-    private double INTAKE_OFF_POWER = 0.0;
+    final static double intakeStart = 0.1;
+    public static double intakeMin = 0.0;
+    public static double intakeMax = 1;
 
-    private double intakePower ;
+    public static double intakeSpeed = 0.1;
+    public double intakePosition = 0.0;
+
 
 
     private double EXTENSION_OUT_POWER = 1.0;
@@ -107,7 +106,7 @@ public class SwarmTele extends OpMode
         rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
         rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
 
-        intake = hardwareMap.get(CRServo.class, "intake");
+        intake = hardwareMap.get(Servo.class, "intake");
         extension = hardwareMap.get(DcMotor.class, "extension");
         pivot = hardwareMap.get(DcMotorEx.class, "pivot");
 
@@ -118,7 +117,7 @@ public class SwarmTele extends OpMode
         rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
         pivot.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        intake.setDirection(CRServo.Direction.FORWARD); // Forward should INTAKE.
+        intake.setPosition(intakePosition);
         extension.setDirection(DcMotor.Direction.REVERSE); // Forward should EXTEND.
         pivot.setDirection(DcMotor.Direction.REVERSE); // Forward should pivot UP, or away from the stowed position.
 
@@ -178,17 +177,12 @@ public class SwarmTele extends OpMode
 //            intakeInButton = intakeOutButton = false;
 //        }
 
-        float intakeInput = gamepad2.right_trigger;
-        if (intakeInput > 0){
-            intakePower=1;
-        }else {
-            intakePower=0;
-        }
 
-        float intakeInputR = gamepad2.left_trigger;
-        if (intakeInputR > 0){
-            intakePower = -1;
-        }
+
+        if (gamepad2.right_trigger > 0 && intakePosition < intakeMax)
+            intakePosition += intakeSpeed;
+        if (gamepad2.left_trigger > 0 && intakePosition >= intakeMin)
+            intakePosition -= intakeSpeed;
 
         boolean extensionOutButton = gamepad2.right_bumper;
         boolean extensionInButton = gamepad2.left_bumper;
@@ -307,8 +301,8 @@ public class SwarmTele extends OpMode
         leftBackDrive.setPower(leftBackPower);
         rightBackDrive.setPower(rightBackPower);
 
-
-        intake.setPower(intakePower);
+        intakePosition = Range.clip(intakePosition, intakeMin, intakeMax);
+        intake.setPosition(intakePosition);
         extension.setPower(extensionPower);
         //pivot.setTargetPosition(pivot_target_pos);
         pivot.setPower(pivotCubed);
@@ -325,7 +319,6 @@ public class SwarmTele extends OpMode
         telemetry.addData("Status", "Run Time: " + runtime.toString());
         telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
         telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
-        telemetry.addData("Intake", "%%4.2f", intakePower);
         telemetry.addData("ExtensionPower", "%4.2f", extension.getPower());
         telemetry.addData("Pivot Current/Target/power", "%d, %d, %4.2f", pivot.getCurrentPosition(), pivot.getTargetPosition(),pivot.getPower());
         telemetry.addData("Pivot MODE", "%s", pivot_mode_str);
