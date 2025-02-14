@@ -225,6 +225,10 @@ public class RiptideTele extends OpMode {
         if (intakeInputR > 0){
             intakePower = -1;
         }
+         if (gamepad2.right_trigger > 0 && clawPosition < clawMax)
+            clawPosition += clawSpeed;
+        if (gamepad2.left_trigger > 0 && clawPosition >= clawMin)
+            clawPosition -= clawSpeed;
 
         // if ( gamepad2.right_bumper  ) {
         //     climbPower = -climbSpeed;
