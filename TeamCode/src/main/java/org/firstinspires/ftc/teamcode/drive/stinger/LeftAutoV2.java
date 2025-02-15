@@ -79,7 +79,7 @@ public class LeftAutoV2 extends LinearOpMode {
     private DcMotor arm = null;
     private CRServo intake = null;
 
-    public static final double  driveSpeed = 0.9;
+    public static final double  driveSpeed = 0.95;
     public static final double  turnSpeed = 0.9;
     public static final double liftSpeed = 1.0;
     public static final double intakeSpeed = 1;
@@ -220,7 +220,7 @@ public class LeftAutoV2 extends LinearOpMode {
         encoderDrive(driveSpeed,28,0,1800,1,5.0);
         encoderLift(liftSpeed, 0, 1000, 1, 5.0);
         encoderDrive(driveSpeed,-10,0,0,0,5.0);
-        encoderStrafe(driveSpeed,-44,0,100,0,5.0);
+        encoderStrafe(driveSpeed,-42,0,100,0,5.0);
         encoderDrive(driveSpeed/2,10,450,100,1,5.0);
         encoderDrive(driveSpeed,-14,0,1000,1,5.0);
         encoderSpin(turnSpeed,50,0,2200,1,5.0);

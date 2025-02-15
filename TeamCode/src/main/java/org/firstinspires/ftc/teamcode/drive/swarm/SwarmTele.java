@@ -179,9 +179,9 @@ public class SwarmTele extends OpMode
 
 
 
-        if (gamepad2.right_trigger > 0 && intakePosition < intakeMax)
+        if (gamepad2.left_trigger > 0 && intakePosition < intakeMax)
             intakePosition += intakeSpeed;
-        if (gamepad2.left_trigger > 0 && intakePosition >= intakeMin)
+        if (gamepad2.right_trigger > 0 && intakePosition >= intakeMin)
             intakePosition -= intakeSpeed;
 
         boolean extensionOutButton = gamepad2.right_bumper;

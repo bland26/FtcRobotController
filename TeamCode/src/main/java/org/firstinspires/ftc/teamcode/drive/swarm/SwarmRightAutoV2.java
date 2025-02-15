@@ -36,6 +36,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.hardware.Servo;
 
 //code for cam and other related thangs
 
@@ -78,12 +79,16 @@ public class SwarmRightAutoV2 extends LinearOpMode {
     private DcMotor rightFrontDrive = null;
     private DcMotor extension = null;
     private DcMotor pivot = null;
-    private CRServo intake = null;
+    private Servo claw = null;
 
     public static final double  driveSpeed = 0.85;
     public static final double  turnSpeed = 0.8;
+    final static double clawStart = 0.1;
+    public static double clawMin = 0.0;
+    public static double clawMax = 1;
+    public static double clawSpeed = 0.01;
+    public double clawPosition = 0.0;
     public static final double extensionSpeed = 1.0;
-    public static final double intakeSpeed = 1;
     public static final double     COUNTS_PER_MOTOR_REV    = 529.2 ;
     public static final double      WHEEL_DIAMETER_INCHES   = 75/25.4 ;     // For figuring circumference
     public static final double      DRIVE_GEAR_REDUCTION    = 1.0 ;     // No External Gearing.
@@ -118,7 +123,7 @@ public class SwarmRightAutoV2 extends LinearOpMode {
         rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
         extension = hardwareMap.get(DcMotor.class, "extension");
         pivot = hardwareMap.get(DcMotor.class, "pivot");
-        intake = hardwareMap.get(CRServo.class, "intake");
+        claw = hardwareMap.get(Servo.class, "intake");
 
 
 
@@ -132,7 +137,7 @@ public class SwarmRightAutoV2 extends LinearOpMode {
         rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
         extension.setDirection(DcMotor.Direction.FORWARD);
         pivot.setDirection(DcMotor.Direction.REVERSE);
-        intake.setDirection(CRServo.Direction.FORWARD);
+        claw.setPosition(clawPosition);
         pivot.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
 
@@ -220,26 +225,23 @@ public class SwarmRightAutoV2 extends LinearOpMode {
 //        encoderStrafe(driveSpeed,-110,0,0,0,5.0);
 
         encoderLift(extensionSpeed, 0, 1000, 0, 2.0);
-        encoderDrive(driveSpeed,27,0,1500,0,5.0);
-        encoderLift(extensionSpeed, 0, 1000, 1, 5.0);
-        encoderDrive(driveSpeed,-10,0,500,1,5.0);
-        encoderStrafe(driveSpeed, 31, 0, 500, 0, 5.0);
-        encoderDrive(driveSpeed, 32, 0, 500, 0, 5.0);
-        encoderStrafe(driveSpeed, 10,0,500,0,5.0);
-        encoderDrive(driveSpeed, -40,0,500,0,5.0);
-        encoderDrive(driveSpeed, 40,0,500,0,5.0);
-        encoderStrafe(driveSpeed, 12, 0, 500, 0, 5.0);
-        encoderDrive(driveSpeed, -40,0,500,0,5.0);
-        encoderDrive(driveSpeed,12,0,500,0,5.0);
-        encoderStrafe(driveSpeed, -12, 0, 500, 0, 5.0);
-        encoderSpin(turnSpeed, 170, 0, 0, 0, 5.0);
+        encoderDrive(driveSpeed,28,0,1500,0,5.0);
+        encoderDrive(driveSpeed,-10,0,1000,0,5.0);
+        encoderStrafe(driveSpeed, 31, 0, 0, 1, 5.0);
+        encoderSpin(turnSpeed,10,0,0,0,5.0);
+        encoderDrive(driveSpeed, 32, 0, 0, 0, 5.0);
+        encoderStrafe(driveSpeed, 10,0,0,0,5.0);
+        encoderDrive(driveSpeed, -42,0,0,0,5.0);
+        encoderDrive(driveSpeed,12,0,0,0,5.0);
+        encoderSpin(turnSpeed, 165, 0, 0, 1, 5.0);
         sleep(1000);
-        encoderDrive(driveSpeed/3,12,300,0,1,5.0);
-        encoderDrive(driveSpeed, -6, 0, 500, 1, 5.0);
-        encoderSpin(turnSpeed, 170, 0, 500, 1, 5.0);
-        encoderStrafe(driveSpeed, -48, 0, 1000, 1, 5.0);
-        encoderDrive(driveSpeed, 12, 0, 1417, 1, 5.0);
-        encoderLift(extensionSpeed, 0, 1000, 1, 5.0);
+        encoderDrive(driveSpeed, 10, 0, 50, 1, 5.0);
+        encoderClaw(-1,1.0);
+        encoderDrive(driveSpeed, -6, 0, 500, -1, 5.0);
+        encoderSpin(turnSpeed, 170, 0, 1000, -1, 5.0);
+        encoderStrafe(driveSpeed, -48, 0, 1417, -1, 5.0);
+        encoderDrive(driveSpeed, 9, 0, 1417, -1, 5.0);
+        encoderLift(extensionSpeed, 0, 1000, -1, 5.0);
         encoderDrive(driveSpeed, -24, 0, 0, 0, 5.0);
         encoderStrafe(driveSpeed, 48, 0, 0, 0, 5.0);
 
@@ -286,7 +288,7 @@ public class SwarmRightAutoV2 extends LinearOpMode {
                              double inches,
                              double extensionInches,
                              double pivotInches,
-                             int intakeValue,
+                             double clawValue,
                              double timeoutS) {
         int newLeftBackDriveTarget;
         int newRightBackDriveTarget;
@@ -328,7 +330,7 @@ public class SwarmRightAutoV2 extends LinearOpMode {
             rightFrontDrive.setPower(Math.abs(speed));
             extension.setPower(extensionSpeed);
             pivot.setPower(extensionSpeed);
-            intake.setPower(intakeValue);
+            claw.setPosition(clawValue*clawMax);
 
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
@@ -358,7 +360,6 @@ public class SwarmRightAutoV2 extends LinearOpMode {
             rightFrontDrive.setPower(0);
             extension.setPower(0);
             pivot.setPower(0);
-            intake.setPower(0);
 
 
             // Turn off RUN_TO_POSITION
@@ -375,7 +376,7 @@ public class SwarmRightAutoV2 extends LinearOpMode {
                               double inches,
                               double extensionInches,
                               double pivotInches,
-                              int intakeValue,
+                              double clawValue,
                               double timeoutS) {
         int newLeftBackDriveTarget;
         int newRightBackDriveTarget;
@@ -416,7 +417,7 @@ public class SwarmRightAutoV2 extends LinearOpMode {
             rightFrontDrive.setPower(Math.abs(speed));
             extension.setPower(extensionSpeed);
             pivot.setPower(extensionSpeed);
-            intake.setPower(intakeValue);
+            claw.setPosition(clawValue*clawMax);
 
 
             // keep looping while we are still active, and there is time left, and both motors are running.
@@ -447,7 +448,6 @@ public class SwarmRightAutoV2 extends LinearOpMode {
             rightFrontDrive.setPower(0);
             extension.setPower(0);
             pivot.setPower(0);
-            intake.setPower(0);
 
 
             // Turn off RUN_TO_POSITION
@@ -463,7 +463,7 @@ public class SwarmRightAutoV2 extends LinearOpMode {
                             double degrees,
                             double extensionInches,
                             double pivotInches,
-                            int intakeValue,
+                            double clawValue,
                             double timeoutS) {
         int newLeftBackDriveTarget;
         int newRightBackDriveTarget;
@@ -504,7 +504,7 @@ public class SwarmRightAutoV2 extends LinearOpMode {
             rightFrontDrive.setPower(Math.abs(speed));
             extension.setPower(extensionSpeed);
             pivot.setPower(extensionSpeed);
-            intake.setPower(intakeValue);
+            claw.setPosition(clawValue*clawMax);
 
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
@@ -534,7 +534,6 @@ public class SwarmRightAutoV2 extends LinearOpMode {
             rightFrontDrive.setPower(0);
             extension.setPower(0);
             pivot.setPower(0);
-            intake.setPower(0);
 
 
             // Turn off RUN_TO_POSITION
@@ -548,7 +547,7 @@ public class SwarmRightAutoV2 extends LinearOpMode {
     public void encoderLift(double extensionSpeed,
                             double extensionInches,
                             double pivotInches,
-                            int intakeValue,
+                            double clawValue,
                             double timeoutS) {
 
         int newExtensionTarget;
@@ -568,7 +567,7 @@ public class SwarmRightAutoV2 extends LinearOpMode {
             runtime.reset();
             extension.setPower(extensionSpeed);
             pivot.setPower(extensionSpeed);
-            intake.setPower(intakeValue);
+            claw.setPosition(clawValue*clawMax);
 
 
             while (opModeIsActive() &&
@@ -583,7 +582,6 @@ public class SwarmRightAutoV2 extends LinearOpMode {
             }
             extension.setPower(0);
             pivot.setPower(0);
-            intake.setPower(0);
 
 
 
@@ -591,7 +589,7 @@ public class SwarmRightAutoV2 extends LinearOpMode {
 
         }
     }
-    private void encoderIntake(int intakeValue,
+    private void encoderClaw(double clawValue,
                                double timeoutS) {
 
 
@@ -599,14 +597,13 @@ public class SwarmRightAutoV2 extends LinearOpMode {
 
 
             runtime.reset();
-            intake.setPower(intakeValue);
+            claw.setPosition(clawValue*clawMax);
 
             while (opModeIsActive() &&
                     (runtime.seconds() < timeoutS)) {
 
 
             }
-            intake.setPower(0);
 
 
             sleep(250);
