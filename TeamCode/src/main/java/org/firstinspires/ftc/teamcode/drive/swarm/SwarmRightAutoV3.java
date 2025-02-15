@@ -31,12 +31,10 @@ package org.firstinspires.ftc.teamcode.drive.swarm;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 //code for cam and other related thangs
 
@@ -67,10 +65,10 @@ import com.qualcomm.robotcore.hardware.Servo;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="SwarmRightAutoV2", group="Swarm")
+@Autonomous(name="SwarmRightAutoV3", group="Swarm")
 //@Disabled
 
-public class SwarmRightAutoV2 extends LinearOpMode {
+public class SwarmRightAutoV3 extends LinearOpMode {
 
     /* Declare OpMode members. */
     private DcMotor leftBackDrive = null;
@@ -240,7 +238,14 @@ public class SwarmRightAutoV2 extends LinearOpMode {
         encoderDrive(driveSpeed, -6, 0, 500, -1, 5.0);
         encoderSpin(turnSpeed, 170, 0, 1000, -1, 5.0);
         encoderStrafe(driveSpeed, -48, 0, 1417, -1, 5.0);
-        encoderDrive(driveSpeed, 10, 0, 1417, -1, 5.0);
+        encoderDrive(driveSpeed, 9, 0, 1417, -1, 5.0);
+        encoderDrive(driveSpeed, -12, 0, 1000, 0, 5.0);
+        encoderSpin(turnSpeed, 135, 0, 50, 1, 5.0);
+        encoderDrive(driveSpeed, 12, 0, 50, -1, 5.0);
+        encoderClaw(-1,1.0);
+        encoderDrive(driveSpeed, -12, 0, 1000, 0, 5.0);
+        encoderSpin(turnSpeed, -135, 0, 1417, 1, 5.0);
+        encoderDrive(driveSpeed, 12, 0, 1417, -1, 5.0);
         encoderDrive(driveSpeed, -24, 0, 1000, 0, 5.0);
         encoderStrafe(driveSpeed, 48, 0, 0, 0, 5.0);
 
