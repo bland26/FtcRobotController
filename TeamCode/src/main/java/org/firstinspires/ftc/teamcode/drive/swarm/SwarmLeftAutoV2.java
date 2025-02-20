@@ -65,10 +65,10 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="SwarmRightAutoV3", group="Swarm")
+@Autonomous(name="SwarmLeftAutoV2", group="Swarm")
 //@Disabled
 
-public class SwarmRightAutoV3 extends LinearOpMode {
+public class SwarmLeftAutoV2 extends LinearOpMode {
 
     /* Declare OpMode members. */
     private DcMotor leftBackDrive = null;
@@ -82,7 +82,7 @@ public class SwarmRightAutoV3 extends LinearOpMode {
     public static final double  driveSpeed = 0.85;
     public static final double  turnSpeed = 0.8;
     final static double clawStart = 0.1;
-    public static double clawMin = 0.5;
+    public static double clawMin = 0.6;
     public static double clawMax = 1;
     public static double clawSpeed = 0.01;
     public double clawPosition = 1;
@@ -133,7 +133,7 @@ public class SwarmRightAutoV3 extends LinearOpMode {
         leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
         rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
-        extension.setDirection(DcMotor.Direction.FORWARD);
+        extension.setDirection(DcMotor.Direction.REVERSE);
         pivot.setDirection(DcMotor.Direction.REVERSE);
         claw.setPosition(clawPosition);
 
@@ -226,34 +226,20 @@ public class SwarmRightAutoV3 extends LinearOpMode {
 //        encoderDrive(driveSpeed,20,0,0,0,5.0);
 //        encoderStrafe(driveSpeed,-110,0,0,0,5.0);
 
-        encoderLift(extensionSpeed, 0, 1000, 1, 2.0);
-        encoderDrive(driveSpeed,28,0,1500,1,5.0);
-        encoderDrive(driveSpeed,-10,0,1000,1,5.0);
-        encoderStrafe(driveSpeed, 31, 0, 0, 0, 5.0);
-        encoderSpin(turnSpeed,10,0,0,1,5.0);
-        encoderDrive(driveSpeed, 32, 0, 0, 1, 5.0);
-        encoderStrafe(driveSpeed, 10,0,0,1,5.0);
-        encoderDrive(driveSpeed, -42,0,0,1,5.0);
-        encoderDrive(driveSpeed,12,0,0,1,5.0);
-        encoderSpin(turnSpeed, 165, 0, 0, 0, 5.0);
-        sleep(1000);
-        encoderDrive(driveSpeed, 7, 0, 50, 0, 5.0);
-        encoderClaw(1,1.0);
-        encoderDrive(driveSpeed, -6, 0, 500, 1, 5.0);
-        encoderSpin(turnSpeed, 170, 0, 1000, 1, 5.0);
-        encoderStrafe(driveSpeed, -48, 0, 1417, 1, 5.0);
-        encoderDrive(driveSpeed, 10, 0, 1417, 1, 5.0);
-        encoderDrive(driveSpeed, -12, 0, 1000, 1, 5.0);
-        encoderSpin(turnSpeed, 100, 0, 50, 0, 5.0);
-        encoderDrive(driveSpeed, 32, 0, 50, 0, 5.0);
-        encoderClaw(1,1.0);
-        encoderDrive(driveSpeed, -30, 0, 1000, 1, 5.0);
-        encoderSpin(turnSpeed, -100, 0, 1417, 1, 5.0);
-        encoderDrive(driveSpeed, 14, 0, 1417, 1, 5.0);
-        encoderDrive(driveSpeed, -24, 0, 1000, 1, 5.0);
-        encoderStrafe(driveSpeed, 48, 0, 0, 1, 5.0);
+        encoderLift(extensionSpeed, 0, 1000, 0, 2.0);
+        encoderDrive(driveSpeed,28,0,1500,0,5.0);
+        encoderDrive(driveSpeed,-20,0,1000,0,5.0);
+        encoderStrafe(driveSpeed,-42,0,300,0,5.0);
+        encoderSpin(turnSpeed, -10,-1800,300,1,5.0);
+        encoderLift(extensionSpeed,-1800,300,1,1.0);
+        encoderLift(extensionSpeed,-1800,200,-1,5.0);
+        encoderSpin(turnSpeed,-120,-1800,1800,-1,5.0);
+        encoderStrafe(driveSpeed,8,-1800,1800,-1,5.0);
+        encoderDrive(driveSpeed,8,-1800,1600,-1,5.0);
+        //encoderLift(extensionSpeed,-1800,1600,0,5.0);
+        encoderClaw(1,0.5);
 
-        /*
+       /*
         encoderStrafe(driveSpeed, 48, 0, 0, 0, 5.0);
         encoderSpin(turnSpeed, 180, 0, 0, 0, 5.0);
         encoderDrive(driveSpeed/2, 24, 0, 0, 1, 5.0);
@@ -598,7 +584,7 @@ public class SwarmRightAutoV3 extends LinearOpMode {
         }
     }
     private void encoderClaw(double clawValue,
-                               double timeoutS) {
+                             double timeoutS) {
 
 
         if (opModeIsActive()) {

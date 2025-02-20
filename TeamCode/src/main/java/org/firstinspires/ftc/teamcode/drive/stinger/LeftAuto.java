@@ -65,7 +65,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="LeftUseThis", group="Swarm")
+@Autonomous(name="LeftAuto", group="Swarm")
 //@Disabled
 
 public class LeftAuto extends LinearOpMode {

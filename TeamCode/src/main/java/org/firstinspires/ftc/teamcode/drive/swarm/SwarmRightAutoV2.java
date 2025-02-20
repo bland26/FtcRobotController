@@ -84,10 +84,10 @@ public class SwarmRightAutoV2 extends LinearOpMode {
     public static final double  driveSpeed = 0.85;
     public static final double  turnSpeed = 0.8;
     final static double clawStart = 0.1;
-    public static double clawMin = 0.0;
+    public static double clawMin = 0.6;
     public static double clawMax = 1;
     public static double clawSpeed = 0.01;
-    public double clawPosition = 0.0;
+    public double clawPosition = 1;
     public static final double extensionSpeed = 1.0;
     public static final double     COUNTS_PER_MOTOR_REV    = 529.2 ;
     public static final double      WHEEL_DIAMETER_INCHES   = 75/25.4 ;     // For figuring circumference
@@ -138,7 +138,11 @@ public class SwarmRightAutoV2 extends LinearOpMode {
         extension.setDirection(DcMotor.Direction.FORWARD);
         pivot.setDirection(DcMotor.Direction.REVERSE);
         claw.setPosition(clawPosition);
+
         pivot.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        pivot.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        extension.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        extension.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
 

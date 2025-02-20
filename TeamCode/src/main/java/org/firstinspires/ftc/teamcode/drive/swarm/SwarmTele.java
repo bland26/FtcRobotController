@@ -71,12 +71,12 @@ public class SwarmTele extends OpMode
     private DcMotor extension = null;
     private DcMotorEx pivot = null;
 
-    final static double intakeStart = 0.1;
-    public static double intakeMin = 0.0;
+    final static double intakeStart = 0;
+    public static double intakeMin = 0.5;
     public static double intakeMax = 1;
 
-    public static double intakeSpeed = 0.1;
-    public double intakePosition = 0.0;
+    public static double intakeSpeed = 0.01;
+    public double intakePosition = 1;
 
 
 
@@ -115,7 +115,11 @@ public class SwarmTele extends OpMode
         leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
         rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
+
         pivot.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        pivot.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        extension.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        extension.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         intake.setPosition(intakePosition);
         extension.setDirection(DcMotor.Direction.REVERSE); // Forward should EXTEND.
@@ -179,10 +183,12 @@ public class SwarmTele extends OpMode
 
 
 
-        if (gamepad2.left_trigger > 0 && intakePosition < intakeMax)
-            intakePosition += intakeSpeed;
-        if (gamepad2.right_trigger > 0 && intakePosition >= intakeMin)
-            intakePosition -= intakeSpeed;
+        if (gamepad2.left_trigger > 0) {// && intakePosition < intakeMax)
+            intake.setPosition(intakeMin);
+        }
+        if (gamepad2.right_trigger > 0){// && intakePosition >= intakeMin)
+            intake.setPosition(intakeMax);
+        }
 
         boolean extensionOutButton = gamepad2.right_bumper;
         boolean extensionInButton = gamepad2.left_bumper;
@@ -295,14 +301,17 @@ public class SwarmTele extends OpMode
             leftBackPower /= 2;
             rightBackPower /= 2;
         }
+
+        if (gamepad2.dpad_down){
+            pivotCubed /= 2;
+        }
         // WRITE EFFECTORS
         leftFrontDrive.setPower(leftFrontPower);
         rightFrontDrive.setPower(rightFrontPower);
         leftBackDrive.setPower(leftBackPower);
         rightBackDrive.setPower(rightBackPower);
 
-        intakePosition = Range.clip(intakePosition, intakeMin, intakeMax);
-        intake.setPosition(intakePosition);
+
         extension.setPower(extensionPower);
         //pivot.setTargetPosition(pivot_target_pos);
         pivot.setPower(pivotCubed);

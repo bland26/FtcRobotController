@@ -83,7 +83,7 @@ public class RiptideTele extends OpMode {
         // climbRight = hardwareMap.get(DcMotor.class, "climbRight");
         // climbLeft = hardwareMap.get(DcMotor.class, "climbLeft");
         intake = hardwareMap.get(CRServo.class, "intake");
-        liftLimit = hardwareMap.get(TouchSensor.class, "backliftLimit");
+        liftLimit = hardwareMap.get(TouchSensor.class, "backLiftLimit");
         armLimit = hardwareMap.get(TouchSensor.class, "armLimit");
 
 
@@ -256,7 +256,7 @@ public class RiptideTele extends OpMode {
         leftFrontPower = Range.clip(driveCubed + spinCubed + strafeCubed, -1.0, 1.0);
         rightFrontPower = Range.clip(driveCubed - spinCubed - strafeCubed, -1.0, 1.0);
         armPower = Range.clip(armCubed, -1.0, 1.0);
-        liftPower = Range.clip(armCubed, -1.0, 1.0);
+        liftPower = Range.clip(liftCubed, -1.0, 1.0);
 
 
 

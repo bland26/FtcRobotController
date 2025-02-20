@@ -65,7 +65,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="LeftAutoV2", group="Swarm")
+@Autonomous(name="LeftUseThis", group="Swarm")
 //@Disabled
 
 public class LeftAutoV2 extends LinearOpMode {
@@ -215,6 +215,7 @@ public class LeftAutoV2 extends LinearOpMode {
 //        encoderSpin(turnSpeed,-45,0,0,0,5.0);
 //        encoderDrive(driveSpeed,20,0,0,0,5.0);
 //        encoderStrafe(driveSpeed,-110,0,0,0,5.0);
+        //kitty, you can has cheeseburger
 
         encoderLift(liftSpeed, 0, 1200, 1, 5.0);
         encoderDrive(driveSpeed,28,0,1800,1,5.0);
@@ -227,19 +228,21 @@ public class LeftAutoV2 extends LinearOpMode {
         encoderLift(liftSpeed,1200,3500,0,2.0);
         encoderIntake(-1,1.0);
         encoderLift(liftSpeed,1200,1500,0,1.0);
-        encoderSpin(turnSpeed,-50,0,100,0,5.0);
+        encoderSpin(turnSpeed,-55,0,100,0,5.0);
         encoderStrafe(driveSpeed,-11,0,100,0,5.0);
+        encoderLift(liftSpeed,0,100,0,2.0);
         encoderDrive(driveSpeed/2,18,450,100,1,5.0);
         encoderStrafe(driveSpeed,6,0,1000,0,5.0);
         encoderDrive(driveSpeed,-18,0,1000,1,5.0);
         encoderSpin(turnSpeed,45,0,2200,1,5.0);
         encoderLift(liftSpeed,1200,3500,0,2.0);
         encoderIntake(-1,1.0);
+        // kitty, you can has cheeseburger
         encoderLift(liftSpeed,1200,2200,0,1.0);
-        encoderSpin(turnSpeed,-45,0,0,0,5.0);
-        encoderDrive(driveSpeed,36,0,0,0,5.0);
-        encoderSpin(turnSpeed,90,0,1500,0,5.0);
+        encoderSpin(turnSpeed,-45,0,1500,0,5.0);
         encoderDrive(driveSpeed,36,0,1500,0,5.0);
+        encoderSpin(turnSpeed,90,0,1500,0,5.0);
+        encoderDrive(driveSpeed,34,0,1500,0,5.0);
         encoderLift(liftSpeed,0,1450,0,5.0);
 
 

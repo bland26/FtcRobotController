@@ -133,7 +133,11 @@ public class SwarmLeftAuto extends LinearOpMode {
         extension.setDirection(DcMotor.Direction.FORWARD);
         pivot.setDirection(DcMotor.Direction.REVERSE);
         intake.setDirection(CRServo.Direction.FORWARD);
+
         pivot.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        pivot.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        extension.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        extension.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
 
