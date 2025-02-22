@@ -220,24 +220,26 @@ public class LeftAutoV2 extends LinearOpMode {
         encoderLift(liftSpeed, 0, 1200, 1, 5.0);
         encoderDrive(driveSpeed,28,0,1800,1,5.0);
         encoderLift(liftSpeed, 0, 1000, 1, 5.0);
-        encoderDrive(driveSpeed,-10,0,0,0,5.0);
-        encoderStrafe(driveSpeed,-42,0,100,0,5.0);
-        encoderDrive(driveSpeed/2,10,450,100,1,5.0);
+        encoderDrive(driveSpeed,-12,0,0,0,5.0);
+        encoderStrafe(driveSpeed,-41,0,100,0,5.0);
+        encoderDrive(driveSpeed/4,12,450,100,1,5.0);
         encoderDrive(driveSpeed,-14,0,1000,1,5.0);
         encoderSpin(turnSpeed,50,0,2200,1,5.0);
-        encoderLift(liftSpeed,1200,3500,0,2.0);
+        encoderDrive(driveSpeed, -6,1200,3100,1,5.0);
+        encoderStrafe(driveSpeed,-4,1200,3100,1,5.0);
+        encoderLift(liftSpeed,1200,3100,0,2.0);
         encoderIntake(-1,1.0);
         encoderLift(liftSpeed,1200,1500,0,1.0);
-        encoderSpin(turnSpeed,-55,0,100,0,5.0);
-        encoderStrafe(driveSpeed,-11,0,100,0,5.0);
-        encoderLift(liftSpeed,0,100,0,2.0);
-        encoderDrive(driveSpeed/2,18,450,100,1,5.0);
-        encoderStrafe(driveSpeed,6,0,1000,0,5.0);
+        encoderSpin(turnSpeed,-45,0,100,0,5.0);
+        encoderStrafe(driveSpeed,-6,0,100,0,5.0);
+        encoderLift(liftSpeed,0,100,0,1.0);
+        encoderDrive(driveSpeed/4,18,450,100,1,5.0);
+        encoderStrafe(driveSpeed,4,0,1000,0,5.0);
         encoderDrive(driveSpeed,-18,0,1000,1,5.0);
         encoderSpin(turnSpeed,45,0,2200,1,5.0);
-        encoderLift(liftSpeed,1200,3500,0,2.0);
+        encoderLift(liftSpeed,1200,3000,1,2.0);
         encoderIntake(-1,1.0);
-        // kitty, you can has cheeseburger
+        // kitty, you can has cheeseburger huwah
         encoderLift(liftSpeed,1200,2200,0,1.0);
         encoderSpin(turnSpeed,-45,0,1500,0,5.0);
         encoderDrive(driveSpeed,36,0,1500,0,5.0);

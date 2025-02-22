@@ -287,9 +287,9 @@ public class RiptideTele extends OpMode {
 
             
         if ( gamepad2.dpad_up) {
-            if (arm.getCurrentPosition() + encoderOverride < 3400) {
+            if (arm.getCurrentPosition() + encoderOverride < 2800) {
                 arm.setPower(liftSpeed);
-            } else if (arm.getCurrentPosition()  + encoderOverride < 3500) {
+            } else if (arm.getCurrentPosition()  + encoderOverride < 2900) {
                 arm.setPower(liftSpeed);// * 0.5);
             } else {
                 arm.setPower(0);
