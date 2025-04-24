@@ -1,39 +1,75 @@
+/* Copyright (c) 2017 FIRST. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification,
+ * are permitted (subject to the limitations in the disclaimer below) provided that
+ * the following conditions are met:
+ *
+ * Redistributions of source code must retain the above copyright notice, this list
+ * of conditions and the following disclaimer.
+ *
+ * Redistributions in binary form must reproduce the above copyright notice, this
+ * list of conditions and the following disclaimer in the documentation and/or
+ * other materials provided with the distribution.
+ *
+ * Neither the name of FIRST nor the names of its contributors may be used to endorse or
+ * promote products derived from this software without specific prior written permission.
+ *
+ * NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED BY THIS
+ * LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+// r
+
 package org.firstinspires.ftc.teamcode.drive.stinger;
 
-import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-/**
+/*
  * This file contains an example of an iterative (Non-Linear) "OpMode".
  * An OpMode is a 'program' that runs in either the autonomous or the teleop period of an FTC match.
  * The names of OpModes appear on the menu of the FTC Driver Station.
  * When a selection is made from the menu, the corresponding OpMode
  * class is instantiated on the Robot Controller and executed.
+ *
+ * This particular OpMode just executes a basic Tank Drive Teleop for a two wheeled robot
+ * It includes all the skeletal structure that all iterative OpModes contain.
+ *
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
- * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
+ * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
+// we are the rizzly bears and we are sigma
 
-@TeleOp(name="Glider", group="Test")
-@Config
+@TeleOp(name="Glider", group="Iterative OpMode")
 @Disabled
-
-//@Disabled
-public class Glider extends OpMode {
-    // Declare OpMode members.
+public class Glider extends OpMode
+{
+    // Declare OpMode members./.c
     private ElapsedTime runtime = new ElapsedTime();
+    private DcMotor leftBack = null;
+    private DcMotor rightBack = null;
     private DcMotor leftFront = null;
     private DcMotor rightFront = null;
-    private DcMotor leftRear = null;
-    private DcMotor rightRear = null;
+
+    public double driveSpeed = 0.5;
 
 
-    public static double driveSpeed = 1.0;
+
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -45,18 +81,18 @@ public class Glider extends OpMode {
         // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
         // step (using the FTC Robot Controller app on the phone).
-        leftRear = hardwareMap.get(DcMotor.class, "leftRear");
-        rightRear = hardwareMap.get(DcMotor.class, "rightRear");
-        leftFront = hardwareMap.get(DcMotor.class, "leftFront");
-        rightFront = hardwareMap.get(DcMotor.class, "rightFront");
-
+        leftBack = hardwareMap.get(DcMotor.class,"leftRear");  //Control Hub 1
+        rightBack = hardwareMap.get(DcMotor.class,"rightRear"); //Control Hub 0
+        leftFront = hardwareMap.get(DcMotor.class,"leftFront");  //Expansion Hub 1
+        rightFront = hardwareMap.get(DcMotor.class,"rightFront"); //Expansion Hub 0
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // Pushing the left stick forward MUST make robot go forward. So adjust these two lines based on your first test drive.
         // Note: The settings here assume direct drive on left and right wheels.  Gear Reduction or 90 Deg drives may require direction flips
-        leftRear.setDirection(DcMotor.Direction.FORWARD);
-        rightRear.setDirection(DcMotor.Direction.REVERSE);
+        leftBack.setDirection(DcMotor.Direction.FORWARD);
+        rightBack.setDirection(DcMotor.Direction.REVERSE);
         leftFront.setDirection(DcMotor.Direction.REVERSE);
         rightFront.setDirection(DcMotor.Direction.REVERSE);
+
 
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
@@ -83,10 +119,11 @@ public class Glider extends OpMode {
     @Override
     public void loop() {
         // Setup a variable for each drive wheel to save power level for telemetry
-        double leftRearPower;
-        double rightRearPower;
+        double leftBackPower;
+        double rightBackPower;
         double leftFrontPower;
         double rightFrontPower;
+
 
 
         // Choose to drive using either Tank Mode, or POV Mode
@@ -94,42 +131,37 @@ public class Glider extends OpMode {
 
         // POV Mode uses left stick to go forward, and right stick to turn.
         // - This uses basic math to combine motions and is easier to drive straight.
-        final double DEADZONE = 0.1;
-
         double drive = -gamepad1.left_stick_y;
-        if (Math.abs(drive) < DEADZONE) {
-            drive = 0;
-        }
-        double driveCubed = drive * drive * drive;
-
+        double turn  = gamepad1.right_stick_x;
         double strafe = gamepad1.left_stick_x;
-        if (Math.abs(strafe) < DEADZONE) {
-            strafe = 0;
-        }
-        double strafeCubed = strafe * strafe * strafe;
 
-        double spin = gamepad1.right_stick_x;
-        if (Math.abs(spin) < DEADZONE) {
-            spin = 0;
-        }
-        double spinCubed = spin * spin * spin;
+        leftBackPower = Range.clip(drive + turn - strafe, -1.0, 1.0) ;
+        rightBackPower   = Range.clip(drive - turn + strafe, -1.0, 1.0) ;
+        leftFrontPower = Range.clip(drive + turn + strafe, -1.0, 1.0) ;
+        rightFrontPower   = Range.clip(drive - turn - strafe, -1.0, 1.0) ;
 
-
-        leftRearPower = Range.clip(driveCubed + spinCubed - strafeCubed, -1.0, 1.0);
-        rightRearPower = Range.clip(driveCubed - spinCubed + strafeCubed, -1.0, 1.0);
-        leftFrontPower = Range.clip(driveCubed + spinCubed + strafeCubed, -1.0, 1.0);
-        rightFrontPower = Range.clip(driveCubed - spinCubed - strafeCubed, -1.0, 1.0);
+        // Tank Mode uses one stick to control each wheel.
+        // - This requires no math, but it is hard to drive forward slowly and keep straight.
+        //leftBackPower  = -gamepad1.left_stick_y ;
+        //rightBackPower = -gamepad1.right_stick_y ;
 
         // Send calculated power to wheels
-        leftRear.setPower(leftRearPower * driveSpeed);
-        rightRear.setPower(rightRearPower * driveSpeed);
+        leftBack.setPower(leftBackPower * driveSpeed);
+        rightBack.setPower(rightBackPower * driveSpeed);
         leftFront.setPower(leftFrontPower * driveSpeed);
         rightFront.setPower(rightFrontPower * driveSpeed);
 
 
+
+
+
+
+
         // Show the elapsed game time and wheel power.
         telemetry.addData("Status", "Run Time: " + runtime.toString());
-        telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftRearPower, rightRearPower);
+        telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftBackPower, rightBackPower);
+
+
     }
 
     /*
@@ -138,5 +170,5 @@ public class Glider extends OpMode {
     @Override
     public void stop() {
     }
-}
 
+}
